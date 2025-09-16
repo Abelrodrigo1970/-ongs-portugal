@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model NGO {
+  id             String   @id @default(cuid())
+  nome           String
+  descricao      String
+  missao         String
+  email          String
+  telefone       String
+  localizacao    String            // store "city, country" text
+  latitude       Float?            // optional (if we geocode later)
+  longitude      Float?            // optional
+  areaAtuacao    AreaAtuacao[]     @relation("NGOAreas")
+  colaboracao    Colaboracao[]     @relation("NGOColabs")
+  impacto        String            // JSON string of impact texts
+  ods            NGOODS[]          // join with ODS via pivot
+  imagem         String?           // cover image path/url
+  logo           String?           // logo path/url
+  instagramUrl   String?
+  videoUrl       String?
+  websiteUrl     String?
+  visivel        Boolean           @default(true)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+model ODS {
+  id          String   @id @default(cuid())
+  numero      Int      @unique // each ODS number must be unique (1..17)
+  nome        String
+  descricao   String
+  icone       String? // path/url
+  ngos        NGOODS[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NGOODS {
+  id     String @id @default(cuid())
+  ngoId  String
+  odsId  String
+  ngo    NGO    @relation(fields: [ngoId], references: [id], onDelete: Cascade)
+  ods    ODS    @relation(fields: [odsId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  
+  @@unique([ngoId, odsId])
+}
+
+model ColaboracaoTipo {
+  id    String @id @default(cuid())
+  nome  String @unique
+  ngos  Colaboracao[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Colaboracao {
+  id                 String @id @default(cuid())
+  ngoId              String
+  colaboracaoTipoId  String
+  ngo                NGO              @relation("NGOColabs", fields: [ngoId], references: [id], onDelete: Cascade)
+  tipo               ColaboracaoTipo  @relation(fields: [colaboracaoTipoId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  
+  @@unique([ngoId, colaboracaoTipoId])
+}
+
+model AreaAtuacaoTipo {
+  id    String @id @default(cuid())
+  nome  String @unique
+  ngos  AreaAtuacao[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AreaAtuacao {
+  id               String @id @default(cuid())
+  ngoId            String
+  areaAtuacaoTipoId String
+  ngo              NGO               @relation("NGOAreas", fields: [ngoId], references: [id], onDelete: Cascade)
+  tipo             AreaAtuacaoTipo   @relation(fields: [areaAtuacaoTipoId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  
+  @@unique([ngoId, areaAtuacaoTipoId])
+}
+
