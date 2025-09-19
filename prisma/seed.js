@@ -6,6 +6,9 @@ async function main() {
   console.log('🌱 Iniciando seed do banco de dados...');
 
   // Limpar dados existentes
+  await prisma.eventODS.deleteMany();
+  await prisma.eventArea.deleteMany();
+  await prisma.event.deleteMany();
   await prisma.nGOODS.deleteMany();
   await prisma.colaboracao.deleteMany();
   await prisma.areaAtuacao.deleteMany();
@@ -348,12 +351,181 @@ async function main() {
     }
   }
 
+  // 5. Seed Eventos
+  console.log('🎪 Criando eventos...');
+  
+  // Buscar NGOs para associar aos eventos
+  const ngos = await prisma.nGO.findMany();
+  const allOds = await prisma.oDS.findMany();
+  const allAreas = await prisma.areaAtuacaoTipo.findMany();
+
+  const eventosData = [
+    {
+      nome: 'Limpeza da Praia de Carcavelos',
+      descricao: 'Junta-te a nós numa ação de limpeza da praia de Carcavelos. Vamos recolher lixo e sensibilizar para a proteção dos oceanos.',
+      dataInicio: new Date('2024-10-15T09:00:00Z'),
+      dataFim: new Date('2024-10-15T12:00:00Z'),
+      localizacao: 'Praia de Carcavelos, Cascais',
+      latitude: 38.6833,
+      longitude: -9.3333,
+      tipo: 'PRESENCIAL',
+      maxParticipantes: 50,
+      inscricoesAbertas: true,
+      linkInscricao: 'https://exemplo.com/inscricao-limpeza-praia',
+      ngoId: ngos[0]?.id,
+      odsIds: [allOds.find(o => o.numero === 14)?.id, allOds.find(o => o.numero === 15)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Ambiente')?.id].filter(Boolean)
+    },
+    {
+      nome: 'Workshop de Educação Financeira',
+      descricao: 'Workshop online sobre educação financeira para jovens em situação de vulnerabilidade social.',
+      dataInicio: new Date('2024-10-20T14:00:00Z'),
+      dataFim: new Date('2024-10-20T17:00:00Z'),
+      localizacao: 'Online via Zoom',
+      tipo: 'REMOTO',
+      maxParticipantes: 30,
+      inscricoesAbertas: true,
+      linkInscricao: 'https://exemplo.com/workshop-financeiro',
+      linkEvento: 'https://zoom.us/j/123456789',
+      ngoId: ngos[1]?.id,
+      odsIds: [allOds.find(o => o.numero === 1)?.id, allOds.find(o => o.numero === 4)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Educação')?.id, allAreas.find(a => a.nome === 'Pobreza e exclusão')?.id].filter(Boolean)
+    },
+    {
+      nome: 'Feira de Adoção de Animais',
+      descricao: 'Evento especial para adoção de cães e gatos resgatados. Venha conhecer os nossos animais à procura de um lar.',
+      dataInicio: new Date('2024-10-25T10:00:00Z'),
+      dataFim: new Date('2024-10-25T16:00:00Z'),
+      localizacao: 'Jardim da Gulbenkian, Lisboa',
+      latitude: 38.7372,
+      longitude: -9.1538,
+      tipo: 'PRESENCIAL',
+      inscricoesAbertas: true,
+      ngoId: ngos[2]?.id,
+      odsIds: [allOds.find(o => o.numero === 15)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Proteção Animal')?.id, allAreas.find(a => a.nome === 'Bem-estar animal')?.id].filter(Boolean)
+    },
+    {
+      nome: 'Caminhada Solidária pelo Porto',
+      descricao: 'Caminhada solidária para angariação de fundos para famílias carenciadas. Percurso de 5km pelo centro histórico do Porto.',
+      dataInicio: new Date('2024-11-02T09:30:00Z'),
+      dataFim: new Date('2024-11-02T12:00:00Z'),
+      localizacao: 'Ribeira do Porto, Porto',
+      latitude: 41.1405,
+      longitude: -8.6130,
+      tipo: 'PRESENCIAL',
+      maxParticipantes: 200,
+      inscricoesAbertas: true,
+      linkInscricao: 'https://exemplo.com/caminhada-solidaria',
+      ngoId: ngos[3]?.id,
+      odsIds: [allOds.find(o => o.numero === 1)?.id, allOds.find(o => o.numero === 3)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Ação Social')?.id, allAreas.find(a => a.nome === 'Saúde')?.id].filter(Boolean)
+    },
+    {
+      nome: 'Sessão de Mentoria para Empreendedores',
+      descricao: 'Sessão de mentoria híbrida para jovens empreendedores. Partilha de experiências e networking.',
+      dataInicio: new Date('2024-11-10T15:00:00Z'),
+      dataFim: new Date('2024-11-10T18:00:00Z'),
+      localizacao: 'Startup Lisboa + Online',
+      latitude: 38.7223,
+      longitude: -9.1393,
+      tipo: 'HIBRIDO',
+      maxParticipantes: 25,
+      inscricoesAbertas: true,
+      linkInscricao: 'https://exemplo.com/mentoria-empreendedores',
+      linkEvento: 'https://teams.microsoft.com/meet/123',
+      ngoId: ngos[4]?.id,
+      odsIds: [allOds.find(o => o.numero === 8)?.id, allOds.find(o => o.numero === 9)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Desenvolvimento comunitário')?.id].filter(Boolean)
+    },
+    {
+      nome: 'Concerto Beneficente de Natal',
+      descricao: 'Concerto de Natal para angariação de fundos para crianças carenciadas. Apresentação do Coro da Universidade de Coimbra.',
+      dataInicio: new Date('2024-12-15T19:00:00Z'),
+      dataFim: new Date('2024-12-15T21:30:00Z'),
+      localizacao: 'Auditório da Universidade de Coimbra, Coimbra',
+      latitude: 40.2033,
+      longitude: -8.4103,
+      tipo: 'PRESENCIAL',
+      maxParticipantes: 300,
+      inscricoesAbertas: true,
+      linkInscricao: 'https://exemplo.com/concerto-natal',
+      ngoId: ngos[5]?.id,
+      odsIds: [allOds.find(o => o.numero === 1)?.id, allOds.find(o => o.numero === 4)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Cultura e património')?.id, allAreas.find(a => a.nome === 'Ação Social')?.id].filter(Boolean)
+    },
+    {
+      nome: 'Formação em Primeiros Socorros',
+      descricao: 'Formação gratuita em primeiros socorros aberta à comunidade. Certificação incluída.',
+      dataInicio: new Date('2024-11-30T09:00:00Z'),
+      dataFim: new Date('2024-11-30T17:00:00Z'),
+      localizacao: 'Centro de Saúde de Aveiro, Aveiro',
+      latitude: 40.6443,
+      longitude: -8.6455,
+      tipo: 'PRESENCIAL',
+      maxParticipantes: 20,
+      inscricoesAbertas: true,
+      linkInscricao: 'https://exemplo.com/primeiros-socorros',
+      ngoId: ngos[6]?.id,
+      odsIds: [allOds.find(o => o.numero === 3)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Saúde')?.id].filter(Boolean)
+    },
+    {
+      nome: 'Workshop de Sustentabilidade Urbana',
+      descricao: 'Workshop sobre práticas sustentáveis nas cidades. Discussão sobre mobilidade, energia e gestão de resíduos.',
+      dataInicio: new Date('2024-01-15T10:00:00Z'),
+      dataFim: new Date('2024-01-15T16:00:00Z'),
+      localizacao: 'Câmara Municipal de Braga, Braga',
+      latitude: 41.5454,
+      longitude: -8.4265,
+      tipo: 'PRESENCIAL',
+      maxParticipantes: 40,
+      inscricoesAbertas: false,
+      ngoId: ngos[0]?.id,
+      odsIds: [allOds.find(o => o.numero === 11)?.id, allOds.find(o => o.numero === 13)?.id].filter(Boolean),
+      areaIds: [allAreas.find(a => a.nome === 'Ambiente')?.id].filter(Boolean)
+    }
+  ];
+
+  for (const evento of eventosData) {
+    const { odsIds, areaIds, ...eventoData } = evento;
+    
+    const createdEvent = await prisma.event.create({
+      data: eventoData
+    });
+
+    // Associar ODS
+    for (const odsId of odsIds) {
+      if (odsId) {
+        await prisma.eventODS.create({
+          data: {
+            eventId: createdEvent.id,
+            odsId: odsId
+          }
+        });
+      }
+    }
+
+    // Associar Areas
+    for (const areaId of areaIds) {
+      if (areaId) {
+        await prisma.eventArea.create({
+          data: {
+            eventId: createdEvent.id,
+            areaAtuacaoTipoId: areaId
+          }
+        });
+      }
+    }
+  }
+
   console.log('✅ Seed concluído com sucesso!');
   console.log(`📊 Criados:`);
   console.log(`   - ${odsData.length} ODS`);
   console.log(`   - ${colaboracaoTipos.length} tipos de colaboração`);
   console.log(`   - ${areasAtuacao.length} áreas de atuação`);
   console.log(`   - ${ongsData.length} ONGs`);
+  console.log(`   - ${eventosData.length} eventos`);
 }
 
 main()

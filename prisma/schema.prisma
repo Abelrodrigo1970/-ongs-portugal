@@ -24,6 +24,7 @@ model NGO {
   colaboracao    Colaboracao[]     @relation("NGOColabs")
   impacto        String            // JSON string of impact texts
   ods            NGOODS[]          // join with ODS via pivot
+  eventos        Event[]           // eventos organizados pela NGO
   imagem         String?           // cover image path/url
   logo           String?           // logo path/url
   instagramUrl   String?
@@ -41,6 +42,7 @@ model ODS {
   descricao   String
   icone       String? // path/url
   ngos        NGOODS[]
+  eventos     EventODS[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -76,9 +78,10 @@ model Colaboracao {
 }
 
 model AreaAtuacaoTipo {
-  id    String @id @default(cuid())
-  nome  String @unique
-  ngos  AreaAtuacao[]
+  id      String @id @default(cuid())
+  nome    String @unique
+  ngos    AreaAtuacao[]
+  eventos EventArea[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -92,5 +95,57 @@ model AreaAtuacao {
   createdAt DateTime @default(now())
   
   @@unique([ngoId, areaAtuacaoTipoId])
+}
+
+model Event {
+  id             String   @id @default(cuid())
+  nome           String
+  descricao      String
+  dataInicio     DateTime
+  dataFim        DateTime?
+  localizacao    String
+  latitude       Float?
+  longitude      Float?
+  tipo           EventTipo @default(PRESENCIAL) // PRESENCIAL, REMOTO, HIBRIDO
+  maxParticipantes Int?
+  inscricoesAbertas Boolean @default(true)
+  linkInscricao  String?
+  linkEvento     String?  // Para eventos remotos
+  imagem         String?
+  ngoId          String
+  ngo            NGO      @relation(fields: [ngoId], references: [id], onDelete: Cascade)
+  areas          EventArea[] @relation("EventAreas")
+  ods            EventODS[]  @relation("EventODS")
+  visivel        Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model EventArea {
+  id               String @id @default(cuid())
+  eventId          String
+  areaAtuacaoTipoId String
+  event            Event            @relation("EventAreas", fields: [eventId], references: [id], onDelete: Cascade)
+  tipo             AreaAtuacaoTipo  @relation(fields: [areaAtuacaoTipoId], references: [id], onDelete: Cascade)
+  createdAt        DateTime @default(now())
+  
+  @@unique([eventId, areaAtuacaoTipoId])
+}
+
+model EventODS {
+  id       String @id @default(cuid())
+  eventId  String
+  odsId    String
+  event    Event  @relation("EventODS", fields: [eventId], references: [id], onDelete: Cascade)
+  ods      ODS    @relation(fields: [odsId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  
+  @@unique([eventId, odsId])
+}
+
+enum EventTipo {
+  PRESENCIAL
+  REMOTO
+  HIBRIDO
 }
 

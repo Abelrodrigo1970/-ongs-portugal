@@ -13,6 +13,8 @@ const FilterBar = ({
   odsOptions = [], 
   areasOptions = [], 
   colaboracaoOptions = [],
+  tipoOptions = [],
+  showEventFilters = false,
   className = '' 
 }) => {
   const router = useRouter();
@@ -23,8 +25,10 @@ const FilterBar = ({
     ods: searchParams.get('ods')?.split(',').filter(Boolean) || [],
     areas: searchParams.get('areas')?.split(',').filter(Boolean) || [],
     colaboracao: searchParams.get('colaboracao')?.split(',').filter(Boolean) || [],
+    tipo: searchParams.get('tipo')?.split(',').filter(Boolean) || [],
+    inscricoesAbertas: searchParams.get('inscricoesAbertas') === 'true',
     visivel: searchParams.get('visivel') === 'true',
-    sort: searchParams.get('sort') || 'nome-asc'
+    sort: searchParams.get('sort') || (showEventFilters ? 'dataInicio-asc' : 'nome-asc')
   });
 
   const [showFilters, setShowFilters] = useState(false);
@@ -40,10 +44,13 @@ const FilterBar = ({
     if (updatedFilters.ods.length > 0) params.set('ods', updatedFilters.ods.join(','));
     if (updatedFilters.areas.length > 0) params.set('areas', updatedFilters.areas.join(','));
     if (updatedFilters.colaboracao.length > 0) params.set('colaboracao', updatedFilters.colaboracao.join(','));
+    if (updatedFilters.tipo.length > 0) params.set('tipo', updatedFilters.tipo.join(','));
+    if (updatedFilters.inscricoesAbertas) params.set('inscricoesAbertas', 'true');
     if (updatedFilters.visivel) params.set('visivel', 'true');
-    if (updatedFilters.sort !== 'nome-asc') params.set('sort', updatedFilters.sort);
+    if (updatedFilters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc')) params.set('sort', updatedFilters.sort);
     
-    router.push(`/ongs?${params.toString()}`);
+    const basePath = showEventFilters ? '/eventos' : '/ongs';
+    router.push(`${basePath}?${params.toString()}`);
   };
 
   const clearFilters = () => {
@@ -52,10 +59,13 @@ const FilterBar = ({
       ods: [],
       areas: [],
       colaboracao: [],
+      tipo: [],
+      inscricoesAbertas: false,
       visivel: false,
-      sort: 'nome-asc'
+      sort: showEventFilters ? 'dataInicio-asc' : 'nome-asc'
     });
-    router.push('/ongs');
+    const basePath = showEventFilters ? '/eventos' : '/ongs';
+    router.push(basePath);
   };
 
   const hasActiveFilters = 
@@ -63,10 +73,18 @@ const FilterBar = ({
     filters.ods.length > 0 || 
     filters.areas.length > 0 || 
     filters.colaboracao.length > 0 || 
+    filters.tipo.length > 0 ||
+    filters.inscricoesAbertas ||
     filters.visivel ||
-    filters.sort !== 'nome-asc';
+    filters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc');
 
-  const sortOptions = [
+  const sortOptions = showEventFilters ? [
+    { value: 'dataInicio-asc', label: 'Data mais próxima' },
+    { value: 'dataInicio-desc', label: 'Data mais distante' },
+    { value: 'nome-asc', label: 'Nome A-Z' },
+    { value: 'nome-desc', label: 'Nome Z-A' },
+    { value: 'recent', label: 'Mais recentes' }
+  ] : [
     { value: 'nome-asc', label: 'Nome A-Z' },
     { value: 'nome-desc', label: 'Nome Z-A' },
     { value: 'recent', label: 'Mais recentes' },
@@ -82,7 +100,7 @@ const FilterBar = ({
           <Search className="h-5 w-5 text-gray-400 mr-3" />
           <input
             type="text"
-            placeholder="Pesquisa por ONGs, causas ou localização..."
+            placeholder={showEventFilters ? "Pesquisa por eventos, ONGs ou localização..." : "Pesquisa por ONGs, causas ou localização..."}
             value={filters.query}
             onChange={(e) => updateFilters({ query: e.target.value })}
             className="w-full outline-none text-gray-700 placeholder-gray-400"
@@ -138,17 +156,27 @@ const FilterBar = ({
               onChange={(value) => updateFilters({ areas: value })}
             />
 
-            {/* Colaboração */}
-            <MultiSelect
-              label="Tipos de Colaboração"
-              placeholder="Selecionar tipos..."
-              options={colaboracaoOptions}
-              value={filters.colaboracao}
-              onChange={(value) => updateFilters({ colaboracao: value })}
-            />
+            {/* Colaboração ou Tipo de Evento */}
+            {showEventFilters ? (
+              <MultiSelect
+                label="Tipo de Evento"
+                placeholder="Selecionar tipos..."
+                options={tipoOptions}
+                value={filters.tipo}
+                onChange={(value) => updateFilters({ tipo: value })}
+              />
+            ) : (
+              <MultiSelect
+                label="Tipos de Colaboração"
+                placeholder="Selecionar tipos..."
+                options={colaboracaoOptions}
+                value={filters.colaboracao}
+                onChange={(value) => updateFilters({ colaboracao: value })}
+              />
+            )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <Select
               label="Ordenar por"
               options={sortOptions}
@@ -158,11 +186,21 @@ const FilterBar = ({
             
             <div className="flex items-center">
               <Toggle
-                label="Apenas ONGs visíveis"
+                label={showEventFilters ? "Apenas eventos visíveis" : "Apenas ONGs visíveis"}
                 checked={filters.visivel}
                 onChange={(e) => updateFilters({ visivel: e.target.checked })}
               />
             </div>
+
+            {showEventFilters && (
+              <div className="flex items-center">
+                <Toggle
+                  label="Apenas com inscrições abertas"
+                  checked={filters.inscricoesAbertas}
+                  onChange={(e) => updateFilters({ inscricoesAbertas: e.target.checked })}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -206,12 +244,36 @@ const FilterBar = ({
             </span>
           )}
           
-          {filters.colaboracao.length > 0 && (
+          {filters.colaboracao.length > 0 && !showEventFilters && (
             <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
               {filters.colaboracao.length} Colaboração
               <button
                 onClick={() => updateFilters({ colaboracao: [] })}
                 className="hover:bg-orange-200 rounded-full p-0.5 ml-1"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.tipo.length > 0 && showEventFilters && (
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">
+              {filters.tipo.length} Tipo{filters.tipo.length > 1 ? 's' : ''}
+              <button
+                onClick={() => updateFilters({ tipo: [] })}
+                className="hover:bg-indigo-200 rounded-full p-0.5 ml-1"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.inscricoesAbertas && showEventFilters && (
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">
+              Inscrições Abertas
+              <button
+                onClick={() => updateFilters({ inscricoesAbertas: false })}
+                className="hover:bg-yellow-200 rounded-full p-0.5 ml-1"
               >
                 <X className="h-3 w-3" />
               </button>
