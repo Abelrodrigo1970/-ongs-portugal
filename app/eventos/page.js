@@ -76,7 +76,7 @@ async function EventsContent({ searchParams }) {
           {events.length > 0 ? (
             <>
               <div className="grid grid-cols-4 gap-6 mb-8">
-                {events.slice(0, 4).map((event) => (
+                {events.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>

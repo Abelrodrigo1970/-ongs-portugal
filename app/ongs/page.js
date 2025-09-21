@@ -79,7 +79,7 @@ async function ONGsContent({ searchParams }) {
           {ngos.length > 0 ? (
             <>
               <div className="grid grid-cols-4 gap-6 mb-8">
-                {ngos.slice(0, 4).map((ngo) => (
+                {ngos.map((ngo) => (
                   <NgoCard key={ngo.id} ngo={ngo} />
                 ))}
               </div>
