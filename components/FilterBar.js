@@ -210,7 +210,7 @@ const FilterBar = ({
         <div className="mt-4 flex flex-wrap gap-2">
           {filters.query && (
             <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-              "{filters.query}"
+              {filters.query}
               <button
                 onClick={() => updateFilters({ query: '' })}
                 className="hover:bg-green-200 rounded-full p-0.5 ml-1"

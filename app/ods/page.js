@@ -31,16 +31,8 @@ export default async function ODSPage() {
       {/* ODS Grid */}
       <section className="py-16">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Os 17 Objetivos
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Clique em qualquer ODS para ver as ONGs que trabalham nessa área
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-4 gap-6">
             {allODS.map((ods) => (
               <Link
                 key={ods.id}

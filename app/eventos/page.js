@@ -75,8 +75,8 @@ async function EventsContent({ searchParams }) {
         <div className="container mx-auto px-4 py-8">
           {events.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                {events.map((event) => (
+              <div className="grid grid-cols-4 gap-6 mb-8">
+                {events.slice(0, 4).map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>

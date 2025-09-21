@@ -3,13 +3,24 @@ import Link from 'next/link';
 import Card from './ui/Card';
 import { MapPin } from 'lucide-react';
 
-const EventCard = ({ event, className = '' }) => {
+const CompactEventCard = ({ event, className = '' }) => {
+  // Format date
+  const startDate = new Date(event.dataInicio);
+  
+  const formatDate = (date) => {
+    return date.toLocaleDateString('pt-PT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   return (
     <Card className={`hover:shadow-lg transition-shadow duration-200 overflow-hidden ${className}`}>
       <Link href={`/eventos/${event.id}`} className="block">
-        <div className="flex flex-col h-full">
-          {/* Event Image */}
-          <div className="relative h-48 bg-gray-200 rounded-t-lg overflow-hidden">
+        <div className="flex flex-col">
+          {/* Event Image - Mais pequena */}
+          <div className="relative h-40 bg-gray-200 rounded-t-lg overflow-hidden">
             {event.imagem ? (
               <Image
                 src={event.imagem}
@@ -28,21 +39,21 @@ const EventCard = ({ event, className = '' }) => {
             )}
           </div>
 
-          {/* Content */}
-          <div className="p-4">
+          {/* Content - Mais compacto */}
+          <div className="p-5">
             {/* Event Name */}
             <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
               {event.nome}
             </h3>
             
             {/* NGO Name */}
-            <p className="text-sm text-gray-600 mb-2 truncate">
+            <p className="text-base text-gray-600 mb-3 truncate">
               {event.ngo?.nome}
             </p>
 
             {/* Location */}
-            <div className="flex items-center text-sm text-gray-500">
-              <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+            <div className="flex items-center text-base text-gray-500">
+              <MapPin className="h-4 w-4 mr-2 flex-shrink-0" />
               <span className="truncate">{event.localizacao}</span>
             </div>
           </div>
@@ -52,4 +63,4 @@ const EventCard = ({ event, className = '' }) => {
   );
 };
 
-export default EventCard;
+export default CompactEventCard;

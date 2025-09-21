@@ -36,10 +36,6 @@ const NgoCard = ({ ngo, className = '' }) => {
             <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
               {ngo.nome}
             </h3>
-            
-            <p className="text-gray-600 text-sm mb-3 line-clamp-3">
-              {ngo.descricao}
-            </p>
 
             {/* ODS Badges */}
             {odsList.length > 0 && (

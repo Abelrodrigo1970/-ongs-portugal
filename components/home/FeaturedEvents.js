@@ -14,35 +14,26 @@ const FeaturedEvents = ({ events = [] }) => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="flex items-center justify-center mb-4">
-              <Calendar className="h-8 w-8 text-primary-600 mr-3" />
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                Eventos em Destaque
-              </h2>
-            </div>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Descobre oportunidades de voluntariado próximas de ti e faz parte da mudança
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Voluntariados para si
+            </h2>
           </div>
 
           {/* Events Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {events.slice(0, 6).map((event) => (
+          <div className="grid grid-cols-4 gap-6 mb-8">
+            {events.slice(0, 4).map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </div>
 
           {/* Call to Action */}
           <div className="text-center">
-            <Button
-              as={Link}
-              href="/eventos"
-              size="lg"
-              className="inline-flex items-center"
-            >
-              Ver todos os eventos
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <Link href="/eventos">
+              <Button size="lg" className="inline-flex items-center">
+                Ver todos os eventos
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
