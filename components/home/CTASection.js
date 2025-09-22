@@ -13,18 +13,6 @@ const CTASection = () => {
             Junte-se a milhares de pessoas que já estão a colaborar com ONGs em Portugal. 
             Encontre a organização certa para si e comece a sua jornada de impacto positivo.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/ongs">
-              <Button size="lg" className="bg-white text-primary-600 hover:bg-gray-100">
-                Encontrar ONGs
-              </Button>
-            </Link>
-            <Link href="/ods">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-600">
-                Explorar ODS
-              </Button>
-            </Link>
-          </div>
         </div>
       </div>
     </section>

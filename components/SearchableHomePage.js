@@ -53,17 +53,17 @@ const SearchableHomePage = ({
 
       // Filtro por ODS
       if (searchFilters.ods) {
-        matches = matches && ngo.ods?.some(ods => ods.odsId === searchFilters.ods);
+        matches = matches && ngo.ods?.some(odsRel => odsRel.odsId === searchFilters.ods);
       }
 
       // Filtro por áreas
       if (searchFilters.areas) {
-        matches = matches && ngo.areaAtuacao?.some(area => area.areaId === searchFilters.areas);
+        matches = matches && ngo.areaAtuacao?.some(areaRel => areaRel.areaAtuacaoTipoId === searchFilters.areas);
       }
 
       // Filtro por colaboração
       if (searchFilters.colaboracao) {
-        matches = matches && ngo.colaboracao?.some(colab => colab.colaboracaoId === searchFilters.colaboracao);
+        matches = matches && ngo.colaboracao?.some(colaboracaoRel => colaboracaoRel.colaboracaoTipoId === searchFilters.colaboracao);
       }
 
       return matches;
@@ -93,14 +93,20 @@ const SearchableHomePage = ({
         matches = matches && event.localizacao?.toLowerCase().includes(searchFilters.local.toLowerCase());
       }
 
-      // Filtro por ODS (através da NGO)
+      // Filtro por ODS (através do evento ou NGO)
       if (searchFilters.ods) {
-        matches = matches && event.ngo?.ods?.some(ods => ods.odsId === searchFilters.ods);
+        matches = matches && (
+          event.ods?.some(odsRel => odsRel.odsId === searchFilters.ods) ||
+          event.ngo?.ods?.some(odsRel => odsRel.odsId === searchFilters.ods)
+        );
       }
 
-      // Filtro por áreas (através da NGO)
+      // Filtro por áreas (através do evento ou NGO)
       if (searchFilters.areas) {
-        matches = matches && event.ngo?.areaAtuacao?.some(area => area.areaId === searchFilters.areas);
+        matches = matches && (
+          event.areas?.some(areaRel => areaRel.areaAtuacaoTipoId === searchFilters.areas) ||
+          event.ngo?.areaAtuacao?.some(areaRel => areaRel.areaAtuacaoTipoId === searchFilters.areas)
+        );
       }
 
       return matches;

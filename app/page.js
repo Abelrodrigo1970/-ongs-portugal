@@ -3,7 +3,6 @@ import { getFeaturedEvents } from '@/lib/repositories/events';
 import { getAllODS as getAllODSData } from '@/lib/repositories/ods';
 import { getAllAreas } from '@/lib/repositories/areas';
 import { getAllColaboracaoTipos } from '@/lib/repositories/colaboracao';
-import Link from 'next/link';
 import SearchableHomePage from '@/components/SearchableHomePage';
 
 export default async function HomePage() {

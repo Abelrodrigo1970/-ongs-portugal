@@ -181,7 +181,7 @@ async function main() {
       ods: [ods3, ods1, ods10],
       colaboracao: [doacoes, voluntariadoPresencial, probono],
       areaAtuacao: [saude, acaoSocial, pobrezaExclusao],
-      imagem: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/saudeparatodos',
       websiteUrl: 'https://saudeparatodos.pt'
@@ -203,7 +203,7 @@ async function main() {
       ods: [ods4, ods1, ods10],
       colaboracao: [doacoes, mentoria, voluntariadoRemoto, voluntariadoPresencial],
       areaAtuacao: [educacao, acaoSocial, desenvolvimentoComunitario],
-      imagem: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/educarfuturo',
       videoUrl: 'https://youtube.com/watch?v=educarfuturo',
@@ -248,7 +248,7 @@ async function main() {
       ods: [ods5, ods10, ods16],
       colaboracao: [probono, palestras, mentoria],
       areaAtuacao: [direitosHumanos, igualdadeGenero, inclusaoSocial],
-      imagem: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/direitosja',
       websiteUrl: 'https://direitosja.pt'
@@ -337,7 +337,7 @@ async function main() {
       ods: [ods4, ods8, ods10],
       colaboracao: [voluntariadoRemoto, mentoria, probono],
       areaAtuacao: [educacao, inclusaoSocial, desenvolvimentoComunitario],
-      imagem: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/techsocial',
       websiteUrl: 'https://techsocial.pt'
@@ -381,7 +381,7 @@ async function main() {
       ods: [ods5, ods8, ods10],
       colaboracao: [mentoria, doacoes, palestras],
       areaAtuacao: [igualdadeGenero, desenvolvimentoComunitario],
-      imagem: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/mulheresempreendedoras',
       websiteUrl: 'https://mulheresempreendedoras.pt'
@@ -403,7 +403,7 @@ async function main() {
       ods: [ods10, ods16, ods1],
       colaboracao: [voluntariadoPresencial, probono, doacoes],
       areaAtuacao: [direitosHumanos, inclusaoSocial, acaoSocial],
-      imagem: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/larsemfronteiras',
       websiteUrl: 'https://larsemfronteiras.pt'
@@ -425,7 +425,7 @@ async function main() {
       ods: [ods4, ods8, ods5],
       colaboracao: [mentoria, voluntariadoRemoto, parcerias],
       areaAtuacao: [educacao, inclusaoSocial],
-      imagem: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/jovenscientistas',
       websiteUrl: 'https://jovenscientistas.pt'
@@ -447,7 +447,7 @@ async function main() {
       ods: [ods6, ods14, ods15],
       colaboracao: [parcerias, doacoes, voluntariadoPresencial],
       areaAtuacao: [ambiente, conservacao, acaoSocial],
-      imagem: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/aguascristalinas',
       websiteUrl: 'https://aguascristalinas.pt'
@@ -491,7 +491,7 @@ async function main() {
       ods: [ods3, ods10, ods11],
       colaboracao: [voluntariadoPresencial, doacoes, mentoria],
       areaAtuacao: [saude, acaoSocial, inclusaoSocial],
-      imagem: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/apoiosenior',
       websiteUrl: 'https://apoiosenior.pt'
@@ -535,7 +535,7 @@ async function main() {
       ods: [ods14, ods15, ods13],
       colaboracao: [voluntariadoPresencial, palestras, parcerias],
       areaAtuacao: [conservacao, ambiente],
-      imagem: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=entropy&auto=format',
       logo: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=200&h=200&fit=crop',
       instagramUrl: 'https://instagram.com/oceanoazul',
       websiteUrl: 'https://oceanoazul.pt'
@@ -614,7 +614,7 @@ async function main() {
       maxParticipantes: 50,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/inscricao-limpeza-praia',
-      imagem: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos[0]?.id,
       odsIds: [allOds.find(o => o.numero === 14)?.id, allOds.find(o => o.numero === 15)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Ambiente')?.id].filter(Boolean)
@@ -630,7 +630,7 @@ async function main() {
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/workshop-financeiro',
       linkEvento: 'https://zoom.us/j/123456789',
-      imagem: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos[1]?.id,
       odsIds: [allOds.find(o => o.numero === 1)?.id, allOds.find(o => o.numero === 4)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Educação')?.id, allAreas.find(a => a.nome === 'Pobreza e exclusão')?.id].filter(Boolean)
@@ -680,7 +680,7 @@ async function main() {
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/mentoria-empreendedores',
       linkEvento: 'https://teams.microsoft.com/meet/123',
-      imagem: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos[4]?.id,
       odsIds: [allOds.find(o => o.numero === 8)?.id, allOds.find(o => o.numero === 9)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Desenvolvimento comunitário')?.id].filter(Boolean)
@@ -714,7 +714,7 @@ async function main() {
       maxParticipantes: 20,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/primeiros-socorros',
-      imagem: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos[6]?.id,
       odsIds: [allOds.find(o => o.numero === 3)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Saúde')?.id].filter(Boolean)
@@ -764,7 +764,7 @@ async function main() {
       maxParticipantes: 15,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/alfabetizacao-digital',
-      imagem: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'TechSocial')?.id || ngos[4]?.id,
       odsIds: [allOds.find(o => o.numero === 4)?.id, allOds.find(o => o.numero === 10)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Educação')?.id, allAreas.find(a => a.nome === 'Inclusão social')?.id].filter(Boolean)
@@ -781,7 +781,7 @@ async function main() {
       maxParticipantes: 35,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/empreendedorismo-feminino',
-      imagem: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'Mulheres Empreendedoras')?.id || ngos[5]?.id,
       odsIds: [allOds.find(o => o.numero === 5)?.id, allOds.find(o => o.numero === 8)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Igualdade de género')?.id, allAreas.find(a => a.nome === 'Desenvolvimento comunitário')?.id].filter(Boolean)
@@ -832,7 +832,7 @@ async function main() {
       maxParticipantes: 25,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/portugues-refugiados',
-      imagem: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'Lar Sem Fronteiras')?.id || ngos[8]?.id,
       odsIds: [allOds.find(o => o.numero === 4)?.id, allOds.find(o => o.numero === 10)?.id, allOds.find(o => o.numero === 16)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Educação')?.id, allAreas.find(a => a.nome === 'Direitos humanos')?.id, allAreas.find(a => a.nome === 'Inclusão social')?.id].filter(Boolean)
@@ -849,7 +849,7 @@ async function main() {
       maxParticipantes: 30,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/laboratorio-ciencias',
-      imagem: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'Jovens Cientistas')?.id || ngos[9]?.id,
       odsIds: [allOds.find(o => o.numero === 4)?.id, allOds.find(o => o.numero === 9)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Educação')?.id].filter(Boolean)
@@ -866,7 +866,7 @@ async function main() {
       maxParticipantes: 20,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/purificacao-agua',
-      imagem: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'Águas Cristalinas')?.id || ngos[10]?.id,
       odsIds: [allOds.find(o => o.numero === 6)?.id, allOds.find(o => o.numero === 3)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Ambiente')?.id, allAreas.find(a => a.nome === 'Ação Social')?.id].filter(Boolean)
@@ -900,7 +900,7 @@ async function main() {
       maxParticipantes: 50,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/apoio-idosos',
-      imagem: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'Apoio Sénior')?.id || ngos[12]?.id,
       odsIds: [allOds.find(o => o.numero === 3)?.id, allOds.find(o => o.numero === 10)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Saúde')?.id, allAreas.find(a => a.nome === 'Ação Social')?.id, allAreas.find(a => a.nome === 'Inclusão social')?.id].filter(Boolean)
@@ -934,7 +934,7 @@ async function main() {
       maxParticipantes: 25,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/limpeza-marinha',
-      imagem: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'Oceano Azul')?.id || ngos[14]?.id,
       odsIds: [allOds.find(o => o.numero === 14)?.id, allOds.find(o => o.numero === 15)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Conservação')?.id, allAreas.find(a => a.nome === 'Ambiente')?.id].filter(Boolean)
@@ -967,7 +967,7 @@ async function main() {
       maxParticipantes: 60,
       inscricoesAbertas: true,
       linkInscricao: 'https://exemplo.com/hackathon-solidario',
-      imagem: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      imagem: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&h=600&fit=crop&crop=entropy&auto=format',
       ngoId: ngos.find(n => n.nome === 'TechSocial')?.id || ngos[1]?.id,
       odsIds: [allOds.find(o => o.numero === 9)?.id, allOds.find(o => o.numero === 17)?.id].filter(Boolean),
       areaIds: [allAreas.find(a => a.nome === 'Educação')?.id, allAreas.find(a => a.nome === 'Desenvolvimento comunitário')?.id].filter(Boolean)
