@@ -146,7 +146,7 @@ const SearchableHomePage = ({
             {/* Resultados de ONGs */}
             {filteredNGOs.length > 0 && (
               <div className="mb-16">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center p-2">
                   ONGs ({filteredNGOs.length})
                 </h3>
                 <div className="grid grid-cols-4 gap-6 mb-8">
@@ -155,7 +155,7 @@ const SearchableHomePage = ({
                   ))}
                 </div>
                 {filteredNGOs.length > 6 && (
-                  <div className="text-center">
+                  <div className="text-center p-2">
                     <Link href={`/ongs?query=${encodeURIComponent(searchFilters.query)}`}>
                       <Button>Ver Todas as ONGs</Button>
                     </Link>
@@ -176,7 +176,7 @@ const SearchableHomePage = ({
                   ))}
                 </div>
                 {filteredEvents.length > 8 && (
-                  <div className="text-center">
+                  <div className="text-center p-2">
                     <Link href={`/eventos?query=${encodeURIComponent(searchFilters.query)}`}>
                       <Button>Ver Todos os Eventos</Button>
                     </Link>
@@ -187,7 +187,7 @@ const SearchableHomePage = ({
 
             {/* Sem resultados */}
             {filteredNGOs.length === 0 && filteredEvents.length === 0 && (
-              <div className="text-center">
+              <div className="text-center p-2">
                 <div className="max-w-md mx-auto">
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

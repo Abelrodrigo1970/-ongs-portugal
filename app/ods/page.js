@@ -19,7 +19,7 @@ export default async function ODSPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-800 text-white">
         <div className="container-custom">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center p-2">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Objetivos de Desenvolvimento Sustentável
             </h1>
@@ -43,7 +43,7 @@ export default async function ODSPage() {
                 className="group"
               >
                 <Card className="h-full hover:shadow-lg transition-all duration-200 group-hover:scale-105">
-                  <div className="text-center">
+                  <div className="text-center p-2">
                     <div className="mb-4">
                       <OdsBadge numero={ods.numero} nome={ods.nome} className="text-lg px-4 py-2" />
                     </div>
