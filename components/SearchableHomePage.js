@@ -47,7 +47,16 @@ const SearchableHomePage = ({
         matches = matches && (
           ngo.nome.toLowerCase().includes(query) ||
           ngo.descricao?.toLowerCase().includes(query) ||
-          ngo.missao?.toLowerCase().includes(query)
+          ngo.missao?.toLowerCase().includes(query) ||
+          ngo.localizacao?.toLowerCase().includes(query) ||
+          // Busca em áreas de atuação
+          ngo.areaAtuacao?.some(areaRel => 
+            areaRel.tipo?.nome.toLowerCase().includes(query)
+          ) ||
+          // Busca em ODS
+          ngo.ods?.some(odsRel => 
+            odsRel.ods?.nome.toLowerCase().includes(query)
+          )
         );
       }
 
@@ -84,7 +93,15 @@ const SearchableHomePage = ({
           event.nome.toLowerCase().includes(query) ||
           event.descricao?.toLowerCase().includes(query) ||
           event.localizacao?.toLowerCase().includes(query) ||
-          event.ngo?.nome.toLowerCase().includes(query)
+          event.ngo?.nome.toLowerCase().includes(query) ||
+          // Busca em áreas de atuação do evento
+          event.areas?.some(areaRel => 
+            areaRel.tipo?.nome.toLowerCase().includes(query)
+          ) ||
+          // Busca em ODS do evento
+          event.ods?.some(odsRel => 
+            odsRel.ods?.nome.toLowerCase().includes(query)
+          )
         );
       }
 
