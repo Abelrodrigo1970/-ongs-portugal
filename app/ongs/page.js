@@ -66,7 +66,7 @@ async function ONGsContent({ searchParams }) {
       </div>
 
       {/* Filtros */}
-      <div className="bg-white shadow-sm border-b border-gray-100">
+      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 shadow-sm border-b border-gray-100">
         <div className="container mx-auto px-4 py-6">
           <FilterBar
             odsOptions={formattedOdsOptions}

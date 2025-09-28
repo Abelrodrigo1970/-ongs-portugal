@@ -105,7 +105,7 @@ export default async function EventPage({ params }) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm">
+      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <Link 
             href="/eventos" 
