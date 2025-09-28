@@ -65,12 +65,9 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
     <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 min-h-[70vh] flex items-center">
       <div className="container mx-auto px-4 py-20">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900">
-            Começa a Tua Jornada de Impacto
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+            Hoje é dia de fazer a diferença
           </h1>
-          <p className="text-lg md:text-xl mb-12 text-gray-700 max-w-2xl mx-auto">
-            Descobre ONGs e eventos de voluntariado com propósito. Liga-te a organizações que estão a fazer a diferença.
-          </p>
 
           {/* Barra de Pesquisa Central */}
           <div className="bg-white rounded-full shadow-lg p-4 flex items-center gap-3 max-w-7xl mx-auto">
