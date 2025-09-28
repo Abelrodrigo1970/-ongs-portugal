@@ -141,8 +141,7 @@ const SearchableHomePage = ({
       
       {isSearching ? (
         // Resultados da pesquisa
-        <div className="py-16 bg-gray-50">
-          <div className="container-custom">
+        <div className="container-custom">
 
             {/* Resultados de ONGs */}
             {filteredNGOs.length > 0 && (
@@ -205,7 +204,6 @@ const SearchableHomePage = ({
                 </div>
               </div>
             )}
-          </div>
         </div>
       ) : (
         // Conteúdo original da página
