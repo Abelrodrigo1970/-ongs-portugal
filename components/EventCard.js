@@ -9,7 +9,7 @@ const EventCard = ({ event, className = '' }) => {
       <Link href={`/eventos/${event.id}`} className="block">
         <div className="flex flex-col h-full">
           {/* Event Image */}
-          <div className="relative h-48 bg-gray-200 rounded-t-lg overflow-hidden">
+          <div className="relative h-32 bg-gray-200 rounded-t-lg overflow-hidden">
             {event.imagem ? (
               <Image
                 src={event.imagem}

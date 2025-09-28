@@ -13,7 +13,7 @@ const FeaturedEvents = ({ events = [] }) => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
+          <div className="text-center mb-6">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 p-2">
               Voluntariados para si
             </h2>
@@ -27,7 +27,7 @@ const FeaturedEvents = ({ events = [] }) => {
           </div>
 
           {/* Call to Action */}
-          <div className="text-center">
+          <div className="text-center mb-8">
             <Link href="/eventos">
               <Button size="lg" className="inline-flex items-center">
                 Ver todos os eventos
