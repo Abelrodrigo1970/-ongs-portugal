@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 
 const ODSSection = ({ ods = [] }) => {
   return (
-    <section className="bg-gray-50">
+    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
       <div className="container-custom">
 
         {ods.length > 0 ? (

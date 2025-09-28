@@ -9,7 +9,7 @@ const FeaturedEvents = ({ events = [] }) => {
   }
 
   return (
-    <section className="bg-gray-50">
+    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
