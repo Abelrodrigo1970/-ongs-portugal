@@ -8,7 +8,7 @@ const FeaturedNGOs = ({ ngos = [] }) => {
       <div className="container-custom">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-6">
             ONGs para si
           </h2>
         </div>

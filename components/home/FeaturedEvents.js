@@ -14,7 +14,7 @@ const FeaturedEvents = ({ events = [] }) => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-6">
               Voluntariados para si
             </h2>
           </div>
