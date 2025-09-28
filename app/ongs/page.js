@@ -52,7 +52,7 @@ async function ONGsContent({ searchParams }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 py-16">
+      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
@@ -115,7 +115,7 @@ async function ONGsContent({ searchParams }) {
               )}
             </>
           ) : (
-            <div className="flex justify-center py-16">
+            <div className="flex justify-center">
               <EmptyState
                 icon={Search}
                 title="Nenhuma ONG encontrada"

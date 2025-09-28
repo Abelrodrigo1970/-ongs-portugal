@@ -3,7 +3,7 @@ import Button from '@/components/ui/Button';
 
 const CTASection = () => {
   return (
-    <section className="py-16 bg-primary-600 text-white">
+    <section className="bg-primary-600 text-white">
       <div className="container-custom">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">

@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 
 const ODSSection = ({ ods = [] }) => {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="bg-gray-50">
       <div className="container-custom">
 
         {ods.length > 0 ? (

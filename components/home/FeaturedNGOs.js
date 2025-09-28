@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 
 const FeaturedNGOs = ({ ngos = [] }) => {
   return (
-    <section className="py-16 bg-white">
+    <section className="bg-white">
       <div className="container-custom">
         {/* Header */}
         <div className="text-center mb-12">

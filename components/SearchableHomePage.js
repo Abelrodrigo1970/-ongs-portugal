@@ -187,7 +187,7 @@ const SearchableHomePage = ({
 
             {/* Sem resultados */}
             {filteredNGOs.length === 0 && filteredEvents.length === 0 && (
-              <div className="text-center py-16">
+              <div className="text-center">
                 <div className="max-w-md mx-auto">
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
