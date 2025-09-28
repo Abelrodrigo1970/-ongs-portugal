@@ -103,7 +103,7 @@ export default async function EventPage({ params }) {
   const status = getEventStatus();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 p-2">
       {/* Header */}
       <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 shadow-sm">
         <div className="container mx-auto px-4 py-4">
