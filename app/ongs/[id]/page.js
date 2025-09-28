@@ -65,7 +65,7 @@ export default async function NGODetailPage({ params }) {
     : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
       {/* Hero Section */}
       <div className="relative h-64 md:h-80 bg-gray-900">
         {ngo.imagem && (

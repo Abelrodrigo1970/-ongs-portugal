@@ -15,7 +15,7 @@ export default async function ODSPage() {
   const allODS = await getAllODS();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
+    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary-600 to-primary-800 text-white">
         <div className="container-custom">
@@ -62,7 +62,7 @@ export default async function ODSPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
+      <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
