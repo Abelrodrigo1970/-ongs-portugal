@@ -9,6 +9,9 @@ import EmptyState from '@/components/ui/EmptyState';
 import Loader from '@/components/ui/Loader';
 import { Search } from 'lucide-react';
 
+// Force dynamic rendering to avoid SSG issues with database
+export const dynamic = 'force-dynamic';
+
 async function ONGsContent({ searchParams }) {
   const filters = {
     query: searchParams.query || '',

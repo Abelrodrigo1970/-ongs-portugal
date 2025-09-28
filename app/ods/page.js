@@ -8,6 +8,9 @@ export const metadata = {
   description: 'Conheça os 17 Objetivos de Desenvolvimento Sustentável e as ONGs que trabalham para os alcançar em Portugal.',
 };
 
+// Force dynamic rendering to avoid SSG issues with database
+export const dynamic = 'force-dynamic';
+
 export default async function ODSPage() {
   const allODS = await getAllODS();
 

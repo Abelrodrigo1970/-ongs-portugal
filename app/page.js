@@ -5,6 +5,9 @@ import { getAllAreas } from '@/lib/repositories/areas';
 import { getAllColaboracaoTipos } from '@/lib/repositories/colaboracao';
 import SearchableHomePage from '@/components/SearchableHomePage';
 
+// Force dynamic rendering to avoid SSG issues with database
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   const [featuredNGOs, featuredEvents, allODS, allAreas, colaboracaoTipos] = await Promise.all([
     getFeaturedNGOs(6),

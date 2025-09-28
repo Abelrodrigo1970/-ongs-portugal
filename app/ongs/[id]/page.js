@@ -18,6 +18,9 @@ import {
   Instagram
 } from 'lucide-react';
 
+// Force dynamic rendering to avoid SSG issues with database
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }) {
   const ngo = await getNGOById(params.id);
   

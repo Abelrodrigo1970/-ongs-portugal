@@ -20,6 +20,9 @@ import {
   Share2
 } from 'lucide-react';
 
+// Force dynamic rendering to avoid SSG issues with database
+export const dynamic = 'force-dynamic';
+
 export default async function EventPage({ params }) {
   const event = await getEventById(params.id);
 
