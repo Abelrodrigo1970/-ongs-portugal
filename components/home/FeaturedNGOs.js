@@ -8,14 +8,14 @@ const FeaturedNGOs = ({ ngos = [] }) => {
       <div className="container-custom">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-2">
             ONGs para si
           </h2>
         </div>
 
         {ngos.length > 0 ? (
           <>
-            <div className="grid grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-4 gap-2 mb-8">
               {ngos.slice(0, 4).map((ngo) => (
                 <NgoCard key={ngo.id} ngo={ngo} />
               ))}

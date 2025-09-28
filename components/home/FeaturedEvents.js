@@ -14,13 +14,13 @@ const FeaturedEvents = ({ events = [] }) => {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-2">
               Voluntariados para si
             </h2>
           </div>
 
           {/* Events Grid */}
-          <div className="grid grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-4 gap-2 mb-8">
             {events.slice(0, 4).map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
