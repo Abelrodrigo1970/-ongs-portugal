@@ -18,6 +18,7 @@ async function EventsContent({ searchParams }) {
     ods: searchParams.ods ? searchParams.ods.split(',') : [],
     areas: searchParams.areas ? searchParams.areas.split(',') : [],
     tipo: searchParams.tipo ? searchParams.tipo.split(',') : [],
+    localizacao: searchParams.localizacao || '',
     inscricoesAbertas: searchParams.inscricoesAbertas === 'true' ? true : null,
     visivel: searchParams.visivel !== 'false',
     sort: searchParams.sort || 'dataInicio-asc',

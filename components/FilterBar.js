@@ -26,6 +26,7 @@ const FilterBar = ({
     areas: searchParams.get('areas')?.split(',').filter(Boolean) || [],
     colaboracao: searchParams.get('colaboracao')?.split(',').filter(Boolean) || [],
     tipo: searchParams.get('tipo')?.split(',').filter(Boolean) || [],
+    localizacao: searchParams.get('localizacao') || '',
     inscricoesAbertas: searchParams.get('inscricoesAbertas') === 'true',
     visivel: searchParams.get('visivel') === 'true',
     sort: searchParams.get('sort') || (showEventFilters ? 'dataInicio-asc' : 'nome-asc')
@@ -45,6 +46,7 @@ const FilterBar = ({
     if (updatedFilters.areas.length > 0) params.set('areas', updatedFilters.areas.join(','));
     if (updatedFilters.colaboracao.length > 0) params.set('colaboracao', updatedFilters.colaboracao.join(','));
     if (updatedFilters.tipo.length > 0) params.set('tipo', updatedFilters.tipo.join(','));
+    if (updatedFilters.localizacao) params.set('localizacao', updatedFilters.localizacao);
     if (updatedFilters.inscricoesAbertas) params.set('inscricoesAbertas', 'true');
     if (updatedFilters.visivel) params.set('visivel', 'true');
     if (updatedFilters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc')) params.set('sort', updatedFilters.sort);
@@ -60,6 +62,7 @@ const FilterBar = ({
       areas: [],
       colaboracao: [],
       tipo: [],
+      localizacao: '',
       inscricoesAbertas: false,
       visivel: false,
       sort: showEventFilters ? 'dataInicio-asc' : 'nome-asc'
@@ -74,6 +77,7 @@ const FilterBar = ({
     filters.areas.length > 0 || 
     filters.colaboracao.length > 0 || 
     filters.tipo.length > 0 ||
+    filters.localizacao ||
     filters.inscricoesAbertas ||
     filters.visivel ||
     filters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc');
@@ -89,6 +93,24 @@ const FilterBar = ({
     { value: 'nome-desc', label: 'Nome Z-A' },
     { value: 'recent', label: 'Mais recentes' },
     { value: 'most-ods', label: 'Mais ODS' }
+  ];
+
+  const localizacaoOptions = [
+    { value: '', label: 'Todas as localizações' },
+    { value: 'lisboa', label: 'Lisboa' },
+    { value: 'porto', label: 'Porto' },
+    { value: 'coimbra', label: 'Coimbra' },
+    { value: 'braga', label: 'Braga' },
+    { value: 'aveiro', label: 'Aveiro' },
+    { value: 'faro', label: 'Faro' },
+    { value: 'leiria', label: 'Leiria' },
+    { value: 'santarem', label: 'Santarém' },
+    { value: 'viseu', label: 'Viseu' },
+    { value: 'vila-nova-de-gaia', label: 'Vila Nova de Gaia' },
+    { value: 'amadora', label: 'Amadora' },
+    { value: 'setubal', label: 'Setúbal' },
+    { value: 'guimaraes', label: 'Guimarães' },
+    { value: 'funchal', label: 'Funchal' }
   ];
 
   return (
@@ -137,7 +159,7 @@ const FilterBar = ({
       {/* Filtros Avançados */}
       {showFilters && (
         <div className="mt-4 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* ODS */}
             <MultiSelect
               label="ODS"
@@ -154,6 +176,15 @@ const FilterBar = ({
               options={areasOptions}
               value={filters.areas}
               onChange={(value) => updateFilters({ areas: value })}
+            />
+
+            {/* Localização */}
+            <Select
+              label="Localização"
+              placeholder="Selecionar localização..."
+              options={localizacaoOptions}
+              value={filters.localizacao}
+              onChange={(e) => updateFilters({ localizacao: e.target.value })}
             />
 
             {/* Colaboração ou Tipo de Evento */}
@@ -238,6 +269,18 @@ const FilterBar = ({
               <button
                 onClick={() => updateFilters({ areas: [] })}
                 className="hover:bg-purple-200 rounded-full p-0.5 ml-1"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          )}
+
+          {filters.localizacao && (
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+              {localizacaoOptions.find(opt => opt.value === filters.localizacao)?.label || filters.localizacao}
+              <button
+                onClick={() => updateFilters({ localizacao: '' })}
+                className="hover:bg-green-200 rounded-full p-0.5 ml-1"
               >
                 <X className="h-3 w-3" />
               </button>
