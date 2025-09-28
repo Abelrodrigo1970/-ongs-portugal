@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 
 const FeaturedNGOs = ({ ngos = [] }) => {
   return (
-    <section className="bg-white">
+    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
       <div className="container-custom">
         {/* Header */}
         <div className="text-center mb-12">

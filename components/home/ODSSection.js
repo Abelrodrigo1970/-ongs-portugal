@@ -16,7 +16,7 @@ const ODSSection = ({ ods = [] }) => {
                   href={`/ongs?ods=${odsItem.id}`}
                   className="group"
                 >
-                  <div className="bg-white border border-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow duration-200">
+                  <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 border border-gray-200 rounded-lg p-4 text-center hover:shadow-lg transition-shadow duration-200">
                     <div className="mb-3">
                       <OdsBadge numero={odsItem.numero} nome={odsItem.nome} />
                     </div>
