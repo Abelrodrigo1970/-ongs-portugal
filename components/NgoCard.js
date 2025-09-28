@@ -13,7 +13,7 @@ const NgoCard = ({ ngo, className = '' }) => {
       <Link href={`/ongs/${ngo.id}`} className="block">
         <div className="flex flex-col h-full">
           {/* NGO Image */}
-          <div className="relative h-48 bg-gray-200 rounded-t-lg overflow-hidden">
+          <div className="relative h-32 bg-gray-200 rounded-t-lg overflow-hidden">
             {ngo.imagem ? (
               <Image
                 src={ngo.imagem}
