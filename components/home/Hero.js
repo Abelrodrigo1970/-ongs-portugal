@@ -62,10 +62,10 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
   }, [searchQuery, selectedODS, selectedInteresses, selectedColaboracao, selectedLocal, onSearch]);
 
   return (
-    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 min-h-[70vh] flex items-center">
-      <div className="container mx-auto px-4 py-20">
+    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 min-h-[50vh] flex items-center">
+      <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-gray-900">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-gray-900">
             Hoje é dia de fazer a diferença
           </h1>
 
