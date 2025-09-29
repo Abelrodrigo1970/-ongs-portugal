@@ -74,6 +74,10 @@ const SearchableHomePage = ({
           limit: 8
         };
 
+        // Debug logs
+        console.log('🔍 NGO Filters:', ngoFilters);
+        console.log('🔍 Event Filters:', eventFilters);
+
         // Construir URLs para as API routes
         const ngoParams = new URLSearchParams({
           query: ngoFilters.query,
