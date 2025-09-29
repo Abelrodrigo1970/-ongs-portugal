@@ -36,7 +36,6 @@ const SearchableHomePage = ({
   });
 
   const handleSearch = async (filters) => {
-    console.log('🔍 Pesquisa iniciada com filtros:', filters);
     setSearchFilters(filters);
     const hasFilters = filters.query !== '' || filters.ods !== '' || filters.areas !== '' || filters.colaboracao !== '' || filters.local !== '';
     setIsSearching(hasFilters);
@@ -64,9 +63,6 @@ const SearchableHomePage = ({
           page: 1,
           limit: 8
         };
-
-        console.log('📋 Filtros ONGs:', ngoFilters);
-        console.log('📋 Filtros Eventos:', eventFilters);
 
         // Construir URLs para as API routes
         const ngoParams = new URLSearchParams({
@@ -100,16 +96,13 @@ const SearchableHomePage = ({
           eventsResponse.json()
         ]);
 
-        console.log('✅ Resultados ONGs:', ngosResult.ngos?.length || 0);
-        console.log('✅ Resultados Eventos:', eventsResult.events?.length || 0);
-
         setSearchResults({
           ngos: ngosResult.ngos || [],
           events: eventsResult.events || [],
           loading: false
         });
       } catch (error) {
-        console.error('❌ Erro na pesquisa:', error);
+        console.error('Erro na pesquisa:', error);
         setSearchResults({
           ngos: [],
           events: [],

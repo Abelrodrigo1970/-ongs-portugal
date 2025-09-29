@@ -52,9 +52,9 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
     }
   };
 
-  // Debounce para pesquisa em tempo real
+  // Debounce para pesquisa em tempo real - apenas quando há texto
   useEffect(() => {
-    if (onSearch) {
+    if (onSearch && searchQuery.trim() !== '') {
       const timeoutId = setTimeout(() => {
         const filters = {
           query: removeAccents(searchQuery),
@@ -64,7 +64,7 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
           local: selectedLocal
         };
         onSearch(filters);
-      }, 300);
+      }, 500); // Aumentei o debounce para 500ms
 
       return () => clearTimeout(timeoutId);
     }
