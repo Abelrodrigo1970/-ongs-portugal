@@ -15,7 +15,11 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
 
   // Função para remover acentos
   const removeAccents = (str) => {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (!str) return '';
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
   };
 
   const handleSearch = () => {

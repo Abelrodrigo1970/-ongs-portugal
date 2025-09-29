@@ -37,6 +37,7 @@ const SearchableHomePage = ({
   });
 
   const handleSearch = async (filters) => {
+    console.log('🔍 Pesquisa iniciada com filtros:', filters);
     setSearchFilters(filters);
     const hasFilters = filters.query !== '' || filters.ods !== '' || filters.areas !== '' || filters.colaboracao !== '' || filters.local !== '';
     setIsSearching(hasFilters);
@@ -48,9 +49,9 @@ const SearchableHomePage = ({
         // Preparar filtros para as funções de pesquisa
         const ngoFilters = {
           query: filters.query,
-          ods: filters.ods ? [filters.ods] : [],
-          areas: filters.areas ? [filters.areas] : [],
-          colaboracao: filters.colaboracao ? [filters.colaboracao] : [],
+          ods: filters.ods ? [parseInt(filters.ods)] : [],
+          areas: filters.areas ? [parseInt(filters.areas)] : [],
+          colaboracao: filters.colaboracao ? [parseInt(filters.colaboracao)] : [],
           localizacao: filters.local,
           page: 1,
           limit: 8
@@ -58,17 +59,23 @@ const SearchableHomePage = ({
 
         const eventFilters = {
           query: filters.query,
-          ods: filters.ods ? [filters.ods] : [],
-          areas: filters.areas ? [filters.areas] : [],
+          ods: filters.ods ? [parseInt(filters.ods)] : [],
+          areas: filters.areas ? [parseInt(filters.areas)] : [],
           localizacao: filters.local,
           page: 1,
           limit: 8
         };
 
+        console.log('📋 Filtros ONGs:', ngoFilters);
+        console.log('📋 Filtros Eventos:', eventFilters);
+
         const [ngosResult, eventsResult] = await Promise.all([
           getNGOs(ngoFilters),
           getEvents(eventFilters)
         ]);
+
+        console.log('✅ Resultados ONGs:', ngosResult.ngos?.length || 0);
+        console.log('✅ Resultados Eventos:', eventsResult.events?.length || 0);
 
         setSearchResults({
           ngos: ngosResult.ngos || [],
@@ -76,7 +83,7 @@ const SearchableHomePage = ({
           loading: false
         });
       } catch (error) {
-        console.error('Erro na pesquisa:', error);
+        console.error('❌ Erro na pesquisa:', error);
         setSearchResults({
           ngos: [],
           events: [],
