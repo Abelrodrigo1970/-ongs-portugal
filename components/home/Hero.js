@@ -14,11 +14,16 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
   const [selectedColaboracao, setSelectedColaboracao] = useState('');
   const router = useRouter();
 
-  const handleSearch = () => {
+  // Função para remover acentos
+  const removeAccents = (str) => {
+    return str.normalize(" NFD\).replace(/[\u0300-\u036f]/g, \\);
+ };
+
+ const handleSearch = () => {
     if (onSearch) {
       // Se tem callback, usar pesquisa dinÃ¢mica
       const filters = {
-        query: searchQuery,
+        query: removeAccents(searchQuery),
         ods: selectedODS,
         areas: selectedInteresses,
         colaboracao: selectedColaboracao,
@@ -29,7 +34,7 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
       // SenÃ£o, navegar para a pÃ¡gina de ONGs
       const params = new URLSearchParams();
       
-      if (searchQuery) params.set('query', searchQuery);
+      if (searchQuery) params.set(" query\, removeAccents(searchQuery));
       if (selectedODS) params.set('ods', selectedODS);
       if (selectedInteresses) params.set('areas', selectedInteresses);
       if (selectedColaboracao) params.set('colaboracao', selectedColaboracao);
@@ -49,7 +54,7 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
     if (onSearch) {
       const timeoutId = setTimeout(() => {
         const filters = {
-          query: searchQuery,
+          query: removeAccents(searchQuery),
           ods: selectedODS,
           areas: selectedInteresses,
           colaboracao: selectedColaboracao,
