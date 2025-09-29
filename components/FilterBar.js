@@ -41,6 +41,7 @@ const FilterBar = ({
     
     // Se tem callback onSearch, usar pesquisa dinâmica (para página principal)
     if (onSearch) {
+      console.log('🔧 FilterBar sending to onSearch:', updatedFilters);
       onSearch(updatedFilters);
     } else {
       // Senão, update URL (para páginas de ONGs e Eventos)
