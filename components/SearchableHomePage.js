@@ -53,21 +53,22 @@ const SearchableHomePage = ({
       setSearchResults(prev => ({ ...prev, loading: true }));
       
       try {
-        // Função helper para converter arrays de IDs com validação
-        const convertToIntArray = (arr) => {
-          console.log('🔧 convertToIntArray input:', arr, 'Type:', typeof arr);
+        // Função helper para converter arrays de IDs (UUIDs ou números)
+        const convertToIdArray = (arr) => {
+          console.log('🔧 convertToIdArray input:', arr, 'Type:', typeof arr);
           if (!Array.isArray(arr)) return [];
-          const result = arr.map(id => parseInt(id)).filter(id => !isNaN(id));
-          console.log('🔧 convertToIntArray output:', result);
+          // Para UUIDs, manter como string; para números, converter para int
+          const result = arr.filter(id => id && id.toString().trim() !== '');
+          console.log('🔧 convertToIdArray output:', result);
           return result;
         };
 
         // Preparar filtros para as funções de pesquisa
         const ngoFilters = {
           query: filters.query || '',
-          ods: convertToIntArray(filters.ods),
-          areas: convertToIntArray(filters.areas),
-          colaboracao: convertToIntArray(filters.colaboracao),
+          ods: convertToIdArray(filters.ods),
+          areas: convertToIdArray(filters.areas),
+          colaboracao: convertToIdArray(filters.colaboracao),
           localizacao: filters.localizacao || '',
           page: 1,
           limit: 8
@@ -75,8 +76,8 @@ const SearchableHomePage = ({
 
         const eventFilters = {
           query: filters.query || '',
-          ods: convertToIntArray(filters.ods),
-          areas: convertToIntArray(filters.areas),
+          ods: convertToIdArray(filters.ods),
+          areas: convertToIdArray(filters.areas),
           tipo: Array.isArray(filters.tipo) ? filters.tipo : [],
           localizacao: filters.localizacao || '',
           page: 1,

@@ -7,9 +7,9 @@ export async function GET(request) {
     
     const filters = {
       query: searchParams.get('query') || '',
-      ods: searchParams.get('ods') ? searchParams.get('ods').split(',').map(id => parseInt(id)) : [],
-      areas: searchParams.get('areas') ? searchParams.get('areas').split(',').map(id => parseInt(id)) : [],
-      tipo: searchParams.get('tipo') ? searchParams.get('tipo').split(',') : [],
+      ods: searchParams.get('ods') ? searchParams.get('ods').split(',').filter(id => id.trim() !== '') : [],
+      areas: searchParams.get('areas') ? searchParams.get('areas').split(',').filter(id => id.trim() !== '') : [],
+      tipo: searchParams.get('tipo') ? searchParams.get('tipo').split(',').filter(id => id.trim() !== '') : [],
       localizacao: searchParams.get('local') || '',
       page: parseInt(searchParams.get('page')) || 1,
       limit: parseInt(searchParams.get('limit')) || 8
