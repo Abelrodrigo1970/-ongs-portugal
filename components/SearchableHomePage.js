@@ -10,8 +10,7 @@ import CompactEventCard from '@/components/CompactEventCard';
 import NgoCard from '@/components/NgoCard';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { getNGOs } from '@/lib/repositories/ngos';
-import { getEvents } from '@/lib/repositories/events';
+// Removed direct Prisma imports - now using API routes
 
 const SearchableHomePage = ({ 
   featuredNGOs, 
@@ -69,9 +68,36 @@ const SearchableHomePage = ({
         console.log('📋 Filtros ONGs:', ngoFilters);
         console.log('📋 Filtros Eventos:', eventFilters);
 
+        // Construir URLs para as API routes
+        const ngoParams = new URLSearchParams({
+          query: ngoFilters.query,
+          local: ngoFilters.localizacao,
+          page: ngoFilters.page,
+          limit: ngoFilters.limit
+        });
+        
+        if (ngoFilters.ods.length > 0) ngoParams.set('ods', ngoFilters.ods[0]);
+        if (ngoFilters.areas.length > 0) ngoParams.set('areas', ngoFilters.areas[0]);
+        if (ngoFilters.colaboracao.length > 0) ngoParams.set('colaboracao', ngoFilters.colaboracao[0]);
+
+        const eventParams = new URLSearchParams({
+          query: eventFilters.query,
+          local: eventFilters.localizacao,
+          page: eventFilters.page,
+          limit: eventFilters.limit
+        });
+        
+        if (eventFilters.ods.length > 0) eventParams.set('ods', eventFilters.ods[0]);
+        if (eventFilters.areas.length > 0) eventParams.set('areas', eventFilters.areas[0]);
+
+        const [ngosResponse, eventsResponse] = await Promise.all([
+          fetch(`/api/search/ngos?${ngoParams.toString()}`),
+          fetch(`/api/search/events?${eventParams.toString()}`)
+        ]);
+
         const [ngosResult, eventsResult] = await Promise.all([
-          getNGOs(ngoFilters),
-          getEvents(eventFilters)
+          ngosResponse.json(),
+          eventsResponse.json()
         ]);
 
         console.log('✅ Resultados ONGs:', ngosResult.ngos?.length || 0);
