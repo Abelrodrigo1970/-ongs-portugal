@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import FilterBar from '@/components/FilterBar';
 
 const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onSearch = null }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -14,12 +13,12 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
   const [selectedColaboracao, setSelectedColaboracao] = useState('');
   const router = useRouter();
 
-  // Fun��o para remover acentos
+  // Função para remover acentos
   const removeAccents = (str) => {
-    return str.normalize(" NFD\).replace(/[\u0300-\u036f]/g, \\);
- };
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
 
- const handleSearch = () => {
+  const handleSearch = () => {
     if (onSearch) {
       // Se tem callback, usar pesquisa dinâmica
       const filters = {
@@ -34,7 +33,7 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
       // Senão, navegar para a página de ONGs
       const params = new URLSearchParams();
       
-      if (searchQuery) params.set(" query\, removeAccents(searchQuery));
+      if (searchQuery) params.set("query", removeAccents(searchQuery));
       if (selectedODS) params.set('ods', selectedODS);
       if (selectedInteresses) params.set('areas', selectedInteresses);
       if (selectedColaboracao) params.set('colaboracao', selectedColaboracao);
@@ -189,5 +188,3 @@ const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onS
 };
 
 export default Hero;
-
-
