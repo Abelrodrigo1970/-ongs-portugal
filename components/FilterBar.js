@@ -193,8 +193,8 @@ const FilterBar = ({
               onChange={(e) => updateFilters({ localizacao: e.target.value })}
             />
 
-            {/* Colaboração (para ONGs) */}
-            {!showEventFilters && colaboracaoOptions.length > 0 && (
+            {/* Colaboração (para ONGs ou página principal) */}
+            {(!showEventFilters || onSearch) && colaboracaoOptions.length > 0 && (
               <MultiSelect
                 label="Tipos de Colaboração"
                 placeholder="Selecionar tipos..."
@@ -204,29 +204,8 @@ const FilterBar = ({
               />
             )}
 
-            {/* Tipo de Evento (para Eventos) */}
-            {showEventFilters && tipoOptions.length > 0 && (
-              <MultiSelect
-                label="Tipo de Evento"
-                placeholder="Selecionar tipos..."
-                options={tipoOptions}
-                value={filters.tipo}
-                onChange={(value) => updateFilters({ tipo: value })}
-              />
-            )}
-
-            {/* AMBOS os filtros quando onSearch está definido (página principal) */}
-            {onSearch && colaboracaoOptions.length > 0 && (
-              <MultiSelect
-                label="Tipos de Colaboração"
-                placeholder="Selecionar tipos..."
-                options={colaboracaoOptions}
-                value={filters.colaboracao}
-                onChange={(value) => updateFilters({ colaboracao: value })}
-              />
-            )}
-
-            {onSearch && tipoOptions.length > 0 && (
+            {/* Tipo de Evento (para Eventos ou página principal) */}
+            {(showEventFilters || onSearch) && tipoOptions.length > 0 && (
               <MultiSelect
                 label="Tipo de Evento"
                 placeholder="Selecionar tipos..."
