@@ -55,8 +55,11 @@ const SearchableHomePage = ({
       try {
         // Função helper para converter arrays de IDs com validação
         const convertToIntArray = (arr) => {
+          console.log('🔧 convertToIntArray input:', arr, 'Type:', typeof arr);
           if (!Array.isArray(arr)) return [];
-          return arr.map(id => parseInt(id)).filter(id => !isNaN(id));
+          const result = arr.map(id => parseInt(id)).filter(id => !isNaN(id));
+          console.log('🔧 convertToIntArray output:', result);
+          return result;
         };
 
         // Preparar filtros para as funções de pesquisa
