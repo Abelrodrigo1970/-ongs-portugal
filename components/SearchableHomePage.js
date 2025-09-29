@@ -76,6 +76,7 @@ const SearchableHomePage = ({
 
         // Debug logs
         console.log('🔍 NGO Filters:', ngoFilters);
+        console.log('🔧 NGO Areas before join:', ngoFilters.areas, 'Type:', typeof ngoFilters.areas[0]);
         console.log('🔍 Event Filters:', eventFilters);
 
         // Construir URLs para as API routes
