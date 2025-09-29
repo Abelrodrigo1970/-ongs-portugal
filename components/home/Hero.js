@@ -19,6 +19,7 @@ const Hero = ({
   };
 
   const handleSearch = (filters) => {
+    console.log('🎯 Hero received from FilterBar:', filters);
     if (onSearch) {
       // Aplicar remoção de acentos na query
       const processedFilters = {
@@ -30,6 +31,7 @@ const Hero = ({
         tipo: Array.isArray(filters.tipo) ? filters.tipo : (filters.tipo ? [filters.tipo] : []),
         localizacao: filters.localizacao || ''
       };
+      console.log('🎯 Hero sending to SearchableHomePage:', processedFilters);
       onSearch(processedFilters);
     }
   };
