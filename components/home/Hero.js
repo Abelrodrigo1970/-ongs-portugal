@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import FilterBar from '@/components/FilterBar';
 
 const Hero = ({ odsOptions = [], areasOptions = [], colaboracaoOptions = [], onSearch = null }) => {
   const [searchQuery, setSearchQuery] = useState('');
