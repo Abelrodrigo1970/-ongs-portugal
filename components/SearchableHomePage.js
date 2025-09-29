@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Hero from '@/components/home/Hero';
 import FeaturedNGOs from '@/components/home/FeaturedNGOs';
 import FeaturedEvents from '@/components/home/FeaturedEvents';
@@ -10,6 +10,8 @@ import CompactEventCard from '@/components/CompactEventCard';
 import NgoCard from '@/components/NgoCard';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
+import { getNGOs } from '@/lib/repositories/ngos';
+import { getEvents } from '@/lib/repositories/events';
 
 const SearchableHomePage = ({ 
   featuredNGOs, 
@@ -28,107 +30,65 @@ const SearchableHomePage = ({
   });
 
   const [isSearching, setIsSearching] = useState(false);
+  const [searchResults, setSearchResults] = useState({
+    ngos: [],
+    events: [],
+    loading: false
+  });
 
-  const handleSearch = (filters) => {
+  const handleSearch = async (filters) => {
     setSearchFilters(filters);
-    setIsSearching(filters.query !== '' || filters.ods !== '' || filters.areas !== '' || filters.colaboracao !== '' || filters.local !== '');
+    const hasFilters = filters.query !== '' || filters.ods !== '' || filters.areas !== '' || filters.colaboracao !== '' || filters.local !== '';
+    setIsSearching(hasFilters);
+    
+    if (hasFilters) {
+      setSearchResults(prev => ({ ...prev, loading: true }));
+      
+      try {
+        // Preparar filtros para as funções de pesquisa
+        const ngoFilters = {
+          query: filters.query,
+          ods: filters.ods ? [filters.ods] : [],
+          areas: filters.areas ? [filters.areas] : [],
+          colaboracao: filters.colaboracao ? [filters.colaboracao] : [],
+          localizacao: filters.local,
+          page: 1,
+          limit: 8
+        };
+
+        const eventFilters = {
+          query: filters.query,
+          ods: filters.ods ? [filters.ods] : [],
+          areas: filters.areas ? [filters.areas] : [],
+          localizacao: filters.local,
+          page: 1,
+          limit: 8
+        };
+
+        const [ngosResult, eventsResult] = await Promise.all([
+          getNGOs(ngoFilters),
+          getEvents(eventFilters)
+        ]);
+
+        setSearchResults({
+          ngos: ngosResult.ngos || [],
+          events: eventsResult.events || [],
+          loading: false
+        });
+      } catch (error) {
+        console.error('Erro na pesquisa:', error);
+        setSearchResults({
+          ngos: [],
+          events: [],
+          loading: false
+        });
+      }
+    }
   };
 
-  // Filtrar ONGs
-  const filteredNGOs = useMemo(() => {
-    if (!isSearching) return [];
-    
-    return featuredNGOs.filter(ngo => {
-      let matches = true;
-
-      // Filtro por texto
-      if (searchFilters.query) {
-        const query = searchFilters.query.toLowerCase();
-        matches = matches && (
-          ngo.nome.toLowerCase().includes(query) ||
-          ngo.descricao?.toLowerCase().includes(query) ||
-          ngo.missao?.toLowerCase().includes(query) ||
-          ngo.localizacao?.toLowerCase().includes(query) ||
-          // Busca em áreas de atuação
-          ngo.areaAtuacao?.some(areaRel => 
-            areaRel.tipo?.nome.toLowerCase().includes(query)
-          ) ||
-          // Busca em ODS
-          ngo.ods?.some(odsRel => 
-            odsRel.ods?.nome.toLowerCase().includes(query)
-          )
-        );
-      }
-
-      // Filtro por ODS
-      if (searchFilters.ods) {
-        matches = matches && ngo.ods?.some(odsRel => odsRel.odsId === searchFilters.ods);
-      }
-
-      // Filtro por áreas
-      if (searchFilters.areas) {
-        matches = matches && ngo.areaAtuacao?.some(areaRel => areaRel.areaAtuacaoTipoId === searchFilters.areas);
-      }
-
-      // Filtro por colaboração
-      if (searchFilters.colaboracao) {
-        matches = matches && ngo.colaboracao?.some(colaboracaoRel => colaboracaoRel.colaboracaoTipoId === searchFilters.colaboracao);
-      }
-
-      return matches;
-    });
-  }, [featuredNGOs, searchFilters, isSearching]);
-
-  // Filtrar Eventos
-  const filteredEvents = useMemo(() => {
-    if (!isSearching) return [];
-    
-    return featuredEvents.filter(event => {
-      let matches = true;
-
-      // Filtro por texto
-      if (searchFilters.query) {
-        const query = searchFilters.query.toLowerCase();
-        matches = matches && (
-          event.nome.toLowerCase().includes(query) ||
-          event.descricao?.toLowerCase().includes(query) ||
-          event.localizacao?.toLowerCase().includes(query) ||
-          event.ngo?.nome.toLowerCase().includes(query) ||
-          // Busca em áreas de atuação do evento
-          event.areas?.some(areaRel => 
-            areaRel.tipo?.nome.toLowerCase().includes(query)
-          ) ||
-          // Busca em ODS do evento
-          event.ods?.some(odsRel => 
-            odsRel.ods?.nome.toLowerCase().includes(query)
-          )
-        );
-      }
-
-      // Filtro por localização
-      if (searchFilters.local) {
-        matches = matches && event.localizacao?.toLowerCase().includes(searchFilters.local.toLowerCase());
-      }
-
-      // Filtro por ODS (através do evento ou NGO)
-      if (searchFilters.ods) {
-        matches = matches && (
-          event.ods?.some(odsRel => odsRel.odsId === searchFilters.ods) ||
-          event.ngo?.ods?.some(odsRel => odsRel.odsId === searchFilters.ods)
-        );
-      }
-
-      // Filtro por áreas (através do evento ou NGO)
-      if (searchFilters.areas) {
-        matches = matches && (
-          event.areas?.some(areaRel => areaRel.areaAtuacaoTipoId === searchFilters.areas) ||
-          event.ngo?.areaAtuacao?.some(areaRel => areaRel.areaAtuacaoTipoId === searchFilters.areas)
-        );
-      }
-
-      return matches;
-    });
-  }, [featuredEvents, searchFilters, isSearching]);
+  // Usar resultados da pesquisa completa
+  const filteredNGOs = searchResults.ngos;
+  const filteredEvents = searchResults.events;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
@@ -141,69 +101,82 @@ const SearchableHomePage = ({
       
       {isSearching ? (
         // Resultados da pesquisa
-        <div className="container-custom">
-
-            {/* Resultados de ONGs */}
-            {filteredNGOs.length > 0 && (
-              <div className="mb-16">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center p-2">
-                  ONGs ({filteredNGOs.length})
-                </h3>
-                <div className="grid grid-cols-4 gap-6 mb-8">
-                  {filteredNGOs.slice(0, 4).map((ngo) => (
-                    <NgoCard key={ngo.id} ngo={ngo} />
-                  ))}
-                </div>
-                {filteredNGOs.length > 6 && (
-                  <div className="text-center p-2">
-                    <Link href={`/ongs?query=${encodeURIComponent(searchFilters.query)}`}>
-                      <Button>Ver Todas as ONGs</Button>
-                    </Link>
-                  </div>
-                )}
+        <div className="container mx-auto px-4">
+          {searchResults.loading ? (
+            <div className="text-center py-16">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-gray-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
               </div>
-            )}
-
-            {/* Resultados de Eventos */}
-            {filteredEvents.length > 0 && (
-              <div className="mb-16">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-                  Eventos ({filteredEvents.length})
-                </h3>
-                <div className="grid grid-cols-4 gap-6 mb-8">
-                  {filteredEvents.slice(0, 4).map((event) => (
-                    <CompactEventCard key={event.id} event={event} />
-                  ))}
-                </div>
-                {filteredEvents.length > 8 && (
-                  <div className="text-center p-2">
-                    <Link href={`/eventos?query=${encodeURIComponent(searchFilters.query)}`}>
-                      <Button>Ver Todos os Eventos</Button>
-                    </Link>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">A pesquisar...</h3>
+              <p className="text-gray-600">Aguarda um momento enquanto procuramos resultados.</p>
+            </div>
+          ) : (
+            <>
+              {/* Resultados de ONGs */}
+              {filteredNGOs.length > 0 && (
+                <div className="mb-16">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center p-2">
+                    ONGs ({filteredNGOs.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    {filteredNGOs.map((ngo) => (
+                      <NgoCard key={ngo.id} ngo={ngo} />
+                    ))}
                   </div>
-                )}
-              </div>
-            )}
-
-            {/* Sem resultados */}
-            {filteredNGOs.length === 0 && filteredEvents.length === 0 && (
-              <div className="text-center p-2">
-                <div className="max-w-md mx-auto">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Nenhum resultado encontrado</h3>
-                  <p className="text-gray-600 mb-6">
-                    Tenta ajustar os filtros ou usar palavras-chave diferentes.
-                  </p>
-                  <Button onClick={() => setIsSearching(false)} variant="outline">
-                    Ver Conteúdo em Destaque
-                  </Button>
+                  {filteredNGOs.length >= 8 && (
+                    <div className="text-center p-2">
+                      <Link href={`/ongs?query=${encodeURIComponent(searchFilters.query)}&ods=${searchFilters.ods}&areas=${searchFilters.areas}&colaboracao=${searchFilters.colaboracao}&local=${searchFilters.local}`}>
+                        <Button>Ver Todas as ONGs</Button>
+                      </Link>
+                    </div>
+                  )}
                 </div>
-              </div>
-            )}
+              )}
+
+              {/* Resultados de Eventos */}
+              {filteredEvents.length > 0 && (
+                <div className="mb-16">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center p-2">
+                    Eventos ({filteredEvents.length})
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    {filteredEvents.map((event) => (
+                      <CompactEventCard key={event.id} event={event} />
+                    ))}
+                  </div>
+                  {filteredEvents.length >= 8 && (
+                    <div className="text-center p-2">
+                      <Link href={`/eventos?query=${encodeURIComponent(searchFilters.query)}&ods=${searchFilters.ods}&areas=${searchFilters.areas}&local=${searchFilters.local}`}>
+                        <Button>Ver Todos os Eventos</Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Sem resultados */}
+              {filteredNGOs.length === 0 && filteredEvents.length === 0 && !searchResults.loading && (
+                <div className="text-center py-16">
+                  <div className="max-w-md mx-auto">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Nenhum resultado encontrado</h3>
+                    <p className="text-gray-600 mb-6">
+                      Tenta ajustar os filtros ou usar palavras-chave diferentes.
+                    </p>
+                    <Button onClick={() => setIsSearching(false)} variant="outline">
+                      Ver Conteúdo em Destaque
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
       ) : (
         // Conteúdo original da página
