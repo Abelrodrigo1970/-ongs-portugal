@@ -53,12 +53,18 @@ const SearchableHomePage = ({
       setSearchResults(prev => ({ ...prev, loading: true }));
       
       try {
+        // Função helper para converter arrays de IDs com validação
+        const convertToIntArray = (arr) => {
+          if (!Array.isArray(arr)) return [];
+          return arr.map(id => parseInt(id)).filter(id => !isNaN(id));
+        };
+
         // Preparar filtros para as funções de pesquisa
         const ngoFilters = {
           query: filters.query || '',
-          ods: Array.isArray(filters.ods) ? filters.ods.map(id => parseInt(id)) : [],
-          areas: Array.isArray(filters.areas) ? filters.areas.map(id => parseInt(id)) : [],
-          colaboracao: Array.isArray(filters.colaboracao) ? filters.colaboracao.map(id => parseInt(id)) : [],
+          ods: convertToIntArray(filters.ods),
+          areas: convertToIntArray(filters.areas),
+          colaboracao: convertToIntArray(filters.colaboracao),
           localizacao: filters.localizacao || '',
           page: 1,
           limit: 8
@@ -66,8 +72,8 @@ const SearchableHomePage = ({
 
         const eventFilters = {
           query: filters.query || '',
-          ods: Array.isArray(filters.ods) ? filters.ods.map(id => parseInt(id)) : [],
-          areas: Array.isArray(filters.areas) ? filters.areas.map(id => parseInt(id)) : [],
+          ods: convertToIntArray(filters.ods),
+          areas: convertToIntArray(filters.areas),
           tipo: Array.isArray(filters.tipo) ? filters.tipo : [],
           localizacao: filters.localizacao || '',
           page: 1,
