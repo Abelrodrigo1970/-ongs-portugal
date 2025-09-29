@@ -1,5 +1,5 @@
 import { getFeaturedNGOs } from '@/lib/repositories/ngos';
-import { getFeaturedEvents } from '@/lib/repositories/events';
+import { getFeaturedEvents, getEventTypes } from '@/lib/repositories/events';
 import { getAllODS as getAllODSData } from '@/lib/repositories/ods';
 import { getAllAreas } from '@/lib/repositories/areas';
 import { getAllColaboracaoTipos } from '@/lib/repositories/colaboracao';
@@ -33,6 +33,8 @@ export default async function HomePage() {
     label: tipo.nome
   }));
 
+  const tipoOptions = getEventTypes();
+
   return (
     <SearchableHomePage 
       featuredNGOs={featuredNGOs}
@@ -41,6 +43,7 @@ export default async function HomePage() {
       odsOptions={odsOptions}
       areasOptions={areasOptions}
       colaboracaoOptions={colaboracaoOptions}
+      tipoOptions={tipoOptions}
     />
   );
 }

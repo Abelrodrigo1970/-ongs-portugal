@@ -18,14 +18,16 @@ const SearchableHomePage = ({
   allODS, 
   odsOptions, 
   areasOptions, 
-  colaboracaoOptions 
+  colaboracaoOptions,
+  tipoOptions = [] 
 }) => {
   const [searchFilters, setSearchFilters] = useState({
     query: '',
-    ods: '',
-    areas: '',
-    colaboracao: '',
-    local: ''
+    ods: [],
+    areas: [],
+    colaboracao: [],
+    tipo: [],
+    localizacao: ''
   });
 
   const [isSearching, setIsSearching] = useState(false);
@@ -37,7 +39,14 @@ const SearchableHomePage = ({
 
   const handleSearch = async (filters) => {
     setSearchFilters(filters);
-    const hasFilters = filters.query !== '' || filters.ods !== '' || filters.areas !== '' || filters.colaboracao !== '' || filters.local !== '';
+    const hasFilters = 
+      filters.query !== '' || 
+      (filters.ods && filters.ods.length > 0) || 
+      (filters.areas && filters.areas.length > 0) || 
+      (filters.colaboracao && filters.colaboracao.length > 0) || 
+      (filters.tipo && filters.tipo.length > 0) || 
+      filters.localizacao !== '';
+    
     setIsSearching(hasFilters);
     
     if (hasFilters) {
@@ -46,20 +55,21 @@ const SearchableHomePage = ({
       try {
         // Preparar filtros para as funções de pesquisa
         const ngoFilters = {
-          query: filters.query,
-          ods: filters.ods ? [parseInt(filters.ods)] : [],
-          areas: filters.areas ? [parseInt(filters.areas)] : [],
-          colaboracao: filters.colaboracao ? [parseInt(filters.colaboracao)] : [],
-          localizacao: filters.local,
+          query: filters.query || '',
+          ods: Array.isArray(filters.ods) ? filters.ods.map(id => parseInt(id)) : [],
+          areas: Array.isArray(filters.areas) ? filters.areas.map(id => parseInt(id)) : [],
+          colaboracao: Array.isArray(filters.colaboracao) ? filters.colaboracao.map(id => parseInt(id)) : [],
+          localizacao: filters.localizacao || '',
           page: 1,
           limit: 8
         };
 
         const eventFilters = {
-          query: filters.query,
-          ods: filters.ods ? [parseInt(filters.ods)] : [],
-          areas: filters.areas ? [parseInt(filters.areas)] : [],
-          localizacao: filters.local,
+          query: filters.query || '',
+          ods: Array.isArray(filters.ods) ? filters.ods.map(id => parseInt(id)) : [],
+          areas: Array.isArray(filters.areas) ? filters.areas.map(id => parseInt(id)) : [],
+          tipo: Array.isArray(filters.tipo) ? filters.tipo : [],
+          localizacao: filters.localizacao || '',
           page: 1,
           limit: 8
         };
@@ -72,9 +82,9 @@ const SearchableHomePage = ({
           limit: ngoFilters.limit
         });
         
-        if (ngoFilters.ods.length > 0) ngoParams.set('ods', ngoFilters.ods[0]);
-        if (ngoFilters.areas.length > 0) ngoParams.set('areas', ngoFilters.areas[0]);
-        if (ngoFilters.colaboracao.length > 0) ngoParams.set('colaboracao', ngoFilters.colaboracao[0]);
+        if (ngoFilters.ods.length > 0) ngoParams.set('ods', ngoFilters.ods.join(','));
+        if (ngoFilters.areas.length > 0) ngoParams.set('areas', ngoFilters.areas.join(','));
+        if (ngoFilters.colaboracao.length > 0) ngoParams.set('colaboracao', ngoFilters.colaboracao.join(','));
 
         const eventParams = new URLSearchParams({
           query: eventFilters.query,
@@ -83,8 +93,9 @@ const SearchableHomePage = ({
           limit: eventFilters.limit
         });
         
-        if (eventFilters.ods.length > 0) eventParams.set('ods', eventFilters.ods[0]);
-        if (eventFilters.areas.length > 0) eventParams.set('areas', eventFilters.areas[0]);
+        if (eventFilters.ods.length > 0) eventParams.set('ods', eventFilters.ods.join(','));
+        if (eventFilters.areas.length > 0) eventParams.set('areas', eventFilters.areas.join(','));
+        if (eventFilters.tipo.length > 0) eventParams.set('tipo', eventFilters.tipo.join(','));
 
         const [ngosResponse, eventsResponse] = await Promise.all([
           fetch(`/api/search/ngos?${ngoParams.toString()}`),
@@ -118,12 +129,13 @@ const SearchableHomePage = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
-      <Hero 
-        odsOptions={odsOptions} 
-        areasOptions={areasOptions}
-        colaboracaoOptions={colaboracaoOptions}
-        onSearch={handleSearch}
-      />
+            <Hero 
+              odsOptions={odsOptions} 
+              areasOptions={areasOptions}
+              colaboracaoOptions={colaboracaoOptions}
+              tipoOptions={tipoOptions}
+              onSearch={handleSearch}
+            />
       
       {isSearching ? (
         // Resultados da pesquisa

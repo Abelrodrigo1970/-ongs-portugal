@@ -15,6 +15,7 @@ const FilterBar = ({
   colaboracaoOptions = [],
   tipoOptions = [],
   showEventFilters = false,
+  onSearch = null,
   className = '' 
 }) => {
   const router = useRouter();
@@ -38,21 +39,26 @@ const FilterBar = ({
     const updatedFilters = { ...filters, ...newFilters };
     setFilters(updatedFilters);
     
-    // Update URL
-    const params = new URLSearchParams();
-    
-    if (updatedFilters.query) params.set('query', updatedFilters.query);
-    if (updatedFilters.ods.length > 0) params.set('ods', updatedFilters.ods.join(','));
-    if (updatedFilters.areas.length > 0) params.set('areas', updatedFilters.areas.join(','));
-    if (updatedFilters.colaboracao.length > 0) params.set('colaboracao', updatedFilters.colaboracao.join(','));
-    if (updatedFilters.tipo.length > 0) params.set('tipo', updatedFilters.tipo.join(','));
-    if (updatedFilters.localizacao) params.set('localizacao', updatedFilters.localizacao);
-    if (updatedFilters.inscricoesAbertas) params.set('inscricoesAbertas', 'true');
-    if (updatedFilters.visivel) params.set('visivel', 'true');
-    if (updatedFilters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc')) params.set('sort', updatedFilters.sort);
-    
-    const basePath = showEventFilters ? '/eventos' : '/ongs';
-    router.push(`${basePath}?${params.toString()}`);
+    // Se tem callback onSearch, usar pesquisa dinâmica (para página principal)
+    if (onSearch) {
+      onSearch(updatedFilters);
+    } else {
+      // Senão, update URL (para páginas de ONGs e Eventos)
+      const params = new URLSearchParams();
+      
+      if (updatedFilters.query) params.set('query', updatedFilters.query);
+      if (updatedFilters.ods.length > 0) params.set('ods', updatedFilters.ods.join(','));
+      if (updatedFilters.areas.length > 0) params.set('areas', updatedFilters.areas.join(','));
+      if (updatedFilters.colaboracao.length > 0) params.set('colaboracao', updatedFilters.colaboracao.join(','));
+      if (updatedFilters.tipo.length > 0) params.set('tipo', updatedFilters.tipo.join(','));
+      if (updatedFilters.localizacao) params.set('localizacao', updatedFilters.localizacao);
+      if (updatedFilters.inscricoesAbertas) params.set('inscricoesAbertas', 'true');
+      if (updatedFilters.visivel) params.set('visivel', 'true');
+      if (updatedFilters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc')) params.set('sort', updatedFilters.sort);
+      
+      const basePath = showEventFilters ? '/eventos' : '/ongs';
+      router.push(`${basePath}?${params.toString()}`);
+    }
   };
 
   const clearFilters = () => {
@@ -187,8 +193,19 @@ const FilterBar = ({
               onChange={(e) => updateFilters({ localizacao: e.target.value })}
             />
 
-            {/* Colaboração ou Tipo de Evento */}
-            {showEventFilters ? (
+            {/* Colaboração (para ONGs) */}
+            {!showEventFilters && colaboracaoOptions.length > 0 && (
+              <MultiSelect
+                label="Tipos de Colaboração"
+                placeholder="Selecionar tipos..."
+                options={colaboracaoOptions}
+                value={filters.colaboracao}
+                onChange={(value) => updateFilters({ colaboracao: value })}
+              />
+            )}
+
+            {/* Tipo de Evento (para Eventos) */}
+            {showEventFilters && tipoOptions.length > 0 && (
               <MultiSelect
                 label="Tipo de Evento"
                 placeholder="Selecionar tipos..."
@@ -196,13 +213,26 @@ const FilterBar = ({
                 value={filters.tipo}
                 onChange={(value) => updateFilters({ tipo: value })}
               />
-            ) : (
+            )}
+
+            {/* AMBOS os filtros quando onSearch está definido (página principal) */}
+            {onSearch && colaboracaoOptions.length > 0 && (
               <MultiSelect
                 label="Tipos de Colaboração"
                 placeholder="Selecionar tipos..."
                 options={colaboracaoOptions}
                 value={filters.colaboracao}
                 onChange={(value) => updateFilters({ colaboracao: value })}
+              />
+            )}
+
+            {onSearch && tipoOptions.length > 0 && (
+              <MultiSelect
+                label="Tipo de Evento"
+                placeholder="Selecionar tipos..."
+                options={tipoOptions}
+                value={filters.tipo}
+                onChange={(value) => updateFilters({ tipo: value })}
               />
             )}
           </div>
