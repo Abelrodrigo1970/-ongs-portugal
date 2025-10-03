@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Input from './ui/Input';
 import MultiSelect from './ui/MultiSelect';
@@ -35,6 +35,19 @@ const FilterBar = ({
 
   const [showFilters, setShowFilters] = useState(false);
 
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    (filters) => {
+      const timeoutId = setTimeout(() => {
+        if (onSearch) {
+          onSearch(filters);
+        }
+      }, 300);
+      return () => clearTimeout(timeoutId);
+    },
+    [onSearch]
+  );
+
   const updateFilters = (newFilters) => {
     const updatedFilters = { ...filters, ...newFilters };
     setFilters(updatedFilters);
@@ -42,7 +55,12 @@ const FilterBar = ({
     // Se tem callback onSearch, usar pesquisa dinâmica (para página principal)
     if (onSearch) {
       console.log('🔧 FilterBar sending to onSearch:', updatedFilters);
-      onSearch(updatedFilters);
+      // Use debounced search for query changes, immediate for others
+      if (newFilters.query !== undefined) {
+        debouncedSearch(updatedFilters);
+      } else {
+        onSearch(updatedFilters);
+      }
     } else {
       // Senão, update URL (para páginas de ONGs e Eventos)
       const params = new URLSearchParams();
@@ -133,6 +151,8 @@ const FilterBar = ({
             value={filters.query}
             onChange={(e) => updateFilters({ query: e.target.value })}
             className="w-full outline-none text-gray-700 placeholder-gray-400"
+            autoComplete="off"
+            spellCheck="false"
           />
         </div>
 

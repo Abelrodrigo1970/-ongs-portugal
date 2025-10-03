@@ -234,11 +234,7 @@ export async function GET(request) {
       };
     };
 
-    // Tentar usar dados mock se houver query
-    if (query) {
-      console.log(`🔍 API: Usando fallback para pesquisa de eventos por "${query}"`);
-      return NextResponse.json(getMockData(query));
-    }
+    // Tentar usar base de dados primeiro, fallback apenas em caso de erro
     
     const filters = {
       query: query,
