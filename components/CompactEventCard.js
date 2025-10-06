@@ -1,18 +1,24 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Card from './ui/Card';
-import { MapPin } from 'lucide-react';
+import { MapPin, Calendar } from 'lucide-react';
 
 const CompactEventCard = ({ event, className = '' }) => {
-  // Format date
-  const startDate = new Date(event.dataInicio);
-  
-  const formatDate = (date) => {
-    return date.toLocaleDateString('pt-PT', {
+  // Função para formatar data e hora
+  const formatEventDateTime = (dateString) => {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    const options = {
       day: '2-digit',
       month: '2-digit',
-      year: 'numeric'
-    });
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Europe/Lisbon'
+    };
+    
+    return date.toLocaleString('pt-PT', options);
   };
 
   return (
@@ -47,9 +53,17 @@ const CompactEventCard = ({ event, className = '' }) => {
             </h3>
             
             {/* NGO Name */}
-            <p className="text-base text-gray-600 mb-3 truncate">
+            <p className="text-base text-gray-600 mb-2 truncate">
               {event.ngo?.nome}
             </p>
+
+            {/* Date and Time */}
+            {event.dataInicio && (
+              <div className="flex items-center text-sm text-blue-600 mb-2">
+                <Calendar className="h-4 w-4 mr-1 flex-shrink-0" />
+                <span className="truncate">{formatEventDateTime(event.dataInicio)}</span>
+              </div>
+            )}
 
             {/* Location */}
             <div className="flex items-center text-base text-gray-500">
