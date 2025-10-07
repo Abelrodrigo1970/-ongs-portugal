@@ -15,10 +15,10 @@ module.exports = {
           300: '#86efac',
           400: '#4ade80',
           500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+          600: '#38a169',  // Verde mais claro que o anterior
+          700: '#2f855a',  // Verde mais escuro para hover
+          800: '#276749',
+          900: '#22543d',
         },
         // Verde claro UNIVA
         univa: {
