@@ -21,13 +21,6 @@ const OdsCard = ({ ods, className = '' }) => {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           />
           
-          {/* Overlay com número do ODS */}
-          <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center">
-            <span className="text-sm font-bold text-gray-800">
-              {ods.numero}
-            </span>
-          </div>
-          
           {/* Overlay de hover com nome */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/60 transition-all duration-200 flex items-end">
             <div className="p-3 w-full transform translate-y-full group-hover:translate-y-0 transition-transform duration-200">
