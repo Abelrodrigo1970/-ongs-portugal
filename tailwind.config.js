@@ -85,6 +85,7 @@ module.exports = {
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',
+        '6': '0.1rem',  // Custom p-6 padding
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
