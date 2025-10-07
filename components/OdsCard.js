@@ -10,7 +10,10 @@ const OdsCard = ({ ods, className = '' }) => {
 
   return (
     <Link href={`/ods/${ods.id}`} className="block">
-      <Card className={`hover:shadow-lg transition-all duration-200 overflow-hidden group border-0 p-6 ${className}`}>
+      <Card 
+        className={`hover:shadow-lg transition-all duration-200 overflow-hidden group border-0 ${className}`}
+        style={{ padding: '0.1rem' }}
+      >
         <div className="relative w-full h-48 rounded-lg overflow-hidden">
           {/* Imagem do ODS */}
           <Image
