@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAllODS } from '@/lib/repositories/ods';
-import OdsBadge from '@/components/OdsBadge';
 import Card from '@/components/ui/Card';
 
 export const metadata = {
@@ -60,7 +59,6 @@ export default async function ODSPage() {
                           sizes="80px"
                         />
                       </div>
-                      <OdsBadge numero={ods.numero} nome={ods.nome} className="text-lg px-4 py-2" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors">
                       {ods.nome}
