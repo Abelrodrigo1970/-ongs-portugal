@@ -1,6 +1,7 @@
 import Badge from './ui/Badge';
+import Image from 'next/image';
 
-const OdsBadge = ({ numero, nome, className = '' }) => {
+const OdsBadge = ({ numero, nome, className = '', showImage = false }) => {
   const getOdsColor = (numero) => {
     const colors = {
       1: 'bg-red-500',
@@ -24,6 +25,32 @@ const OdsBadge = ({ numero, nome, className = '' }) => {
     return colors[numero] || 'bg-gray-500';
   };
 
+  // Função para obter o caminho da imagem do ODS
+  const getOdsImage = (numero) => {
+    return `/ods/ods-${numero.toString().padStart(2, '0')}.png`;
+  };
+
+  // Se showImage for true, renderizar como card com imagem
+  if (showImage) {
+    return (
+      <div className={`inline-flex items-center bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden ${className}`}>
+        <div className="relative w-8 h-8 flex-shrink-0">
+          <Image
+            src={getOdsImage(numero)}
+            alt={`ODS ${numero}`}
+            fill
+            className="object-cover"
+            sizes="32px"
+          />
+        </div>
+        <span className="px-2 py-1 text-xs font-semibold text-gray-700">
+          ODS {numero}
+        </span>
+      </div>
+    );
+  }
+
+  // Renderização padrão como badge
   return (
     <Badge
       variant="default"
