@@ -1,12 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Card from './ui/Card';
-import OdsBadge from './OdsBadge';
 import { MapPin } from 'lucide-react';
 
 const NgoCard = ({ ngo, className = '' }) => {
   const odsList = ngo.ods?.map(ngoods => ngoods.ods) || [];
   const areasList = ngo.areaAtuacao?.map(area => area.tipo.nome) || [];
+
+  // Função para obter o caminho da imagem do ODS
+  const getOdsImage = (numero) => {
+    return `/ods/ods-${numero.toString().padStart(2, '0')}.png`;
+  };
 
   return (
     <Card className={`hover:shadow-lg transition-shadow duration-200 overflow-hidden ${className}`}>
@@ -48,21 +52,25 @@ const NgoCard = ({ ngo, className = '' }) => {
               {ngo.nome}
             </h3>
 
-            {/* ODS Badges */}
+            {/* ODS Images */}
             {odsList.length > 0 && (
               <div className="mb-3">
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-2">
                   {odsList.slice(0, 3).map(ods => (
-                    <OdsBadge
-                      key={ods.id}
-                      numero={ods.numero}
-                      nome={ods.nome}
-                    />
+                    <div key={ods.id} className="relative w-8 h-8">
+                      <Image
+                        src={getOdsImage(ods.numero)}
+                        alt={`ODS ${ods.numero} - ${ods.nome}`}
+                        fill
+                        className="object-cover rounded"
+                        sizes="32px"
+                      />
+                    </div>
                   ))}
                   {odsList.length > 3 && (
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                    <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded text-xs text-gray-500">
                       +{odsList.length - 3}
-                    </span>
+                    </div>
                   )}
                 </div>
               </div>
