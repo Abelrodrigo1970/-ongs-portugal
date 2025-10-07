@@ -21,7 +21,7 @@ const ODSSection = ({ ods = [] }) => {
             
             <div className="text-center">
               <Link href="/ods">
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="primary">
                   Ver Todos os ODS
                 </Button>
               </Link>
