@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getAllODS } from '@/lib/repositories/ods';
 import OdsBadge from '@/components/OdsBadge';
 import Card from '@/components/ui/Card';
@@ -13,6 +14,11 @@ export const dynamic = 'force-dynamic';
 
 export default async function ODSPage() {
   const allODS = await getAllODS();
+
+  // Função para obter o caminho da imagem do ODS
+  const getOdsImage = (numero) => {
+    return `/ods/ods-${numero.toString().padStart(2, '0')}.png`;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
@@ -45,6 +51,15 @@ export default async function ODSPage() {
                 <Card className="h-full hover:shadow-lg transition-all duration-200 group-hover:scale-105">
                   <div className="text-center p-2">
                     <div className="mb-4">
+                      <div className="relative w-20 h-20 mx-auto mb-3">
+                        <Image
+                          src={getOdsImage(ods.numero)}
+                          alt={`ODS ${ods.numero} - ${ods.nome}`}
+                          fill
+                          className="object-cover rounded-lg"
+                          sizes="80px"
+                        />
+                      </div>
                       <OdsBadge numero={ods.numero} nome={ods.nome} className="text-lg px-4 py-2" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors">
