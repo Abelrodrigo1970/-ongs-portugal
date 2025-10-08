@@ -190,14 +190,7 @@ enum StatusReuniao {
   @@map("status_reuniao")
 }
 
-enum StatusInscricao {
-  PENDENTE
-  CONFIRMADA
-  CANCELADA
-  CONCLUIDA
-  
-  @@map("status_inscricao")
-}
+// StatusInscricao removido - usando o novo enum abaixo com APROVADA/REJEITADA
 
 enum TipoApoio {
   TEMPO_VOLUNTARIADO
