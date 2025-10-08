@@ -1,17 +1,30 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Menu, X, User } from 'lucide-react';
+import Button from '@/components/ui/Button';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [colaborador, setColaborador] = useState(null);
+
+  useEffect(() => {
+    // Check for colaborador authentication
+    const savedColaborador = localStorage.getItem('colaborador');
+    if (savedColaborador) {
+      try {
+        setColaborador(JSON.parse(savedColaborador));
+      } catch (error) {
+        console.error('Error loading colaborador:', error);
+      }
+    }
+  }, []);
 
   const navigation = [
     { name: 'Início', href: '/' },
     { name: 'ONGs', href: '/ongs' },
     { name: 'Eventos', href: '/eventos' },
-    { name: 'Voluntariado', href: '/voluntariado' },
     { name: 'Empresas', href: '/empresas' },
     { name: 'ODS', href: '/ods' },
   ];
@@ -34,7 +47,7 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -44,6 +57,21 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            
+            {/* Colaborador Button/Profile */}
+            {colaborador ? (
+              <Link href="/voluntariado">
+                <Button variant="primary" size="sm" icon={User}>
+                  {colaborador.nome.split(' ')[0]}
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/colaborador/login">
+                <Button variant="primary" size="sm" icon={User}>
+                  Voluntário
+                </Button>
+              </Link>
+            )}
           </nav>
 
           {/* Mobile menu button */}
@@ -75,6 +103,23 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Mobile Colaborador Button */}
+              <div className="px-3 py-2">
+                {colaborador ? (
+                  <Link href="/voluntariado" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="primary" size="sm" icon={User} className="w-full">
+                      {colaborador.nome.split(' ')[0]}
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href="/colaborador/login" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="primary" size="sm" icon={User} className="w-full">
+                      Entrar como Voluntário
+                    </Button>
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         )}

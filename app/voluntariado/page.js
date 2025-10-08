@@ -1,150 +1,207 @@
-import { getNGOs } from '@/lib/repositories/ngos';
-import { getEvents } from '@/lib/repositories/events';
-import { getAllODS } from '@/lib/repositories/ods';
-import { getAllAreas } from '@/lib/repositories/areas';
-import NgoCard from '@/components/NgoCard';
-import CompactEventCard from '@/components/CompactEventCard';
-import FilterBar from '@/components/FilterBar';
-import { Heart, Calendar } from 'lucide-react';
+'use client';
 
-export const metadata = {
-  title: 'Oportunidades de Voluntariado - ONGs Portugal',
-  description: 'Descubra oportunidades de voluntariado em ONGs e eventos em Portugal.',
-};
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Card from '@/components/ui/Card';
+import Button from '@/components/ui/Button';
+import EventCard from '@/components/EventCard';
+import { User, LogOut, Heart, Calendar, Search, Briefcase } from 'lucide-react';
+import IniciativaCard from '@/components/IniciativaCard';
 
-export const dynamic = 'force-dynamic';
+export default function VoluntariadoPage() {
+  const router = useRouter();
+  const [colaborador, setColaborador] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [eventos, setEventos] = useState([]);
+  const [iniciativas, setIniciativas] = useState([]);
 
-export default async function VoluntariadoPage({ searchParams }) {
-  const filters = {
-    query: searchParams.query || '',
-    ods: searchParams.ods?.split(',').filter(Boolean) || [],
-    areas: searchParams.areas?.split(',').filter(Boolean) || [],
-    localizacao: searchParams.localizacao || '',
-    sort: searchParams.sort || 'nome-asc',
-    page: parseInt(searchParams.page) || 1,
-    limit: 12
+  useEffect(() => {
+    // Verificar autenticação
+    const savedColaborador = localStorage.getItem('colaborador');
+    if (!savedColaborador) {
+      router.push('/colaborador/login');
+      return;
+    }
+
+    try {
+      setColaborador(JSON.parse(savedColaborador));
+    } catch (error) {
+      console.error('Error loading colaborador:', error);
+      router.push('/colaborador/login');
+      return;
+    }
+
+    // Carregar eventos e iniciativas
+    loadOportunidades();
+  }, [router]);
+
+  const loadOportunidades = async () => {
+    try {
+      // Buscar eventos
+      const eventosRes = await fetch('/api/search/events');
+      const eventosData = await eventosRes.json();
+      setEventos(eventosData.data || []);
+
+      // Buscar iniciativas
+      const iniciativasRes = await fetch('/api/iniciativas');
+      const iniciativasData = await iniciativasRes.json();
+      setIniciativas(iniciativasData.data || []);
+    } catch (error) {
+      console.error('Error loading oportunidades:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const [
-    { ngos, pagination: ngosPagination },
-    { events, pagination: eventsPagination },
-    allODS,
-    allAreas
-  ] = await Promise.all([
-    getNGOs({ ...filters, limit: 8 }),
-    getEvents({ ...filters, inscricoesAbertas: true, limit: 8 }),
-    getAllODS(),
-    getAllAreas()
-  ]);
+  const handleLogout = () => {
+    localStorage.removeItem('colaborador');
+    router.push('/');
+  };
 
-  const odsOptions = allODS.map(ods => ({
-    value: ods.id,
-    label: `ODS ${ods.numero} - ${ods.nome}`,
-    numero: ods.numero
-  }));
-
-  const areasOptions = allAreas.map(area => ({
-    value: area.id,
-    label: area.nome
-  }));
+  if (loading || !colaborador) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">A carregar...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-6">
-              <Heart className="w-8 h-8" />
+      {/* Header do Voluntário */}
+      <div className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="container-custom py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center">
+                <User className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Olá, {colaborador.nome}! 👋
+                </h1>
+                <p className="text-gray-600">{colaborador.email}</p>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Oportunidades de Voluntariado
-            </h1>
-            <p className="text-xl text-green-100 leading-relaxed">
-              Descubra ONGs e eventos onde pode fazer a diferença como voluntário.
-            </p>
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              icon={LogOut}
+            >
+              Sair
+            </Button>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Filtros */}
-      <section className="container mx-auto px-4 py-8">
-        <FilterBar
-          odsOptions={odsOptions}
-          areasOptions={areasOptions}
-          colaboracaoOptions={[]}
-          tipoOptions={[]}
-          showEventFilters={false}
-        />
-      </section>
+      {/* Seção de Descoberta */}
+      <div className="container-custom py-12">
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <Link href="/ongs">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer group">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                  <Heart className="w-6 h-6 text-blue-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Explorar ONGs</h3>
+                  <p className="text-sm text-gray-600">Descubra causas</p>
+                </div>
+              </div>
+            </Card>
+          </Link>
 
-      {/* Eventos com Inscrições Abertas */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="flex items-center gap-3 mb-6">
-          <Calendar className="h-6 w-6 text-primary-600" />
-          <h2 className="text-3xl font-bold text-gray-900">
-            Eventos Disponíveis
-          </h2>
-          <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-            {eventsPagination.total} oportunidades
-          </span>
+          <Link href="/eventos">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer group">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                  <Calendar className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Ver Eventos</h3>
+                  <p className="text-sm text-gray-600">Participe agora</p>
+                </div>
+              </div>
+            </Card>
+          </Link>
+
+          <Link href="/empresas">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer group">
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                  <Briefcase className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Ver Empresas</h3>
+                  <p className="text-sm text-gray-600">Iniciativas corporativas</p>
+                </div>
+              </div>
+            </Card>
+          </Link>
         </div>
 
-        {events.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-            {events.map((event) => (
-              <CompactEventCard key={event.id} event={event} />
-            ))}
+        {/* Eventos Disponíveis */}
+        <section className="mb-12">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                Eventos de Voluntariado
+              </h2>
+              <p className="text-gray-600 mt-1">
+                Inscreva-se e participe em eventos próximos
+              </p>
+            </div>
+            <Link href="/eventos">
+              <Button variant="outline">Ver Todos</Button>
+            </Link>
           </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-            <p className="text-gray-500">Nenhum evento com inscrições abertas no momento.</p>
-          </div>
-        )}
-      </section>
 
-      {/* ONGs Disponíveis */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="flex items-center gap-3 mb-6">
-          <Heart className="h-6 w-6 text-primary-600" />
-          <h2 className="text-3xl font-bold text-gray-900">
-            ONGs para Apoiar
-          </h2>
-          <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">
-            {ngosPagination.total} organizações
-          </span>
-        </div>
+          {eventos.length === 0 ? (
+            <Card className="p-8 text-center">
+              <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600">Nenhum evento disponível no momento</p>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {eventos.slice(0, 6).map((evento) => (
+                <EventCard key={evento.id} event={evento} showInscricao={true} />
+              ))}
+            </div>
+          )}
+        </section>
 
-        {ngos.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {ngos.map((ngo) => (
-              <NgoCard key={ngo.id} ngo={ngo} />
-            ))}
+        {/* Iniciativas Empresariais */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                Iniciativas Empresariais
+              </h2>
+              <p className="text-gray-600 mt-1">
+                Participe em projetos de impacto social
+              </p>
+            </div>
           </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-            <p className="text-gray-500">Nenhuma ONG encontrada.</p>
-          </div>
-        )}
-      </section>
 
-      {/* CTA */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl shadow-xl p-12 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Pronto para Fazer a Diferença?</h2>
-          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-            Escolha uma ONG ou evento que se alinhe com os seus valores e comece a contribuir para um mundo melhor.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#eventos" className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors">
-              Ver Eventos
-            </a>
-            <a href="#ongs" className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors">
-              Explorar ONGs
-            </a>
-          </div>
-        </div>
-      </section>
+          {iniciativas.length === 0 ? (
+            <Card className="p-8 text-center">
+              <Briefcase className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600">Nenhuma iniciativa disponível no momento</p>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {iniciativas.slice(0, 6).map((iniciativa) => (
+                <IniciativaCard key={iniciativa.id} iniciativa={iniciativa} showInscricao={true} />
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 }
