@@ -1,0 +1,306 @@
+// ========================================
+// SCHEMA PRISMA: Empresas e Colaboração
+// Adicionar ao schema.prisma existente
+// ========================================
+
+// ENUMS
+enum StatusIniciativa {
+  RASCUNHO
+  ATIVA
+  PAUSADA
+  CONCLUIDA
+  CANCELADA
+}
+
+enum StatusProposta {
+  PENDENTE
+  EM_ANALISE
+  APROVADA
+  REJEITADA
+  ARQUIVADA
+}
+
+enum StatusReuniao {
+  AGENDADA
+  CONFIRMADA
+  REALIZADA
+  CANCELADA
+  REMARCADA
+}
+
+enum StatusInscricao {
+  PENDENTE
+  CONFIRMADA
+  CANCELADA
+  CONCLUIDA
+}
+
+enum TipoApoio {
+  TEMPO_VOLUNTARIADO
+  CONHECIMENTO_CAPACITACAO
+  RECURSOS_SERVICOS
+  PRODUTOS_BENS
+}
+
+enum FormatoRelatorio {
+  PDF
+  EXCEL
+  CSV
+  JSON
+}
+
+enum TipoReuniao {
+  PRESENCIAL
+  ONLINE
+  HIBRIDA
+}
+
+// MODELS
+
+model Empresa {
+  id                String   @id @default(cuid())
+  nome              String
+  missao            String
+  descricao         String?
+  setor             String?
+  numColaboradores  Int?
+  logo              String?
+  website           String?
+  email             String
+  telefone          String?
+  localizacao       String?
+  latitude          Float?
+  longitude         Float?
+  visivel           Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relações
+  tiposApoio        EmpresaTipoApoio[]
+  ods               EmpresaODS[]
+  causas            EmpresaCausa[]
+  estatisticas      EstatisticaImpactoEmpresa[]
+  colaboradores     Colaborador[]
+  iniciativas       Iniciativa[]
+  propostas         Proposta[]
+  reunioes          Reuniao[]
+  favoritos         Favorito[]
+  exportacoes       ExportacaoRelatorio[]
+}
+
+model TipoApoioEmpresa {
+  id          String     @id @default(cuid())
+  nome        String     @unique
+  descricao   String?
+  tipo        TipoApoio
+  createdAt   DateTime   @default(now())
+  
+  empresas    EmpresaTipoApoio[]
+}
+
+model EmpresaTipoApoio {
+  id            String   @id @default(cuid())
+  empresaId     String
+  tipoApoioId   String
+  createdAt     DateTime @default(now())
+  
+  empresa       Empresa          @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  tipoApoio     TipoApoioEmpresa @relation(fields: [tipoApoioId], references: [id], onDelete: Cascade)
+  
+  @@unique([empresaId, tipoApoioId])
+}
+
+model EmpresaODS {
+  id          String   @id @default(cuid())
+  empresaId   String
+  odsId       String
+  createdAt   DateTime @default(now())
+  
+  empresa     Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  ods         ODS      @relation(fields: [odsId], references: [id], onDelete: Cascade)
+  
+  @@unique([empresaId, odsId])
+}
+
+model Causa {
+  id          String   @id @default(cuid())
+  nome        String   @unique
+  descricao   String?
+  icone       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  empresas    EmpresaCausa[]
+  iniciativas Iniciativa[]
+}
+
+model EmpresaCausa {
+  id          String   @id @default(cuid())
+  empresaId   String
+  causaId     String
+  createdAt   DateTime @default(now())
+  
+  empresa     Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  causa       Causa    @relation(fields: [causaId], references: [id], onDelete: Cascade)
+  
+  @@unique([empresaId, causaId])
+}
+
+model EstatisticaImpactoEmpresa {
+  id                String   @id @default(cuid())
+  empresaId         String
+  periodoAno        Int
+  periodoMes        Int
+  horasVoluntariado Decimal  @default(0)
+  numProjetos       Int      @default(0)
+  numVoluntarios    Int      @default(0)
+  valorDoacoes      Decimal  @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  empresa           Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  
+  @@unique([empresaId, periodoAno, periodoMes])
+}
+
+model Colaborador {
+  id            String   @id @default(cuid())
+  empresaId     String
+  nome          String
+  email         String
+  departamento  String?
+  cargo         String?
+  avatar        String?
+  ativo         Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  empresa       Empresa             @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  inscricoes    InscricaoIniciativa[]
+  exportacoes   ExportacaoRelatorio[]
+  
+  @@unique([empresaId, email])
+}
+
+model Iniciativa {
+  id                String             @id @default(cuid())
+  empresaId         String
+  causaId           String?
+  titulo            String
+  descricao         String
+  dataInicio        DateTime
+  dataFim           DateTime?
+  tipoApoio         TipoApoio
+  vagas             Int?
+  vagasPreenchidas  Int                @default(0)
+  status            StatusIniciativa   @default(RASCUNHO)
+  localizacao       String?
+  latitude          Float?
+  longitude         Float?
+  imagem            String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  
+  empresa           Empresa            @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  causa             Causa?             @relation(fields: [causaId], references: [id])
+  inscricoes        InscricaoIniciativa[]
+  propostas         Proposta[]
+}
+
+model InscricaoIniciativa {
+  id                String           @id @default(cuid())
+  iniciativaId      String
+  colaboradorId     String
+  status            StatusInscricao  @default(PENDENTE)
+  horasContribuidas Decimal          @default(0)
+  feedback          String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  iniciativa        Iniciativa       @relation(fields: [iniciativaId], references: [id], onDelete: Cascade)
+  colaborador       Colaborador      @relation(fields: [colaboradorId], references: [id], onDelete: Cascade)
+  
+  @@unique([iniciativaId, colaboradorId])
+}
+
+model Favorito {
+  id          String   @id @default(cuid())
+  ongId       String
+  empresaId   String
+  createdAt   DateTime @default(now())
+  
+  ong         NGO      @relation(fields: [ongId], references: [id], onDelete: Cascade)
+  empresa     Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  
+  @@unique([ongId, empresaId])
+}
+
+model Proposta {
+  id               String          @id @default(cuid())
+  ongId            String
+  empresaId        String
+  iniciativaId     String?
+  titulo           String
+  descricao        String
+  odsRelacionados  String[]
+  anexosMeta       Json?
+  status           StatusProposta  @default(PENDENTE)
+  respostaEmpresa  String?
+  respondidoEm     DateTime?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  
+  ong              NGO             @relation(fields: [ongId], references: [id], onDelete: Cascade)
+  empresa          Empresa         @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  iniciativa       Iniciativa?     @relation(fields: [iniciativaId], references: [id], onDelete: SetNull)
+  reunioes         Reuniao[]
+}
+
+model Reuniao {
+  id                String         @id @default(cuid())
+  empresaId         String
+  ongId             String
+  propostaId        String?
+  titulo            String
+  descricao         String?
+  startAt           DateTime
+  endAt             DateTime
+  status            StatusReuniao  @default(AGENDADA)
+  localOuLink       String?
+  tipoReuniao       TipoReuniao?
+  criadoPorEmpresa  Boolean        @default(true)
+  notas             String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  
+  empresa           Empresa        @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  ong               NGO            @relation(fields: [ongId], references: [id], onDelete: Cascade)
+  proposta          Proposta?      @relation(fields: [propostaId], references: [id], onDelete: SetNull)
+}
+
+model ExportacaoRelatorio {
+  id              String           @id @default(cuid())
+  empresaId       String
+  colaboradorId   String?
+  titulo          String
+  filtrosJson     Json?
+  formato         FormatoRelatorio
+  caminhoFicheiro String?
+  tamanhoBytes    BigInt?
+  createdAt       DateTime         @default(now())
+  
+  empresa         Empresa          @relation(fields: [empresaId], references: [id], onDelete: Cascade)
+  colaborador     Colaborador?     @relation(fields: [colaboradorId], references: [id], onDelete: SetNull)
+}
+
+// ========================================
+// EXTENSÕES ÀS TABELAS EXISTENTES
+// ========================================
+
+// Adicionar ao model NGO existente:
+// favoritos         Favorito[]
+// propostas         Proposta[]
+// reunioes          Reuniao[]
+
+// Adicionar ao model ODS existente:
+// empresas          EmpresaODS[]
