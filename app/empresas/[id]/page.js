@@ -66,6 +66,15 @@ export default async function EmpresaPage({ params }) {
                 <p className="text-lg text-green-100">{empresa.setor}</p>
               )}
             </div>
+
+            {/* Dashboard Link */}
+            <div>
+              <Link href={`/empresas/dashboard/${empresa.id}`}>
+                <Button variant="secondary" size="lg">
+                  Ver Dashboard
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
