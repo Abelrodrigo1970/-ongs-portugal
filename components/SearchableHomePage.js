@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import Hero from '@/components/home/Hero';
 import FeaturedNGOs from '@/components/home/FeaturedNGOs';
 import FeaturedEvents from '@/components/home/FeaturedEvents';
+import FeaturedEmpresas from '@/components/home/FeaturedEmpresas';
 import ODSSection from '@/components/home/ODSSection';
 import CTASection from '@/components/home/CTASection';
 import CompactEventCard from '@/components/CompactEventCard';
@@ -14,7 +15,8 @@ import Button from '@/components/ui/Button';
 
 const SearchableHomePage = ({ 
   featuredNGOs, 
-  featuredEvents, 
+  featuredEvents,
+  featuredEmpresas = [],
   allODS, 
   odsOptions, 
   areasOptions, 
@@ -237,6 +239,7 @@ const SearchableHomePage = ({
           
           <FeaturedEvents events={featuredEvents} />
           <FeaturedNGOs ngos={featuredNGOs} />
+          <FeaturedEmpresas empresas={featuredEmpresas} />
           <ODSSection ods={allODS} />
           <CTASection />
         </>
