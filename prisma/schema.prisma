@@ -216,7 +216,7 @@ model Empresa {
   missao            String
   descricao         String?
   setor             String?
-  numColaboradores  Int?
+  numColaboradores  Int?     @map("num_colaboradores")
   logo              String?
   website           String?
   email             String
@@ -225,8 +225,8 @@ model Empresa {
   latitude          Float?
   longitude         Float?
   visivel           Boolean  @default(true)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
   
   tiposApoio        EmpresaTipoApoio[]
   ods               EmpresaODS[]
@@ -238,6 +238,8 @@ model Empresa {
   reunioes          Reuniao[]
   favoritos         Favorito[]
   exportacoes       ExportacaoRelatorio[]
+  
+  @@map("empresas")
 }
 
 model TipoApoioEmpresa {
@@ -245,33 +247,37 @@ model TipoApoioEmpresa {
   nome        String     @unique
   descricao   String?
   tipo        TipoApoio
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime   @default(now()) @map("created_at")
   
   empresas    EmpresaTipoApoio[]
+  
+  @@map("tipos_apoio_empresa")
 }
 
 model EmpresaTipoApoio {
   id            String   @id @default(cuid())
-  empresaId     String
-  tipoApoioId   String
-  createdAt     DateTime @default(now())
+  empresaId     String   @map("empresa_id")
+  tipoApoioId   String   @map("tipo_apoio_id")
+  createdAt     DateTime @default(now()) @map("created_at")
   
   empresa       Empresa          @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   tipoApoio     TipoApoioEmpresa @relation(fields: [tipoApoioId], references: [id], onDelete: Cascade)
   
   @@unique([empresaId, tipoApoioId])
+  @@map("empresa_tipos_apoio")
 }
 
 model EmpresaODS {
   id          String   @id @default(cuid())
-  empresaId   String
-  odsId       String
-  createdAt   DateTime @default(now())
+  empresaId   String   @map("empresa_id")
+  odsId       String   @map("ods_id")
+  createdAt   DateTime @default(now()) @map("created_at")
   
   empresa     Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   ods         ODS      @relation(fields: [odsId], references: [id], onDelete: Cascade)
   
   @@unique([empresaId, odsId])
+  @@map("empresa_ods")
 }
 
 model Causa {
@@ -279,169 +285,184 @@ model Causa {
   nome        String   @unique
   descricao   String?
   icone       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
   
   empresas    EmpresaCausa[]
   iniciativas Iniciativa[]
+  
+  @@map("causas")
 }
 
 model EmpresaCausa {
   id          String   @id @default(cuid())
-  empresaId   String
-  causaId     String
-  createdAt   DateTime @default(now())
+  empresaId   String   @map("empresa_id")
+  causaId     String   @map("causa_id")
+  createdAt   DateTime @default(now()) @map("created_at")
   
   empresa     Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   causa       Causa    @relation(fields: [causaId], references: [id], onDelete: Cascade)
   
   @@unique([empresaId, causaId])
+  @@map("empresa_causas")
 }
 
 model EstatisticaImpactoEmpresa {
   id                String   @id @default(cuid())
-  empresaId         String
-  periodoAno        Int
-  periodoMes        Int
-  horasVoluntariado Float    @default(0)
-  numProjetos       Int      @default(0)
-  numVoluntarios    Int      @default(0)
-  valorDoacoes      Float    @default(0)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  empresaId         String   @map("empresa_id")
+  periodoAno        Int      @map("periodo_ano")
+  periodoMes        Int      @map("periodo_mes")
+  horasVoluntariado Float    @default(0) @map("horas_voluntariado")
+  numProjetos       Int      @default(0) @map("num_projetos")
+  numVoluntarios    Int      @default(0) @map("num_voluntarios")
+  valorDoacoes      Float    @default(0) @map("valor_doacoes")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
   
   empresa           Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   
   @@unique([empresaId, periodoAno, periodoMes])
+  @@map("estatisticas_impacto_empresa")
 }
 
 model ColaboradorEmpresa {
   id            String   @id @default(cuid())
-  empresaId     String
+  empresaId     String   @map("empresa_id")
   nome          String
   email         String
   departamento  String?
   cargo         String?
   avatar        String?
   ativo         Boolean  @default(true)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
   
   empresa       Empresa             @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   inscricoes    InscricaoIniciativa[]
   exportacoes   ExportacaoRelatorio[]
   
   @@unique([empresaId, email])
+  @@map("colaboradores")
 }
 
 model Iniciativa {
   id                String             @id @default(cuid())
-  empresaId         String
-  causaId           String?
+  empresaId         String             @map("empresa_id")
+  causaId           String?            @map("causa_id")
   titulo            String
   descricao         String
-  dataInicio        DateTime
-  dataFim           DateTime?
-  tipoApoio         TipoApoio
+  dataInicio        DateTime           @map("data_inicio")
+  dataFim           DateTime?          @map("data_fim")
+  tipoApoio         TipoApoio          @map("tipo_apoio")
   vagas             Int?
-  vagasPreenchidas  Int                @default(0)
+  vagasPreenchidas  Int                @default(0) @map("vagas_preenchidas")
   status            StatusIniciativa   @default(RASCUNHO)
   localizacao       String?
   latitude          Float?
   longitude         Float?
   imagem            String?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
   
   empresa           Empresa            @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   causa             Causa?             @relation(fields: [causaId], references: [id])
   inscricoes        InscricaoIniciativa[]
   propostas         Proposta[]
+  
+  @@map("iniciativas")
 }
 
 model InscricaoIniciativa {
   id                String           @id @default(cuid())
-  iniciativaId      String
-  colaboradorId     String
+  iniciativaId      String           @map("iniciativa_id")
+  colaboradorId     String           @map("colaborador_id")
   status            StatusInscricao  @default(PENDENTE)
-  horasContribuidas Float            @default(0)
+  horasContribuidas Float            @default(0) @map("horas_contribuidas")
   feedback          String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
   
   iniciativa        Iniciativa          @relation(fields: [iniciativaId], references: [id], onDelete: Cascade)
   colaborador       ColaboradorEmpresa  @relation(fields: [colaboradorId], references: [id], onDelete: Cascade)
   
   @@unique([iniciativaId, colaboradorId])
+  @@map("inscricoes_iniciativa")
 }
 
 model Favorito {
   id          String   @id @default(cuid())
-  ongId       String
-  empresaId   String
-  createdAt   DateTime @default(now())
+  ongId       String   @map("ong_id")
+  empresaId   String   @map("empresa_id")
+  createdAt   DateTime @default(now()) @map("created_at")
   
   ong         NGO      @relation(fields: [ongId], references: [id], onDelete: Cascade)
   empresa     Empresa  @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   
   @@unique([ongId, empresaId])
+  @@map("favoritos")
 }
 
 model Proposta {
   id               String          @id @default(cuid())
-  ongId            String
-  empresaId        String
-  iniciativaId     String?
+  ongId            String          @map("ong_id")
+  empresaId        String          @map("empresa_id")
+  iniciativaId     String?         @map("iniciativa_id")
   titulo           String
   descricao        String
-  odsRelacionados  String[]
-  anexosMeta       Json?
+  odsRelacionados  String[]        @map("ods_relacionados")
+  anexosMeta       Json?           @map("anexos_meta")
   status           StatusProposta  @default(PENDENTE)
-  respostaEmpresa  String?
-  respondidoEm     DateTime?
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  respostaEmpresa  String?         @map("resposta_empresa")
+  respondidoEm     DateTime?       @map("respondido_em")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
   
   ong              NGO             @relation(fields: [ongId], references: [id], onDelete: Cascade)
   empresa          Empresa         @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   iniciativa       Iniciativa?     @relation(fields: [iniciativaId], references: [id], onDelete: SetNull)
   reunioes         Reuniao[]
+  
+  @@map("propostas")
 }
 
 model Reuniao {
   id                String         @id @default(cuid())
-  empresaId         String
-  ongId             String
-  propostaId        String?
+  empresaId         String         @map("empresa_id")
+  ongId             String         @map("ong_id")
+  propostaId        String?        @map("proposta_id")
   titulo            String
   descricao         String?
-  startAt           DateTime
-  endAt             DateTime
+  startAt           DateTime       @map("start_at")
+  endAt             DateTime       @map("end_at")
   status            StatusReuniao  @default(AGENDADA)
-  localOuLink       String?
-  tipoReuniao       TipoReuniao?
-  criadoPorEmpresa  Boolean        @default(true)
+  localOuLink       String?        @map("local_ou_link")
+  tipoReuniao       TipoReuniao?   @map("tipo_reuniao")
+  criadoPorEmpresa  Boolean        @default(true) @map("criado_por_empresa")
   notas             String?
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
   
   empresa           Empresa        @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   ong               NGO            @relation(fields: [ongId], references: [id], onDelete: Cascade)
   proposta          Proposta?      @relation(fields: [propostaId], references: [id], onDelete: SetNull)
+  
+  @@map("reunioes")
 }
 
 model ExportacaoRelatorio {
   id              String           @id @default(cuid())
-  empresaId       String
-  colaboradorId   String?
+  empresaId       String           @map("empresa_id")
+  colaboradorId   String?          @map("colaborador_id")
   titulo          String
-  filtrosJson     Json?
+  filtrosJson     Json?            @map("filtros_json")
   formato         FormatoRelatorio
-  caminhoFicheiro String?
-  tamanhoBytes    BigInt?
-  createdAt       DateTime         @default(now())
+  caminhoFicheiro String?          @map("caminho_ficheiro")
+  tamanhoBytes    BigInt?          @map("tamanho_bytes")
+  createdAt       DateTime         @default(now()) @map("created_at")
   
   empresa         Empresa             @relation(fields: [empresaId], references: [id], onDelete: Cascade)
   colaborador     ColaboradorEmpresa? @relation(fields: [colaboradorId], references: [id], onDelete: SetNull)
+  
+  @@map("exportacoes_relatorios")
 }
 
