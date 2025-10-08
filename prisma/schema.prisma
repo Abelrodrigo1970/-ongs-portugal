@@ -165,6 +165,8 @@ enum StatusIniciativa {
   PAUSADA
   CONCLUIDA
   CANCELADA
+  
+  @@map("status_iniciativa")
 }
 
 enum StatusProposta {
@@ -173,6 +175,8 @@ enum StatusProposta {
   APROVADA
   REJEITADA
   ARQUIVADA
+  
+  @@map("status_proposta")
 }
 
 enum StatusReuniao {
@@ -181,6 +185,8 @@ enum StatusReuniao {
   REALIZADA
   CANCELADA
   REMARCADA
+  
+  @@map("status_reuniao")
 }
 
 enum StatusInscricao {
@@ -188,6 +194,8 @@ enum StatusInscricao {
   CONFIRMADA
   CANCELADA
   CONCLUIDA
+  
+  @@map("status_inscricao")
 }
 
 enum TipoApoio {
@@ -195,6 +203,8 @@ enum TipoApoio {
   CONHECIMENTO_CAPACITACAO
   RECURSOS_SERVICOS
   PRODUTOS_BENS
+  
+  @@map("tipo_apoio_enum")
 }
 
 enum FormatoRelatorio {
@@ -202,12 +212,16 @@ enum FormatoRelatorio {
   EXCEL
   CSV
   JSON
+  
+  @@map("formato_relatorio")
 }
 
 enum TipoReuniao {
   PRESENCIAL
   ONLINE
   HIBRIDA
+  
+  @@map("tipo_reuniao_enum")
 }
 
 model Empresa {
