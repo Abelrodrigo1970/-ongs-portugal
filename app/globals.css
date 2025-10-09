@@ -44,9 +44,15 @@ body {
   display: none;
 }
 
+/* Custom section padding - apenas padding-top */
+.section-padding-top {
+  padding-top: 1rem;
+  /* padding-bottom: 0; */
+}
+
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid #22c55e;
+  outline: 2px solid #2dc522;
   outline-offset: 2px;
 }
 
