@@ -39,7 +39,7 @@ const Hero = ({
   return (
     <div className="container mx-auto px-4">
       <div className="max-w-6xl mx-auto text-center">
-        <h1 className="text-lg md:text-xl lg:text-3xl font-bold mb-4 text-gray-900 p-2">
+        <h1 className="text-lg md:text-xl lg:text-3xl font-bold mb-2 text-gray-900 p-2">
           Hoje é dia de fazer a diferença
         </h1>
 
