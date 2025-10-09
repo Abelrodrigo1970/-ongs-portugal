@@ -61,53 +61,98 @@ export default async function EmpresaDashboardPage({ params }) {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* KPIs */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-7xl">
+        {/* KPIs - Cards de Métricas */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Métricas Principais</h2>
           {kpis && <KPICards kpis={kpis} />}
         </div>
 
-        {/* Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <ImpactoChart data={evolucaoHoras} />
-          <ProjetosChart data={projetosPorCausa} />
-        </div>
+        {/* Gráficos - Layout 2x2 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Evolução de Horas */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Evolução de Horas</h3>
+              <p className="text-sm text-gray-500">Últimos 12 meses</p>
+            </div>
+            <ImpactoChart data={evolucaoHoras} />
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <VoluntariadoChart data={distribuicaoTipoApoio} />
+          {/* Projetos por Causa */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Projetos por Causa</h3>
+              <p className="text-sm text-gray-500">Distribuição total</p>
+            </div>
+            <ProjetosChart data={projetosPorCausa} />
+          </div>
+
+          {/* Voluntariado por Tipo */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Tipo de Apoio</h3>
+              <p className="text-sm text-gray-500">Distribuição de voluntariado</p>
+            </div>
+            <VoluntariadoChart data={distribuicaoTipoApoio} />
+          </div>
           
           {/* Resumo Rápido */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Resumo Anual {currentYear}</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Horas Totais</span>
-                <span className="text-xl font-bold text-green-600">
-                  {Math.round(kpis?.totalHoras || 0)}h
-                </span>
+          <div className="bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl shadow-sm p-6 text-white">
+            <div className="mb-4">
+              <h3 className="text-lg font-semibold">Resumo {currentYear}</h3>
+              <p className="text-sm text-primary-100">Impacto acumulado</p>
+            </div>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center py-3 border-b border-primary-500/30">
+                <div>
+                  <p className="text-sm text-primary-100">Horas Totais</p>
+                  <p className="text-3xl font-bold mt-1">
+                    {Math.round(kpis?.totalHoras || 0)}h
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-2xl">⏱️</span>
+                </div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Projetos</span>
-                <span className="text-xl font-bold text-blue-600">
-                  {kpis?.totalProjetos || 0}
-                </span>
+              <div className="flex justify-between items-center py-3 border-b border-primary-500/30">
+                <div>
+                  <p className="text-sm text-primary-100">Projetos Ativos</p>
+                  <p className="text-3xl font-bold mt-1">
+                    {kpis?.totalProjetos || 0}
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-2xl">📊</span>
+                </div>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Voluntários</span>
-                <span className="text-xl font-bold text-purple-600">
-                  {kpis?.totalVoluntarios || 0}
-                </span>
+              <div className="flex justify-between items-center py-3">
+                <div>
+                  <p className="text-sm text-primary-100">Voluntários</p>
+                  <p className="text-3xl font-bold mt-1">
+                    {kpis?.totalVoluntarios || 0}
+                  </p>
+                </div>
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-2xl">👥</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Iniciativas e Propostas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Iniciativas Ativas */}
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Iniciativas Ativas</h2>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Iniciativas Ativas</h2>
+                <p className="text-sm text-gray-500 mt-1">
+                  {iniciativasResult.iniciativas.length} em progresso
+                </p>
+              </div>
+              <span className="text-2xl">🚀</span>
+            </div>
             {iniciativasResult.iniciativas.length > 0 ? (
               <div className="space-y-4">
                 {iniciativasResult.iniciativas.map((iniciativa) => (
@@ -115,15 +160,24 @@ export default async function EmpresaDashboardPage({ params }) {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-lg p-8 text-center text-gray-500">
-                Nenhuma iniciativa ativa
+              <div className="py-12 text-center text-gray-400">
+                <span className="text-4xl mb-3 block">📝</span>
+                <p className="text-sm">Nenhuma iniciativa ativa</p>
               </div>
             )}
           </div>
 
           {/* Propostas Pendentes */}
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Propostas Pendentes</h2>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Propostas Pendentes</h2>
+                <p className="text-sm text-gray-500 mt-1">
+                  {propostasResult.propostas.length} aguardando resposta
+                </p>
+              </div>
+              <span className="text-2xl">📩</span>
+            </div>
             {propostasResult.propostas.length > 0 ? (
               <div className="space-y-4">
                 {propostasResult.propostas.map((proposta) => (
@@ -131,8 +185,9 @@ export default async function EmpresaDashboardPage({ params }) {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-lg p-8 text-center text-gray-500">
-                Nenhuma proposta pendente
+              <div className="py-12 text-center text-gray-400">
+                <span className="text-4xl mb-3 block">✅</span>
+                <p className="text-sm">Nenhuma proposta pendente</p>
               </div>
             )}
           </div>

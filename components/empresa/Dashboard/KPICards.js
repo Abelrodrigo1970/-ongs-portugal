@@ -53,33 +53,38 @@ const KPICards = ({ kpis }) => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
       {kpiData.map((kpi, index) => {
         const Icon = kpi.icon;
         return (
-          <Card key={index} className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">
-                  {kpi.title}
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <p className="text-3xl font-bold text-gray-900">
-                    {kpi.value}
-                    {kpi.unit && <span className="text-sm text-gray-500 ml-1">{kpi.unit}</span>}
-                  </p>
-                  {kpi.total !== undefined && (
-                    <p className="text-sm text-gray-500">
-                      / {kpi.total}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className={`${kpi.bgColor} ${kpi.color} p-3 rounded-lg`}>
-                <Icon className="h-6 w-6" />
+          <div 
+            key={index} 
+            className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <div className={`${kpi.bgColor} ${kpi.color} p-2.5 rounded-lg`}>
+                <Icon className="h-5 w-5" />
               </div>
             </div>
-          </Card>
+            <div>
+              <p className="text-sm font-medium text-gray-500 mb-1.5">
+                {kpi.title}
+              </p>
+              <div className="flex items-baseline gap-1.5">
+                <p className="text-2xl font-bold text-gray-900">
+                  {kpi.value}
+                </p>
+                {kpi.unit && (
+                  <span className="text-xs text-gray-500 font-medium">{kpi.unit}</span>
+                )}
+                {kpi.total !== undefined && (
+                  <span className="text-xs text-gray-400">
+                    / {kpi.total}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
         );
       })}
     </div>
