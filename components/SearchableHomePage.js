@@ -141,7 +141,7 @@ const SearchableHomePage = ({
   const filteredEvents = searchResults.events;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
+    <div className="min-h-screen p-2" style={{ backgroundColor: 'rgb(36, 180, 23)' }}>
             <Hero 
               odsOptions={odsOptions} 
               areasOptions={areasOptions}
