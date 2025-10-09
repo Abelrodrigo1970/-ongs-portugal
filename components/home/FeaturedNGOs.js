@@ -42,13 +42,13 @@ const FeaturedNGOs = ({ ngos = [] }) => {
   }
 
   return (
-    <section className="py-4">
+    <section className="py-2">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl md:text-3xl font-bold figma-text-primary">
-              ONGs No Porto
+              ONGs Para Si
             </h2>
             <div className="flex gap-2">
               <button
