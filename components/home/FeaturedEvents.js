@@ -46,7 +46,7 @@ const FeaturedEvents = ({ events = [] }) => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-1">
             <h2 className="text-xl md:text-2xl font-bold figma-text-primary">
               Voluntariados Para Si
             </h2>
