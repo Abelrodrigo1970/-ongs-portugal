@@ -42,7 +42,7 @@ const FeaturedEvents = ({ events = [] }) => {
   }
 
   return (
-    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2 py-12">
+    <section className="py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
