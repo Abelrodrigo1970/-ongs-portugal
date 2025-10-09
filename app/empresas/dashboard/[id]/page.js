@@ -258,7 +258,28 @@ export default function EmpresaDashboardPage() {
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-gray-900">Métrica 1</h3>
             </div>
-            <ImpactoChart data={[]} />
+            <div className="h-[373px] border border-gray-200 rounded-lg p-4 bg-white">
+              {/* Placeholder para gráfico de linha */}
+              <div className="h-full flex flex-col justify-between">
+                <div className="flex justify-end gap-8 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                    <span className="text-gray-600">Label</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-blue-600"></div>
+                    <span className="text-gray-600">Label</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-purple-400"></div>
+                    <span className="text-gray-600">Label</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center h-full text-gray-400">
+                  <span className="text-sm">Gráfico de linha em desenvolvimento</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Gráfico 2 - Métrica 2 */}
@@ -266,7 +287,21 @@ export default function EmpresaDashboardPage() {
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-gray-900">Métrica 2</h3>
             </div>
-            <ProjetosChart data={[]} />
+            <div className="h-[373px] border border-gray-200 rounded-lg p-4 bg-white">
+              <div className="flex justify-center gap-8 mb-4 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-blue-600"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-center h-full text-gray-400">
+                <span className="text-sm">Gráfico de barras em desenvolvimento</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -277,7 +312,25 @@ export default function EmpresaDashboardPage() {
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-gray-900">Métrica 3</h3>
             </div>
-            <VoluntariadoChart data={[]} />
+            <div className="h-[300px] border border-gray-200 rounded-lg p-4 bg-white">
+              <div className="flex justify-center gap-8 mb-4 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-green-500"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-blue-600"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-purple-400"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-center h-full text-gray-400">
+                <span className="text-sm">Gráfico circular em desenvolvimento</span>
+              </div>
+            </div>
           </div>
 
           {/* Gráfico 4 - Métrica 4 */}
@@ -285,8 +338,24 @@ export default function EmpresaDashboardPage() {
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-gray-900">Métrica 4</h3>
             </div>
-            <div className="h-[373px] flex items-center justify-center text-gray-400">
-              <span className="text-sm">Gráfico em desenvolvimento</span>
+            <div className="h-[300px] border border-gray-200 rounded-lg p-4 bg-white">
+              <div className="flex justify-center gap-8 mb-4 text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-pink-500"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-pink-400"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded-full bg-pink-200"></div>
+                  <span className="text-gray-600">Label</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-center h-full text-gray-400">
+                <span className="text-sm">Gráfico em desenvolvimento</span>
+              </div>
             </div>
           </div>
         </div>
