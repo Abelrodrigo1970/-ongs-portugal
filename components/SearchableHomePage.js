@@ -1,22 +1,18 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState } from 'react';
 import Hero from '@/components/home/Hero';
 import FeaturedNGOs from '@/components/home/FeaturedNGOs';
 import FeaturedEvents from '@/components/home/FeaturedEvents';
-import FeaturedEmpresas from '@/components/home/FeaturedEmpresas';
-import ODSSection from '@/components/home/ODSSection';
 import CTASection from '@/components/home/CTASection';
 import CompactEventCard from '@/components/CompactEventCard';
 import NgoCard from '@/components/NgoCard';
-import Link from 'next/link';
 import Button from '@/components/ui/Button';
 // Removed direct Prisma imports - now using API routes
 
 const SearchableHomePage = ({ 
   featuredNGOs, 
   featuredEvents,
-  featuredEmpresas = [],
   allODS, 
   odsOptions, 
   areasOptions, 
@@ -180,13 +176,6 @@ const SearchableHomePage = ({
                       <NgoCard key={ngo.id} ngo={ngo} />
                     ))}
                   </div>
-                  {filteredNGOs.length >= 8 && (
-                    <div className="text-center p-2">
-                      <Link href={`/ongs?query=${encodeURIComponent(searchFilters.query)}&ods=${searchFilters.ods}&areas=${searchFilters.areas}&colaboracao=${searchFilters.colaboracao}&local=${searchFilters.local}`}>
-                        <Button>Ver Todas as ONGs</Button>
-                      </Link>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -201,13 +190,6 @@ const SearchableHomePage = ({
                       <CompactEventCard key={event.id} event={event} />
                     ))}
                   </div>
-                  {filteredEvents.length >= 8 && (
-                    <div className="text-center p-2">
-                      <Link href={`/eventos?query=${encodeURIComponent(searchFilters.query)}&ods=${searchFilters.ods}&areas=${searchFilters.areas}&local=${searchFilters.local}`}>
-                        <Button>Ver Todos os Eventos</Button>
-                      </Link>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -239,8 +221,6 @@ const SearchableHomePage = ({
           
           <FeaturedEvents events={featuredEvents} />
           <FeaturedNGOs ngos={featuredNGOs} />
-          <FeaturedEmpresas empresas={featuredEmpresas} />
-          <ODSSection ods={allODS} />
           <CTASection />
         </>
       )}

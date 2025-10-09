@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Figma Design System Colors */
+:root {
+  --figma-primary: #9FE870;
+  --figma-text-dark: #001F04;
+  --figma-text-secondary: rgba(10, 10, 10, 0.7);
+  --figma-shadow-green: rgba(180, 216, 181, 1);
+  --figma-gradient-start: rgb(122, 246, 145);
+  --figma-gradient-end: rgb(255, 255, 255);
+}
+
 /* Custom global styles */
 html {
   scroll-behavior: smooth;
@@ -9,6 +19,29 @@ html {
 
 body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Figma-inspired components */
+.figma-nav-button {
+  @apply p-2 rounded-full bg-white border border-gray-200 hover:bg-gray-50 transition-all;
+  @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.figma-nav-button:hover:not(:disabled) {
+  box-shadow: 0px 4px 12px var(--figma-shadow-green);
+}
+
+.figma-text-primary {
+  color: var(--figma-text-dark);
+}
+
+.figma-text-secondary {
+  color: var(--figma-text-secondary);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Focus styles for accessibility */

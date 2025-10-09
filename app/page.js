@@ -1,6 +1,5 @@
 import { getFeaturedNGOs } from '@/lib/repositories/ngos';
 import { getFeaturedEvents, getEventTypes } from '@/lib/repositories/events';
-import { getFeaturedEmpresas } from '@/lib/repositories/empresas';
 import { getAllODS as getAllODSData } from '@/lib/repositories/ods';
 import { getAllAreas } from '@/lib/repositories/areas';
 import { getAllColaboracaoTipos } from '@/lib/repositories/colaboracao';
@@ -11,10 +10,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   try {
-    const [featuredNGOs, featuredEvents, featuredEmpresas, allODS, allAreas, colaboracaoTipos] = await Promise.all([
+    const [featuredNGOs, featuredEvents, allODS, allAreas, colaboracaoTipos] = await Promise.all([
       getFeaturedNGOs(6),
       getFeaturedEvents(6),
-      getFeaturedEmpresas(4),
       getAllODSData(),
       getAllAreas(),
       getAllColaboracaoTipos()
@@ -42,7 +40,6 @@ export default async function HomePage() {
       <SearchableHomePage 
         featuredNGOs={featuredNGOs}
         featuredEvents={featuredEvents}
-        featuredEmpresas={featuredEmpresas}
         allODS={allODS}
         odsOptions={odsOptions}
         areasOptions={areasOptions}
@@ -147,7 +144,6 @@ export default async function HomePage() {
       <SearchableHomePage 
         featuredNGOs={fallbackNGOs}
         featuredEvents={fallbackEvents}
-        featuredEmpresas={[]}
         allODS={fallbackODS}
         odsOptions={odsOptions}
         areasOptions={areasOptions}

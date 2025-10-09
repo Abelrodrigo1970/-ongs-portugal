@@ -1,38 +1,89 @@
-import Link from 'next/link';
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
 import NgoCard from '@/components/NgoCard';
-import Button from '@/components/ui/Button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const FeaturedNGOs = ({ ngos = [] }) => {
-  return (
-    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
-      <div className="container-custom">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 p-2">
-            ONGs para si
-          </h2>
-        </div>
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const scrollContainerRef = useRef(null);
 
-        {ngos.length > 0 ? (
-          <>
-            <div className="grid grid-cols-4 gap-2 mb-8">
-              {ngos.slice(0, 4).map((ngo) => (
-                <NgoCard key={ngo.id} ngo={ngo} />
-              ))}
+  useEffect(() => {
+    checkScrollButtons();
+  }, [ngos]);
+
+  const checkScrollButtons = () => {
+    if (!scrollContainerRef.current) return;
+    
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  const scroll = (direction) => {
+    if (!scrollContainerRef.current) return;
+    
+    const scrollAmount = 300;
+    const newPosition = direction === 'left' 
+      ? scrollContainerRef.current.scrollLeft - scrollAmount
+      : scrollContainerRef.current.scrollLeft + scrollAmount;
+    
+    scrollContainerRef.current.scrollTo({
+      left: newPosition,
+      behavior: 'smooth'
+    });
+    
+    setTimeout(checkScrollButtons, 300);
+  };
+
+  if (ngos.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2 py-12">
+      <div className="container mx-auto px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold figma-text-primary">
+              ONGs No Porto
+            </h2>
+            <div className="flex gap-2">
+              <button
+                onClick={() => scroll('left')}
+                disabled={!canScrollLeft}
+                className="figma-nav-button"
+                aria-label="Anterior"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                disabled={!canScrollRight}
+                className="figma-nav-button"
+                aria-label="Próximo"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
-              <div className="text-center">
-              <Link href="/ongs">
-                <Button size="lg">
-                  Ver Todas as ONGs
-                </Button>
-              </Link>
-            </div>
-          </>
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500">Nenhuma ONG encontrada.</p>
           </div>
-        )}
+
+          {/* NGOs Carousel */}
+          <div 
+            ref={scrollContainerRef}
+            onScroll={checkScrollButtons}
+            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {ngos.map((ngo) => (
+              <div key={ngo.id} className="flex-shrink-0 w-[280px]">
+                <NgoCard ngo={ngo} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
