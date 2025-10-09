@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Clock, Users, Briefcase, FileText, Calendar, TrendingUp } from 'lucide-react';
 
-export default function EmpresaDashboardPage({ params }) {
+export default function EmpresaDashboardPage() {
+  const params = useParams();
   const router = useRouter();
   const [empresa, setEmpresa] = useState(null);
   const [kpis, setKpis] = useState(null);
@@ -19,12 +20,20 @@ export default function EmpresaDashboardPage({ params }) {
 
   const loadDashboardData = async () => {
     try {
-      // Por agora vamos usar dados mock já que as APIs ainda não estão configuradas
-      setEmpresa({
-        id: params.id,
-        nome: 'Empresa Demo',
-        setor: 'Tecnologia'
-      });
+      // Carregar dados da empresa via API
+      const empresaRes = await fetch(`/api/empresas?id=${params.id}`);
+      const empresaData = await empresaRes.json();
+      
+      if (empresaData.data && empresaData.data.length > 0) {
+        setEmpresa(empresaData.data[0]);
+      } else {
+        // Dados mock se não encontrar
+        setEmpresa({
+          id: params.id,
+          nome: 'Empresa Demo',
+          setor: 'Tecnologia'
+        });
+      }
 
       setKpis({
         totalHoras: 1250,
@@ -34,6 +43,18 @@ export default function EmpresaDashboardPage({ params }) {
       });
     } catch (error) {
       console.error('Error loading dashboard:', error);
+      // Usar dados mock em caso de erro
+      setEmpresa({
+        id: params.id,
+        nome: 'Empresa Demo',
+        setor: 'Tecnologia'
+      });
+      setKpis({
+        totalHoras: 1250,
+        totalVoluntarios: 45,
+        iniciativasAtivas: 8,
+        propostasPendentes: 3
+      });
     } finally {
       setLoading(false);
     }
