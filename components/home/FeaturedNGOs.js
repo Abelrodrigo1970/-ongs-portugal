@@ -46,7 +46,7 @@ const FeaturedNGOs = ({ ngos = [] }) => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl md:text-3xl font-bold figma-text-primary">
               ONGs Para Si
             </h2>

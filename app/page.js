@@ -11,8 +11,8 @@ export const dynamic = 'force-dynamic';
 export default async function HomePage() {
   try {
     const [featuredNGOs, featuredEvents, allODS, allAreas, colaboracaoTipos] = await Promise.all([
-      getFeaturedNGOs(6),
-      getFeaturedEvents(6),
+      getFeaturedNGOs(8),
+      getFeaturedEvents(8),
       getAllODSData(),
       getAllAreas(),
       getAllColaboracaoTipos()
