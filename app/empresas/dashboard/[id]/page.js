@@ -459,7 +459,7 @@ export default function EmpresaDashboardPage() {
             <div className="bg-white rounded-2xl p-6 shadow-sm">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">ODS Que queremos trabalhar</h2>
               <div className="flex flex-wrap gap-8">
-                {[1, 2, 3, 4, 5, 8, 10, 11, 13, 15, 16, 17].map((num) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((num) => (
                   <div key={num} className="relative w-20 h-20">
                     <Image
                       src={getOdsImage(num)}
