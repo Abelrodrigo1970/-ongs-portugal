@@ -546,6 +546,83 @@ export default function EmpresaDashboardPage() {
           </div>
         </div>
 
+        {/* Novas Seções - Colaboradores e Feed */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Colaboradores Inscritos em Próximos Eventos */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Colaboradores Inscritos em Próximos Eventos
+            </h2>
+            <div className="space-y-4">
+              {[
+                { nome: 'João Silva', evento: 'Limpeza de Praia', data: '15 Nov 2024', avatar: '👤' },
+                { nome: 'Maria Santos', evento: 'Distribuição de Alimentos', data: '18 Nov 2024', avatar: '👤' },
+                { nome: 'Pedro Costa', evento: 'Plantação de Árvores', data: '20 Nov 2024', avatar: '👤' },
+                { nome: 'Ana Ferreira', evento: 'Visita a Lar de Idosos', data: '22 Nov 2024', avatar: '👤' }
+              ].map((colaborador, i) => (
+                <div key={i} className="flex items-center gap-4 p-4 border border-gray-100 rounded-lg hover:border-green-200 transition-colors">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0">
+                    {colaborador.avatar}
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-base font-bold text-gray-900">{colaborador.nome}</h4>
+                    <p className="text-sm text-gray-600">{colaborador.evento}</p>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1">
+                      <Calendar className="w-3 h-3" />
+                      {colaborador.data}
+                    </div>
+                  </div>
+                  <button className="px-4 py-2 bg-green-50 text-green-700 rounded-lg text-sm font-medium hover:bg-green-100 transition-colors">
+                    Ver Detalhes
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Feed de Próximas Oportunidades */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Feed de Próximas Oportunidades
+            </h2>
+            <div className="space-y-4">
+              {[
+                { titulo: 'Voluntariado em Hospital Pediátrico', ong: 'Cruz Vermelha', vagas: 5, data: '25 Nov' },
+                { titulo: 'Apoio Escolar a Crianças', ong: 'Educação Para Todos', vagas: 8, data: '28 Nov' },
+                { titulo: 'Campanha de Arrecadação de Roupas', ong: 'Banco de Vestuário', vagas: 12, data: '30 Nov' },
+                { titulo: 'Workshop de Sustentabilidade', ong: 'Eco Porto', vagas: 15, data: '02 Dez' }
+              ].map((oportunidade, i) => (
+                <div key={i} className="p-4 border border-gray-100 rounded-lg hover:border-green-200 transition-colors">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <h4 className="text-base font-bold text-gray-900 mb-1">
+                        {oportunidade.titulo}
+                      </h4>
+                      <p className="text-sm text-gray-600 mb-2">{oportunidade.ong}</p>
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <div className="flex items-center gap-1">
+                          <Users className="w-3 h-3" />
+                          {oportunidade.vagas} vagas
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {oportunidade.data}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
+                      Novo
+                    </span>
+                  </div>
+                  <button className="w-full mt-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg text-sm font-medium hover:from-green-600 hover:to-emerald-600 transition-all">
+                    Inscrever-se
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Seções Finais - 2 Colunas */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Próximas oportunidades para Si */}
