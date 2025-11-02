@@ -8,6 +8,7 @@ import CompactEventCard from '@/components/CompactEventCard';
 import MetricBanner from '@/components/ngo/MetricBanner';
 import AreaBanner from '@/components/ngo/AreaBanner';
 import ProjectCard from '@/components/ngo/ProjectCard';
+import { getAreaIcon } from '@/lib/utils/areaIcons';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
@@ -205,7 +206,7 @@ export default async function NGODetailPage({ params }) {
               {/* Areas Grid */}
               <div className="w-full flex flex-wrap gap-8 justify-center">
                 {areasList.map((area, index) => (
-                  <AreaBanner key={index} className="w-auto">
+                  <AreaBanner key={index} className="w-auto" icon={getAreaIcon(area)}>
                     <div className="w-full flex flex-col items-center gap-8">
                       <span className="text-center text-base font-medium">{area}</span>
                     </div>
