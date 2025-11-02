@@ -1,21 +1,26 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 import { getNGOById, getRelatedNGOs } from '@/lib/repositories/ngos';
-import OdsBadge from '@/components/OdsBadge';
-import NgoCard from '@/components/NgoCard';
-import LeafletMap from '@/components/LeafletMap';
-import ResponsiveVideo from '@/components/ResponsiveVideo';
+import { getEventsByNGO } from '@/lib/repositories/events';
+import CompactEventCard from '@/components/CompactEventCard';
+import MetricBanner from '@/components/ngo/MetricBanner';
+import AreaBanner from '@/components/ngo/AreaBanner';
+import ProjectCard from '@/components/ngo/ProjectCard';
 import Badge from '@/components/ui/Badge';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import ResponsiveVideo from '@/components/ResponsiveVideo';
 import { 
   MapPin, 
   Mail, 
   Phone,
   Globe,
-  Video,
-  Instagram
+  Instagram,
+  ArrowRight,
+  Bookmark,
+  Calendar
 } from 'lucide-react';
 
 // Force dynamic rendering to avoid SSG issues with database
@@ -37,9 +42,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function NGODetailPage({ params }) {
-  const [ngo, relatedNGOs] = await Promise.all([
+  const [ngo, relatedNGOs, ngoEvents] = await Promise.all([
     getNGOById(params.id),
-    getRelatedNGOs(params.id, 4)
+    getRelatedNGOs(params.id, 4),
+    getEventsByNGO(params.id, { limit: 3 })
   ]);
 
   if (!ngo) {
@@ -50,250 +56,284 @@ export default async function NGODetailPage({ params }) {
   const areasList = ngo.areaAtuacao?.map(area => area.tipo.nome) || [];
   const colaboracaoList = ngo.colaboracao?.map(colab => colab.tipo.nome) || [];
 
-  const mapCenter = ngo.latitude && ngo.longitude 
-    ? [ngo.latitude, ngo.longitude] 
-    : [38.7223, -9.1393]; // Default to Lisbon
-
-  const mapMarkers = ngo.latitude && ngo.longitude 
-    ? [{
-        position: [ngo.latitude, ngo.longitude],
-        popup: {
-          title: ngo.nome,
-          description: ngo.localizacao
-        }
-      }]
-    : [];
+  // Parse impacto to get metrics
+  let impactMetrics = [];
+  if (ngo.impacto) {
+    try {
+      impactMetrics = JSON.parse(ngo.impacto);
+    } catch (e) {
+      impactMetrics = [];
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 p-2">
-      {/* Hero Section */}
-      <div className="relative h-64 md:h-80 bg-gray-900">
-        {ngo.imagem && (
-          <Image
-            src={ngo.imagem}
-            alt={`${ngo.nome} - Imagem de capa`}
-            fill
-            className="object-cover opacity-60"
-          />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+    <div className="w-full bg-white">
+      {/* Main Container - matches Figma 1440px width with 64px padding */}
+      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
         
-        <div className="container-custom relative h-full flex items-end">
-          <div className="pb-8">
-            <div className="flex items-center space-x-4 mb-4">
-              {ngo.logo && (
-                <div className="w-16 h-16 bg-white rounded-full p-2">
-                  <Image
-                    src={ngo.logo}
-                    alt={`Logo ${ngo.nome}`}
-                    width={64}
-                    height={64}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-              )}
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-white">
+        {/* About Section - centered, 918px width */}
+        <div className="w-full flex flex-col items-center pt-8 md:pt-16 lg:pt-32 xl:pt-[304px] gap-6 lg:gap-10">
+          
+          {/* Frame 403 - Header Card with logo, title, actions */}
+          <div 
+            className="w-full max-w-[918px] rounded-[32px] border border-gray-200 p-4 md:p-6 lg:p-8 backdrop-blur-[200px]"
+            style={{ 
+              background: 'rgba(242, 242, 247, 0.05)',
+              borderColor: 'rgba(64, 64, 64, 0.15)'
+            }}
+          >
+            {/* Top Row: Logo + Title + Location/Website */}
+            <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:mb-10 mb-6">
+              {/* Logo and Title */}
+              <div className="flex items-center gap-2">
+                {ngo.logo && (
+                  <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden flex-shrink-0" style={{ background: '#EF4037' }}>
+                    <Image
+                      src={ngo.logo}
+                      alt={`${ngo.nome} logo`}
+                      width={56}
+                      height={56}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                )}
+                <h1 className="text-2xl md:text-3xl lg:text-[48px] font-extrabold leading-[1.2]" style={{ color: '#404040' }}>
                   {ngo.nome}
                 </h1>
-                <p className="text-primary-200 text-lg">
-                  {ngo.localizacao}
-                </p>
+              </div>
+
+              {/* Location and Website */}
+              <div className="flex flex-wrap items-center gap-2 md:gap-4">
+                <div className="flex items-center gap-1">
+                  <MapPin className="w-4 h-4 text-gray-600" />
+                  <span className="text-sm md:text-base font-medium text-gray-600">{ngo.localizacao}</span>
+                </div>
+                {ngo.websiteUrl && (
+                  <>
+                    <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
+                    <div className="flex items-center gap-1">
+                      <Globe className="w-4 h-4 text-gray-600" />
+                      <Link 
+                        href={ngo.websiteUrl}
+                        target="_blank"
+                        className="text-sm md:text-base font-medium text-gray-600 hover:underline break-all"
+                      >
+                        {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                      </Link>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
-            
-            {odsList.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {odsList.map(ods => (
-                  <OdsBadge
-                    key={ods.id}
-                    numero={ods.numero}
-                    nome={ods.nome}
-                  />
+
+            {/* Tags/Áreas */}
+            {areasList.length > 0 && (
+              <div className="w-full flex flex-wrap items-center gap-2 md:gap-4 px-2 py-6 md:py-10 border-t border-gray-200">
+                {areasList.map((area, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-center justify-center gap-2 px-3 md:px-4 py-2 rounded-[200px] border"
+                    style={{ borderColor: 'rgba(64, 64, 64, 0.5)' }}
+                  >
+                    <span className="text-xs md:text-sm font-medium" style={{ color: 'rgba(64, 64, 64, 0.5)' }}>
+                      {area}
+                    </span>
+                  </div>
                 ))}
               </div>
             )}
+
+            {/* Action Buttons */}
+            <div className="w-full flex flex-col md:flex-row gap-3 md:gap-4 mt-6 md:mt-10">
+              <Button 
+                className="w-full md:flex-1 bg-[#155DFC] text-white rounded-[100px] px-4 py-3 md:py-4 text-lg md:text-xl font-semibold gap-2 md:gap-4 hover:bg-[#1247b8]"
+              >
+                Quero colaborar
+                <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
+              </Button>
+              <Button 
+                variant="outline"
+                className="w-full md:flex-1 rounded-[100px] px-4 py-3 md:py-4 text-lg md:text-xl font-semibold gap-2 md:gap-4 border-gray-300"
+              >
+                Seguir ONG
+                <Bookmark className="w-5 h-5 md:w-6 md:h-6" />
+              </Button>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div className="container-custom py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Missão */}
-            <Card>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Missão</h2>
-              <p className="text-gray-700 leading-relaxed">{ngo.missao}</p>
-            </Card>
+          {/* Frame 428 - About Text */}
+          <div className="w-full max-w-[918px] flex flex-col gap-8 lg:gap-16">
+            {/* Title */}
+            <div className="w-full">
+              <h2 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.4]" style={{ color: '#404040' }}>
+                Transformamos vidas, todos os dias.
+              </h2>
+            </div>
 
-            {/* Descrição */}
-            <Card>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Sobre</h2>
-              <p className="text-gray-700 leading-relaxed">{ngo.descricao}</p>
-            </Card>
+            {/* Description */}
+            <div className="w-full flex justify-center">
+              <p className="text-base md:text-lg lg:text-xl font-medium leading-[1.4] text-center" style={{ color: '#595959' }}>
+                {ngo.missao}
+              </p>
+            </div>
+          </div>
 
-            {/* Impacto */}
-            {ngo.impacto && (
-              <Card>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Impacto</h2>
-                <ul className="space-y-3">
-                  {JSON.parse(ngo.impacto).map((impacto, index) => (
-                    <li key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-primary-600 rounded-full mt-2 flex-shrink-0" />
-                      <p className="text-gray-700">{impacto}</p>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            )}
-
-            {/* Áreas de Atuação */}
-            {areasList.length > 0 && (
-              <Card>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Áreas de Atuação</h2>
-                <div className="flex flex-wrap gap-2">
-                  {areasList.map((area, index) => (
-                    <Badge key={index} variant="primary">
-                      {area}
-                    </Badge>
-                  ))}
-                </div>
-              </Card>
-            )}
-
-            {/* Tipos de Colaboração */}
-            {colaboracaoList.length > 0 && (
-              <Card>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Como Pode Colaborar</h2>
-                <div className="flex flex-wrap gap-2">
-                  {colaboracaoList.map((colab, index) => (
-                    <Badge key={index} variant="secondary">
-                      {colab}
-                    </Badge>
-                  ))}
-                </div>
-              </Card>
-            )}
-
-            {/* Localização */}
-            <Card>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Localização</h2>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2 text-gray-700">
-                  <MapPin className="h-5 w-5 text-gray-500" />
-                  <span>{ngo.localizacao}</span>
-                </div>
-                <LeafletMap
-                  center={mapCenter}
-                  zoom={ngo.latitude && ngo.longitude ? 12 : 6}
-                  markers={mapMarkers}
-                  className="h-64 w-full rounded-lg"
-                />
+          {/* Métrica - Impacto */}
+          {impactMetrics.length > 0 && (
+            <div className="w-full max-w-[918px] flex flex-col gap-6">
+              {/* No title for metrics section in Figma */}
+              {/* Metrics Grid */}
+              <div className="w-full flex flex-col md:flex-row gap-6">
+                {impactMetrics.map((metric, index) => (
+                  <MetricBanner 
+                    key={index}
+                    value="85%"
+                    label={metric}
+                  />
+                ))}
               </div>
-            </Card>
+            </div>
+          )}
 
-            {/* Vídeo */}
-            {ngo.videoUrl && (
-              <Card>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Vídeo</h2>
-                <ResponsiveVideo
-                  url={ngo.videoUrl}
-                  title={`Vídeo da ${ngo.nome}`}
-                  className="aspect-video w-full rounded-lg overflow-hidden"
-                />
-              </Card>
-            )}
+          {/* Áreas de Atuação */}
+          {areasList.length > 0 && (
+            <div className="w-full max-w-[918px] flex flex-col gap-6">
+              <div className="w-full pb-4 lg:pb-8">
+                <h3 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
+                  Áreas de Atuação
+                </h3>
+              </div>
+
+              {/* Areas Grid */}
+              <div className="w-full flex flex-wrap gap-4 md:gap-8 justify-center">
+                {areasList.map((area, index) => (
+                  <AreaBanner key={index} className="w-full sm:w-auto">
+                    <div className="w-full flex flex-col items-center gap-4 lg:gap-8">
+                      <span className="text-center">{area}</span>
+                    </div>
+                  </AreaBanner>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Próximos Eventos */}
+          {ngoEvents.length > 0 && (
+            <div className="w-full max-w-[918px] flex flex-col gap-6">
+              <div className="w-full flex justify-between items-center py-2">
+                <h3 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
+                  Próximos eventos
+                </h3>
+                <div className="flex items-center gap-5">
+                  {/* Pagination dots or navigation */}
+                </div>
+              </div>
+
+              {/* Events Grid */}
+              <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-6">
+                {ngoEvents.map((event) => (
+                  <div key={event.id} className="flex-1">
+                    <CompactEventCard event={event} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Vídeo Section */}
+          {ngo.videoUrl && (
+            <div className="w-full py-8 pb-[60px]">
+              <ResponsiveVideo
+                url={ngo.videoUrl}
+                title={`Vídeo da ${ngo.nome}`}
+                className="w-full"
+              />
+            </div>
+          )}
+
+          {/* Projects Gallery */}
+          <div 
+            className="w-full flex flex-col gap-1"
+            style={{ background: 'rgba(21, 93, 252, 0.05)' }}
+          >
+            {/* You can add project cards here if you have project data */}
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Contact Info */}
-            <Card>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Contacto</h3>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <Mail className="h-5 w-5 text-gray-500" />
-                  <a 
-                    href={`mailto:${ngo.email}`}
-                    className="text-primary-600 hover:text-primary-700"
-                  >
+          {/* Contact Information */}
+          <div 
+            className="w-full max-w-[918px] rounded-[32px] border border-gray-200 p-4 md:p-6 lg:p-8 backdrop-blur-[200px]"
+            style={{ 
+              background: 'rgba(242, 242, 247, 0.05)',
+              borderColor: 'rgba(64, 64, 64, 0.15)'
+            }}
+          >
+            <div className="w-full flex flex-col gap-8">
+              {/* Contact sections with dividers */}
+              {ngo.websiteUrl && (
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
+                  <span className="text-lg md:text-xl font-bold">Site:</span>
+                  <Link href={ngo.websiteUrl} target="_blank" className="text-base md:text-xl hover:underline break-all">
+                    {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                  </Link>
+                </div>
+              )}
+
+              {colaboracaoList.length > 0 && (
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
+                  <span className="text-lg md:text-xl font-bold">Tipos de Colaboração</span>
+                  <div className="flex flex-wrap items-center gap-2 md:gap-4">
+                    {colaboracaoList.map((colab, index) => (
+                      <React.Fragment key={`colab-${index}`}>
+                        <span className="text-base md:text-xl">{colab}</span>
+                        {index < colaboracaoList.length - 1 && (
+                          <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {odsList.length > 0 && (
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
+                  <span className="text-lg md:text-xl font-bold">ODS</span>
+                  <div className="flex flex-wrap items-center gap-2 md:gap-4">
+                    {odsList.map((ods, index) => (
+                      <React.Fragment key={`ods-${index}`}>
+                        <span className="text-base md:text-xl">ODS {ods.numero}</span>
+                        {index < odsList.length - 1 && (
+                          <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Contact Info */}
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
+                <span className="text-lg md:text-xl font-bold">Contacto</span>
+                <div className="flex flex-wrap items-center gap-2 md:gap-4">
+                  <Link href={`mailto:${ngo.email}`} className="text-base md:text-xl hover:underline break-all">
                     {ngo.email}
-                  </a>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="h-5 w-5 text-gray-500" />
-                  <a 
-                    href={`tel:${ngo.telefone}`}
-                    className="text-primary-600 hover:text-primary-700"
-                  >
+                  </Link>
+                  <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
+                  <Link href={`tel:${ngo.telefone}`} className="text-base md:text-xl hover:underline">
                     {ngo.telefone}
-                  </a>
+                  </Link>
                 </div>
               </div>
-            </Card>
 
-            {/* Links */}
-            <Card>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Links</h3>
-              <div className="space-y-3">
-                {ngo.websiteUrl && (
-                  <div className="flex items-center space-x-3">
-                    <Globe className="h-5 w-5 text-gray-500" />
-                    <a 
-                      href={ngo.websiteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700"
-                    >
-                      Website
-                    </a>
-                  </div>
-                )}
-                {ngo.instagramUrl && (
-                  <div className="flex items-center space-x-3">
-                    <Instagram className="h-5 w-5 text-gray-500" />
-                    <a 
-                      href={ngo.instagramUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700"
-                    >
-                      Instagram
-                    </a>
-                  </div>
-                )}
-                {ngo.videoUrl && (
-                  <div className="flex items-center space-x-3">
-                    <Video className="h-5 w-5 text-gray-500" />
-                    <a 
-                      href={ngo.videoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700"
-                    >
-                      Vídeo
-                    </a>
-                  </div>
-                )}
+              {/* Address */}
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0">
+                <span className="text-lg md:text-xl font-bold">Morada</span>
+                <span className="text-base md:text-xl">{ngo.localizacao}</span>
               </div>
-            </Card>
-
-            {/* Related ONGs */}
-            {relatedNGOs.length > 0 && (
-              <Card>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">ONGs Relacionadas</h3>
-                <div className="space-y-4">
-                  {relatedNGOs.map((relatedNGO) => (
-                    <NgoCard key={relatedNGO.id} ngo={relatedNGO} />
-                  ))}
-                </div>
-              </Card>
-            )}
+            </div>
           </div>
+
         </div>
       </div>
     </div>
   );
 }
-
