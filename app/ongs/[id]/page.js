@@ -72,18 +72,18 @@ export default async function NGODetailPage({ params }) {
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
         
         {/* About Section - centered, 918px width */}
-        <div className="w-full flex flex-col items-center pt-8 md:pt-16 lg:pt-32 xl:pt-[304px] gap-6 lg:gap-10">
+        <div className="w-full flex flex-col items-center pt-8 md:pt-16 lg:pt-32 xl:pt-[304px] gap-10">
           
           {/* Frame 403 - Header Card with logo, title, actions */}
           <div 
-            className="w-full max-w-[918px] rounded-[32px] border border-gray-200 p-4 md:p-6 lg:p-8 backdrop-blur-[200px]"
+            className="w-full max-w-[918px] rounded-[32px] border border-gray-200 p-8 backdrop-blur-[200px]"
             style={{ 
               background: 'rgba(242, 242, 247, 0.05)',
               borderColor: 'rgba(64, 64, 64, 0.15)'
             }}
           >
-            {/* Top Row: Logo + Title + Location/Website */}
-            <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:mb-10 mb-6">
+            {/* Frame 439 - Top Row: Logo + Title + Location/Website */}
+            <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               {/* Logo and Title */}
               <div className="flex items-center gap-2">
                 {ngo.logo && (
@@ -126,9 +126,9 @@ export default async function NGODetailPage({ params }) {
               </div>
             </div>
 
-            {/* Tags/Áreas */}
+            {/* Frame 359 - Tags/Áreas */}
             {areasList.length > 0 && (
-              <div className="w-full flex flex-wrap items-center gap-2 md:gap-4 px-2 py-6 md:py-10 border-t border-gray-200">
+              <div className="w-full flex flex-wrap items-center gap-4 px-2 py-10 border-t border-gray-200">
                 {areasList.map((area, index) => (
                   <div 
                     key={index}
@@ -143,52 +143,50 @@ export default async function NGODetailPage({ params }) {
               </div>
             )}
 
-            {/* Action Buttons */}
-            <div className="w-full flex flex-col md:flex-row gap-3 md:gap-4 mt-6 md:mt-10">
+            {/* Buttons */}
+            <div className="w-full flex flex-col md:flex-row gap-4">
               <Button 
-                className="w-full md:flex-1 bg-[#155DFC] text-white rounded-[100px] px-4 py-3 md:py-4 text-lg md:text-xl font-semibold gap-2 md:gap-4 hover:bg-[#1247b8]"
+                className="w-full md:flex-1 bg-[#155DFC] text-white rounded-[100px] px-3 py-4 text-xl font-semibold gap-4 hover:bg-[#1247b8]"
               >
                 Quero colaborar
-                <ArrowRight className="w-5 h-5 md:w-6 md:h-6" />
+                <ArrowRight className="w-6 h-6" />
               </Button>
               <Button 
-                variant="outline"
-                className="w-full md:flex-1 rounded-[100px] px-4 py-3 md:py-4 text-lg md:text-xl font-semibold gap-2 md:gap-4 border-gray-300"
+                className="w-full md:flex-1 rounded-[100px] px-3 py-4 text-xl font-semibold gap-4 bg-white border border-gray-300 hover:bg-gray-50"
               >
                 Seguir ONG
-                <Bookmark className="w-5 h-5 md:w-6 md:h-6" />
+                <Bookmark className="w-6 h-6" />
               </Button>
             </div>
           </div>
 
           {/* Frame 428 - About Text */}
-          <div className="w-full max-w-[918px] flex flex-col gap-8 lg:gap-16">
+          <div className="w-full max-w-[918px] flex flex-col gap-16">
             {/* Title */}
             <div className="w-full">
-              <h2 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.4]" style={{ color: '#404040' }}>
+              <h2 className="text-4xl font-bold leading-[1.4]" style={{ color: '#404040' }}>
                 Transformamos vidas, todos os dias.
               </h2>
             </div>
 
             {/* Description */}
             <div className="w-full flex justify-center">
-              <p className="text-base md:text-lg lg:text-xl font-medium leading-[1.4] text-center" style={{ color: '#595959' }}>
+              <p className="text-xl font-medium leading-[1.4] text-center" style={{ color: '#595959' }}>
                 {ngo.missao}
               </p>
             </div>
           </div>
 
-          {/* Métrica - Impacto */}
+          {/* About us - Métrica - Impacto */}
           {impactMetrics.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col gap-6">
-              {/* No title for metrics section in Figma */}
+            <div className="w-full max-w-[918px] flex flex-col">
               {/* Metrics Grid */}
               <div className="w-full flex flex-col md:flex-row gap-6">
                 {impactMetrics.map((metric, index) => (
                   <MetricBanner 
                     key={index}
-                    value="85%"
-                    label={metric}
+                    value="755"
+                    label="Pessoas apoiadas"
                   />
                 ))}
               </div>
@@ -197,19 +195,19 @@ export default async function NGODetailPage({ params }) {
 
           {/* Áreas de Atuação */}
           {areasList.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col gap-6">
-              <div className="w-full pb-4 lg:pb-8">
-                <h3 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
+            <div className="w-full max-w-[918px] flex flex-col">
+              <div className="w-full pb-8">
+                <h3 className="text-4xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
                   Áreas de Atuação
                 </h3>
               </div>
 
               {/* Areas Grid */}
-              <div className="w-full flex flex-wrap gap-4 md:gap-8 justify-center">
+              <div className="w-full flex flex-wrap gap-8 justify-center">
                 {areasList.map((area, index) => (
-                  <AreaBanner key={index} className="w-full sm:w-auto">
-                    <div className="w-full flex flex-col items-center gap-4 lg:gap-8">
-                      <span className="text-center">{area}</span>
+                  <AreaBanner key={index} className="w-auto">
+                    <div className="w-full flex flex-col items-center gap-8">
+                      <span className="text-center text-base font-medium">{area}</span>
                     </div>
                   </AreaBanner>
                 ))}
@@ -221,7 +219,7 @@ export default async function NGODetailPage({ params }) {
           {ngoEvents.length > 0 && (
             <div className="w-full max-w-[918px] flex flex-col gap-6">
               <div className="w-full flex justify-between items-center py-2">
-                <h3 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
+                <h3 className="text-4xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
                   Próximos eventos
                 </h3>
                 <div className="flex items-center gap-5">
