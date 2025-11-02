@@ -68,7 +68,7 @@ export default async function NGODetailPage({ params }) {
   }
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
       {/* Main Container - matches Figma 1440px width with 64px padding */}
       <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
         
