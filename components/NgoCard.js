@@ -13,11 +13,17 @@ const NgoCard = ({ ngo, className = '' }) => {
   };
 
   return (
-    <Card className={`hover:shadow-lg transition-shadow duration-200 overflow-hidden ${className}`}>
+    <Card 
+      className={`hover:shadow-xl transition-all duration-300 overflow-hidden rounded-[32px] border ${className}`}
+      style={{ 
+        backgroundColor: '#FFFFFF',
+        borderColor: 'rgba(64, 64, 64, 0.15)'
+      }}
+    >
       <Link href={`/ongs/${ngo.id}`} className="block">
         <div className="flex flex-col h-full">
           {/* NGO Image */}
-          <div className="relative h-32 bg-gray-200 rounded-t-lg overflow-hidden">
+          <div className="relative h-48 rounded-t-[32px] overflow-hidden" style={{ backgroundColor: '#F2F2F7' }}>
             {ngo.imagem ? (
               <Image
                 src={ngo.imagem}
@@ -26,18 +32,18 @@ const NgoCard = ({ ngo, className = '' }) => {
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F2F2F7' }}>
                 {ngo.logo ? (
                   <Image
                     src={ngo.logo}
                     alt={`Logo ${ngo.nome}`}
-                    width={64}
-                    height={64}
-                    className="w-16 h-16 object-contain"
+                    width={80}
+                    height={80}
+                    className="w-20 h-20 object-contain"
                   />
                 ) : (
-                  <div className="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-                    <span className="text-gray-400 text-2xl font-semibold">
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: '#EF4037' }}>
+                    <span className="text-white text-3xl font-bold">
                       {ngo.nome.charAt(0).toUpperCase()}
                     </span>
                   </div>
@@ -47,29 +53,29 @@ const NgoCard = ({ ngo, className = '' }) => {
           </div>
 
           {/* Content */}
-          <div className="p-4 flex-grow">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+          <div className="p-6 flex-grow">
+            <h3 className="text-xl font-bold mb-3 line-clamp-2 leading-tight" style={{ color: '#404040' }}>
               {ngo.nome}
             </h3>
 
             {/* ODS Images */}
             {odsList.length > 0 && (
-              <div className="mb-3">
+              <div className="mb-4">
                 <div className="flex flex-wrap gap-2">
-                  {odsList.slice(0, 3).map(ods => (
-                    <div key={ods.id} className="relative w-8 h-8">
+                  {odsList.slice(0, 4).map(ods => (
+                    <div key={ods.id} className="relative w-10 h-10 rounded-lg overflow-hidden">
                       <Image
                         src={getOdsImage(ods.numero)}
                         alt={`ODS ${ods.numero} - ${ods.nome}`}
                         fill
-                        className="object-cover rounded"
-                        sizes="32px"
+                        className="object-cover"
+                        sizes="40px"
                       />
                     </div>
                   ))}
-                  {odsList.length > 3 && (
-                    <div className="flex items-center justify-center w-8 h-8 bg-gray-100 rounded text-xs text-gray-500">
-                      +{odsList.length - 3}
+                  {odsList.length > 4 && (
+                    <div className="flex items-center justify-center w-10 h-10 rounded-lg text-xs font-semibold" style={{ backgroundColor: 'rgba(21, 93, 252, 0.1)', color: '#155DFC' }}>
+                      +{odsList.length - 4}
                     </div>
                   )}
                 </div>
@@ -79,17 +85,27 @@ const NgoCard = ({ ngo, className = '' }) => {
             {/* Areas */}
             {areasList.length > 0 && (
               <div className="mb-3">
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-2">
                   {areasList.slice(0, 2).map((area, index) => (
                     <span
                       key={index}
-                      className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full"
+                      className="text-xs font-medium px-3 py-1.5 rounded-full"
+                      style={{ 
+                        backgroundColor: 'rgba(21, 93, 252, 0.1)', 
+                        color: '#155DFC' 
+                      }}
                     >
                       {area}
                     </span>
                   ))}
                   {areasList.length > 2 && (
-                    <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                    <span 
+                      className="text-xs font-medium px-3 py-1.5 rounded-full"
+                      style={{ 
+                        backgroundColor: 'rgba(64, 64, 64, 0.1)', 
+                        color: '#595959' 
+                      }}
+                    >
                       +{areasList.length - 2}
                     </span>
                   )}
@@ -99,9 +115,9 @@ const NgoCard = ({ ngo, className = '' }) => {
           </div>
 
           {/* Footer */}
-          <div className="px-4 pb-4">
-            <div className="flex items-center text-sm text-gray-500">
-              <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+          <div className="px-6 pb-6">
+            <div className="flex items-center text-sm font-medium" style={{ color: '#595959' }}>
+              <MapPin className="h-4 w-4 mr-2 flex-shrink-0" />
               <span className="truncate">{ngo.localizacao}</span>
             </div>
           </div>

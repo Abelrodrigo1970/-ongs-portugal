@@ -50,15 +50,15 @@ async function ONGsContent({ searchParams }) {
   }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
-        <div className="container mx-auto px-4">
+      <div className="w-full" style={{ backgroundColor: '#F2F2F7' }}>
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16 pt-8 md:pt-12 lg:pt-16">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 p-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6" style={{ color: '#404040' }}>
               ONGs em Portugal
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-8">
+            <p className="text-lg md:text-xl font-medium mb-8" style={{ color: '#595959' }}>
               Descobre organizações não-governamentais e encontra formas de colaborar para um mundo melhor
             </p>
           </div>
@@ -66,8 +66,8 @@ async function ONGsContent({ searchParams }) {
       </div>
 
       {/* Filtros */}
-      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 shadow-sm border-b border-gray-100">
-        <div className="container mx-auto px-4 py-6">
+      <div className="w-full border-b" style={{ backgroundColor: '#F2F2F7', borderColor: 'rgba(64, 64, 64, 0.15)' }}>
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16 py-6">
           <FilterBar
             odsOptions={formattedOdsOptions}
             areasOptions={formattedAreasOptions}
@@ -78,11 +78,11 @@ async function ONGsContent({ searchParams }) {
       </div>
 
       {/* Conteúdo */}
-      <div className="min-h-screen p-2">
-        <div className="container mx-auto px-4 py-8">
+      <div className="w-full min-h-screen py-8">
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
           {ngos.length > 0 ? (
             <>
-              <div className="grid grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 {ngos.map((ngo) => (
                   <NgoCard key={ngo.id} ngo={ngo} />
                 ))}
@@ -90,7 +90,7 @@ async function ONGsContent({ searchParams }) {
 
               {/* Pagination */}
               {pagination.pages > 1 && (
-                <div className="flex justify-center">
+                <div className="flex justify-center mt-12">
                   <div className="flex space-x-2">
                     {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
                       const params = new URLSearchParams(searchParams);
@@ -100,11 +100,16 @@ async function ONGsContent({ searchParams }) {
                         <a
                           key={page}
                           href={`/ongs?${params.toString()}`}
-                          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                          className={`px-6 py-3 rounded-full text-sm font-semibold transition-colors ${
                             page === pagination.page
-                              ? 'bg-primary-600 text-white shadow-md'
-                              : 'bg-white text-gray-700 border border-gray-200 hover:bg-green-50 hover:border-green-200'
+                              ? 'text-white shadow-md'
+                              : 'border hover:shadow-sm'
                           }`}
+                          style={
+                            page === pagination.page
+                              ? { backgroundColor: '#155DFC' }
+                              : { backgroundColor: '#FFFFFF', color: '#595959', borderColor: 'rgba(64, 64, 64, 0.15)' }
+                          }
                         >
                           {page}
                         </a>
@@ -115,7 +120,7 @@ async function ONGsContent({ searchParams }) {
               )}
             </>
           ) : (
-            <div className="flex justify-center">
+            <div className="flex justify-center py-16">
               <EmptyState
                 icon={Search}
                 title="Nenhuma ONG encontrada"
