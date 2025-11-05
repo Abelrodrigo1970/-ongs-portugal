@@ -71,7 +71,7 @@ export default async function NGODetailPage({ params }) {
               fill
               sizes="100vw"
               className="object-cover"
-              style={{ objectPosition: '50% -88.7%' }}
+              style={{ objectPosition: '50% 50%' }}
               priority
             />
           </div>
