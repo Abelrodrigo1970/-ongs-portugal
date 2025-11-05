@@ -24,6 +24,7 @@ const EmpresaCard = ({ empresa, className = '' }) => {
                   src={empresa.logo}
                   alt={`Logo ${empresa.nome}`}
                   fill
+                  sizes="96px"
                   className="object-contain"
                 />
               </div>

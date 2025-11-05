@@ -140,32 +140,47 @@ const FilterBar = ({
 
   return (
     <div className={`${className}`}>
-      {/* Barra de Pesquisa Principal - Estilo UNIVA */}
-      <div className="bg-white rounded-full shadow-lg p-2 flex flex-col lg:flex-row items-center gap-2">
+      {/* Barra de Pesquisa Principal */}
+      <div 
+        className="rounded-full shadow-lg flex flex-col lg:flex-row items-center" 
+        style={{ 
+          backgroundColor: '#FFFFFF',
+          padding: '8px',
+          gap: '8px'
+        }}
+      >
         {/* Campo de pesquisa */}
-        <div className="flex-1 flex items-center px-4 py-3 w-full lg:w-auto">
-          <Search className="h-5 w-5 text-gray-400 mr-3" />
+        <div className="flex-1 flex items-center w-full lg:w-auto" style={{ padding: '12px 16px' }}>
+          <Search className="h-5 w-5 mr-3" style={{ color: '#8C8C8C' }} />
           <input
             type="text"
             placeholder={showEventFilters ? "Pesquisa por eventos, ONGs ou localização..." : "Pesquisa por ONGs, causas ou localização..."}
             value={filters.query}
             onChange={(e) => updateFilters({ query: e.target.value })}
-            className="w-full outline-none text-gray-700 placeholder-gray-400"
+            className="w-full outline-none"
+            style={{ 
+              color: '#404040',
+              fontSize: '16px',
+              lineHeight: '1.2'
+            }}
             autoComplete="off"
             spellCheck="false"
           />
         </div>
 
         {/* Filtros Inline */}
-        <div className="flex items-center gap-2 px-2 flex-wrap">
+        <div className="flex items-center flex-wrap" style={{ gap: '8px', padding: '0 8px' }}>
           {/* Botão de Filtros */}
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className={`px-6 py-3 rounded-full text-sm font-medium transition-colors ${
-              showFilters || hasActiveFilters
-                ? 'bg-primary-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className="rounded-full transition-colors"
+            style={{
+              padding: '12px 24px',
+              fontSize: '14px',
+              fontWeight: '600',
+              backgroundColor: showFilters || hasActiveFilters ? 'var(--color-button-primary)' : 'rgba(0, 0, 0, 0.05)',
+              color: showFilters || hasActiveFilters ? '#FFFFFF' : '#404040'
+            }}
           >
             <Search className="h-4 w-4 mr-2 inline" />
             Filtros
@@ -175,7 +190,13 @@ const FilterBar = ({
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="px-4 py-3 rounded-full text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+              className="rounded-full transition-colors hover:bg-red-50"
+              style={{
+                padding: '12px 16px',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#EF4037'
+              }}
             >
               <X className="h-4 w-4" />
             </button>
@@ -185,7 +206,15 @@ const FilterBar = ({
 
       {/* Filtros Avançados */}
       {showFilters && (
-        <div className="mt-4 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div 
+          className="rounded-lg shadow-sm border" 
+          style={{ 
+            marginTop: '16px',
+            backgroundColor: '#FFFFFF',
+            borderColor: 'rgba(64, 64, 64, 0.15)',
+            padding: '24px'
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* ODS */}
             <MultiSelect
@@ -268,13 +297,23 @@ const FilterBar = ({
 
       {/* Filtros Ativos */}
       {hasActiveFilters && (
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="flex flex-wrap" style={{ marginTop: '16px', gap: '8px' }}>
           {filters.query && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+            <span 
+              className="inline-flex items-center rounded-full" 
+              style={{ 
+                gap: '4px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(21, 93, 252, 0.1)',
+                color: 'var(--color-button-primary)',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
               {filters.query}
               <button
                 onClick={() => updateFilters({ query: '' })}
-                className="hover:bg-green-200 rounded-full p-0.5 ml-1"
+                className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -282,11 +321,21 @@ const FilterBar = ({
           )}
           
           {filters.ods.length > 0 && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+            <span 
+              className="inline-flex items-center rounded-full" 
+              style={{ 
+                gap: '4px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(21, 93, 252, 0.1)',
+                color: 'var(--color-button-primary)',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
               {filters.ods.length} ODS
               <button
                 onClick={() => updateFilters({ ods: [] })}
-                className="hover:bg-blue-200 rounded-full p-0.5 ml-1"
+                className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -294,11 +343,21 @@ const FilterBar = ({
           )}
           
           {filters.areas.length > 0 && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
+            <span 
+              className="inline-flex items-center rounded-full" 
+              style={{ 
+                gap: '4px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(21, 93, 252, 0.1)',
+                color: 'var(--color-button-primary)',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
               {filters.areas.length} Área{filters.areas.length > 1 ? 's' : ''}
               <button
                 onClick={() => updateFilters({ areas: [] })}
-                className="hover:bg-purple-200 rounded-full p-0.5 ml-1"
+                className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -306,11 +365,21 @@ const FilterBar = ({
           )}
 
           {filters.localizacao && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+            <span 
+              className="inline-flex items-center rounded-full" 
+              style={{ 
+                gap: '4px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(21, 93, 252, 0.1)',
+                color: 'var(--color-button-primary)',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
               {localizacaoOptions.find(opt => opt.value === filters.localizacao)?.label || filters.localizacao}
               <button
                 onClick={() => updateFilters({ localizacao: '' })}
-                className="hover:bg-green-200 rounded-full p-0.5 ml-1"
+                className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -318,11 +387,21 @@ const FilterBar = ({
           )}
           
           {filters.colaboracao.length > 0 && !showEventFilters && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 text-sm rounded-full">
+            <span 
+              className="inline-flex items-center rounded-full" 
+              style={{ 
+                gap: '4px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(21, 93, 252, 0.1)',
+                color: 'var(--color-button-primary)',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
               {filters.colaboracao.length} Colaboração
               <button
                 onClick={() => updateFilters({ colaboracao: [] })}
-                className="hover:bg-orange-200 rounded-full p-0.5 ml-1"
+                className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -330,11 +409,21 @@ const FilterBar = ({
           )}
 
           {filters.tipo.length > 0 && showEventFilters && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full">
+            <span 
+              className="inline-flex items-center rounded-full" 
+              style={{ 
+                gap: '4px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(21, 93, 252, 0.1)',
+                color: 'var(--color-button-primary)',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
               {filters.tipo.length} Tipo{filters.tipo.length > 1 ? 's' : ''}
               <button
                 onClick={() => updateFilters({ tipo: [] })}
-                className="hover:bg-indigo-200 rounded-full p-0.5 ml-1"
+                className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -342,11 +431,21 @@ const FilterBar = ({
           )}
 
           {filters.inscricoesAbertas && showEventFilters && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 text-sm rounded-full">
+            <span 
+              className="inline-flex items-center rounded-full" 
+              style={{ 
+                gap: '4px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(21, 93, 252, 0.1)',
+                color: 'var(--color-button-primary)',
+                fontSize: '14px',
+                fontWeight: '500'
+              }}
+            >
               Inscrições Abertas
               <button
                 onClick={() => updateFilters({ inscricoesAbertas: false })}
-                className="hover:bg-yellow-200 rounded-full p-0.5 ml-1"
+                className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
               </button>

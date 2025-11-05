@@ -10,6 +10,9 @@
   --figma-shadow-green: rgba(180, 216, 181, 1);
   --figma-gradient-start: rgb(122, 246, 145);
   --figma-gradient-end: rgb(255, 255, 255);
+  
+  /* Button Colors - Centralized Management */
+  --color-button-primary: #155DFC;
 }
 
 /* Custom global styles */

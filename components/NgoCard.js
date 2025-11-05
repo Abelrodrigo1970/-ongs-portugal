@@ -23,12 +23,13 @@ const NgoCard = ({ ngo, className = '' }) => {
       <Link href={`/ongs/${ngo.id}`} className="block">
         <div className="flex flex-col h-full">
           {/* NGO Image */}
-          <div className="relative h-48 rounded-t-[32px] overflow-hidden" style={{ backgroundColor: '#F2F2F7' }}>
+          <div className="relative rounded-t-[32px] overflow-hidden" style={{ height: '200px', backgroundColor: '#F2F2F7' }}>
             {ngo.imagem ? (
               <Image
                 src={ngo.imagem}
                 alt={ngo.nome}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
               />
             ) : (
@@ -40,6 +41,7 @@ const NgoCard = ({ ngo, className = '' }) => {
                     width={80}
                     height={80}
                     className="w-20 h-20 object-contain"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                 ) : (
                   <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: '#EF4037' }}>
@@ -53,17 +55,26 @@ const NgoCard = ({ ngo, className = '' }) => {
           </div>
 
           {/* Content */}
-          <div className="p-6 flex-grow">
-            <h3 className="text-xl font-bold mb-3 line-clamp-2 leading-tight" style={{ color: '#404040' }}>
+          <div className="flex-grow" style={{ padding: '24px' }}>
+            <h3 
+              className="line-clamp-2" 
+              style={{ 
+                color: '#404040',
+                fontSize: '18px',
+                fontWeight: '700',
+                lineHeight: '1.4',
+                marginBottom: '16px'
+              }}
+            >
               {ngo.nome}
             </h3>
 
             {/* ODS Images */}
             {odsList.length > 0 && (
-              <div className="mb-4">
-                <div className="flex flex-wrap gap-2">
+              <div style={{ marginBottom: '16px' }}>
+                <div className="flex flex-wrap" style={{ gap: '8px' }}>
                   {odsList.slice(0, 4).map(ods => (
-                    <div key={ods.id} className="relative w-10 h-10 rounded-lg overflow-hidden">
+                    <div key={ods.id} className="relative rounded-lg overflow-hidden" style={{ width: '40px', height: '40px' }}>
                       <Image
                         src={getOdsImage(ods.numero)}
                         alt={`ODS ${ods.numero} - ${ods.nome}`}
@@ -74,7 +85,17 @@ const NgoCard = ({ ngo, className = '' }) => {
                     </div>
                   ))}
                   {odsList.length > 4 && (
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg text-xs font-semibold" style={{ backgroundColor: 'rgba(21, 93, 252, 0.1)', color: '#155DFC' }}>
+                    <div 
+                      className="flex items-center justify-center rounded-lg" 
+                      style={{ 
+                        width: '40px',
+                        height: '40px',
+                        backgroundColor: 'rgba(21, 93, 252, 0.1)', 
+                        color: 'var(--color-button-primary)',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}
+                    >
                       +{odsList.length - 4}
                     </div>
                   )}
@@ -84,15 +105,19 @@ const NgoCard = ({ ngo, className = '' }) => {
 
             {/* Areas */}
             {areasList.length > 0 && (
-              <div className="mb-3">
-                <div className="flex flex-wrap gap-2">
+              <div>
+                <div className="flex flex-wrap" style={{ gap: '8px' }}>
                   {areasList.slice(0, 2).map((area, index) => (
                     <span
                       key={index}
-                      className="text-xs font-medium px-3 py-1.5 rounded-full"
+                      className="rounded-full"
                       style={{ 
                         backgroundColor: 'rgba(21, 93, 252, 0.1)', 
-                        color: '#155DFC' 
+                        color: 'var(--color-button-primary)',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        padding: '6px 12px',
+                        lineHeight: '1.4'
                       }}
                     >
                       {area}
@@ -100,10 +125,14 @@ const NgoCard = ({ ngo, className = '' }) => {
                   ))}
                   {areasList.length > 2 && (
                     <span 
-                      className="text-xs font-medium px-3 py-1.5 rounded-full"
+                      className="rounded-full"
                       style={{ 
                         backgroundColor: 'rgba(64, 64, 64, 0.1)', 
-                        color: '#595959' 
+                        color: '#595959',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        padding: '6px 12px',
+                        lineHeight: '1.4'
                       }}
                     >
                       +{areasList.length - 2}
@@ -115,8 +144,8 @@ const NgoCard = ({ ngo, className = '' }) => {
           </div>
 
           {/* Footer */}
-          <div className="px-6 pb-6">
-            <div className="flex items-center text-sm font-medium" style={{ color: '#595959' }}>
+          <div style={{ padding: '0 24px 24px 24px' }}>
+            <div className="flex items-center" style={{ color: '#595959', fontSize: '14px', fontWeight: '500', lineHeight: '1.2' }}>
               <MapPin className="h-4 w-4 mr-2 flex-shrink-0" />
               <span className="truncate">{ngo.localizacao}</span>
             </div>

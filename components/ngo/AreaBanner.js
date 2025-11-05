@@ -1,23 +1,44 @@
-import Image from 'next/image';
-
-const AreaBanner = ({ children, icon, className = '' }) => {
+const AreaBanner = ({ icon, name, className = '' }) => {
   return (
-    <div className={`bg-white rounded-2xl border border-gray-200 p-6 flex flex-col items-center justify-center gap-8 w-[150px] ${className}`}>
+    <div 
+      className={`flex flex-col items-center justify-center ${className}`}
+      style={{ 
+        width: '150px',
+        backgroundColor: '#F2F2F7',
+        borderRadius: '16px',
+        border: '1px solid rgba(64, 64, 64, 0.15)',
+        padding: '24px 16px',
+        gap: '32px'
+      }}
+    >
+      {/* Icon */}
       {icon && (
-        <div className="relative w-6 h-6 flex items-center justify-center opacity-90">
-          <Image
-            src={icon}
-            alt=""
-            width={24}
-            height={24}
-            className="object-contain"
-          />
+        <div 
+          style={{ 
+            width: '24px',
+            height: '24px',
+            opacity: 0.9
+          }}
+        >
+          {icon}
         </div>
       )}
-      {children}
+      
+      {/* Name */}
+      <div 
+        style={{ 
+          fontSize: '16px',
+          fontWeight: '400',
+          color: '#404040',
+          textAlign: 'center',
+          lineHeight: '1.5',
+          width: '100%'
+        }}
+      >
+        {name}
+      </div>
     </div>
   );
 };
 
 export default AreaBanner;
-

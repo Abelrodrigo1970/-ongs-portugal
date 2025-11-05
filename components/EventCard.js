@@ -39,6 +39,7 @@ const EventCard = ({ event, className = '', showInscricao = false }) => {
                   src={event.imagem}
                   alt={event.nome}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                 />
               ) : (

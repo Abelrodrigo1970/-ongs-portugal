@@ -64,6 +64,7 @@ const PropostaCard = ({ proposta, className = '' }) => {
                   src={proposta.ong.logo}
                   alt={proposta.ong.nome}
                   fill
+                  sizes="32px"
                   className="object-contain rounded"
                 />
               </div>

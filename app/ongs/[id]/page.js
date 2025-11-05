@@ -7,21 +7,13 @@ import { getEventsByNGO } from '@/lib/repositories/events';
 import CompactEventCard from '@/components/CompactEventCard';
 import MetricBanner from '@/components/ngo/MetricBanner';
 import AreaBanner from '@/components/ngo/AreaBanner';
-import ProjectCard from '@/components/ngo/ProjectCard';
 import { getAreaIcon } from '@/lib/utils/areaIcons';
-import Badge from '@/components/ui/Badge';
-import Card from '@/components/ui/Card';
-import Button from '@/components/ui/Button';
 import ResponsiveVideo from '@/components/ResponsiveVideo';
 import { 
   MapPin, 
-  Mail, 
-  Phone,
   Globe,
-  Instagram,
   ArrowRight,
-  Bookmark,
-  Calendar
+  Bookmark
 } from 'lucide-react';
 
 // Force dynamic rendering to avoid SSG issues with database
@@ -69,268 +61,884 @@ export default async function NGODetailPage({ params }) {
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
-      {/* Main Container - matches Figma 1440px width with 64px padding */}
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16">
-        
-        {/* About Section - centered, 918px width */}
-        <div className="w-full flex flex-col items-center pt-8 md:pt-16 lg:pt-32 xl:pt-[304px] gap-10">
-          
-          {/* Frame 403 - Header Card with logo, title, actions */}
+      {/* Hero Section with background image */}
+      {ngo.imagem && (
+        <div className="relative w-full h-[450px]">
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src={ngo.imagem}
+              alt={ngo.nome}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              style={{ objectPosition: '50% -88.7%' }}
+              priority
+            />
+          </div>
           <div 
-            className="w-full max-w-[918px] rounded-[32px] border border-gray-200 p-8 backdrop-blur-[200px]"
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(180deg, rgba(242,242,247,0) 67.696%, rgba(242,242,247,1) 94.162%)'
+            }}
+          />
+        </div>
+      )}
+
+      {/* About us section */}
+      <div className="w-full flex flex-col items-start relative" style={{ width: '1440px', margin: '0 auto' }}>
+        <div className="w-full flex flex-col gap-2 items-center px-16 py-2" style={{ padding: '8px 64px' }}>
+          <div 
+            className="w-full max-w-[918px] flex flex-col items-center relative z-10"
             style={{ 
-              background: 'rgba(242, 242, 247, 0.05)',
-              borderColor: 'rgba(64, 64, 64, 0.15)'
+              paddingTop: ngo.imagem ? '0px' : '304px',
+              paddingBottom: '40px',
+              marginTop: ngo.imagem ? '-200px' : '0px',
+              gap: '40px'
             }}
           >
-            {/* Frame 439 - Top Row: Logo + Title + Location/Website */}
-            <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              {/* Logo and Title */}
-              <div className="flex items-center gap-2">
-                {ngo.logo && (
-                  <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden flex-shrink-0" style={{ background: '#EF4037' }}>
-                    <Image
-                      src={ngo.logo}
-                      alt={`${ngo.nome} logo`}
-                      width={56}
-                      height={56}
-                      className="w-full h-full object-contain"
-                    />
+            {/* Frame 403 - Header Card */}
+            <div 
+              className="w-[918px] flex flex-col items-center rounded-[32px] border border-solid backdrop-blur-[100px]"
+              style={{ 
+                background: 'rgba(242, 242, 247, 0.05)',
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                padding: '32px'
+              }}
+            >
+              {/* Top Row: Logo + Title + Location/Website */}
+              <div className="w-full flex items-center">
+                <div className="flex-1 flex gap-2 items-center justify-center">
+                  {ngo.logo && (
+                    <div 
+                      className="relative rounded-[200px] overflow-hidden"
+                      style={{ width: '56px', height: '58px', background: '#EF4037' }}
+                    >
+                      <Image
+                        src={ngo.logo}
+                        alt={`${ngo.nome} logo`}
+                        width={56}
+                        height={58}
+                        className="object-contain"
+                        style={{ width: 'auto', height: 'auto' }}
+                      />
+                    </div>
+                  )}
+                  <h1 
+                    className="flex-1 font-extrabold whitespace-pre-wrap"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '48px',
+                      lineHeight: '1.2',
+                      color: '#404040'
+                    }}
+                  >
+                    {ngo.nome}
+                  </h1>
+                </div>
+
+                <div className="flex gap-4 items-center justify-center" style={{ padding: '8px 0' }}>
+                  <div className="flex gap-1 items-center">
+                    <MapPin style={{ width: '16px', height: '16px' }} />
+                    <span 
+                      className="font-medium"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '16px',
+                        lineHeight: '1.2',
+                        color: '#595959'
+                      }}
+                    >
+                      {ngo.localizacao}
+                    </span>
                   </div>
-                )}
-                <h1 className="text-2xl md:text-3xl lg:text-[48px] font-extrabold leading-[1.2]" style={{ color: '#404040' }}>
-                  {ngo.nome}
-                </h1>
+                  
+                  {ngo.websiteUrl && (
+                    <>
+                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                      <div className="flex gap-1 items-center">
+                        <Globe style={{ width: '16px', height: '16px' }} />
+                        <Link 
+                          href={ngo.websiteUrl}
+                          target="_blank"
+                          className="font-medium hover:underline"
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '16px',
+                            lineHeight: '1.2',
+                            color: '#595959'
+                          }}
+                        >
+                          {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
 
-              {/* Location and Website */}
-              <div className="flex flex-wrap items-center gap-2 md:gap-4">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4 text-gray-600" />
-                  <span className="text-sm md:text-base font-medium text-gray-600">{ngo.localizacao}</span>
-                </div>
-                {ngo.websiteUrl && (
-                  <>
-                    <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
-                    <div className="flex items-center gap-1">
-                      <Globe className="w-4 h-4 text-gray-600" />
-                      <Link 
-                        href={ngo.websiteUrl}
-                        target="_blank"
-                        className="text-sm md:text-base font-medium text-gray-600 hover:underline break-all"
+              {/* Tags - Tipos de Colaboração */}
+              {colaboracaoList.length > 0 && (
+                <div 
+                  className="w-full flex gap-4 items-center overflow-clip"
+                  style={{ padding: '40px 0 40px 8px' }}
+                >
+                  {colaboracaoList.map((colab, index) => (
+                    <div 
+                      key={index}
+                      className="flex gap-2 items-center justify-center rounded-[200px] border border-solid"
+                      style={{ 
+                        borderColor: 'rgba(64, 64, 64, 0.5)',
+                        padding: '8px 16px'
+                      }}
+                    >
+                      <span 
+                        className="font-semibold"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '14px',
+                          lineHeight: '1.4',
+                          color: 'rgba(64, 64, 64, 0.5)'
+                        }}
                       >
-                        {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                      </Link>
+                        {colab}
+                      </span>
                     </div>
-                  </>
-                )}
+                  ))}
+                </div>
+              )}
+
+              {/* Buttons */}
+              <div className="w-full flex gap-4 items-center justify-center">
+                <button 
+                  className="flex-1 flex gap-4 items-center justify-center rounded-[100px]"
+                  style={{
+                    background: 'var(--color-button-primary)',
+                    padding: '16px 12px'
+                  }}
+                >
+                  <span 
+                    className="font-semibold"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '20px',
+                      lineHeight: 'normal',
+                      color: '#F2F2F7'
+                    }}
+                  >
+                    Quero colaborar
+                  </span>
+                  <ArrowRight style={{ width: '24px', height: '24px' }} />
+                </button>
+                <button 
+                  className="flex-1 flex gap-4 items-center justify-center rounded-[100px] border border-solid"
+                  style={{
+                    borderColor: 'rgba(64, 64, 64, 0.15)',
+                    padding: '16px 12px'
+                  }}
+                >
+                  <span 
+                    className="font-semibold"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '20px',
+                      lineHeight: 'normal',
+                      color: '#595959'
+                    }}
+                  >
+                    Seguir ONG
+                  </span>
+                  <Bookmark style={{ width: '24px', height: '24px' }} />
+                </button>
               </div>
             </div>
 
-            {/* Frame 359 - Tags/Áreas */}
-            {areasList.length > 0 && (
-              <div className="w-full flex flex-wrap items-center gap-4 px-2 py-10 border-t border-gray-200">
-                {areasList.map((area, index) => (
-                  <div 
-                    key={index}
-                    className="flex items-center justify-center gap-2 px-3 md:px-4 py-2 rounded-[200px] border"
-                    style={{ borderColor: 'rgba(64, 64, 64, 0.5)' }}
+            {/* Frame 428 - About Text */}
+            <div className="w-full flex flex-col items-start">
+              <div className="w-full flex flex-col items-start">
+                <div 
+                  className="w-full flex flex-col gap-4 items-start"
+                  style={{ height: '65px' }}
+                >
+                  <h2 
+                    className="font-bold w-full whitespace-pre-wrap"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '39px',
+                      lineHeight: '1.4',
+                      color: '#404040'
+                    }}
                   >
-                    <span className="text-xs md:text-sm font-medium" style={{ color: 'rgba(64, 64, 64, 0.5)' }}>
-                      {area}
-                    </span>
-                  </div>
-                ))}
+                    {ngo.missao 
+                      ? (ngo.missao.length > 45 ? ngo.missao.substring(0, 45) + '...' : ngo.missao)
+                      : 'Transformamos vidas, todos os dias.'}
+                  </h2>
+                </div>
+              </div>
+              <div className="flex gap-2 items-center justify-center" style={{ padding: '8px 0' }}>
+                <p 
+                  className="font-medium whitespace-pre-wrap"
+                  style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '20px',
+                    lineHeight: '1.4',
+                    color: '#595959',
+                    width: '918px'
+                  }}
+                >
+                  {ngo.descricao}
+                </p>
+              </div>
+            </div>
+
+            {/* About us - Métrica */}
+            {impactMetrics.length > 0 && (
+              <div className="w-full flex gap-6 items-center">
+                <div className="flex-1 flex items-center" style={{ background: 'rgba(242, 242, 247, 0.05)' }}>
+                  {impactMetrics.slice(0, 3).map((metric, index) => (
+                    <div key={index} className="flex-1">
+                      <MetricBanner 
+                        value={index === 0 ? "755" : index === 1 ? "187" : "27.630"}
+                        label={metric}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
-            {/* Buttons */}
-            <div className="w-full flex flex-col md:flex-row gap-4">
-              <Button 
-                className="w-full md:flex-1 bg-[#155DFC] text-white rounded-[100px] px-3 py-4 text-xl font-semibold gap-4 hover:bg-[#1247b8]"
-              >
-                Quero colaborar
-                <ArrowRight className="w-6 h-6" />
-              </Button>
-              <Button 
-                className="w-full md:flex-1 rounded-[100px] px-3 py-4 text-xl font-semibold gap-4 bg-white border border-gray-300 hover:bg-gray-50"
-              >
-                Seguir ONG
-                <Bookmark className="w-6 h-6" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Frame 428 - About Text */}
-          <div className="w-full max-w-[918px] flex flex-col gap-16">
-            {/* Title */}
-            <div className="w-full">
-              <h2 className="text-4xl font-bold leading-[1.4]" style={{ color: '#404040' }}>
-                Transformamos vidas, todos os dias.
-              </h2>
-            </div>
-
-            {/* Description */}
-            <div className="w-full flex justify-center">
-              <p className="text-xl font-medium leading-[1.4] text-center" style={{ color: '#595959' }}>
-                {ngo.missao}
-              </p>
-            </div>
-          </div>
-
-          {/* About us - Métrica - Impacto */}
-          {impactMetrics.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col">
-              {/* Metrics Grid */}
-              <div className="w-full flex flex-col md:flex-row gap-6">
-                {impactMetrics.map((metric, index) => (
-                  <MetricBanner 
-                    key={index}
-                    value="755"
-                    label="Pessoas apoiadas"
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Áreas de Atuação */}
-          {areasList.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col">
-              <div className="w-full pb-8">
-                <h3 className="text-4xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
-                  Áreas de Atuação
-                </h3>
-              </div>
-
-              {/* Areas Grid */}
-              <div className="w-full flex flex-wrap gap-8 justify-center">
-                {areasList.map((area, index) => (
-                  <AreaBanner key={index} className="w-auto" icon={getAreaIcon(area)}>
-                    <div className="w-full flex flex-col items-center gap-8">
-                      <span className="text-center text-base font-medium">{area}</span>
+            {/* Áreas de Atuação */}
+            {areasList.length > 0 && (
+              <div className="w-full flex flex-col gap-4 items-start">
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div 
+                      className="w-full flex gap-1 items-center"
+                      style={{ padding: '0 0 32px 0' }}
+                    >
+                      <h3 
+                        className="font-bold"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '39px',
+                          lineHeight: '1.2',
+                          color: '#1E1E1E'
+                        }}
+                      >
+                        Áreas de Atuação
+                      </h3>
                     </div>
-                  </AreaBanner>
-                ))}
+                  </div>
+                </div>
+                <div className="w-full flex flex-col gap-6 items-center justify-center">
+                  <div 
+                    className="w-full flex flex-wrap gap-8 items-center justify-center overflow-clip"
+                    style={{ gap: '32px' }}
+                  >
+                    {areasList.map((area, index) => {
+                      const iconPath = getAreaIcon(area);
+                      return (
+                        <AreaBanner 
+                          key={index}
+                          icon={iconPath ? (
+                            <img 
+                              src={iconPath}
+                              alt={area}
+                              style={{ width: '100%', height: '100%' }}
+                            />
+                          ) : null}
+                          name={area}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Próximos Eventos */}
+            {ngoEvents.length > 0 && (
+              <div className="w-full flex flex-col gap-6 items-start">
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div 
+                      className="w-full flex gap-1 items-center"
+                      style={{ padding: '8px 0' }}
+                    >
+                      <h3 
+                        className="font-bold"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '39px',
+                          lineHeight: '1.2',
+                          color: '#1E1E1E'
+                        }}
+                      >
+                        Próximos eventos
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full flex gap-6 items-start">
+                  {ngoEvents.slice(0, 3).map((event) => (
+                    <div key={event.id} className="flex-1">
+                      <CompactEventCard event={event} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Vídeo Section */}
+            <div 
+              className="w-full flex flex-col gap-2 items-start"
+              style={{ padding: '32px 0 60px 0' }}
+            >
+              <div className="w-full flex flex-col gap-2 items-start">
+                {ngo.videoUrl ? (
+                  <ResponsiveVideo
+                    url={ngo.videoUrl}
+                    title={`Vídeo da ${ngo.nome}`}
+                    className="w-full rounded"
+                    style={{ height: '472.5px' }}
+                  />
+                ) : (
+                  <div 
+                    className="relative w-full rounded"
+                    style={{ height: '472.5px' }}
+                  >
+                    <div 
+                      className="absolute inset-0 rounded"
+                      style={{
+                        background: 'rgba(0, 0, 0, 0.4)',
+                        opacity: 0.8
+                      }}
+                    />
+                    <div 
+                      className="absolute flex items-center justify-center"
+                      style={{
+                        width: '75px',
+                        height: '60px',
+                        left: 'calc(50% + 0.5px)',
+                        top: 'calc(50% - 0.25px)',
+                        transform: 'translate(-50%, -50%)'
+                      }}
+                    >
+                      <div 
+                        className="flex items-center justify-center"
+                        style={{
+                          width: '75px',
+                          height: '60px',
+                          background: '#1C1B1F',
+                          borderRadius: '8px'
+                        }}
+                      >
+                        <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-white border-b-[12px] border-b-transparent ml-1" />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          )}
 
-          {/* Próximos Eventos */}
-          {ngoEvents.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col gap-6">
-              <div className="w-full flex justify-between items-center py-2">
-                <h3 className="text-4xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
-                  Próximos eventos
-                </h3>
-                <div className="flex items-center gap-5">
-                  {/* Pagination dots or navigation */}
+            {/* Frame 441 - Projects Section */}
+            <div 
+              className="w-full flex flex-col items-start"
+              style={{ gap: '4px' }}
+            >
+              {/* Frame 434 - Project 1: Trabalhamos todos os dias */}
+              <div 
+                className="w-full flex items-center rounded-[32px]"
+                style={{ gap: '24px' }}
+              >
+                {/* Image Left */}
+                <div className="flex flex-row items-center self-stretch">
+                  <div 
+                    className="relative rounded-[16px] overflow-hidden"
+                    style={{ width: '290px', height: '100%' }}
+                  >
+                    <Image
+                      src="/images/projects/project-daily.png"
+                      alt="Trabalhamos todos os dias"
+                      width={290}
+                      height={238}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                </div>
+                {/* Text Right */}
+                <div 
+                  className="flex-1 flex flex-col items-start justify-center"
+                  style={{ gap: '8px' }}
+                >
+                  <h4 
+                    className="font-bold whitespace-pre-wrap"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '24px',
+                      lineHeight: '1.4',
+                      color: '#404040',
+                      width: '526px'
+                    }}
+                  >
+                    Trabalhamos todos os dias
+                  </h4>
+                  <p 
+                    className="font-normal whitespace-pre-wrap"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '20px',
+                      lineHeight: '1.4',
+                      color: '#595959',
+                      minWidth: '100%',
+                      width: 'min-content'
+                    }}
+                  >
+                    A Associação CAIS mantém como um dos seus principais objetivos a promoção da (re)integração no mercado de trabalho das pessoas em situação de vulnerabilidade.
+                    {'\n\n'}
+                    Através de programas de capacitação, acompanhamento social e projetos de empregabilidade, a CAIS procura melhorar as condições de vida de todos os que acompanha.​
+                  </p>
                 </div>
               </div>
 
-              {/* Events Grid */}
-              <div className="w-full flex flex-col lg:flex-row gap-4 lg:gap-6">
-                {ngoEvents.map((event) => (
-                  <div key={event.id} className="flex-1">
-                    <CompactEventCard event={event} />
+              {/* Frame 435 - Project 2: Projecto Futebol de Rua */}
+              <div 
+                className="w-full flex items-center rounded-[32px]"
+                style={{ gap: '24px' }}
+              >
+                {/* Text Left */}
+                <div 
+                  className="flex-1 flex flex-col items-start justify-center whitespace-pre-wrap"
+                  style={{ gap: '8px', lineHeight: '1.4' }}
+                >
+                  <h4 
+                    className="font-bold"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '24px',
+                      color: '#404040',
+                      width: '526px'
+                    }}
+                  >
+                    Projecto Futebol de Rua
+                  </h4>
+                  <p 
+                    className="font-normal"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '20px',
+                      color: '#595959',
+                      minWidth: '100%',
+                      width: 'min-content'
+                    }}
+                  >
+                    Iniciado em 2004, pela Associação CAIS, em parceria com inúmeras entidades públicas e privadas, promove a prática desportiva e a sua utilização como estratégia inovadora de intervenção e promoção da inclusão social.
+                  </p>
+                </div>
+                {/* Image Right */}
+                <div 
+                  className="relative rounded-[16px] overflow-hidden"
+                  style={{ width: '290px', height: '277.322px' }}
+                >
+                  <Image
+                    src="/images/projects/project-futebol-rua.png"
+                    alt="Projecto Futebol de Rua"
+                    width={290}
+                    height={277}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </div>
+
+              {/* Frame 436 - Project 3: Projecto Abrigo */}
+              <div 
+                className="w-full flex items-center rounded-[32px]"
+                style={{ gap: '24px' }}
+              >
+                {/* Image Left */}
+                <div className="flex flex-row items-center self-stretch">
+                  <div 
+                    className="relative rounded-[16px] overflow-hidden"
+                    style={{ width: '290px', height: '100%' }}
+                  >
+                    <Image
+                      src="/images/projects/project-abrigo.png"
+                      alt="Projecto Abrigo"
+                      width={290}
+                      height={322}
+                      className="object-cover w-full h-full"
+                    />
                   </div>
-                ))}
+                </div>
+                {/* Text Right */}
+                <div 
+                  className="flex-1 flex flex-col items-start justify-center"
+                  style={{ gap: '8px' }}
+                >
+                  <h4 
+                    className="font-bold whitespace-pre-wrap"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '24px',
+                      lineHeight: '1.4',
+                      color: '#404040',
+                      width: '526px'
+                    }}
+                  >
+                    Projecto Abrigo
+                  </h4>
+                  <p 
+                    className="font-normal whitespace-pre-wrap"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '20px',
+                      lineHeight: '1.4',
+                      color: '#595959',
+                      minWidth: '100%',
+                      width: 'min-content'
+                    }}
+                  >
+                    Desde 2003, o conceito de Responsabilidade Social Empresarial tem vindo a ser cada vez mais integrado na atividade das empresas.
+                    {'\n\n'}
+                    O Projeto Abrigo insere-se neste âmbito, ao integrar-se nos objetivos sociais das empresas que, de forma voluntária, assumem preocupações sociais nas suas práticas empresariais. Este projeto desempenha um papel fundamental na sustentação da atividade da CAIS, através de um compromisso com a duração de dois anos.
+                  </p>
+                </div>
               </div>
             </div>
-          )}
 
-          {/* Vídeo Section */}
-          {ngo.videoUrl && (
-            <div className="w-full py-8 pb-[60px]">
-              <ResponsiveVideo
-                url={ngo.videoUrl}
-                title={`Vídeo da ${ngo.nome}`}
-                className="w-full"
-              />
-            </div>
-          )}
-
-          {/* Projects Gallery */}
-          <div 
-            className="w-full flex flex-col gap-1"
-            style={{ background: 'rgba(21, 93, 252, 0.05)' }}
-          >
-            {/* You can add project cards here if you have project data */}
-          </div>
-
-          {/* Contact Information */}
-          <div 
-            className="w-full max-w-[918px] rounded-[32px] border border-gray-200 p-4 md:p-6 lg:p-8 backdrop-blur-[200px]"
-            style={{ 
-              background: 'rgba(242, 242, 247, 0.05)',
-              borderColor: 'rgba(64, 64, 64, 0.15)'
-            }}
-          >
-            <div className="w-full flex flex-col gap-8">
-              {/* Contact sections with dividers */}
+            {/* Frame 403 - Informações Adicionais Section */}
+            <div 
+              className="w-[918px] flex flex-col items-center rounded-[32px] border border-solid backdrop-blur-[100px]"
+              style={{ 
+                background: 'rgba(242, 242, 247, 0.05)',
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                padding: '24px 32px 32px 32px',
+                gap: '32px'
+              }}
+            >
+              {/* Site */}
               {ngo.websiteUrl && (
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
-                  <span className="text-lg md:text-xl font-bold">Site:</span>
-                  <Link href={ngo.websiteUrl} target="_blank" className="text-base md:text-xl hover:underline break-all">
-                    {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                  </Link>
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-between" style={{ height: '40px' }}>
+                    <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                      <span 
+                        className="font-bold"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#1E1E1E'
+                        }}
+                      >
+                        Site:
+                      </span>
+                        <Link 
+                          href={ngo.websiteUrl}
+                          target="_blank"
+                          className="font-normal underline hover:no-underline"
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '20px',
+                            lineHeight: '1.2',
+                            color: '#404040',
+                            textUnderlinePosition: 'from-font',
+                            textDecorationLine: 'underline',
+                            textDecorationStyle: 'solid'
+                          }}
+                        >
+                          {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                        </Link>
+                    </div>
+                  </div>
                 </div>
               )}
 
+              {/* Tipos de Colaboração */}
               {colaboracaoList.length > 0 && (
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
-                  <span className="text-lg md:text-xl font-bold">Tipos de Colaboração</span>
-                  <div className="flex flex-wrap items-center gap-2 md:gap-4">
-                    {colaboracaoList.map((colab, index) => (
-                      <React.Fragment key={`colab-${index}`}>
-                        <span className="text-base md:text-xl">{colab}</span>
-                        {index < colaboracaoList.length - 1 && (
-                          <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
-                        )}
-                      </React.Fragment>
-                    ))}
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                      <span 
+                        className="font-bold"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#1E1E1E'
+                        }}
+                      >
+                        Tipos de Colaboração
+                      </span>
+                      <div className="flex items-center" style={{ gap: '16px' }}>
+                        {colaboracaoList.map((colab, index) => {
+                          // Map collaboration types to emojis
+                          const emojiMap = {
+                            'Voluntariado presencial': '🤝',
+                            'Voluntariado remoto': '🤝',
+                            'Voluntariado': '🤝',
+                            'Donativos em espécie': '🧩',
+                            'Donativos monetários': '🧩',
+                            'Recursos': '🧩',
+                            'Mentoria': '💡',
+                            'Parcerias': '🤝',
+                            'Patrocínios': '💼'
+                          };
+                          const emoji = emojiMap[colab] || '';
+                          
+                          return (
+                            <React.Fragment key={index}>
+                              <span 
+                                className="font-normal"
+                                style={{ 
+                                  fontFamily: 'Inter, sans-serif',
+                                  fontSize: '20px',
+                                  lineHeight: '1.2',
+                                  color: '#404040'
+                                }}
+                              >
+                                {colab} {emoji}
+                              </span>
+                              {index < colaboracaoList.length - 1 && (
+                                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {odsList.length > 0 && (
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
-                  <span className="text-lg md:text-xl font-bold">ODS</span>
-                  <div className="flex flex-wrap items-center gap-2 md:gap-4">
-                    {odsList.map((ods, index) => (
-                      <React.Fragment key={`ods-${index}`}>
-                        <span className="text-base md:text-xl">ODS {ods.numero}</span>
-                        {index < odsList.length - 1 && (
-                          <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
-                        )}
-                      </React.Fragment>
-                    ))}
+              {/* ODS */}
+              <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col items-start justify-center">
+                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                    <span 
+                      className="font-bold"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '20px',
+                        lineHeight: '1.2',
+                        color: '#1E1E1E'
+                      }}
+                    >
+                      ODS
+                    </span>
+                    <div className="flex gap-2 items-center flex-wrap justify-end">
+                      {odsList.length > 0 ? (
+                        odsList.map((ods) => (
+                          <div 
+                            key={ods.id} 
+                            className="relative rounded-lg overflow-hidden" 
+                            style={{ width: '40px', height: '40px' }}
+                          >
+                            <Image
+                              src={`/ods/ods-${ods.numero.toString().padStart(2, '0')}.png`}
+                              alt={`ODS ${ods.numero} - ${ods.nome}`}
+                              fill
+                              sizes="40px"
+                              className="object-cover"
+                            />
+                          </div>
+                        ))
+                      ) : (
+                        <span 
+                          className="font-normal underline"
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '20px',
+                            lineHeight: '1.2',
+                            color: '#404040',
+                            textUnderlinePosition: 'from-font',
+                            textDecorationLine: 'underline',
+                            textDecorationStyle: 'solid'
+                          }}
+                        >
+                          -
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-
-              {/* Contact Info */}
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 pb-6 md:pb-8 border-b" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
-                <span className="text-lg md:text-xl font-bold">Contacto</span>
-                <div className="flex flex-wrap items-center gap-2 md:gap-4">
-                  <Link href={`mailto:${ngo.email}`} className="text-base md:text-xl hover:underline break-all">
-                    {ngo.email}
-                  </Link>
-                  <div className="hidden md:block w-[1px] h-full bg-gray-300"></div>
-                  <Link href={`tel:${ngo.telefone}`} className="text-base md:text-xl hover:underline">
-                    {ngo.telefone}
-                  </Link>
                 </div>
               </div>
 
-              {/* Address */}
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0">
-                <span className="text-lg md:text-xl font-bold">Morada</span>
-                <span className="text-base md:text-xl">{ngo.localizacao}</span>
+              {/* Redes Sociais */}
+              <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col items-start justify-center">
+                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                    <span 
+                      className="font-bold"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '20px',
+                        lineHeight: '1.2',
+                        color: '#1E1E1E'
+                      }}
+                    >
+                      Redes Sociais:
+                    </span>
+                    <div className="flex items-center" style={{ gap: '16px' }}>
+                      <span 
+                        className="font-normal underline"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#404040',
+                          textUnderlinePosition: 'from-font',
+                          textDecorationLine: 'underline',
+                          textDecorationStyle: 'solid'
+                        }}
+                      >
+                        Facebook
+                      </span>
+                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                      <span 
+                        className="font-normal underline"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#404040',
+                          textUnderlinePosition: 'from-font',
+                          textDecorationLine: 'underline',
+                          textDecorationStyle: 'solid'
+                        }}
+                      >
+                        Tiktok
+                      </span>
+                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                      <span 
+                        className="font-normal underline"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#404040',
+                          textUnderlinePosition: 'from-font',
+                          textDecorationLine: 'underline',
+                          textDecorationStyle: 'solid'
+                        }}
+                      >
+                        Linkedin
+                      </span>
+                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                      {ngo.instagramUrl ? (
+                        <Link 
+                          href={ngo.instagramUrl}
+                          target="_blank"
+                          className="font-normal underline hover:no-underline"
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '20px',
+                            lineHeight: '1.2',
+                            color: '#404040',
+                            textUnderlinePosition: 'from-font',
+                            textDecorationLine: 'underline',
+                            textDecorationStyle: 'solid'
+                          }}
+                        >
+                          Instagram
+                        </Link>
+                      ) : (
+                        <span 
+                          className="font-normal underline"
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '20px',
+                            lineHeight: '1.2',
+                            color: '#404040',
+                            textUnderlinePosition: 'from-font',
+                            textDecorationLine: 'underline',
+                            textDecorationStyle: 'solid'
+                          }}
+                        >
+                          Instagram
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contacto */}
+              <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col items-start justify-center">
+                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                    <span 
+                      className="font-bold"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '20px',
+                        lineHeight: '1.2',
+                        color: '#1E1E1E'
+                      }}
+                    >
+                      Contacto
+                    </span>
+                    <div className="flex items-center" style={{ gap: '16px' }}>
+                      <span 
+                        className="font-normal"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#404040'
+                        }}
+                      >
+                        {ngo.email}
+                      </span>
+                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                      <span 
+                        className="font-normal"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#404040'
+                        }}
+                      >
+                        {ngo.telefone}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Morada */}
+              <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col items-start justify-center">
+                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                    <span 
+                      className="font-bold"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '20px',
+                        lineHeight: '1.2',
+                        color: '#1E1E1E'
+                      }}
+                    >
+                      Morada
+                    </span>
+                    <div className="flex items-center" style={{ gap: '16px' }}>
+                      <span 
+                        className="font-normal"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '20px',
+                          lineHeight: '1.2',
+                          color: '#404040'
+                        }}
+                      >
+                        {ngo.localizacao}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>

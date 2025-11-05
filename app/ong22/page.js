@@ -1,505 +1,649 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import MetricBanner from '@/components/ngo/MetricBanner';
-import AreaBanner from '@/components/ngo/AreaBanner';
-import ProjectCard from '@/components/ngo/ProjectCard';
-import { getAreaIcon } from '@/lib/utils/areaIcons';
-import Badge from '@/components/ui/Badge';
-import Card from '@/components/ui/Card';
-import Button from '@/components/ui/Button';
-import {
-  MapPin,
-  Mail,
-  Phone,
-  Globe,
-  Instagram,
-  ArrowRight,
-  Bookmark,
-  Calendar
-} from 'lucide-react';
-
-// Static page
-export const dynamic = 'force-static';
+import { MapPin, Globe, ArrowRight, Bookmark, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 
 export const metadata = {
-  title: 'Associação CAIS - ONGs Portugal',
-  description: 'A CAIS trabalha há mais de 30 anos para criar oportunidades e promover a inclusão social e profissional de pessoas em situação de vulnerabilidade.',
+  title: 'Associação CAIS - UNIVA',
+  description: 'Transformamos vidas, todos os dias.'
 };
 
-export default function ONG22Page() {
-  // Dados estáticos da ONG CAIS baseados no Figma
-  const ngo = {
-    id: 'cais-ong-22',
-    nome: 'Associação CAIS',
-    descricao: 'A CAIS trabalha há mais de 30 anos para criar oportunidades e promover a inclusão social e profissional de pessoas em situação de vulnerabilidade. Através dos nossos projetos, ajudamos a reconstruir trajetórias de vida e a devolver dignidade e autonomia a quem mais precisa.',
-    missao: 'Transformamos vidas, todos os dias.',
-    email: 'cais@cais.pt',
-    telefone: '222 071 320',
-    localizacao: 'Porto, Portugal',
-    latitude: 41.1579,
-    longitude: -8.6291,
-    websiteUrl: 'https://cais.pt',
-    logo: '/images/logo-cais-44eb9c.svg',
-    imagem: '/images/ongs/hero-cais-70a430.png',
-    impacto: [
-      '85% da população sem-abrigo',
-      'Acompanhamento a centenas de pessoas',
-      'Promoção da (re)integração no mercado de trabalho'
-    ],
-    ods: [
-      { numero: 1, nome: 'Erradicar a pobreza' },
-      { numero: 8, nome: 'Trabalho Digno e Crescimento Económico' },
-      { numero: 10, nome: 'Redução das Desigualdades' }
-    ],
-    areaAtuacao: [
-      'Inclusão social',
-      'Empregabilidade',
-      'Comunidade',
-      'Formação',
-      'Desporto',
-      'Cultura',
-      'Reinserção',
-      'Educação'
-    ],
-    colaboracao: [
-      'Voluntariado 🤝',
-      'Recursos 🧩',
-      'Mentoria 💡',
-      'Capacitação'
-    ],
-    redesSociais: {
-      facebook: 'https://facebook.com/cais',
-      tiktok: 'https://tiktok.com/@cais',
-      linkedin: 'https://linkedin.com/company/cais',
-      instagram: 'https://instagram.com/cais'
-    },
-    morada: 'Rua da Ribeira Negra 55, 4050-321 Porto'
-  };
-
-  const eventos = [
-    {
-      id: 1,
-      nome: 'Doações de Cestas Básicas',
-      descricao: 'Evento de distribuição de cestas básicas para famílias carenciadas, ajudando a garantir segurança alimentar durante períodos difíceis.',
-      dataInicio: '2024-12-20T10:00:00Z',
-      localizacao: 'Rua da Ribeira Negra 55, 4050-321 Porto',
-      imagem: '/images/events/event-cestas.png',
-      vagas: '10 / 60'
-    },
-    {
-      id: 2,
-      nome: 'Futebol de Rua - Evento de Convívio',
-      descricao: 'Evento desportivo e de convívio que junta participantes do projecto "Futebol de Rua", comunidade e voluntários para promover inclusão e bem-estar.',
-      dataInicio: '2025-01-15T14:00:00Z',
-      localizacao: 'Porto, Portugal',
-      imagem: '/images/events/event-futebol.png',
-      vagas: '10 / 60'
-    },
-    {
-      id: 3,
-      nome: 'Convívio de Natal',
-      descricao: 'Evento de convívio social que junta toda a comunidade CAIS, voluntários e participantes para celebrar o Natal em conjunto.',
-      dataInicio: '2024-12-21T16:00:00Z',
-      localizacao: 'Porto, Portugal',
-      imagem: '/images/events/event-convivio.png',
-      vagas: '10 / 60'
-    }
-  ];
-
-  const projetos = [
-    {
-      id: 1,
-      titulo: 'Trabalhamos todos os dias',
-      descricao: 'A Associação CAIS mantém como um dos seus principais objetivos a promoção da (re)integração no mercado de trabalho das pessoas em situação de vulnerabilidade.\n\nAtravés de programas de capacitação, acompanhamento social e projetos de empregabilidade, a CAIS procura melhorar as condições de vida de todos os que acompanha.​',
-      imagem: '/images/projects/project-daily.png'
-    },
-    {
-      id: 2,
-      titulo: 'Projecto Futebol de Rua',
-      descricao: 'Iniciado em 2004, pela Associação CAIS, em parceria com inúmeras entidades públicas e privadas, promove a prática desportiva e a sua utilização como estratégia inovadora de intervenção e promoção da inclusão social.',
-      imagem: '/images/projects/project-futebol-rua.png'
-    },
-    {
-      id: 3,
-      titulo: 'Projecto Abrigo',
-      descricao: 'Desde 2003, o conceito de Responsabilidade Social Empresarial tem vindo a ser cada vez mais integrado na atividade das empresas.\nO Projeto Abrigo insere-se neste âmbito, ao integrar-se nos objetivos sociais das empresas que, de forma voluntária, assumem preocupações sociais nas suas práticas empresariais. Este projeto desempenha um papel fundamental na sustentação da atividade da CAIS, através de um compromisso com a duração de dois anos.',
-      imagem: '/images/projects/project-abrigo.png'
-    }
-  ];
-
+export default function Ong22Page() {
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
-      {/* Menu fixo no topo */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center" style={{ backgroundColor: '#F2F2F7', padding: '32px 64px 0px' }}>
-        <div className="w-full max-w-[1440px] rounded-[200px] border-b px-3 py-3 flex items-center justify-between" style={{ backgroundColor: '#F2F2F7', borderColor: '#F2F2F7' }}>
-          <div className="w-[176px] h-12">
-            <Image src="/images/logo-cais-44eb9c.svg" alt="Logo" width={176} height={48} />
-          </div>
-          
-          <div className="flex items-center gap-10">
-            <Link href="#" className="text-sm font-medium uppercase" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Plataforma</Link>
-            <Link href="#" className="text-sm font-medium uppercase" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Planos</Link>
-            <Link href="#" className="text-sm font-medium uppercase" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Sobre</Link>
-            <Link href="#" className="text-sm font-medium uppercase" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Blog</Link>
-          </div>
-          
-          <div className="w-[176px] flex justify-end">
-            <button className="w-12 h-12 rounded-full bg-gray-200"></button>
-          </div>
-        </div>
-      </div>
-
-      {/* Hero Section com imagem */}
+    <div className="bg-[#f2f2f7] min-h-screen w-full">
+      {/* Hero Section with Background Image */}
       <div className="relative w-full h-[450px]">
-        <Image
-          src={ngo.imagem}
-          alt={ngo.nome}
-          fill
-          className="object-cover"
-          priority
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1440&h=1440&fit=crop"
+            alt="Associação CAIS"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            style={{ objectPosition: '50% 20%' }}
+            priority
+          />
+        </div>
+        {/* Gradient Overlay */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(180deg, rgba(242,242,247,0) 67.696%, rgba(242,242,247,1) 94.162%)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F2F2F7]" style={{ background: 'linear-gradient(180deg, rgba(242, 242, 247, 0) 68%, rgba(242, 242, 247, 1) 94%)' }} />
       </div>
 
-      {/* Conteúdo principal */}
-      <div className="w-full flex flex-col items-center px-4 md:px-8 lg:px-16">
-        {/* About Section - centered, 918px width */}
-        <div className="w-full flex flex-col items-center gap-10" style={{ paddingTop: '304px' }}>
-          
-          {/* Frame 403 - Header Card com logo, title, actions */}
+      {/* Main Content */}
+      <div className="w-full max-w-[1440px] mx-auto">
+        <div className="px-16 py-2">
           <div 
-            className="w-full max-w-[918px] rounded-[32px] border p-8"
+            className="w-full max-w-[918px] mx-auto flex flex-col items-center relative z-10"
             style={{ 
-              background: 'rgba(242, 242, 247, 0.05)',
-              borderColor: 'rgba(64, 64, 64, 0.15)',
-              backdropFilter: 'blur(200px)'
+              paddingTop: '0px',
+              paddingBottom: '40px',
+              marginTop: '-200px',
+              gap: '40px'
             }}
           >
-            {/* Frame 439 - Top Row: Logo + Title + Location/Website */}
-            <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
-              {/* Logo and Title */}
-              <div className="flex items-center gap-2">
-                {ngo.logo && (
-                  <div className="w-14 h-[58px] rounded-[200px] bg-[#EF4037] flex items-center justify-center overflow-hidden">
-                    <Image src={ngo.logo} alt={`${ngo.nome} logo`} width={56} height={58} className="object-cover" />
+            {/* Header Card - Frame 403 */}
+            <div 
+              className="w-full flex flex-col items-center rounded-[32px] border border-solid"
+              style={{ 
+                background: 'rgba(242, 242, 247, 0.05)',
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                padding: '32px',
+                backdropFilter: 'blur(100px)'
+              }}
+            >
+              {/* Logo + Title + Location/Website */}
+              <div className="w-full flex items-center mb-10">
+                <div className="flex-1 flex gap-2 items-center justify-center">
+                  <div 
+                    className="relative rounded-full overflow-hidden flex-shrink-0"
+                    style={{ width: '56px', height: '58px', background: '#ef4037' }}
+                  >
+                    <div className="flex items-center justify-center w-full h-full text-white text-3xl font-bold">
+                      C
+                    </div>
                   </div>
-                )}
-                <h1 className="text-5xl font-extrabold" style={{ color: '#404040' }}>{ngo.nome}</h1>
+                  <h1 
+                    className="flex-1 font-extrabold"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '48px',
+                      lineHeight: '1.2',
+                      color: '#404040'
+                    }}
+                  >
+                    Associação CAIS
+                  </h1>
+                </div>
+                
+                {/* Location and Website */}
+                <div className="flex gap-4 items-center" style={{ padding: '8px 0' }}>
+                  <div className="flex gap-1 items-center">
+                    <MapPin style={{ width: '16px', height: '16px', color: '#595959' }} />
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '500', lineHeight: '1.2', color: '#595959' }}>
+                      Porto, Portugal
+                    </span>
+                  </div>
+                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                  <div className="flex gap-1 items-center">
+                    <Globe style={{ width: '16px', height: '16px', color: '#595959' }} />
+                    <a 
+                      href="https://cais.pt" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '500', lineHeight: '1.2', color: '#595959' }}
+                    >
+                      cais.pt
+                    </a>
+                  </div>
+                </div>
               </div>
 
-              {/* Location + Website */}
-              <div className="flex items-center gap-4 py-2">
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-4 h-4" style={{ color: '#595959' }} />
-                  <span className="text-base font-medium" style={{ color: '#595959' }}>{ngo.localizacao}</span>
-                </div>
-                <div className="w-px h-4" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-                <div className="flex items-center gap-1">
-                  <Globe className="w-4 h-4" style={{ color: '#595959' }} />
-                  <a href={ngo.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-base font-medium hover:underline" style={{ color: '#595959' }}>
-                    cais.pt
-                  </a>
-                </div>
+              {/* Collaboration Tags */}
+              <div className="w-full flex gap-4 items-center overflow-auto mb-10" style={{ padding: '0 8px' }}>
+                {['Sem Abrigo', 'Inclusão social', 'Empregabilidade', 'Comunidade', 'Mentoria', 'Capacitação'].map((tag) => (
+                  <div 
+                    key={tag}
+                    className="border border-solid rounded-full flex-shrink-0"
+                    style={{ 
+                      borderColor: 'rgba(64, 64, 64, 0.5)', 
+                      padding: '8px 16px' 
+                    }}
+                  >
+                    <span style={{ 
+                      fontFamily: 'Inter, sans-serif', 
+                      fontSize: '14px', 
+                      fontWeight: '600', 
+                      lineHeight: '1.4', 
+                      color: 'rgba(64, 64, 64, 0.5)' 
+                    }}>
+                      {tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Buttons */}
+              <div className="w-full flex gap-4 items-center">
+                <button 
+                  className="flex-1 flex gap-4 items-center justify-center rounded-full"
+                  style={{ background: '#155dfc', padding: '16px 12px' }}
+                >
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '600', color: '#f2f2f7' }}>
+                    Quero colaborar
+                  </span>
+                  <ArrowRight style={{ width: '24px', height: '24px', color: '#f2f2f7' }} />
+                </button>
+                <button 
+                  className="flex-1 flex gap-4 items-center justify-center rounded-full border border-solid"
+                  style={{ borderColor: 'rgba(64, 64, 64, 0.15)', padding: '16px 12px' }}
+                >
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '600', color: '#595959' }}>
+                    Seguir ONG
+                  </span>
+                  <Bookmark style={{ width: '24px', height: '24px', color: '#595959' }} />
+                </button>
               </div>
             </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap items-center gap-4 py-10 px-2">
-              {ngo.colaboracao.map((colab, index) => (
-                <div key={index} className="px-4 py-2 rounded-[200px] border" style={{ borderColor: 'rgba(64, 64, 64, 0.5)' }}>
-                  <span className="text-sm font-medium" style={{ color: 'rgba(64, 64, 64, 0.5)' }}>{colab}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-4">
-              <button className="flex-1 px-3 py-4 rounded-[100px] flex items-center justify-center gap-4" style={{ backgroundColor: '#155DFC' }}>
-                <span className="text-xl font-semibold text-white">Quero colaborar</span>
-                <ArrowRight className="w-6 h-6 text-white" />
-              </button>
-              <button className="flex-1 px-3 py-4 rounded-[100px] border flex items-center justify-center gap-4" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
-                <span className="text-xl font-semibold" style={{ color: '#595959' }}>Seguir ONG</span>
-                <Bookmark className="w-6 h-6" style={{ color: '#595959' }} />
-              </button>
-            </div>
-          </div>
-
-          {/* Missão Section */}
-          <div className="w-full max-w-[918px] flex flex-col gap-2">
-            <div className="w-full">
-              <h3 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.4]" style={{ color: '#404040' }}>
-                {ngo.missao}
-              </h3>
-            </div>
-
-            <div className="w-full flex justify-center py-2">
-              <p className="w-full text-xl font-medium leading-[1.4]" style={{ color: '#595959' }}>
-                {ngo.descricao}
+            {/* About Section */}
+            <div className="w-full flex flex-col items-start">
+              <h2 
+                className="font-bold mb-4"
+                style={{ 
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '39px',
+                  lineHeight: '1.4',
+                  color: '#404040'
+                }}
+              >
+                Transformamos vidas, todos os dias.
+              </h2>
+              <p 
+                className="w-full"
+                style={{ 
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '20px',
+                  fontWeight: '500',
+                  lineHeight: '1.4',
+                  color: '#595959',
+                  padding: '8px 0'
+                }}
+              >
+                A CAIS trabalha há mais de 30 anos para criar oportunidades e promover a inclusão social e profissional de pessoas em situação de vulnerabilidade. Através dos nossos projetos, ajudamos a reconstruir trajetórias de vida e a devolver dignidade e autonomia a quem mais precisa.
               </p>
             </div>
-          </div>
 
-          {/* Métricas Section - 3 banners */}
-          {ngo.impacto && ngo.impacto.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col md:flex-row gap-6">
-              {ngo.impacto.slice(0, 3).map((impacto, index) => (
-                <MetricBanner
+            {/* Metrics - 3 Banners */}
+            <div className="w-full flex gap-6">
+              {[
+                { value: '755', label: '85% da população\nsem-abrigo' },
+                { value: '187', label: '85% da população\nsem-abrigo' },
+                { value: '27.630', label: '85% da população\nsem-abrigo' }
+              ].map((metric, index) => (
+                <div 
                   key={index}
-                  label={impacto}
-                  className="flex-1"
-                />
+                  className="flex-1 flex flex-col items-center overflow-hidden rounded-[32px]"
+                  style={{ background: '#f2f2f7' }}
+                >
+                  <div style={{ padding: '16px 16px 0' }}>
+                    <p style={{ 
+                      fontFamily: 'Inter, sans-serif', 
+                      fontSize: '48px', 
+                      fontWeight: '700', 
+                      lineHeight: '1.2', 
+                      color: '#404040',
+                      textAlign: 'center'
+                    }}>
+                      {metric.value}
+                    </p>
+                  </div>
+                  <div style={{ padding: '0 16px 16px' }}>
+                    <p style={{ 
+                      fontFamily: 'Inter, sans-serif', 
+                      fontSize: '20px', 
+                      fontWeight: '700', 
+                      lineHeight: '1.4', 
+                      color: '#8c8c8c',
+                      textAlign: 'center',
+                      whiteSpace: 'pre-line'
+                    }}>
+                      {metric.label}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
-          )}
 
-          {/* Áreas de Atuação Section */}
-          {ngo.areaAtuacao.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col gap-6">
-              <div className="w-full pb-4 lg:pb-8">
-                <h3 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
+            {/* Áreas de Atuação */}
+            <div className="w-full flex flex-col gap-4">
+              <div style={{ paddingBottom: '32px' }}>
+                <h3 style={{ 
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '39px',
+                  fontWeight: '700',
+                  lineHeight: '1.2',
+                  color: '#1e1e1e'
+                }}>
                   Áreas de Atuação
                 </h3>
               </div>
-
-              {/* Areas Grid */}
-              <div className="w-full flex flex-wrap gap-8 justify-center">
-                {ngo.areaAtuacao.map((area, index) => (
-                  <AreaBanner key={index} className="w-auto" icon={getAreaIcon(area)}>
-                    <div className="w-full flex flex-col items-center gap-8">
-                      <span className="text-center text-base font-medium">{area}</span>
+              <div className="w-full flex flex-wrap gap-8 items-center justify-center">
+                {['Inclusão Social', 'Empregabilidade', 'Formação', 'Desporto', 'Cultura', 'Comunidade', 'Reinserção', 'Educação'].map((area) => (
+                  <div 
+                    key={area}
+                    className="flex flex-col items-center justify-center border border-solid rounded-2xl"
+                    style={{ 
+                      width: '150px',
+                      background: '#f2f2f7',
+                      borderColor: 'rgba(64, 64, 64, 0.15)',
+                      padding: '24px 16px',
+                      gap: '32px'
+                    }}
+                  >
+                    <div style={{ width: '24px', height: '24px', opacity: '0.9' }}>
+                      {/* Icon placeholder */}
+                      <div className="w-full h-full rounded-full" style={{ background: 'rgba(64, 64, 64, 0.2)' }} />
                     </div>
-                  </AreaBanner>
+                    <p style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '16px',
+                      fontWeight: '400',
+                      lineHeight: '1.5',
+                      color: '#404040',
+                      textAlign: 'center',
+                      width: '100%'
+                    }}>
+                      {area}
+                    </p>
+                  </div>
                 ))}
               </div>
             </div>
-          )}
 
-          {/* Próximos Eventos Section */}
-          {eventos.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col gap-6">
-              <div className="w-full flex items-center justify-between py-2">
-                <h3 className="text-2xl md:text-3xl lg:text-[39px] font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>
+            {/* Próximos Eventos */}
+            <div className="w-full flex flex-col gap-6">
+              <div className="w-full flex items-center" style={{ padding: '8px 0' }}>
+                <h3 style={{ 
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '39px',
+                  fontWeight: '700',
+                  lineHeight: '1.2',
+                  color: '#1e1e1e'
+                }}>
                   Próximos eventos
                 </h3>
-                <button className="flex items-center gap-4">
-                  <span className="text-base font-medium" style={{ color: '#595959' }}>Ver todos</span>
-                  <ArrowRight className="w-6 h-6" style={{ color: '#595959' }} />
-                </button>
+                <div className="flex-1 flex justify-end gap-5">
+                  <button className="flex items-center justify-center rounded-full" style={{ width: '47px', height: '47px', background: '#f2f2f7' }}>
+                    <ChevronLeft style={{ width: '20px', height: '20px', color: '#404040' }} />
+                  </button>
+                  <button className="flex items-center justify-center rounded-full" style={{ width: '47px', height: '47px', background: '#e8e8e8' }}>
+                    <ChevronRight style={{ width: '20px', height: '20px', color: '#404040' }} />
+                  </button>
+                </div>
               </div>
-
-              {/* Events Grid */}
-              <div className="w-full flex flex-col md:flex-row gap-6">
-                {eventos.map((evento) => (
-                  <Card key={evento.id} className="flex-1 overflow-hidden rounded-[32px] border" style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}>
-                    <div className="relative w-full h-[120px]">
+              
+              <div className="w-full flex gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div 
+                    key={i}
+                    className="flex-1 bg-white border border-solid rounded-[32px] overflow-hidden"
+                    style={{ borderColor: 'rgba(64, 64, 64, 0.15)' }}
+                  >
+                    <div className="relative" style={{ height: '120px' }}>
                       <Image
-                        src={evento.imagem}
-                        alt={evento.nome}
+                        src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&h=120&fit=crop"
+                        alt="Evento"
                         fill
+                        sizes="300px"
                         className="object-cover"
                       />
-                      <div className="absolute top-3.5 right-[189px] px-2 py-2 rounded-[200px]" style={{ backgroundColor: '#C4D6FF' }}>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4" style={{ color: '#155DFC' }} />
-                          <span className="text-sm font-medium" style={{ color: '#155DFC' }}>{evento.vagas}</span>
-                        </div>
+                      <div 
+                        className="absolute flex items-center gap-2 rounded-full"
+                        style={{ top: '14px', right: '14px', background: '#c4d6ff', padding: '4px 8px' }}
+                      >
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '700', color: '#155dfc' }}>10</span>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '500', color: 'rgba(21, 93, 252, 0.3)' }}>/ 60</span>
                       </div>
                     </div>
-
-                    <div className="p-0 flex flex-col gap-4">
-                      <div className="px-4 flex flex-col gap-2">
-                        <h4 className="text-lg font-bold leading-[1.4]" style={{ color: '#404040' }}>{evento.nome}</h4>
-                        <div className="flex flex-wrap items-center gap-2">
-                          {/* Event metadata badges would go here */}
-                        </div>
+                    <div className="flex flex-col gap-4" style={{ padding: '16px' }}>
+                      <h4 style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '18px',
+                        fontWeight: '700',
+                        lineHeight: '1.4',
+                        color: '#404040',
+                        height: '50px'
+                      }}>
+                        Doações de Cestas Básicas
+                      </h4>
+                      <div className="flex flex-wrap gap-2 text-sm" style={{ color: 'rgba(89, 89, 89, 0.7)' }}>
+                        <span>📍 Porto, Portugal</span>
+                        <span>🕐 17:00</span>
+                        <span>📅 20 Out 2025</span>
                       </div>
-
-                      <div className="px-4">
-                        <p className="text-sm font-medium leading-[1.4]" style={{ color: '#595959' }}>{evento.descricao}</p>
-                      </div>
-
-                      <div className="px-4 pb-4 flex flex-col gap-2">
-                        <button className="w-full px-4 py-2 rounded-[100px] flex items-center justify-center gap-4" style={{ backgroundColor: '#155DFC' }}>
-                          <span className="text-base font-medium text-white">Participar</span>
-                          <ArrowRight className="w-4 h-4 text-white" />
-                        </button>
-                        <p className="text-xs font-bold text-center leading-[1.4]" style={{ color: '#404040' }}>Faltam 50 vagas</p>
-                      </div>
+                      <p style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        lineHeight: '1.4',
+                        color: '#595959'
+                      }}>
+                        Evento desportivo e de convívio que junta participantes...
+                      </p>
+                      <button 
+                        className="w-full flex items-center justify-center gap-4 rounded-full"
+                        style={{ background: '#155dfc', padding: '8px 16px' }}
+                      >
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: '500', color: 'white' }}>
+                          Participar
+                        </span>
+                        <ArrowRight style={{ width: '16px', height: '16px', color: 'white' }} />
+                      </button>
+                      <p style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '12px',
+                        fontWeight: '700',
+                        color: '#404040',
+                        textAlign: 'center'
+                      }}>
+                        Faltam 50 vagas
+                      </p>
                     </div>
-                  </Card>
+                  </div>
                 ))}
               </div>
             </div>
-          )}
 
-          {/* Vídeo Section - Placeholder */}
-          <div className="w-full max-w-[918px] py-8 pb-[60px]">
-            <div className="relative w-full h-[472.5px] rounded-2xl overflow-hidden" style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <button className="w-[75px] h-[60px] rounded-lg flex items-center justify-center" style={{ backgroundColor: '#1C1B1F' }}>
-                  <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-white border-b-[12px] border-b-transparent ml-1" />
-                </button>
+            {/* Video Section */}
+            <div className="w-full" style={{ paddingTop: '32px', paddingBottom: '60px' }}>
+              <div className="relative w-full rounded overflow-hidden" style={{ height: '472.5px' }}>
+                <Image
+                  src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1000&h=500&fit=crop"
+                  alt="Video"
+                  fill
+                  sizes="918px"
+                  className="object-cover"
+                  style={{ opacity: '0.8' }}
+                />
+                <div className="absolute inset-0" style={{ background: 'rgba(0, 0, 0, 0.4)' }} />
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <div className="flex items-center justify-center" style={{ width: '75px', height: '60px' }}>
+                    <Play style={{ width: '60px', height: '60px', color: 'white' }} />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Projetos Section */}
-          {projetos.length > 0 && (
-            <div className="w-full max-w-[918px] flex flex-col gap-1" style={{ backgroundColor: 'rgba(21, 93, 252, 0.05)' }}>
-              {projetos.map((projeto, index) => (
-                <div key={projeto.id} className="w-full flex flex-col md:flex-row items-center gap-6 rounded-[32px]">
-                  {index % 2 === 0 ? (
+            {/* Projects Section */}
+            <div className="w-full flex flex-col gap-1">
+              {/* Project 1 */}
+              <div className="w-full flex gap-6 items-center">
+                <div className="relative rounded-2xl overflow-hidden flex-shrink-0" style={{ width: '290px', height: '238px' }}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=290&h=238&fit=crop"
+                    alt="Projeto"
+                    fill
+                    sizes="290px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1 flex flex-col gap-2">
+                  <h4 style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '24px',
+                    fontWeight: '700',
+                    lineHeight: '1.4',
+                    color: '#404040'
+                  }}>
+                    Trabalhamos todos os dias
+                  </h4>
+                  <p style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '20px',
+                    fontWeight: '400',
+                    lineHeight: '1.4',
+                    color: '#595959'
+                  }}>
+                    A Associação CAIS mantém como um dos seus principais objetivos a promoção da (re)integração no mercado de trabalho das pessoas em situação de vulnerabilidade.
+                  </p>
+                </div>
+              </div>
+
+              {/* Project 2 */}
+              <div className="w-full flex gap-6 items-center">
+                <div className="flex-1 flex flex-col gap-2">
+                  <h4 style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '24px',
+                    fontWeight: '700',
+                    lineHeight: '1.4',
+                    color: '#404040'
+                  }}>
+                    Projecto Futebol de Rua
+                  </h4>
+                  <p style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '20px',
+                    fontWeight: '400',
+                    lineHeight: '1.4',
+                    color: '#595959'
+                  }}>
+                    Iniciado em 2004, pela Associação CAIS, em parceria com inúmeras entidades públicas e privadas, promove a prática desportiva.
+                  </p>
+                </div>
+                <div className="relative rounded-2xl overflow-hidden flex-shrink-0" style={{ width: '290px', height: '277px' }}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=290&h=277&fit=crop"
+                    alt="Projeto"
+                    fill
+                    sizes="290px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Project 3 */}
+              <div className="w-full flex gap-6 items-center">
+                <div className="relative rounded-2xl overflow-hidden flex-shrink-0" style={{ width: '290px', height: '322px' }}>
+                  <Image
+                    src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=290&h=322&fit=crop"
+                    alt="Projeto"
+                    fill
+                    sizes="290px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex-1 flex flex-col gap-2">
+                  <h4 style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '24px',
+                    fontWeight: '700',
+                    lineHeight: '1.4',
+                    color: '#404040'
+                  }}>
+                    Projecto Abrigo
+                  </h4>
+                  <p style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '20px',
+                    fontWeight: '400',
+                    lineHeight: '1.4',
+                    color: '#595959'
+                  }}>
+                    Desde 2003, o conceito de Responsabilidade Social Empresarial tem vindo a ser cada vez mais integrado na atividade das empresas.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Informações Adicionais */}
+            <div 
+              className="w-full flex flex-col gap-8 items-center rounded-[32px] border border-solid"
+              style={{ 
+                background: 'rgba(242, 242, 247, 0.05)',
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                padding: '24px 32px 32px',
+                backdropFilter: 'blur(100px)'
+              }}
+            >
+              {/* Site */}
+              <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '700', lineHeight: '1.2', color: '#1e1e1e' }}>
+                  Site:
+                </span>
+                <a href="https://cais.pt" target="_blank" rel="noopener noreferrer" className="underline" style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                  cais.pt
+                </a>
+              </div>
+
+              {/* Tipos de Colaboração */}
+              <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '700', lineHeight: '1.2', color: '#1e1e1e' }}>
+                  Tipos de Colaboração
+                </span>
+                <div className="flex gap-4 items-center">
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                    Voluntariado 🤝
+                  </span>
+                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                    Recursos 🧩
+                  </span>
+                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                    Mentoria 💡
+                  </span>
+                </div>
+              </div>
+
+              {/* ODS */}
+              <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '700', lineHeight: '1.2', color: '#1e1e1e' }}>
+                  ODS
+                </span>
+                <span className="underline" style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                  -
+                </span>
+              </div>
+
+              {/* Redes Sociais */}
+              <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '700', lineHeight: '1.2', color: '#1e1e1e' }}>
+                  Redes Sociais:
+                </span>
+                <div className="flex gap-4 items-center">
+                  {['Facebook', 'Tiktok', 'Linkedin', 'Instagram'].map((social, i, arr) => (
                     <>
-                      <div className="w-full md:w-[290px] h-full rounded-2xl overflow-hidden">
-                        <Image
-                          src={projeto.imagem}
-                          alt={projeto.titulo}
-                          width={290}
-                          height={400}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                      <div className="flex-1 flex flex-col justify-center gap-2">
-                        <h4 className="text-2xl font-bold leading-[1.4]" style={{ color: '#404040' }}>{projeto.titulo}</h4>
-                        <p className="text-xl font-normal leading-[1.4] whitespace-pre-line" style={{ color: '#595959' }}>{projeto.descricao}</p>
-                      </div>
+                      <a key={social} href="#" className="underline" style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                        {social}
+                      </a>
+                      {i < arr.length - 1 && <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />}
                     </>
-                  ) : (
-                    <>
-                      <div className="flex-1 flex flex-col justify-center gap-2 order-2 md:order-1">
-                        <h4 className="text-2xl font-bold leading-[1.4]" style={{ color: '#404040' }}>{projeto.titulo}</h4>
-                        <p className="text-xl font-normal leading-[1.4] whitespace-pre-line" style={{ color: '#595959' }}>{projeto.descricao}</p>
-                      </div>
-                      <div className="w-full md:w-[290px] h-[277.32px] rounded-2xl overflow-hidden order-1 md:order-2">
-                        <Image
-                          src={projeto.imagem}
-                          alt={projeto.titulo}
-                          width={290}
-                          height={277}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Informações Adicionais Section */}
-          <div className="w-full max-w-[918px] rounded-[32px] border flex flex-col gap-8 p-8 pt-6 pb-8" style={{ background: 'rgba(242, 242, 247, 0.05)', borderColor: 'rgba(64, 64, 64, 0.15)', backdropFilter: 'blur(200px)' }}>
-            {/* Site */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between gap-1 py-2">
-                <span className="text-xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>Site:</span>
-                <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>cais.pt</span>
-              </div>
-            </div>
-
-            <div className="w-full h-px rounded-[200px]" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-
-            {/* Tipos de Colaboração */}
-            <div className="flex flex-col">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-1 py-2">
-                <span className="text-xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>Tipos de Colaboração</span>
-                <div className="flex items-center gap-4">
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>Voluntariado 🤝</span>
-                  <div className="w-px h-4" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>Recursos 🧩</span>
-                  <div className="w-px h-4" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>Mentoria 💡</span>
+                  ))}
                 </div>
               </div>
-            </div>
 
-            <div className="w-full h-px rounded-[200px]" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-
-            {/* ODS */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between gap-1 py-2">
-                <span className="text-xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>ODS</span>
-                <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>-</span>
-              </div>
-            </div>
-
-            <div className="w-full h-px rounded-[200px]" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-
-            {/* Redes Sociais */}
-            <div className="flex flex-col">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-1 py-2">
-                <span className="text-xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>Redes Sociais:</span>
-                <div className="flex items-center gap-4">
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>Facebook</span>
-                  <div className="w-px h-4" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>Tiktok</span>
-                  <div className="w-px h-4" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>Linkedin</span>
-                  <div className="w-px h-4" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>Instagram</span>
+              {/* Contacto */}
+              <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '700', lineHeight: '1.2', color: '#1e1e1e' }}>
+                  Contacto
+                </span>
+                <div className="flex gap-4 items-center">
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                    cais@cais.pt
+                  </span>
+                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                    222 071 320
+                  </span>
                 </div>
               </div>
-            </div>
 
-            <div className="w-full h-px rounded-[200px]" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-
-            {/* Contacto */}
-            <div className="flex flex-col">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-1 py-2">
-                <span className="text-xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>Contacto</span>
-                <div className="flex items-center gap-4">
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>{ngo.email}</span>
-                  <div className="w-px h-4" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>{ngo.telefone}</span>
-                </div>
+              {/* Morada */}
+              <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '700', lineHeight: '1.2', color: '#1e1e1e' }}>
+                  Morada
+                </span>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
+                  Rua da Ribeira Negra 55, 4050-321 Porto
+                </span>
               </div>
             </div>
 
-            <div className="w-full h-px rounded-[200px]" style={{ backgroundColor: 'rgba(64, 64, 64, 0.15)' }} />
-
-            {/* Morada */}
-            <div className="flex flex-col">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-1 py-2">
-                <span className="text-xl font-bold leading-[1.2]" style={{ color: '#1E1E1E' }}>Morada</span>
-                <div className="flex items-center gap-4">
-                  <span className="text-xl font-normal leading-[1.2]" style={{ color: '#404040' }}>{ngo.morada}</span>
-                </div>
-              </div>
-            </div>
           </div>
-
         </div>
       </div>
 
       {/* Footer */}
-      <div className="w-full flex flex-col items-center gap-[120px] pt-[120px]">
-        <div className="w-full border-t shadow-sm" style={{ backgroundColor: '#F2F2F7', borderColor: 'rgba(10, 10, 10, 0.05)', boxShadow: '0px 2px 15px 0px rgba(238, 238, 238, 1)' }}>
-          <div className="w-full max-w-[1440px] mx-auto px-16 py-10 pb-6 flex flex-col justify-between gap-4 min-h-[306px]">
-            <div className="flex gap-[136px]">
-              <div className="flex flex-col gap-4">
-                <h4 className="text-sm font-bold uppercase" style={{ color: '#1C1B1F' }}>Sobre nós</h4>
-                <div className="flex flex-col gap-2">
-                  <Link href="#" className="text-sm" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Quem somos</Link>
-                  <Link href="#" className="text-sm" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Equipa</Link>
-                  <Link href="#" className="text-sm" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Carreiras</Link>
+      <div className="w-full" style={{ paddingTop: '120px' }}>
+        <div 
+          className="border-t border-solid flex flex-col justify-between"
+          style={{ 
+            background: '#f2f2f7',
+            borderColor: 'rgba(10, 10, 10, 0.05)',
+            height: '306px',
+            padding: '40px 64px 24px'
+          }}
+        >
+          <div className="flex gap-32">
+            <div className="flex flex-col gap-4" style={{ width: '420px' }}>
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: '#1c1b1f' }}>
+                  <span className="text-white font-bold text-sm">U</span>
+                </div>
+                <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: '28.75px', fontWeight: '900', color: '#1c1b1f', textTransform: 'uppercase', letterSpacing: '2.3px' }}>
+                  UNIVA
+                </span>
+              </div>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '500', color: 'rgba(10, 10, 10, 0.7)' }}>
+                Conectando empresas com oportunidades de impacto social. Vamos contruir um futuro melhor juntos.
+              </p>
+            </div>
+            
+            <div className="flex gap-6">
+              <div className="flex flex-col gap-4" style={{ width: '200px' }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '700', color: '#0a0a0a' }}>
+                  Plataforma
+                </p>
+                <div className="flex flex-col gap-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '500', color: 'rgba(10, 10, 10, 0.7)' }}>
+                  <p>Tracker de impacto</p>
+                  <p>ODS</p>
+                  <p>Métricas</p>
+                  <p>Boas práticas para ONGs</p>
                 </div>
               </div>
               
-              <div className="flex flex-col gap-4">
-                <h4 className="text-sm font-bold uppercase" style={{ color: '#1C1B1F' }}>Recursos</h4>
-                <div className="flex flex-col gap-2">
-                  <Link href="#" className="text-sm" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Blog</Link>
-                  <Link href="#" className="text-sm" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Ajuda</Link>
-                  <Link href="#" className="text-sm" style={{ color: 'rgba(28, 27, 31, 0.7)' }}>Contacto</Link>
+              <div className="flex flex-col gap-4" style={{ width: '199px' }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '700', color: '#0a0a0a' }}>
+                  Planos
+                </p>
+                <div className="flex flex-col gap-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '500', color: 'rgba(10, 10, 10, 0.7)' }}>
+                  <p>Subscrição</p>
+                  <p>Vantagens</p>
+                  <p>Políticas de Privacidade</p>
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-4" style={{ width: '200px' }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '700', color: '#0a0a0a' }}>
+                  Sobre
+                </p>
+                <div className="flex flex-col gap-2" style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: '500', color: 'rgba(10, 10, 10, 0.7)' }}>
+                  <p>Quem Somos</p>
+                  <p>Contato</p>
+                  <p>Blog</p>
                 </div>
               </div>
             </div>
-
-            <div className="flex flex-col gap-2">
-              <div className="w-full h-px" style={{ backgroundColor: 'rgba(10, 10, 10, 0.05)' }} />
-              <p className="text-sm" style={{ color: 'rgba(28, 27, 31, 0.5)' }}>© 2024 ONGs Portugal. Todos os direitos reservados.</p>
-            </div>
+          </div>
+          
+          <div className="flex gap-6" style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: '500', color: 'rgba(10, 10, 10, 0.7)', textTransform: 'uppercase' }}>
+            <p>INSTAGRAM</p>
+            <p>LINKEDIN</p>
+            <p>TIKTOK</p>
           </div>
         </div>
       </div>

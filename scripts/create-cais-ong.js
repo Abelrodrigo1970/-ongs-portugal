@@ -91,6 +91,10 @@ async function main() {
       imagem: '/images/ongs/hero-cais-70a430.png',
       logo: '/images/logo-cais-44eb9c.svg',
       websiteUrl: 'https://cais.pt',
+      instagramUrl: 'https://instagram.com/cais',
+      facebookUrl: 'https://facebook.com/cais',
+      tiktokUrl: 'https://tiktok.com/@cais',
+      linkedinUrl: 'https://linkedin.com/company/cais',
       ods: {
         create: [
           { odsId: ods1.id },

@@ -7,6 +7,7 @@ const ProjectCard = ({ title, description, image, imageOnLeft = true, className 
         src={image}
         alt={title}
         fill
+        sizes="290px"
         className="object-cover"
       />
     </div>

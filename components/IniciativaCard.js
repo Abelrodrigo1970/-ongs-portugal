@@ -71,6 +71,7 @@ const IniciativaCard = ({ iniciativa, className = '', showInscricao = false }) =
                     src={iniciativa.empresa.logo}
                     alt={iniciativa.empresa.nome}
                     fill
+                    sizes="24px"
                     className="object-contain rounded"
                   />
                 </div>
