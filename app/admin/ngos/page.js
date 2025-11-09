@@ -6,6 +6,8 @@ import { Plus, Search } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import NGOTable from '@/components/admin/NGOTable';
+import AdminModal from '@/components/admin/AdminModal';
+import NGOForm from '@/components/admin/NGOForm';
 
 export default function AdminNGOsPage() {
   const { getAuthHeaders } = useAdmin();
@@ -14,6 +16,9 @@ export default function AdminNGOsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedNGO, setSelectedNGO] = useState(null);
+  const [formLoading, setFormLoading] = useState(false);
 
   useEffect(() => {
     loadNGOs();
@@ -25,9 +30,9 @@ export default function AdminNGOsPage() {
       const headers = getAuthHeaders();
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '20',
+        limit: '20'
       });
-      
+
       if (searchQuery) {
         params.append('query', searchQuery);
       }
@@ -56,7 +61,7 @@ export default function AdminNGOsPage() {
       const headers = getAuthHeaders();
       const response = await fetch(`/api/admin/ngos/${ngo.id}`, {
         method: 'DELETE',
-        headers,
+        headers
       });
 
       const data = await response.json();
@@ -78,7 +83,7 @@ export default function AdminNGOsPage() {
       const headers = getAuthHeaders();
       const response = await fetch(`/api/admin/ngos/${ngo.id}`, {
         method: 'PATCH',
-        headers,
+        headers
       });
 
       const data = await response.json();
@@ -95,9 +100,53 @@ export default function AdminNGOsPage() {
     }
   };
 
-  const handleEdit = (ngo) => {
-    alert('Funcionalidade de edição em desenvolvimento. ID: ' + ngo.id);
-    // TODO: Implementar modal de edição
+  const openCreateModal = () => {
+    setSelectedNGO(null);
+    setIsFormOpen(true);
+  };
+
+  const openEditModal = (ngo) => {
+    setSelectedNGO(ngo);
+    setIsFormOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsFormOpen(false);
+    setSelectedNGO(null);
+  };
+
+  const handleSubmit = async (formData) => {
+    try {
+      setFormLoading(true);
+      const headers = {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json'
+      };
+
+      const response = await fetch(
+        selectedNGO ? `/api/admin/ngos/${selectedNGO.id}` : '/api/admin/ngos',
+        {
+          method: selectedNGO ? 'PUT' : 'POST',
+          headers,
+          body: JSON.stringify(formData)
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Erro ao salvar ONG');
+      }
+
+      alert(`ONG ${selectedNGO ? 'atualizada' : 'criada'} com sucesso!`);
+      closeModal();
+      loadNGOs();
+    } catch (error) {
+      console.error('Erro ao salvar ONG:', error);
+      alert(error.message || 'Erro ao salvar ONG');
+    } finally {
+      setFormLoading(false);
+    }
   };
 
   return (
@@ -114,7 +163,7 @@ export default function AdminNGOsPage() {
         <Button
           variant="primary"
           icon={Plus}
-          onClick={() => alert('Funcionalidade em desenvolvimento')}
+          onClick={openCreateModal}
         >
           Nova ONG
         </Button>
@@ -136,7 +185,7 @@ export default function AdminNGOsPage() {
       <NGOTable
         ngos={ngos}
         loading={loading}
-        onEdit={handleEdit}
+        onEdit={openEditModal}
         onDelete={handleDelete}
         onToggleVisibility={handleToggleVisibility}
       />
@@ -164,6 +213,22 @@ export default function AdminNGOsPage() {
           </div>
         </div>
       )}
+
+      <AdminModal
+        title={selectedNGO ? 'Editar ONG' : 'Nova ONG'}
+        description={selectedNGO ? 'Atualize os dados da organização abaixo.' : 'Preencha os dados para criar uma nova ONG.'}
+        isOpen={isFormOpen}
+        onClose={closeModal}
+        footer={false}
+        size="lg"
+      >
+        <NGOForm
+          initialData={selectedNGO}
+          onSubmit={handleSubmit}
+          onCancel={closeModal}
+          loading={formLoading}
+        />
+      </AdminModal>
     </div>
   );
 }

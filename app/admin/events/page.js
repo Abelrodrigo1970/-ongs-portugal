@@ -6,6 +6,8 @@ import { Plus, Search } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import EventTable from '@/components/admin/EventTable';
+import AdminModal from '@/components/admin/AdminModal';
+import EventForm from '@/components/admin/EventForm';
 
 export default function AdminEventsPage() {
   const { getAuthHeaders } = useAdmin();
@@ -14,10 +16,18 @@ export default function AdminEventsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
+  const [ngos, setNgos] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [formLoading, setFormLoading] = useState(false);
 
   useEffect(() => {
     loadEvents();
   }, [page, searchQuery]);
+
+  useEffect(() => {
+    loadNgosList();
+  }, []);
 
   const loadEvents = async () => {
     setLoading(true);
@@ -25,9 +35,9 @@ export default function AdminEventsPage() {
       const headers = getAuthHeaders();
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: '20',
+        limit: '20'
       });
-      
+
       if (searchQuery) {
         params.append('query', searchQuery);
       }
@@ -47,6 +57,20 @@ export default function AdminEventsPage() {
     }
   };
 
+  const loadNgosList = async () => {
+    try {
+      const headers = getAuthHeaders();
+      const response = await fetch('/api/admin/ngos?limit=200', { headers });
+      const data = await response.json();
+
+      if (data.success) {
+        setNgos(data.ngos);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar ONGs para seleção:', error);
+    }
+  };
+
   const handleDelete = async (event) => {
     if (!confirm(`Tem certeza que deseja deletar "${event.nome}"? Esta ação não pode ser desfeita.`)) {
       return;
@@ -56,7 +80,7 @@ export default function AdminEventsPage() {
       const headers = getAuthHeaders();
       const response = await fetch(`/api/admin/events/${event.id}`, {
         method: 'DELETE',
-        headers,
+        headers
       });
 
       const data = await response.json();
@@ -78,7 +102,7 @@ export default function AdminEventsPage() {
       const headers = getAuthHeaders();
       const response = await fetch(`/api/admin/events/${event.id}`, {
         method: 'PATCH',
-        headers,
+        headers
       });
 
       const data = await response.json();
@@ -95,9 +119,53 @@ export default function AdminEventsPage() {
     }
   };
 
-  const handleEdit = (event) => {
-    alert('Funcionalidade de edição em desenvolvimento. ID: ' + event.id);
-    // TODO: Implementar modal de edição
+  const openCreateModal = () => {
+    setSelectedEvent(null);
+    setIsFormOpen(true);
+  };
+
+  const openEditModal = (event) => {
+    setSelectedEvent(event);
+    setIsFormOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsFormOpen(false);
+    setSelectedEvent(null);
+  };
+
+  const handleSubmit = async (formData) => {
+    try {
+      setFormLoading(true);
+      const headers = {
+        ...getAuthHeaders(),
+        'Content-Type': 'application/json'
+      };
+
+      const response = await fetch(
+        selectedEvent ? `/api/admin/events/${selectedEvent.id}` : '/api/admin/events',
+        {
+          method: selectedEvent ? 'PUT' : 'POST',
+          headers,
+          body: JSON.stringify(formData)
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Erro ao salvar evento');
+      }
+
+      alert(`Evento ${selectedEvent ? 'atualizado' : 'criado'} com sucesso!`);
+      closeModal();
+      loadEvents();
+    } catch (error) {
+      console.error('Erro ao salvar evento:', error);
+      alert(error.message || 'Erro ao salvar evento');
+    } finally {
+      setFormLoading(false);
+    }
   };
 
   return (
@@ -114,7 +182,7 @@ export default function AdminEventsPage() {
         <Button
           variant="primary"
           icon={Plus}
-          onClick={() => alert('Funcionalidade em desenvolvimento')}
+          onClick={openCreateModal}
         >
           Novo Evento
         </Button>
@@ -136,7 +204,7 @@ export default function AdminEventsPage() {
       <EventTable
         events={events}
         loading={loading}
-        onEdit={handleEdit}
+        onEdit={openEditModal}
         onDelete={handleDelete}
         onToggleVisibility={handleToggleVisibility}
       />
@@ -164,6 +232,28 @@ export default function AdminEventsPage() {
           </div>
         </div>
       )}
+
+      <AdminModal
+        title={selectedEvent ? 'Editar Evento' : 'Novo Evento'}
+        description={selectedEvent ? 'Atualize os dados do evento abaixo.' : 'Preencha os dados para criar um novo evento.'}
+        isOpen={isFormOpen}
+        onClose={closeModal}
+        footer={false}
+        size="lg"
+      >
+        <EventForm
+          initialData={selectedEvent}
+          ngos={ngos}
+          onSubmit={handleSubmit}
+          onCancel={closeModal}
+          loading={formLoading}
+        />
+        {ngos.length === 0 && (
+          <p className="mt-4 text-sm text-amber-600">
+            ⚠️ Nenhuma ONG encontrada. Crie uma ONG primeiro para associar ao evento.
+          </p>
+        )}
+      </AdminModal>
     </div>
   );
 }
