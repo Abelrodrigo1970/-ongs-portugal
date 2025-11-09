@@ -47,7 +47,7 @@ export default function AdminEventsPage() {
     }
   };
 
-  const handleDelete = async (event) {
+  const handleDelete = async (event) => {
     if (!confirm(`Tem certeza que deseja deletar "${event.nome}"? Esta ação não pode ser desfeita.`)) {
       return;
     }
