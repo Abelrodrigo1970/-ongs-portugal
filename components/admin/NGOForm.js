@@ -21,24 +21,36 @@ const defaultValues = {
   visivel: true
 };
 
+const pickAllowedFields = (data) => {
+  return Object.keys(defaultValues).reduce((acc, key) => {
+    if (data[key] !== undefined && data[key] !== null) {
+      acc[key] = data[key];
+    }
+    return acc;
+  }, {});
+};
+
 export default function NGOForm({ initialData, onSubmit, onCancel, loading }) {
   const [formValues, setFormValues] = useState(defaultValues);
 
   useEffect(() => {
     if (initialData) {
+      const sanitized = pickAllowedFields(initialData);
+
       setFormValues({
         ...defaultValues,
-        ...initialData,
-        impacto: Array.isArray(initialData.impacto)
-          ? initialData.impacto.join('\n')
-          : (() => {
-              try {
-                const parsed = JSON.parse(initialData.impacto || '[]');
-                return Array.isArray(parsed) ? parsed.join('\n') : '';
-              } catch {
-                return initialData.impacto || '';
-              }
-            })()
+        ...sanitized,
+        impacto: (() => {
+          if (Array.isArray(initialData.impacto)) {
+            return initialData.impacto.join('\n');
+          }
+          try {
+            const parsed = JSON.parse(initialData.impacto || '[]');
+            return Array.isArray(parsed) ? parsed.join('\n') : '';
+          } catch {
+            return initialData.impacto || '';
+          }
+        })()
       });
     } else {
       setFormValues(defaultValues);
@@ -62,10 +74,12 @@ export default function NGOForm({ initialData, onSubmit, onCancel, loading }) {
           .filter(Boolean)
       : [];
 
-    onSubmit({
-      ...formValues,
+    const payload = {
+      ...pickAllowedFields(formValues),
       impacto: impactoArray
-    });
+    };
+
+    onSubmit(payload);
   };
 
   return (

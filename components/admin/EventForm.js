@@ -22,6 +22,17 @@ const defaultValues = {
   visivel: true
 };
 
+const allowedKeys = Object.keys(defaultValues);
+
+const filterAllowed = (data) => {
+  return allowedKeys.reduce((acc, key) => {
+    if (data[key] !== undefined && data[key] !== null) {
+      acc[key] = data[key];
+    }
+    return acc;
+  }, {});
+};
+
 const eventTypeOptions = [
   { label: 'Presencial', value: 'PRESENCIAL' },
   { label: 'Remoto', value: 'REMOTO' },
@@ -33,9 +44,10 @@ export default function EventForm({ initialData, ngos, onSubmit, onCancel, loadi
 
   useEffect(() => {
     if (initialData) {
+      const filtered = filterAllowed(initialData);
       setFormValues({
         ...defaultValues,
-        ...initialData,
+        ...filtered,
         dataInicio: initialData.dataInicio
           ? new Date(initialData.dataInicio).toISOString().slice(0, 16)
           : '',
@@ -63,8 +75,9 @@ export default function EventForm({ initialData, ngos, onSubmit, onCancel, loadi
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const basePayload = filterAllowed(formValues);
     const payload = {
-      ...formValues,
+      ...basePayload,
       dataInicio: formValues.dataInicio ? new Date(formValues.dataInicio).toISOString() : null,
       dataFim: formValues.dataFim ? new Date(formValues.dataFim).toISOString() : null,
       maxParticipantes: formValues.maxParticipantes
