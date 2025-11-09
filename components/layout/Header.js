@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, Shield } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { useAdmin } from '@/lib/context/AdminContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [colaborador, setColaborador] = useState(null);
+  const { isAuthenticated: isAdminAuthenticated } = useAdmin();
 
   useEffect(() => {
     // Check for colaborador authentication
@@ -29,9 +31,9 @@ const Header = () => {
     { name: 'ODS', href: '/ods' },
   ];
 
-  // Show admin link only in development
-  if (process.env.NODE_ENV !== 'production') {
-    navigation.push({ name: 'Admin', href: '/admin' });
+  // Show admin link if authenticated as admin
+  if (isAdminAuthenticated) {
+    navigation.push({ name: 'Admin', href: '/admin/dashboard', icon: Shield });
   }
 
   return (

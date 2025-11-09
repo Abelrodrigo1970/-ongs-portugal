@@ -5,44 +5,75 @@ import { useRouter } from 'next/navigation';
 import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import { User, Mail, Building2 } from 'lucide-react';
+import { User, Mail, Lock, Shield } from 'lucide-react';
+import { useAdmin } from '@/lib/context/AdminContext';
 
-export default function ColaboradorLoginPage() {
+export default function LoginPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const { login: adminLogin } = useAdmin();
+  const [activeTab, setActiveTab] = useState('voluntario'); // 'voluntario' ou 'admin'
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  
+  // Form data para voluntário
+  const [voluntarioData, setVoluntarioData] = useState({
     nome: '',
     email: '',
-    empresaId: ''
   });
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  // Form data para admin
+  const [adminPassword, setAdminPassword] = useState('');
+
+  const handleVoluntarioSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
 
     try {
-      // Validação simples
-      if (!formData.nome || !formData.email) {
-        alert('Por favor, preencha todos os campos');
+      if (!voluntarioData.nome || !voluntarioData.email) {
+        setError('Por favor, preencha todos os campos');
         setLoading(false);
         return;
       }
 
-      // Salvar colaborador no localStorage (autenticação simples)
       const colaboradorData = {
-        nome: formData.nome,
-        email: formData.email,
-        empresaId: formData.empresaId || null,
+        nome: voluntarioData.nome,
+        email: voluntarioData.email,
         loginAt: new Date().toISOString()
       };
 
       localStorage.setItem('colaborador', JSON.stringify(colaboradorData));
-      
-      // Redirecionar para página de voluntariado
       router.push('/voluntariado');
     } catch (error) {
       console.error('Erro no login:', error);
-      alert('Erro ao fazer login. Tente novamente.');
+      setError('Erro ao fazer login. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAdminSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      if (!adminPassword) {
+        setError('Por favor, insira a senha');
+        setLoading(false);
+        return;
+      }
+
+      const result = await adminLogin(adminPassword);
+
+      if (result.success) {
+        router.push('/admin/dashboard');
+      } else {
+        setError(result.error || 'Senha incorreta');
+      }
+    } catch (error) {
+      console.error('Erro no login de admin:', error);
+      setError('Erro ao fazer login. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -56,52 +87,126 @@ export default function ColaboradorLoginPage() {
             <User className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Área do Voluntário
+            Bem-vindo
           </h1>
           <p className="text-gray-600">
-            Entre para descobrir oportunidades de voluntariado
+            Entre para acessar a plataforma
           </p>
         </div>
 
         <Card className="p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <Input
-              label="Nome Completo"
-              type="text"
-              placeholder="João Silva"
-              value={formData.nome}
-              onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
-              required
-              icon={User}
-            />
-
-            <Input
-              label="Email"
-              type="email"
-              placeholder="joao.silva@exemplo.com"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              required
-              icon={Mail}
-            />
-
-            <div className="text-sm text-gray-600 bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="font-medium text-blue-900 mb-1">💡 Dica</p>
-              <p>
-                Depois de entrar, poderá explorar ONGs e eventos, e inscrever-se em oportunidades de voluntariado.
-              </p>
-            </div>
-
-            <Button
-              type="submit"
-              variant="primary"
-              size="lg"
-              className="w-full"
-              loading={loading}
+          {/* Tabs */}
+          <div className="flex gap-2 mb-6 p-1 bg-gray-100 rounded-lg">
+            <button
+              onClick={() => {
+                setActiveTab('voluntario');
+                setError('');
+              }}
+              className={`flex-1 py-2.5 px-4 rounded-md font-medium transition-all ${
+                activeTab === 'voluntario'
+                  ? 'bg-white text-primary-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
             >
-              Entrar como Voluntário
-            </Button>
-          </form>
+              <User className="w-4 h-4 inline mr-2" />
+              Voluntário
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('admin');
+                setError('');
+              }}
+              className={`flex-1 py-2.5 px-4 rounded-md font-medium transition-all ${
+                activeTab === 'admin'
+                  ? 'bg-white text-primary-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              <Shield className="w-4 h-4 inline mr-2" />
+              Admin
+            </button>
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+
+          {/* Formulário Voluntário */}
+          {activeTab === 'voluntario' && (
+            <form onSubmit={handleVoluntarioSubmit} className="space-y-6">
+              <Input
+                label="Nome Completo"
+                type="text"
+                placeholder="João Silva"
+                value={voluntarioData.nome}
+                onChange={(e) => setVoluntarioData({ ...voluntarioData, nome: e.target.value })}
+                required
+                icon={User}
+              />
+
+              <Input
+                label="Email"
+                type="email"
+                placeholder="joao.silva@exemplo.com"
+                value={voluntarioData.email}
+                onChange={(e) => setVoluntarioData({ ...voluntarioData, email: e.target.value })}
+                required
+                icon={Mail}
+              />
+
+              <div className="text-sm text-gray-600 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="font-medium text-blue-900 mb-1">💡 Dica</p>
+                <p>
+                  Depois de entrar, poderá explorar ONGs e eventos, e inscrever-se em oportunidades de voluntariado.
+                </p>
+              </div>
+
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                className="w-full"
+                loading={loading}
+              >
+                Entrar como Voluntário
+              </Button>
+            </form>
+          )}
+
+          {/* Formulário Admin */}
+          {activeTab === 'admin' && (
+            <form onSubmit={handleAdminSubmit} className="space-y-6">
+              <Input
+                label="Senha de Administrador"
+                type="password"
+                placeholder="Digite a senha de administrador"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                required
+                icon={Lock}
+              />
+
+              <div className="text-sm text-gray-600 bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <p className="font-medium text-amber-900 mb-1">🔒 Acesso Restrito</p>
+                <p>
+                  Esta área é exclusiva para administradores. Você terá acesso ao gerenciamento completo de ONGs e eventos.
+                </p>
+              </div>
+
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                className="w-full"
+                loading={loading}
+              >
+                Entrar como Administrador
+              </Button>
+            </form>
+          )}
 
           <div className="mt-6 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-600">
