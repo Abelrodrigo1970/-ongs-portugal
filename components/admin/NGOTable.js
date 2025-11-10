@@ -4,19 +4,16 @@ import Image from 'next/image';
 import { Edit2, Trash2, MapPin } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
-
-const getOdsImage = (numero) => `/ods/ods-${numero.toString().padStart(2, '0')}.png`;
 
 const SkeletonCard = () => (
   <Card className="overflow-hidden">
     <div className="animate-pulse">
-      <div className="h-40 bg-gray-200" />
-      <div className="p-6 space-y-4">
-        <div className="h-6 bg-gray-200 rounded" />
+      <div className="h-36 bg-gray-200" />
+      <div className="p-4 space-y-3">
+        <div className="h-5 bg-gray-200 rounded" />
         <div className="h-4 w-2/3 bg-gray-200 rounded" />
-        <div className="h-4 w-1/2 bg-gray-200 rounded" />
       </div>
+      <div className="h-12 bg-gray-100" />
     </div>
   </Card>
 );
@@ -42,114 +39,61 @@ export default function NGOTable({ ngos, onEdit, onDelete, loading }) {
 
   return (
     <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-      {ngos.map((ngo) => {
-        const odsList = ngo.ods?.map((ngoods) => ngoods.ods) || [];
-        const areasList = ngo.areaAtuacao?.map((area) => area.tipo.nome) || [];
-        const isVisible = ngo.visivel !== false;
-
-        return (
-          <Card key={ngo.id} className="overflow-hidden border-gray-200 shadow-sm">
-            <div className="relative h-48 bg-gray-100">
-              {ngo.imagem ? (
-                <Image
-                  src={ngo.imagem}
-                  alt={ngo.nome}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              ) : (
-                <div className="h-full w-full flex items-center justify-center bg-gray-200">
-                  {ngo.logo ? (
-                    <Image src={ngo.logo} alt={ngo.nome} width={96} height={96} className="object-contain" />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-primary-600 text-white flex items-center justify-center text-2xl font-bold">
-                      {ngo.nome?.charAt(0).toUpperCase()}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <Badge
-                variant={isVisible ? 'success' : 'secondary'}
-                className="absolute top-4 left-4 shadow"
-              >
-                {isVisible ? 'Visível' : 'Oculta'}
-              </Badge>
-            </div>
-
-            <div className="p-6 space-y-4">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{ngo.nome}</h3>
-                <p className="text-sm text-gray-600 line-clamp-3">{ngo.descricao}</p>
+      {ngos.map((ngo) => (
+        <Card key={ngo.id} className="overflow-hidden border-gray-200 shadow-sm">
+          <div className="relative h-36 bg-gray-100">
+            {ngo.imagem ? (
+              <Image
+                src={ngo.imagem}
+                alt={ngo.nome}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            ) : (
+              <div className="h-full w-full flex items-center justify-center bg-gray-200">
+                {ngo.logo ? (
+                  <Image src={ngo.logo} alt={ngo.nome} width={80} height={80} className="object-contain" />
+                ) : (
+                  <div className="w-14 h-14 rounded-full bg-primary-600 text-white flex items-center justify-center text-xl font-bold">
+                    {ngo.nome?.charAt(0).toUpperCase()}
+                  </div>
+                )}
               </div>
+            )}
+          </div>
 
-              {odsList.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {odsList.slice(0, 4).map((ods) => (
-                    <div key={ods.id} className="relative h-10 w-10 overflow-hidden rounded-lg bg-gray-100">
-                      <Image
-                        src={getOdsImage(ods.numero)}
-                        alt={`ODS ${ods.numero}`}
-                        fill
-                        className="object-cover"
-                        sizes="40px"
-                      />
-                    </div>
-                  ))}
-                  {odsList.length > 4 && (
-                    <Badge variant="primary" size="sm">
-                      +{odsList.length - 4}
-                    </Badge>
-                  )}
-                </div>
-              )}
-
-              {areasList.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {areasList.slice(0, 2).map((area, index) => (
-                    <Badge key={index} variant="primary" size="sm">
-                      {area}
-                    </Badge>
-                  ))}
-                  {areasList.length > 2 && (
-                    <Badge variant="secondary" size="sm">
-                      +{areasList.length - 2}
-                    </Badge>
-                  )}
-                </div>
-              )}
-
-              <div className="flex items-center text-sm text-gray-600">
-                <MapPin className="w-4 h-4 mr-2" />
-                <span className="truncate">{ngo.localizacao}</span>
-              </div>
+          <div className="p-4 space-y-2">
+            <h3 className="text-base font-semibold text-gray-900 line-clamp-2">{ngo.nome}</h3>
+            <div className="flex items-center text-sm text-gray-600">
+              <MapPin className="w-4 h-4 mr-2" />
+              <span className="truncate">{ngo.localizacao}</span>
             </div>
+          </div>
 
-            <div className="px-6 pb-6 flex items-center justify-between gap-3">
-              <Button
-                variant="primary"
-                size="sm"
-                className="flex items-center gap-2"
-                onClick={() => onEdit(ngo)}
-              >
-                <Edit2 className="w-4 h-4" />
-                Editar
-              </Button>
+          <div className="px-4 pb-4 pt-2 flex items-center gap-2 border-t border-gray-100">
+            <Button
+              variant="primary"
+              size="sm"
+              className="flex-1 flex items-center justify-center gap-2"
+              onClick={() => onEdit(ngo)}
+            >
+              <Edit2 className="w-4 h-4" />
+              Editar
+            </Button>
 
-              <Button
-                variant="danger"
-                size="sm"
-                className="flex items-center gap-2"
-                onClick={() => onDelete(ngo)}
-              >
-                <Trash2 className="w-4 h-4" />
-                Eliminar
-              </Button>
-            </div>
-          </Card>
-        );
-      })}
+            <Button
+              variant="danger"
+              size="sm"
+              className="flex-1 flex items-center justify-center gap-2"
+              onClick={() => onDelete(ngo)}
+            >
+              <Trash2 className="w-4 h-4" />
+              Eliminar
+            </Button>
+          </div>
+        </Card>
+      ))}
     </div>
   );
 }
