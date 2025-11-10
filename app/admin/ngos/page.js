@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAdmin } from '@/lib/context/AdminContext';
 import { Plus, Search } from 'lucide-react';
 import Button from '@/components/ui/Button';
@@ -19,6 +19,7 @@ export default function AdminNGOsPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedNGO, setSelectedNGO] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
+  const ensuringVisibilityRef = useRef(false);
 
   useEffect(() => {
     loadNGOs();
@@ -37,10 +38,32 @@ export default function AdminNGOsPage() {
         params.append('query', searchQuery);
       }
 
+      params.append('visivel', 'all');
+
       const response = await fetch(`/api/admin/ngos?${params}`, { headers });
       const data = await response.json();
 
       if (data.success) {
+        const hiddenNgos = (data.ngos || []).filter((ngo) => ngo.visivel === false);
+
+        if (hiddenNgos.length > 0 && !ensuringVisibilityRef.current) {
+          ensuringVisibilityRef.current = true;
+          try {
+            await Promise.all(
+              hiddenNgos.map((ngo) =>
+                fetch(`/api/admin/ngos/${ngo.id}`, {
+                  method: 'PATCH',
+                  headers,
+                })
+              )
+            );
+          } finally {
+            ensuringVisibilityRef.current = false;
+          }
+          await loadNGOs();
+          return;
+        }
+
         setNgos(data.ngos);
         setPagination(data.pagination);
       }
@@ -75,28 +98,6 @@ export default function AdminNGOsPage() {
     } catch (error) {
       console.error('Erro ao deletar ONG:', error);
       alert('Erro ao deletar ONG');
-    }
-  };
-
-  const handleToggleVisibility = async (ngo) => {
-    try {
-      const headers = getAuthHeaders();
-      const response = await fetch(`/api/admin/ngos/${ngo.id}`, {
-        method: 'PATCH',
-        headers
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        alert(`ONG ${data.data.visivel ? 'mostrada' : 'ocultada'} com sucesso!`);
-        loadNGOs();
-      } else {
-        alert('Erro ao alterar visibilidade: ' + (data.error || 'Erro desconhecido'));
-      }
-    } catch (error) {
-      console.error('Erro ao alterar visibilidade:', error);
-      alert('Erro ao alterar visibilidade');
     }
   };
 
@@ -187,7 +188,6 @@ export default function AdminNGOsPage() {
         loading={loading}
         onEdit={openEditModal}
         onDelete={handleDelete}
-        onToggleVisibility={handleToggleVisibility}
       />
 
       {pagination && pagination.pages > 1 && (

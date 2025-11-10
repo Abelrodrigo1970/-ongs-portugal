@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Edit2, Trash2, Eye, EyeOff, MapPin } from 'lucide-react';
+import { Edit2, Trash2, MapPin } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
@@ -21,7 +21,7 @@ const SkeletonCard = () => (
   </Card>
 );
 
-export default function NGOTable({ ngos, onEdit, onDelete, onToggleVisibility, loading }) {
+export default function NGOTable({ ngos, onEdit, onDelete, loading }) {
   if (loading) {
     return (
       <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -45,6 +45,7 @@ export default function NGOTable({ ngos, onEdit, onDelete, onToggleVisibility, l
       {ngos.map((ngo) => {
         const odsList = ngo.ods?.map((ngoods) => ngoods.ods) || [];
         const areasList = ngo.areaAtuacao?.map((area) => area.tipo.nome) || [];
+        const isVisible = ngo.visivel !== false;
 
         return (
           <Card key={ngo.id} className="overflow-hidden border-gray-200 shadow-sm">
@@ -70,21 +71,11 @@ export default function NGOTable({ ngos, onEdit, onDelete, onToggleVisibility, l
               )}
 
               <Badge
-                variant={ngo.visivel ? 'success' : 'secondary'}
+                variant={isVisible ? 'success' : 'secondary'}
                 className="absolute top-4 left-4 shadow"
               >
-                {ngo.visivel ? 'Visível' : 'Oculta'}
+                {isVisible ? 'Visível' : 'Oculta'}
               </Badge>
-
-              <Button
-                variant="ghost"
-                size="sm"
-                className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm border border-white/40 text-gray-700"
-                onClick={() => onToggleVisibility(ngo)}
-                title={ngo.visivel ? 'Ocultar ONG' : 'Mostrar ONG'}
-              >
-                {ngo.visivel ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </Button>
             </div>
 
             <div className="p-6 space-y-4">
@@ -137,7 +128,7 @@ export default function NGOTable({ ngos, onEdit, onDelete, onToggleVisibility, l
 
             <div className="px-6 pb-6 flex items-center justify-between gap-3">
               <Button
-                variant="secondary"
+                variant="primary"
                 size="sm"
                 className="flex items-center gap-2"
                 onClick={() => onEdit(ngo)}

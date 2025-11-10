@@ -7,9 +7,15 @@ export async function GET(request) {
     try {
       const { searchParams } = new URL(request.url);
       
+      const visivelParam = searchParams.get('visivel');
+      let visivelFilter;
+      if (visivelParam === 'true') visivelFilter = true;
+      else if (visivelParam === 'false') visivelFilter = false;
+      else visivelFilter = undefined;
+
       const filters = {
         query: searchParams.get('query') || '',
-        visivel: searchParams.get('visivel') === null ? undefined : searchParams.get('visivel') === 'true',
+        visivel: visivelFilter,
         page: parseInt(searchParams.get('page') || '1'),
         limit: parseInt(searchParams.get('limit') || '50')
       };
