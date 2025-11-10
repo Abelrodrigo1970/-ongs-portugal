@@ -10,7 +10,7 @@ import { useAdmin } from '@/lib/context/AdminContext';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login: adminLogin } = useAdmin();
+  const { login: adminLogin, logout: adminLogout, isAuthenticated: isAdminAuthenticated } = useAdmin();
   const [activeTab, setActiveTab] = useState('voluntario'); // 'voluntario' ou 'admin'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,6 +34,10 @@ export default function LoginPage() {
         setError('Por favor, preencha todos os campos');
         setLoading(false);
         return;
+      }
+
+      if (isAdminAuthenticated) {
+        adminLogout({ redirect: false });
       }
 
       const colaboradorData = {
@@ -67,6 +71,7 @@ export default function LoginPage() {
       const result = await adminLogin(adminPassword);
 
       if (result.success) {
+        localStorage.removeItem('colaborador');
         router.push('/admin/dashboard');
       } else {
         setError(result.error || 'Senha incorreta');
