@@ -49,6 +49,27 @@ export default async function NGODetailPage({ params }) {
   const areasList = ngo.areaAtuacao?.map(area => area.tipo.nome) || [];
   const colaboracaoList = ngo.colaboracao?.map(colab => colab.tipo.nome) || [];
   const projetos = ngo.projetos || [];
+  const defaultProjetos = [
+    {
+      titulo: 'Trabalhamos todos os dias',
+      descricao:
+        'A Associação CAIS mantém como um dos seus principais objetivos a promoção da (re)integração no mercado de trabalho das pessoas em situação de vulnerabilidade.\n\nAtravés de programas de capacitação, acompanhamento social e projetos de empregabilidade, a CAIS procura melhorar as condições de vida de todos os que acompanha.',
+      imagem: '/images/projects/project-daily.png'
+    },
+    {
+      titulo: 'Projecto Futebol de Rua',
+      descricao:
+        'Iniciado em 2004, pela Associação CAIS, em parceria com inúmeras entidades públicas e privadas, promove a prática desportiva e a sua utilização como estratégia inovadora de intervenção e promoção da inclusão social.',
+      imagem: '/images/projects/project-futebol-rua.png'
+    },
+    {
+      titulo: 'Projecto Abrigo',
+      descricao:
+        'Desde 2003, o conceito de Responsabilidade Social Empresarial tem vindo a ser cada vez mais integrado na atividade das empresas.\n\nO Projeto Abrigo integra-se nos objetivos sociais das empresas que assumem preocupações sociais nas suas práticas empresariais, desempenhando um papel fundamental na sustentação da atividade da CAIS.',
+      imagem: '/images/projects/project-abrigo.png'
+    }
+  ];
+  const projetosToDisplay = projetos.length > 0 ? projetos : defaultProjetos;
 
   // Parse impacto to get metrics
   let impactMetrics = [];
@@ -357,7 +378,7 @@ export default async function NGODetailPage({ params }) {
             )}
 
             {/* Projetos em destaque */}
-            {projetos.length > 0 && (
+            {projetosToDisplay.length > 0 && (
               <div className="w-full flex flex-col gap-6 items-start">
                 <div className="w-full flex flex-col items-start justify-center">
                   <div className="w-full flex gap-1 items-center" style={{ padding: '8px 0' }}>
@@ -375,7 +396,7 @@ export default async function NGODetailPage({ params }) {
                   </div>
                 </div>
                 <div className="w-full flex flex-col gap-10">
-                  {projetos.map((project, index) => (
+                  {projetosToDisplay.map((project, index) => (
                     <div
                       key={`${project.titulo}-${index}`}
                       className="flex flex-col md:flex-row gap-6 items-center md:items-start"
@@ -454,7 +475,7 @@ export default async function NGODetailPage({ params }) {
               </div>
             )}
 
-            {/* Vídeo Section */}
+            {/* Video Section */}
             <div 
               className="w-full flex flex-col gap-2 items-start"
               style={{ padding: '32px 0 60px 0' }}
@@ -464,210 +485,15 @@ export default async function NGODetailPage({ params }) {
                   <ResponsiveVideo
                     url={ngo.videoUrl}
                     title={`Vídeo da ${ngo.nome}`}
-                    className="w-full rounded"
-                    style={{ height: '472.5px' }}
                   />
                 ) : (
-                  <div 
-                    className="relative w-full rounded"
-                    style={{ height: '472.5px' }}
+                  <p 
+                    className="text-gray-500 text-sm"
+                    style={{ fontFamily: 'Inter, sans-serif', lineHeight: '1.4' }}
                   >
-                    <div 
-                      className="absolute inset-0 rounded"
-                      style={{
-                        background: 'rgba(0, 0, 0, 0.4)',
-                        opacity: 0.8
-                      }}
-                    />
-                    <div 
-                      className="absolute flex items-center justify-center"
-                      style={{
-                        width: '75px',
-                        height: '60px',
-                        left: 'calc(50% + 0.5px)',
-                        top: 'calc(50% - 0.25px)',
-                        transform: 'translate(-50%, -50%)'
-                      }}
-                    >
-                      <div 
-                        className="flex items-center justify-center"
-                        style={{
-                          width: '75px',
-                          height: '60px',
-                          background: '#1C1B1F',
-                          borderRadius: '8px'
-                        }}
-                      >
-                        <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-white border-b-[12px] border-b-transparent ml-1" />
-                      </div>
-                    </div>
-                  </div>
+                    Esta ONG ainda não adicionou um vídeo institucional.
+                  </p>
                 )}
-              </div>
-            </div>
-
-            {/* Frame 441 - Projects Section */}
-            <div 
-              className="w-full flex flex-col items-start"
-              style={{ gap: '4px' }}
-            >
-              {/* Frame 434 - Project 1: Trabalhamos todos os dias */}
-              <div 
-                className="w-full flex items-center rounded-[32px]"
-                style={{ gap: '24px' }}
-              >
-                {/* Image Left */}
-                <div className="flex flex-row items-center self-stretch">
-                  <div 
-                    className="relative rounded-[16px] overflow-hidden"
-                    style={{ width: '290px', height: '100%' }}
-                  >
-                    <Image
-                      src="/images/projects/project-daily.png"
-                      alt="Trabalhamos todos os dias"
-                      width={290}
-                      height={238}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                </div>
-                {/* Text Right */}
-                <div 
-                  className="flex-1 flex flex-col items-start justify-center"
-                  style={{ gap: '8px' }}
-                >
-                  <h4 
-                    className="font-bold whitespace-pre-wrap"
-                    style={{ 
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '24px',
-                      lineHeight: '1.4',
-                      color: '#404040',
-                      width: '526px'
-                    }}
-                  >
-                    Trabalhamos todos os dias
-                  </h4>
-                  <p 
-                    className="font-normal whitespace-pre-wrap"
-                    style={{ 
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '20px',
-                      lineHeight: '1.4',
-                      color: '#595959',
-                      minWidth: '100%',
-                      width: 'min-content'
-                    }}
-                  >
-                    A Associação CAIS mantém como um dos seus principais objetivos a promoção da (re)integração no mercado de trabalho das pessoas em situação de vulnerabilidade.
-                    {'\n\n'}
-                    Através de programas de capacitação, acompanhamento social e projetos de empregabilidade, a CAIS procura melhorar as condições de vida de todos os que acompanha.​
-                  </p>
-                </div>
-              </div>
-
-              {/* Frame 435 - Project 2: Projecto Futebol de Rua */}
-              <div 
-                className="w-full flex items-center rounded-[32px]"
-                style={{ gap: '24px' }}
-              >
-                {/* Text Left */}
-                <div 
-                  className="flex-1 flex flex-col items-start justify-center whitespace-pre-wrap"
-                  style={{ gap: '8px', lineHeight: '1.4' }}
-                >
-                  <h4 
-                    className="font-bold"
-                    style={{ 
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '24px',
-                      color: '#404040',
-                      width: '526px'
-                    }}
-                  >
-                    Projecto Futebol de Rua
-                  </h4>
-                  <p 
-                    className="font-normal"
-                    style={{ 
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '20px',
-                      color: '#595959',
-                      minWidth: '100%',
-                      width: 'min-content'
-                    }}
-                  >
-                    Iniciado em 2004, pela Associação CAIS, em parceria com inúmeras entidades públicas e privadas, promove a prática desportiva e a sua utilização como estratégia inovadora de intervenção e promoção da inclusão social.
-                  </p>
-                </div>
-                {/* Image Right */}
-                <div 
-                  className="relative rounded-[16px] overflow-hidden"
-                  style={{ width: '290px', height: '277.322px' }}
-                >
-                  <Image
-                    src="/images/projects/project-futebol-rua.png"
-                    alt="Projecto Futebol de Rua"
-                    width={290}
-                    height={277}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              </div>
-
-              {/* Frame 436 - Project 3: Projecto Abrigo */}
-              <div 
-                className="w-full flex items-center rounded-[32px]"
-                style={{ gap: '24px' }}
-              >
-                {/* Image Left */}
-                <div className="flex flex-row items-center self-stretch">
-                  <div 
-                    className="relative rounded-[16px] overflow-hidden"
-                    style={{ width: '290px', height: '100%' }}
-                  >
-                    <Image
-                      src="/images/projects/project-abrigo.png"
-                      alt="Projecto Abrigo"
-                      width={290}
-                      height={322}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                </div>
-                {/* Text Right */}
-                <div 
-                  className="flex-1 flex flex-col items-start justify-center"
-                  style={{ gap: '8px' }}
-                >
-                  <h4 
-                    className="font-bold whitespace-pre-wrap"
-                    style={{ 
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '24px',
-                      lineHeight: '1.4',
-                      color: '#404040',
-                      width: '526px'
-                    }}
-                  >
-                    Projecto Abrigo
-                  </h4>
-                  <p 
-                    className="font-normal whitespace-pre-wrap"
-                    style={{ 
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '20px',
-                      lineHeight: '1.4',
-                      color: '#595959',
-                      minWidth: '100%',
-                      width: 'min-content'
-                    }}
-                  >
-                    Desde 2003, o conceito de Responsabilidade Social Empresarial tem vindo a ser cada vez mais integrado na atividade das empresas.
-                    {'\n\n'}
-                    O Projeto Abrigo insere-se neste âmbito, ao integrar-se nos objetivos sociais das empresas que, de forma voluntária, assumem preocupações sociais nas suas práticas empresariais. Este projeto desempenha um papel fundamental na sustentação da atividade da CAIS, através de um compromisso com a duração de dois anos.
-                  </p>
-                </div>
               </div>
             </div>
 
