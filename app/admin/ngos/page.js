@@ -20,10 +20,12 @@ export default function AdminNGOsPage() {
   const [selectedNGO, setSelectedNGO] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [areasOptions, setAreasOptions] = useState([]);
+  const [odsOptions, setOdsOptions] = useState([]);
   const ensuringVisibilityRef = useRef(false);
 
   useEffect(() => {
     loadAreas();
+    loadODS();
   }, []);
 
   useEffect(() => {
@@ -41,6 +43,20 @@ export default function AdminNGOsPage() {
       }
     } catch (error) {
       console.error('Erro ao carregar áreas de atuação:', error);
+    }
+  };
+
+  const loadODS = async () => {
+    try {
+      const headers = getAuthHeaders();
+      const response = await fetch('/api/admin/ods', { headers });
+      const data = await response.json();
+
+      if (data.success) {
+        setOdsOptions(data.ods || []);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar ODS:', error);
     }
   };
 
@@ -239,11 +255,12 @@ export default function AdminNGOsPage() {
         isOpen={isFormOpen}
         onClose={closeModal}
         footer={false}
-        size="lg"
+        size="xl"
       >
         <NGOForm
           initialData={selectedNGO}
           areasOptions={areasOptions}
+          odsOptions={odsOptions}
           onSubmit={handleSubmit}
           onCancel={closeModal}
           loading={formLoading}

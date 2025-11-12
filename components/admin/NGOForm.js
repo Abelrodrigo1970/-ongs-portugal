@@ -19,7 +19,8 @@ const defaultValues = {
   imagem: '',
   logo: '',
   visivel: true,
-  areas: []
+  areas: [],
+  ods: []
 };
 
 const pickAllowedFields = (data) => {
@@ -31,14 +32,15 @@ const pickAllowedFields = (data) => {
   }, {});
 };
 
-export default function NGOForm({ initialData, areasOptions = [], onSubmit, onCancel, loading }) {
+export default function NGOForm({ initialData, areasOptions = [], odsOptions = [], onSubmit, onCancel, loading }) {
   const [formValues, setFormValues] = useState(defaultValues);
 
   useEffect(() => {
     if (initialData) {
       const sanitized = pickAllowedFields({
         ...initialData,
-        areas: (initialData.areaAtuacao || []).map((area) => area.areaAtuacaoTipoId || area.tipo?.id).filter(Boolean)
+        areas: (initialData.areaAtuacao || []).map((area) => area.areaAtuacaoTipoId || area.tipo?.id).filter(Boolean),
+        ods: (initialData.ods || []).map((odsItem) => odsItem.odsId || odsItem.ods?.id).filter(Boolean)
       });
 
       setFormValues({
@@ -55,7 +57,8 @@ export default function NGOForm({ initialData, areasOptions = [], onSubmit, onCa
             return initialData.impacto || '';
           }
         })(),
-        areas: sanitized.areas || []
+        areas: sanitized.areas || [],
+        ods: sanitized.ods || []
       });
     } else {
       setFormValues(defaultValues);
@@ -80,6 +83,17 @@ export default function NGOForm({ initialData, areasOptions = [], onSubmit, onCa
     });
   };
 
+  const handleToggleODS = (odsId) => {
+    setFormValues((prev) => {
+      const { ods } = prev;
+      const exists = ods.includes(odsId);
+      return {
+        ...prev,
+        ods: exists ? ods.filter((id) => id !== odsId) : [...ods, odsId]
+      };
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -93,7 +107,8 @@ export default function NGOForm({ initialData, areasOptions = [], onSubmit, onCa
     const payload = {
       ...pickAllowedFields(formValues),
       impacto: impactoArray,
-      areas: formValues.areas
+      areas: formValues.areas,
+      ods: formValues.ods
     };
 
     onSubmit(payload);
@@ -177,6 +192,27 @@ export default function NGOForm({ initialData, areasOptions = [], onSubmit, onCa
                   onChange={() => handleToggleArea(area.id)}
                 />
                 <span>{area.nome}</span>
+              </label>
+            ))
+          )}
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-gray-700">ODS Relacionados</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto rounded-lg border border-gray-200 p-3">
+          {odsOptions.length === 0 ? (
+            <p className="text-sm text-gray-500">Nenhum ODS cadastrado.</p>
+          ) : (
+            odsOptions.map((ods) => (
+              <label key={ods.id} className="flex items-center gap-2 text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  checked={formValues.ods.includes(ods.id)}
+                  onChange={() => handleToggleODS(ods.id)}
+                />
+                <span>{`ODS ${ods.numero} - ${ods.nome}`}</span>
               </label>
             ))
           )}

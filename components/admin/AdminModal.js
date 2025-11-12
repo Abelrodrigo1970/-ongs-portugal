@@ -17,7 +17,8 @@ export default function AdminModal({
   const sizes = {
     sm: 'max-w-md',
     md: 'max-w-2xl',
-    lg: 'max-w-4xl'
+    lg: 'max-w-4xl',
+    xl: 'max-w-6xl'
   };
 
   return (
@@ -47,7 +48,7 @@ export default function AdminModal({
           />
         </div>
 
-        <div className="px-6 py-5 max-h-[70vh] overflow-y-auto">
+        <div className="px-6 py-5 max-h-[80vh] overflow-y-auto">
           {children}
         </div>
 
