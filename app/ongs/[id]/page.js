@@ -49,6 +49,22 @@ export default async function NGODetailPage({ params }) {
   const areasList = ngo.areaAtuacao?.map(area => area.tipo.nome) || [];
   const colaboracaoList = ngo.colaboracao?.map(colab => colab.tipo.nome) || [];
   const projetos = ngo.projetos || [];
+  const impactosData = ngo.impactos && ngo.impactos.length > 0
+    ? ngo.impactos
+    : (() => {
+        if (!ngo.impacto) return [];
+        try {
+          const parsed = JSON.parse(ngo.impacto);
+          return Array.isArray(parsed)
+            ? parsed.slice(0, 3).map((descricao, index) => ({
+                valor: index === 0 ? '755' : index === 1 ? '187' : '27.630',
+                descricao
+              }))
+            : [];
+        } catch (e) {
+          return [];
+        }
+      })();
   const defaultProjetos = [
     {
       titulo: 'Trabalhamos todos os dias',
@@ -313,14 +329,14 @@ export default async function NGODetailPage({ params }) {
             </div>
 
             {/* About us - Métrica */}
-            {impactMetrics.length > 0 && (
+            {impactosData.length > 0 && (
               <div className="w-full flex gap-6 items-center">
                 <div className="flex-1 flex items-center" style={{ background: 'rgba(242, 242, 247, 0.05)' }}>
-                  {impactMetrics.slice(0, 3).map((metric, index) => (
+                  {impactosData.slice(0, 3).map((impact, index) => (
                     <div key={index} className="flex-1">
                       <MetricBanner 
-                        value={index === 0 ? "755" : index === 1 ? "187" : "27.630"}
-                        label={metric}
+                        value={impact.valor || ''}
+                        label={impact.descricao}
                       />
                     </div>
                   ))}

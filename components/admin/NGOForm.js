@@ -24,7 +24,8 @@ const defaultValues = {
   visivel: true,
   areas: [],
   ods: [],
-  projetos: []
+  projetos: [],
+  impactos: []
 };
 
 const pickAllowedFields = (data) => {
@@ -37,6 +38,7 @@ const pickAllowedFields = (data) => {
 };
 
 const maxProjects = 3;
+const maxImpacts = 3;
 
 export default function NGOForm({ initialData, areasOptions = [], odsOptions = [], onSubmit, onCancel, loading }) {
   const [formValues, setFormValues] = useState(defaultValues);
@@ -53,6 +55,12 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
             titulo: project.titulo || '',
             descricao: project.descricao || '',
             imagem: project.imagem || ''
+          })),
+        impactos: (initialData.impactos || [])
+          .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
+          .map((impact) => ({
+            valor: impact.valor || '',
+            descricao: impact.descricao || ''
           }))
       });
 
@@ -72,7 +80,8 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
         })(),
         areas: sanitized.areas || [],
         ods: sanitized.ods || [],
-        projetos: sanitized.projetos || []
+        projetos: sanitized.projetos || [],
+        impactos: sanitized.impactos || []
       });
     } else {
       setFormValues(defaultValues);
@@ -100,6 +109,20 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
     });
   };
 
+  const handleImpactChange = (index, field, value) => {
+    setFormValues((prev) => {
+      const impactos = [...prev.impactos];
+      impactos[index] = {
+        ...impactos[index],
+        [field]: value
+      };
+      return {
+        ...prev,
+        impactos
+      };
+    });
+  };
+
   const handleAddProject = () => {
     setFormValues((prev) => {
       if (prev.projetos.length >= maxProjects) return prev;
@@ -110,12 +133,32 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
     });
   };
 
+  const handleAddImpact = () => {
+    setFormValues((prev) => {
+      if (prev.impactos.length >= maxImpacts) return prev;
+      return {
+        ...prev,
+        impactos: [...prev.impactos, { valor: '', descricao: '' }]
+      };
+    });
+  };
+
   const handleRemoveProject = (index) => {
     setFormValues((prev) => {
       const projetos = prev.projetos.filter((_, i) => i !== index);
       return {
         ...prev,
         projetos
+      };
+    });
+  };
+
+  const handleRemoveImpact = (index) => {
+    setFormValues((prev) => {
+      const impactos = prev.impactos.filter((_, i) => i !== index);
+      return {
+        ...prev,
+        impactos
       };
     });
   };
@@ -145,13 +188,6 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const impactoArray = formValues.impacto
-      ? formValues.impacto
-          .split('\n')
-          .map((item) => item.trim())
-          .filter(Boolean)
-      : [];
-
     const sanitizedProjects = Array.isArray(formValues.projetos)
       ? formValues.projetos
           .map((project) => ({
@@ -162,12 +198,22 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
           .filter((project) => project.titulo && project.descricao)
       : [];
 
+    const sanitizedImpacts = Array.isArray(formValues.impactos)
+      ? formValues.impactos
+          .map((impact) => ({
+            valor: impact.valor?.trim() || '',
+            descricao: impact.descricao?.trim() || ''
+          }))
+          .filter((impact) => impact.valor && impact.descricao)
+      : [];
+
     const payload = {
       ...pickAllowedFields(formValues),
-      impacto: impactoArray,
+      impacto: JSON.stringify(sanitizedImpacts.map((impact) => impact.descricao)),
       areas: formValues.areas,
       ods: formValues.ods,
-      projetos: sanitizedProjects
+      projetos: sanitizedProjects,
+      impactos: sanitizedImpacts
     };
 
     onSubmit(payload);
@@ -234,16 +280,62 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
         />
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Impacto (uma linha por item)</label>
-        <textarea
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-          rows={3}
-          placeholder="Exemplo:\nAtendimento a 5.000 pessoas\nDistribuição de alimentos"
-          value={formValues.impacto}
-          onChange={(e) => handleChange('impacto', e.target.value)}
-        />
-        <p className="text-xs text-gray-500">Utilize uma linha por impacto para facilitar a leitura.</p>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium text-gray-700">Impacto (até 3 indicadores)</label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={handleAddImpact}
+            disabled={formValues.impactos.length >= maxImpacts}
+          >
+            Adicionar indicador
+          </Button>
+        </div>
+        {formValues.impactos.length === 0 && (
+          <p className="text-sm text-gray-500">
+            Nenhum indicador adicionado. Clique em "Adicionar indicador" para incluir até 3 valores.
+          </p>
+        )}
+        <div className="space-y-4">
+          {formValues.impactos.map((impact, index) => (
+            <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3 bg-white">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold text-gray-700">Indicador #{index + 1}</span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-500"
+                  onClick={() => handleRemoveImpact(index)}
+                >
+                  Remover
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <Input
+                  label="Valor"
+                  value={impact.valor}
+                  maxLength={10}
+                  onChange={(e) => handleImpactChange(index, 'valor', e.target.value)}
+                  placeholder="ex: 755"
+                  required
+                />
+                <div className="md:col-span-3">
+                  <label className="text-sm font-medium text-gray-700">Descrição</label>
+                  <textarea
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                    rows={2}
+                    value={impact.descricao}
+                    onChange={(e) => handleImpactChange(index, 'descricao', e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-3">

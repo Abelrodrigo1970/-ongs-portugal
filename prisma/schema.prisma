@@ -42,6 +42,7 @@ model NGO {
   propostas      Proposta[]
   reunioes       Reuniao[]
   projetos       NGOProjeto[]
+  impactos       NGOImpacto[]
 }
 
 model ODS {
@@ -491,6 +492,20 @@ enum StatusInscricao {
   CANCELADA
   
   @@map("status_inscricao")
+}
+
+model NGOImpacto {
+  id        String   @id @default(cuid())
+  ngoId     String
+  valor     String   @db.VarChar(10)
+  descricao String
+  ordem     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ngo NGO @relation(fields: [ngoId], references: [id], onDelete: Cascade)
+
+  @@unique([ngoId, ordem])
 }
 
 model NGOProjeto {
