@@ -377,6 +377,28 @@ export default async function NGODetailPage({ params }) {
               </div>
             )}
 
+            {/* Vídeo Section */}
+            <div 
+              className="w-full flex flex-col gap-2 items-start"
+              style={{ padding: '32px 0 60px 0' }}
+            >
+              <div className="w-full flex flex-col gap-2 items-start">
+                {ngo.videoUrl ? (
+                  <ResponsiveVideo
+                    url={ngo.videoUrl}
+                    title={`Vídeo da ${ngo.nome}`}
+                  />
+                ) : (
+                  <p 
+                    className="text-gray-500 text-sm"
+                    style={{ fontFamily: 'Inter, sans-serif', lineHeight: '1.4' }}
+                  >
+                    Esta ONG ainda não adicionou um vídeo institucional.
+                  </p>
+                )}
+              </div>
+            </div>
+
             {/* Projetos em destaque */}
             {projetosToDisplay.length > 0 && (
               <div className="w-full flex flex-col gap-6 items-start">
@@ -474,28 +496,6 @@ export default async function NGODetailPage({ params }) {
                 </div>
               </div>
             )}
-
-            {/* Video Section */}
-            <div 
-              className="w-full flex flex-col gap-2 items-start"
-              style={{ padding: '32px 0 60px 0' }}
-            >
-              <div className="w-full flex flex-col gap-2 items-start">
-                {ngo.videoUrl ? (
-                  <ResponsiveVideo
-                    url={ngo.videoUrl}
-                    title={`Vídeo da ${ngo.nome}`}
-                  />
-                ) : (
-                  <p 
-                    className="text-gray-500 text-sm"
-                    style={{ fontFamily: 'Inter, sans-serif', lineHeight: '1.4' }}
-                  >
-                    Esta ONG ainda não adicionou um vídeo institucional.
-                  </p>
-                )}
-              </div>
-            </div>
 
             {/* Frame 403 - Informações Adicionais Section */}
             <div 
