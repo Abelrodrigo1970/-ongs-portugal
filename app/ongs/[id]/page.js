@@ -377,6 +377,39 @@ export default async function NGODetailPage({ params }) {
               </div>
             )}
 
+            {/* Próximos Eventos */}
+            {ngoEvents.length > 0 && (
+              <div className="w-full flex flex-col gap-6 items-start">
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div 
+                      className="w-full flex gap-1 items-center"
+                      style={{ padding: '8px 0' }}
+                    >
+                      <h3 
+                        className="font-bold"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '39px',
+                          lineHeight: '1.2',
+                          color: '#1E1E1E'
+                        }}
+                      >
+                        Próximos eventos
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full flex gap-6 items-start">
+                  {ngoEvents.slice(0, 3).map((event) => (
+                    <div key={event.id} className="flex-1">
+                      <CompactEventCard event={event} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Vídeo Section */}
             <div 
               className="w-full flex flex-col gap-2 items-start"
@@ -458,39 +491,6 @@ export default async function NGODetailPage({ params }) {
                           {project.descricao}
                         </p>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Próximos Eventos */}
-            {ngoEvents.length > 0 && (
-              <div className="w-full flex flex-col gap-6 items-start">
-                <div className="w-full flex flex-col items-start">
-                  <div className="w-full flex flex-col items-start justify-center">
-                    <div 
-                      className="w-full flex gap-1 items-center"
-                      style={{ padding: '8px 0' }}
-                    >
-                      <h3 
-                        className="font-bold"
-                        style={{ 
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '39px',
-                          lineHeight: '1.2',
-                          color: '#1E1E1E'
-                        }}
-                      >
-                        Próximos eventos
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full flex gap-6 items-start">
-                  {ngoEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className="flex-1">
-                      <CompactEventCard event={event} />
                     </div>
                   ))}
                 </div>
