@@ -18,7 +18,8 @@ const defaultValues = {
   websiteUrl: '',
   imagem: '',
   logo: '',
-  visivel: true
+  visivel: true,
+  areas: []
 };
 
 const pickAllowedFields = (data) => {
@@ -30,12 +31,15 @@ const pickAllowedFields = (data) => {
   }, {});
 };
 
-export default function NGOForm({ initialData, onSubmit, onCancel, loading }) {
+export default function NGOForm({ initialData, areasOptions = [], onSubmit, onCancel, loading }) {
   const [formValues, setFormValues] = useState(defaultValues);
 
   useEffect(() => {
     if (initialData) {
-      const sanitized = pickAllowedFields(initialData);
+      const sanitized = pickAllowedFields({
+        ...initialData,
+        areas: (initialData.areaAtuacao || []).map((area) => area.areaAtuacaoTipoId || area.tipo?.id).filter(Boolean)
+      });
 
       setFormValues({
         ...defaultValues,
@@ -50,7 +54,8 @@ export default function NGOForm({ initialData, onSubmit, onCancel, loading }) {
           } catch {
             return initialData.impacto || '';
           }
-        })()
+        })(),
+        areas: sanitized.areas || []
       });
     } else {
       setFormValues(defaultValues);
@@ -62,6 +67,17 @@ export default function NGOForm({ initialData, onSubmit, onCancel, loading }) {
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleToggleArea = (areaId) => {
+    setFormValues((prev) => {
+      const { areas } = prev;
+      const exists = areas.includes(areaId);
+      return {
+        ...prev,
+        areas: exists ? areas.filter((id) => id !== areaId) : [...areas, areaId]
+      };
+    });
   };
 
   const handleSubmit = (event) => {
@@ -76,7 +92,8 @@ export default function NGOForm({ initialData, onSubmit, onCancel, loading }) {
 
     const payload = {
       ...pickAllowedFields(formValues),
-      impacto: impactoArray
+      impacto: impactoArray,
+      areas: formValues.areas
     };
 
     onSubmit(payload);
@@ -143,6 +160,27 @@ export default function NGOForm({ initialData, onSubmit, onCancel, loading }) {
           onChange={(e) => handleChange('impacto', e.target.value)}
         />
         <p className="text-xs text-gray-500">Utilize uma linha por impacto para facilitar a leitura.</p>
+      </div>
+
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-gray-700">Áreas de Atuação</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto rounded-lg border border-gray-200 p-3">
+          {areasOptions.length === 0 ? (
+            <p className="text-sm text-gray-500">Nenhuma área cadastrada.</p>
+          ) : (
+            areasOptions.map((area) => (
+              <label key={area.id} className="flex items-center gap-2 text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                  checked={formValues.areas.includes(area.id)}
+                  onChange={() => handleToggleArea(area.id)}
+                />
+                <span>{area.nome}</span>
+              </label>
+            ))
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

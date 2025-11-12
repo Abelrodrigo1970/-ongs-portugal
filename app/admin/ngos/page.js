@@ -19,11 +19,30 @@ export default function AdminNGOsPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedNGO, setSelectedNGO] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
+  const [areasOptions, setAreasOptions] = useState([]);
   const ensuringVisibilityRef = useRef(false);
+
+  useEffect(() => {
+    loadAreas();
+  }, []);
 
   useEffect(() => {
     loadNGOs();
   }, [page, searchQuery]);
+
+  const loadAreas = async () => {
+    try {
+      const headers = getAuthHeaders();
+      const response = await fetch('/api/admin/areas', { headers });
+      const data = await response.json();
+
+      if (data.success) {
+        setAreasOptions(data.areas || []);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar áreas de atuação:', error);
+    }
+  };
 
   const loadNGOs = async () => {
     setLoading(true);
@@ -224,6 +243,7 @@ export default function AdminNGOsPage() {
       >
         <NGOForm
           initialData={selectedNGO}
+          areasOptions={areasOptions}
           onSubmit={handleSubmit}
           onCancel={closeModal}
           loading={formLoading}
