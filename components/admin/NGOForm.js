@@ -139,12 +139,6 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
           onChange={(e) => handleChange('telefone', e.target.value)}
         />
         <Input
-          label="Localização (cidade / país)"
-          value={formValues.localizacao}
-          onChange={(e) => handleChange('localizacao', e.target.value)}
-          required
-        />
-        <Input
           label="Morada"
           value={formValues.morada}
           onChange={(e) => handleChange('morada', e.target.value)}
@@ -155,9 +149,10 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
           onChange={(e) => handleChange('codigoPostalNumero', e.target.value)}
         />
         <Input
-          label="Código Postal (Localidade)"
-          value={formValues.codigoPostalLocalidade}
-          onChange={(e) => handleChange('codigoPostalLocalidade', e.target.value)}
+          label="Localização (Cidade / País)"
+          value={formValues.localizacao}
+          onChange={(e) => handleChange('localizacao', e.target.value)}
+          required
         />
       </div>
 
