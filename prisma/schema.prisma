@@ -18,6 +18,9 @@ model NGO {
   email          String
   telefone       String
   localizacao    String            // store "city, country" text
+  morada         String?
+  codigoPostalNumero String?
+  codigoPostalLocalidade String?
   latitude       Float?            // optional (if we geocode later)
   longitude      Float?            // optional
   areaAtuacao    AreaAtuacao[]     @relation("NGOAreas")
