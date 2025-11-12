@@ -41,6 +41,7 @@ model NGO {
   favoritos      Favorito[]
   propostas      Proposta[]
   reunioes       Reuniao[]
+  projetos       NGOProjeto[]
 }
 
 model ODS {
@@ -490,5 +491,20 @@ enum StatusInscricao {
   CANCELADA
   
   @@map("status_inscricao")
+}
+
+model NGOProjeto {
+  id        String   @id @default(cuid())
+  ngoId     String
+  titulo    String
+  descricao String
+  imagem    String?
+  ordem     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ngo NGO @relation(fields: [ngoId], references: [id], onDelete: Cascade)
+
+  @@unique([ngoId, ordem])
 }
 

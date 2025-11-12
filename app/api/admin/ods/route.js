@@ -5,7 +5,6 @@ export async function GET(request) {
   return withAdminAuth(async () => {
     try {
       const ods = await getAllODS();
-
       return Response.json({
         success: true,
         ods
@@ -13,7 +12,7 @@ export async function GET(request) {
     } catch (error) {
       console.error('Erro ao listar ODS:', error);
       return Response.json(
-        { error: 'Erro ao listar ODS' },
+        { success: false, error: 'Erro ao listar ODS' },
         { status: 500 }
       );
     }

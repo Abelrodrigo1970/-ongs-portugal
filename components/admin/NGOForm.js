@@ -23,7 +23,8 @@ const defaultValues = {
   logo: '',
   visivel: true,
   areas: [],
-  ods: []
+  ods: [],
+  projetos: []
 };
 
 const pickAllowedFields = (data) => {
@@ -35,6 +36,8 @@ const pickAllowedFields = (data) => {
   }, {});
 };
 
+const maxProjects = 3;
+
 export default function NGOForm({ initialData, areasOptions = [], odsOptions = [], onSubmit, onCancel, loading }) {
   const [formValues, setFormValues] = useState(defaultValues);
 
@@ -43,7 +46,14 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
       const sanitized = pickAllowedFields({
         ...initialData,
         areas: (initialData.areaAtuacao || []).map((area) => area.areaAtuacaoTipoId || area.tipo?.id).filter(Boolean),
-        ods: (initialData.ods || []).map((odsItem) => odsItem.odsId || odsItem.ods?.id).filter(Boolean)
+        ods: (initialData.ods || []).map((odsItem) => odsItem.odsId || odsItem.ods?.id).filter(Boolean),
+        projetos: (initialData.projetos || [])
+          .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
+          .map((project) => ({
+            titulo: project.titulo || '',
+            descricao: project.descricao || '',
+            imagem: project.imagem || ''
+          }))
       });
 
       setFormValues({
@@ -61,7 +71,8 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
           }
         })(),
         areas: sanitized.areas || [],
-        ods: sanitized.ods || []
+        ods: sanitized.ods || [],
+        projetos: sanitized.projetos || []
       });
     } else {
       setFormValues(defaultValues);
@@ -73,6 +84,40 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleProjectChange = (index, field, value) => {
+    setFormValues((prev) => {
+      const projetos = [...prev.projetos];
+      projetos[index] = {
+        ...projetos[index],
+        [field]: value
+      };
+      return {
+        ...prev,
+        projetos
+      };
+    });
+  };
+
+  const handleAddProject = () => {
+    setFormValues((prev) => {
+      if (prev.projetos.length >= maxProjects) return prev;
+      return {
+        ...prev,
+        projetos: [...prev.projetos, { titulo: '', descricao: '', imagem: '' }]
+      };
+    });
+  };
+
+  const handleRemoveProject = (index) => {
+    setFormValues((prev) => {
+      const projetos = prev.projetos.filter((_, i) => i !== index);
+      return {
+        ...prev,
+        projetos
+      };
+    });
   };
 
   const handleToggleArea = (areaId) => {
@@ -107,11 +152,22 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
           .filter(Boolean)
       : [];
 
+    const sanitizedProjects = Array.isArray(formValues.projetos)
+      ? formValues.projetos
+          .map((project) => ({
+            titulo: project.titulo?.trim() || '',
+            descricao: project.descricao?.trim() || '',
+            imagem: project.imagem?.trim() || ''
+          }))
+          .filter((project) => project.titulo && project.descricao)
+      : [];
+
     const payload = {
       ...pickAllowedFields(formValues),
       impacto: impactoArray,
       areas: formValues.areas,
-      ods: formValues.ods
+      ods: formValues.ods,
+      projetos: sanitizedProjects
     };
 
     onSubmit(payload);
@@ -229,6 +285,66 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
               </label>
             ))
           )}
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium text-gray-700">Projetos (até 3)</label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={handleAddProject}
+            disabled={formValues.projetos.length >= maxProjects}
+          >
+            Adicionar projeto
+          </Button>
+        </div>
+        {formValues.projetos.length === 0 && (
+          <p className="text-sm text-gray-500">
+            Nenhum projeto adicionado. Clique em "Adicionar projeto" para incluir até 3 iniciativas.
+          </p>
+        )}
+        <div className="space-y-4">
+          {formValues.projetos.map((project, index) => (
+            <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3 bg-gray-50">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-semibold text-gray-700">Projeto #{index + 1}</span>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-500"
+                  onClick={() => handleRemoveProject(index)}
+                >
+                  Remover
+                </Button>
+              </div>
+              <Input
+                label="Título do projeto"
+                value={project.titulo}
+                onChange={(e) => handleProjectChange(index, 'titulo', e.target.value)}
+                required
+              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Descrição</label>
+                <textarea
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+                  rows={3}
+                  value={project.descricao}
+                  onChange={(e) => handleProjectChange(index, 'descricao', e.target.value)}
+                  required
+                />
+              </div>
+              <Input
+                label="URL da imagem (opcional)"
+                placeholder="https://"
+                value={project.imagem}
+                onChange={(e) => handleProjectChange(index, 'imagem', e.target.value)}
+              />
+            </div>
+          ))}
         </div>
       </div>
 

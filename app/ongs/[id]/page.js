@@ -48,6 +48,7 @@ export default async function NGODetailPage({ params }) {
   const odsList = ngo.ods?.map(ngoods => ngoods.ods) || [];
   const areasList = ngo.areaAtuacao?.map(area => area.tipo.nome) || [];
   const colaboracaoList = ngo.colaboracao?.map(colab => colab.tipo.nome) || [];
+  const projetos = ngo.projetos || [];
 
   // Parse impacto to get metrics
   let impactMetrics = [];
@@ -351,6 +352,71 @@ export default async function NGODetailPage({ params }) {
                       );
                     })}
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* Projetos em destaque */}
+            {projetos.length > 0 && (
+              <div className="w-full flex flex-col gap-6 items-start">
+                <div className="w-full flex flex-col items-start justify-center">
+                  <div className="w-full flex gap-1 items-center" style={{ padding: '8px 0' }}>
+                    <h3
+                      className="font-bold"
+                      style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '39px',
+                        lineHeight: '1.2',
+                        color: '#1E1E1E'
+                      }}
+                    >
+                      Projetos em destaque
+                    </h3>
+                  </div>
+                </div>
+                <div className="w-full flex flex-col gap-10">
+                  {projetos.map((project, index) => (
+                    <div
+                      key={`${project.titulo}-${index}`}
+                      className="flex flex-col md:flex-row gap-6 items-center md:items-start"
+                      style={{ background: '#FFFFFF', borderRadius: '24px', padding: '24px' }}
+                    >
+                      {project.imagem && (
+                        <div
+                          className="relative overflow-hidden rounded-[24px]"
+                          style={{ width: '260px', height: '200px', flexShrink: 0 }}
+                        >
+                          <Image
+                            src={project.imagem}
+                            alt={project.titulo}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 260px"
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+
+                      <div className="flex-1 flex flex-col gap-3 text-left">
+                        <h4
+                          className="font-bold"
+                          style={{
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '28px',
+                            lineHeight: '1.3',
+                            color: '#1E1E1E'
+                          }}
+                        >
+                          {project.titulo}
+                        </h4>
+                        <p
+                          className="text-base text-gray-600 whitespace-pre-wrap"
+                          style={{ fontFamily: 'Inter, sans-serif', lineHeight: '1.6' }}
+                        >
+                          {project.descricao}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
