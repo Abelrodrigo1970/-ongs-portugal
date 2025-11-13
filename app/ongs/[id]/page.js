@@ -202,12 +202,12 @@ export default async function NGODetailPage({ params }) {
               </div>
 
               {/* Tags - Tipos de Colaboração */}
-              {colaboracaoList.length > 0 && (
+              {areasList.length > 0 && (
                 <div 
                   className="w-full flex gap-4 items-center overflow-clip"
                   style={{ padding: '40px 0 40px 8px' }}
                 >
-                  {colaboracaoList.map((colab, index) => (
+                  {areasList.slice(0, 4).map((area, index) => (
                     <div 
                       key={index}
                       className="flex gap-2 items-center justify-center rounded-[200px] border border-solid"
@@ -225,7 +225,7 @@ export default async function NGODetailPage({ params }) {
                           color: 'rgba(64, 64, 64, 0.5)'
                         }}
                       >
-                        {colab}
+                        {area}
                       </span>
                     </div>
                   ))}
@@ -252,7 +252,7 @@ export default async function NGODetailPage({ params }) {
                   >
                     Quero colaborar
                   </span>
-                  <ArrowRight style={{ width: '24px', height: '24px' }} />
+                  <ArrowRight style={{ width: '24px', height: '24px', color: '#F2F2F7' }} />
                 </button>
                 <button 
                   className="flex-1 flex gap-4 items-center justify-center rounded-[100px] border border-solid"
