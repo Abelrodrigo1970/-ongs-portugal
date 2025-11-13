@@ -204,10 +204,10 @@ export default async function NGODetailPage({ params }) {
               {/* Tags - Tipos de Colaboração */}
               {areasList.length > 0 && (
                 <div 
-                  className="w-full flex gap-4 items-center overflow-clip"
+                  className="w-full flex flex-wrap gap-4 items-center justify-center"
                   style={{ padding: '40px 0 40px 8px' }}
                 >
-                  {areasList.slice(0, 4).map((area, index) => (
+                  {areasList.map((area, index) => (
                     <div 
                       key={index}
                       className="flex gap-2 items-center justify-center rounded-[200px] border border-solid"
