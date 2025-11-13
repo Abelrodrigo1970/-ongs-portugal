@@ -25,7 +25,11 @@ const defaultValues = {
   areas: [],
   ods: [],
   projetos: [],
-  impactos: []
+  impactos: [
+    { valor: '', descricao: '' },
+    { valor: '', descricao: '' },
+    { valor: '', descricao: '' }
+  ]
 };
 
 const pickAllowedFields = (data) => {
@@ -64,24 +68,18 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
           }))
       });
 
+      const paddedImpacts = sanitized.impactos && sanitized.impactos.length > 0 ? [...sanitized.impactos] : [];
+      while (paddedImpacts.length < maxImpacts) {
+        paddedImpacts.push({ valor: '', descricao: '' });
+      }
+
       setFormValues({
         ...defaultValues,
         ...sanitized,
-        impacto: (() => {
-          if (Array.isArray(initialData.impacto)) {
-            return initialData.impacto.join('\n');
-          }
-          try {
-            const parsed = JSON.parse(initialData.impacto || '[]');
-            return Array.isArray(parsed) ? parsed.join('\n') : '';
-          } catch {
-            return initialData.impacto || '';
-          }
-        })(),
         areas: sanitized.areas || [],
         ods: sanitized.ods || [],
         projetos: sanitized.projetos || [],
-        impactos: sanitized.impactos || []
+        impactos: paddedImpacts.length > 0 ? paddedImpacts : defaultValues.impactos
       });
     } else {
       setFormValues(defaultValues);
@@ -133,32 +131,12 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
     });
   };
 
-  const handleAddImpact = () => {
-    setFormValues((prev) => {
-      if (prev.impactos.length >= maxImpacts) return prev;
-      return {
-        ...prev,
-        impactos: [...prev.impactos, { valor: '', descricao: '' }]
-      };
-    });
-  };
-
   const handleRemoveProject = (index) => {
     setFormValues((prev) => {
       const projetos = prev.projetos.filter((_, i) => i !== index);
       return {
         ...prev,
         projetos
-      };
-    });
-  };
-
-  const handleRemoveImpact = (index) => {
-    setFormValues((prev) => {
-      const impactos = prev.impactos.filter((_, i) => i !== index);
-      return {
-        ...prev,
-        impactos
       };
     });
   };
@@ -204,12 +182,15 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
             valor: impact.valor?.trim() || '',
             descricao: impact.descricao?.trim() || ''
           }))
-          .filter((impact) => impact.valor && impact.descricao)
       : [];
+
+    if (sanitizedImpacts.length !== maxImpacts || sanitizedImpacts.some((impact) => !impact.valor || !impact.descricao)) {
+      alert('Preencha os 3 indicadores de impacto.');
+      return;
+    }
 
     const payload = {
       ...pickAllowedFields(formValues),
-      impacto: JSON.stringify(sanitizedImpacts.map((impact) => impact.descricao)),
       areas: formValues.areas,
       ods: formValues.ods,
       projetos: sanitizedProjects,
@@ -259,18 +240,7 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Descrição</label>
-        <textarea
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-          rows={4}
-          value={formValues.descricao}
-          onChange={(e) => handleChange('descricao', e.target.value)}
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Missão</label>
+        <label className="text-sm font-medium text-gray-700">Título Missão</label>
         <textarea
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500"
           rows={3}
@@ -280,39 +250,23 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
         />
       </div>
 
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-gray-700">Missão</label>
+        <textarea
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          rows={4}
+          value={formValues.descricao}
+          onChange={(e) => handleChange('descricao', e.target.value)}
+          required
+        />
+      </div>
+
       <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-gray-700">Impacto (até 3 indicadores)</label>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            onClick={handleAddImpact}
-            disabled={formValues.impactos.length >= maxImpacts}
-          >
-            Adicionar indicador
-          </Button>
-        </div>
-        {formValues.impactos.length === 0 && (
-          <p className="text-sm text-gray-500">
-            Nenhum indicador adicionado. Clique em "Adicionar indicador" para incluir até 3 valores.
-          </p>
-        )}
+        <label className="text-sm font-medium text-gray-700">Impacto (3 indicadores obrigatórios)</label>
         <div className="space-y-4">
           {formValues.impactos.map((impact, index) => (
             <div key={index} className="border border-gray-200 rounded-lg p-4 space-y-3 bg-white">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-gray-700">Indicador #{index + 1}</span>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="text-red-500"
-                  onClick={() => handleRemoveImpact(index)}
-                >
-                  Remover
-                </Button>
-              </div>
+              <span className="text-sm font-semibold text-gray-700">Indicador #{index + 1}</span>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <Input
                   label="Valor"

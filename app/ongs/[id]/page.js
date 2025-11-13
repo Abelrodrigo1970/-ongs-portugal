@@ -50,21 +50,8 @@ export default async function NGODetailPage({ params }) {
   const colaboracaoList = ngo.colaboracao?.map(colab => colab.tipo.nome) || [];
   const projetos = ngo.projetos || [];
   const impactosData = ngo.impactos && ngo.impactos.length > 0
-    ? ngo.impactos
-    : (() => {
-        if (!ngo.impacto) return [];
-        try {
-          const parsed = JSON.parse(ngo.impacto);
-          return Array.isArray(parsed)
-            ? parsed.slice(0, 3).map((descricao, index) => ({
-                valor: index === 0 ? '755' : index === 1 ? '187' : '27.630',
-                descricao
-              }))
-            : [];
-        } catch (e) {
-          return [];
-        }
-      })();
+    ? [...ngo.impactos].sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
+    : [];
   const defaultProjetos = [
     {
       titulo: 'Trabalhamos todos os dias',
