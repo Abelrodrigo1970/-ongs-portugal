@@ -52,6 +52,9 @@ export default async function NGODetailPage({ params }) {
   const impactosData = ngo.impactos && ngo.impactos.length > 0
     ? [...ngo.impactos].sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
     : [];
+  const maxHeroAreas = 4;
+  const heroAreas = areasList.slice(0, maxHeroAreas);
+  const extraAreasCount = Math.max(areasList.length - heroAreas.length, 0);
   const defaultProjetos = [
     {
       titulo: 'Trabalhamos todos os dias',
@@ -201,13 +204,13 @@ export default async function NGODetailPage({ params }) {
                 </div>
               </div>
 
-              {/* Tags - Tipos de Colaboração */}
-              {areasList.length > 0 && (
+              {/* Tags - Áreas de Atuação */}
+              {heroAreas.length > 0 && (
                 <div 
-                  className="w-full flex flex-wrap gap-4 items-center justify-center"
+                  className="w-full flex gap-4 items-center justify-center overflow-hidden"
                   style={{ padding: '40px 0 40px 8px' }}
                 >
-                  {areasList.map((area, index) => (
+                  {heroAreas.map((area, index) => (
                     <div 
                       key={index}
                       className="flex gap-2 items-center justify-center rounded-[200px] border border-solid"
@@ -229,6 +232,27 @@ export default async function NGODetailPage({ params }) {
                       </span>
                     </div>
                   ))}
+                  {extraAreasCount > 0 && (
+                    <div 
+                      className="flex gap-2 items-center justify-center rounded-[200px] border border-solid"
+                      style={{ 
+                        borderColor: 'rgba(64, 64, 64, 0.5)',
+                        padding: '8px 16px'
+                      }}
+                    >
+                      <span 
+                        className="font-semibold"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '14px',
+                          lineHeight: '1.4',
+                          color: 'rgba(64, 64, 64, 0.5)'
+                        }}
+                      >
+                        +{extraAreasCount}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -438,21 +462,6 @@ export default async function NGODetailPage({ params }) {
             {/* Projetos em destaque */}
             {projetosToDisplay.length > 0 && (
               <div className="w-full flex flex-col gap-6 items-start">
-                <div className="w-full flex flex-col items-start justify-center">
-                  <div className="w-full flex gap-1 items-center" style={{ padding: '8px 0' }}>
-                    <h3
-                      className="font-bold"
-                      style={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '39px',
-                        lineHeight: '1.2',
-                        color: '#1E1E1E'
-                      }}
-                    >
-                      Projetos em destaque
-                    </h3>
-                  </div>
-                </div>
                 <div className="w-full flex flex-col gap-10">
                   {projetosToDisplay.map((project, index) => (
                     <div
