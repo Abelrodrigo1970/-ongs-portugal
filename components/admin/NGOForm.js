@@ -166,7 +166,7 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
             descricao: project.descricao?.trim() || '',
             imagem: project.imagem?.trim() || ''
           }))
-          .filter((project) => project.titulo && project.descricao)
+          .filter((project) => project.titulo && project.descricao && project.imagem)
       : [];
 
     const sanitizedImpacts = Array.isArray(formValues.impactos)
@@ -369,10 +369,11 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
                 />
               </div>
               <Input
-                label="URL da imagem (opcional)"
+                label="URL da imagem"
                 placeholder="https://"
                 value={project.imagem}
                 onChange={(e) => handleProjectChange(index, 'imagem', e.target.value)}
+                required
               />
             </div>
           ))}
@@ -397,6 +398,7 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
           placeholder="https://youtube.com/..."
           value={formValues.videoUrl}
           onChange={(e) => handleChange('videoUrl', e.target.value)}
+          required
         />
         <Input
           label="Imagem de Capa"
