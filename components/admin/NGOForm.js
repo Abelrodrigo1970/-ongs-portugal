@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Input from '@/components/ui/Input';
 import Checkbox from '@/components/ui/Checkbox';
 import Button from '@/components/ui/Button';
+import MultiSelect from '@/components/ui/MultiSelect';
 
 const defaultValues = {
   nome: '',
@@ -141,15 +142,11 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
     });
   };
 
-  const handleToggleArea = (areaId) => {
-    setFormValues((prev) => {
-      const { areas } = prev;
-      const exists = areas.includes(areaId);
-      return {
-        ...prev,
-        areas: exists ? areas.filter((id) => id !== areaId) : [...areas, areaId]
-      };
-    });
+  const handleAreasChange = (selectedAreas) => {
+    setFormValues((prev) => ({
+      ...prev,
+      areas: selectedAreas
+    }));
   };
 
   const handleToggleODS = (odsId) => {
@@ -277,12 +274,12 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
                   required
                 />
                 <div className="md:col-span-3">
-                  <label className="text-sm font-medium text-gray-700">Descrição</label>
-                  <textarea
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-primary-500 focus:ring-primary-500"
-                    rows={2}
+                  <Input
+                    label="Descrição"
                     value={impact.descricao}
+                    maxLength={60}
                     onChange={(e) => handleImpactChange(index, 'descricao', e.target.value)}
+                    placeholder="ex: Famílias apoiadas"
                     required
                   />
                 </div>
@@ -293,24 +290,20 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
       </div>
 
       <div className="space-y-3">
-        <label className="text-sm font-medium text-gray-700">Áreas de Atuação</label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto rounded-lg border border-gray-200 p-3">
-          {areasOptions.length === 0 ? (
+        {areasOptions.length === 0 ? (
+          <>
+            <label className="text-sm font-medium text-gray-700">Áreas de Atuação</label>
             <p className="text-sm text-gray-500">Nenhuma área cadastrada.</p>
-          ) : (
-            areasOptions.map((area) => (
-              <label key={area.id} className="flex items-center gap-2 text-sm text-gray-700">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-                  checked={formValues.areas.includes(area.id)}
-                  onChange={() => handleToggleArea(area.id)}
-                />
-                <span>{area.nome}</span>
-              </label>
-            ))
-          )}
-        </div>
+          </>
+        ) : (
+          <MultiSelect
+            label="Áreas de Atuação"
+            options={areasOptions.map((area) => ({ value: area.id, label: area.nome }))}
+            value={formValues.areas}
+            onChange={handleAreasChange}
+            placeholder="Selecionar áreas"
+          />
+        )}
       </div>
 
       <div className="space-y-3">
