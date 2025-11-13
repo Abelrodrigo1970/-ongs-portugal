@@ -149,15 +149,11 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
     }));
   };
 
-  const handleToggleODS = (odsId) => {
-    setFormValues((prev) => {
-      const { ods } = prev;
-      const exists = ods.includes(odsId);
-      return {
-        ...prev,
-        ods: exists ? ods.filter((id) => id !== odsId) : [...ods, odsId]
-      };
-    });
+  const handleODSChange = (selectedODS) => {
+    setFormValues((prev) => ({
+      ...prev,
+      ods: selectedODS
+    }));
   };
 
   const handleSubmit = (event) => {
@@ -307,24 +303,20 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
       </div>
 
       <div className="space-y-3">
-        <label className="text-sm font-medium text-gray-700">ODS Relacionados</label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-56 overflow-y-auto rounded-lg border border-gray-200 p-3">
-          {odsOptions.length === 0 ? (
+        {odsOptions.length === 0 ? (
+          <>
+            <label className="text-sm font-medium text-gray-700">ODS Relacionados</label>
             <p className="text-sm text-gray-500">Nenhum ODS cadastrado.</p>
-          ) : (
-            odsOptions.map((ods) => (
-              <label key={ods.id} className="flex items-center gap-2 text-sm text-gray-700">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-                  checked={formValues.ods.includes(ods.id)}
-                  onChange={() => handleToggleODS(ods.id)}
-                />
-                <span>{`ODS ${ods.numero} - ${ods.nome}`}</span>
-              </label>
-            ))
-          )}
-        </div>
+          </>
+        ) : (
+          <MultiSelect
+            label="ODS Relacionados"
+            options={odsOptions.map((ods) => ({ value: ods.id, label: `ODS ${ods.numero} - ${ods.nome}` }))}
+            value={formValues.ods}
+            onChange={handleODSChange}
+            placeholder="Selecionar ODS"
+          />
+        )}
       </div>
 
       <div className="space-y-3">
