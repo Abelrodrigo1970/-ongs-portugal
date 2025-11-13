@@ -658,103 +658,45 @@ export default async function NGODetailPage({ params }) {
               </div>
 
               {/* Redes Sociais */}
-              <div className="w-full flex flex-col items-start">
-                <div className="w-full flex flex-col items-start justify-center">
-                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
-                    <span 
-                      className="font-bold"
-                      style={{ 
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '20px',
-                        lineHeight: '1.2',
-                        color: '#1E1E1E'
-                      }}
-                    >
-                      Redes Sociais:
-                    </span>
-                    <div className="flex items-center" style={{ gap: '16px' }}>
+              {(ngo.instagramUrl || ngo.websiteUrl) && (
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                       <span 
-                        className="font-normal underline"
+                        className="font-bold"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#404040',
-                          textUnderlinePosition: 'from-font',
-                          textDecorationLine: 'underline',
-                          textDecorationStyle: 'solid'
+                          color: '#1E1E1E'
                         }}
                       >
-                        Facebook
+                        Redes Sociais
                       </span>
-                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
-                      <span 
-                        className="font-normal underline"
-                        style={{ 
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
-                          lineHeight: '1.2',
-                          color: '#404040',
-                          textUnderlinePosition: 'from-font',
-                          textDecorationLine: 'underline',
-                          textDecorationStyle: 'solid'
-                        }}
-                      >
-                        Tiktok
-                      </span>
-                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
-                      <span 
-                        className="font-normal underline"
-                        style={{ 
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
-                          lineHeight: '1.2',
-                          color: '#404040',
-                          textUnderlinePosition: 'from-font',
-                          textDecorationLine: 'underline',
-                          textDecorationStyle: 'solid'
-                        }}
-                      >
-                        Linkedin
-                      </span>
-                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
-                      {ngo.instagramUrl ? (
-                        <Link 
-                          href={ngo.instagramUrl}
-                          target="_blank"
-                          className="font-normal underline hover:no-underline"
-                          style={{ 
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '20px',
-                            lineHeight: '1.2',
-                            color: '#404040',
-                            textUnderlinePosition: 'from-font',
-                            textDecorationLine: 'underline',
-                            textDecorationStyle: 'solid'
-                          }}
-                        >
-                          Instagram
-                        </Link>
-                      ) : (
-                        <span 
-                          className="font-normal underline"
-                          style={{ 
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '20px',
-                            lineHeight: '1.2',
-                            color: '#404040',
-                            textUnderlinePosition: 'from-font',
-                            textDecorationLine: 'underline',
-                            textDecorationStyle: 'solid'
-                          }}
-                        >
-                          Instagram
-                        </span>
-                      )}
+                      <div className="flex items-center" style={{ gap: '16px' }}>
+                        {ngo.instagramUrl && (
+                          <Link 
+                            href={ngo.instagramUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              fontSize: '20px',
+                              lineHeight: '1.2',
+                              color: '#404040',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Instagram
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Contacto */}
               <div className="w-full flex flex-col items-start">
@@ -825,7 +767,7 @@ export default async function NGODetailPage({ params }) {
                           color: '#404040'
                         }}
                       >
-                        {ngo.localizacao}
+                        {ngo.morada || ngo.localizacao}
                       </span>
                     </div>
                   </div>

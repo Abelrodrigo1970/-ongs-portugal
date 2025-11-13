@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Play } from 'lucide-react';
 
 const ResponsiveVideo = ({ 
@@ -48,7 +49,18 @@ const ResponsiveVideo = ({
     return null;
   };
 
+  const getThumbnailUrl = () => {
+    if (videoInfo.type === 'youtube') {
+      return `https://img.youtube.com/vi/${videoInfo.id}/hqdefault.jpg`;
+    }
+    if (videoInfo.type === 'vimeo') {
+      return `https://vumbnail.com/${videoInfo.id}.jpg`;
+    }
+    return null;
+  };
+
   const embedUrl = getEmbedUrl();
+  const thumbnailUrl = getThumbnailUrl();
 
   if (isPlaying && embedUrl) {
     return (
@@ -67,9 +79,21 @@ const ResponsiveVideo = ({
 
   return (
     <div 
-      className={`${className} bg-gray-100 cursor-pointer group relative`}
+      className={`${className} cursor-pointer group relative overflow-hidden`}
       onClick={() => setIsPlaying(true)}
     >
+      {thumbnailUrl ? (
+        <Image
+          src={thumbnailUrl}
+          alt={title}
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-gray-200" />
+      )}
+
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="bg-black bg-opacity-50 rounded-full p-4 group-hover:bg-opacity-70 transition-all duration-200">
           <Play className="h-8 w-8 text-white" />
