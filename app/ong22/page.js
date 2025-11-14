@@ -562,10 +562,10 @@ export default function Ong22Page() {
                 </div>
               </div>
 
-              {/* Morada */}
+              {/* Localização */}
               <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                 <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '700', lineHeight: '1.2', color: '#1e1e1e' }}>
-                  Morada
+                  Localização
                 </span>
                 <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '20px', fontWeight: '400', lineHeight: '1.2', color: '#404040' }}>
                   Rua da Ribeira Negra 55, 4050-321 Porto
