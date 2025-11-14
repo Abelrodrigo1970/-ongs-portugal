@@ -52,7 +52,7 @@ export default async function NGODetailPage({ params }) {
   const impactosData = ngo.impactos && ngo.impactos.length > 0
     ? [...ngo.impactos].sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
     : [];
-  const maxHeroAreas = 4;
+  const maxHeroAreas = 3;
   const heroAreas = areasList.slice(0, maxHeroAreas);
   const extraAreasCount = Math.max(areasList.length - heroAreas.length, 0);
   const defaultProjetos = [
@@ -220,7 +220,7 @@ export default async function NGODetailPage({ params }) {
                       }}
                     >
                       <span 
-                        className="font-semibold"
+                        className="font-semibold whitespace-nowrap overflow-hidden text-ellipsis"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '14px',
@@ -241,7 +241,7 @@ export default async function NGODetailPage({ params }) {
                       }}
                     >
                       <span 
-                        className="font-semibold"
+                        className="font-semibold whitespace-nowrap"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '14px',
