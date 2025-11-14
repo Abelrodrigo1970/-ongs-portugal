@@ -129,7 +129,7 @@ const CompactEventCard = ({ event, className = '' }) => {
               {/* Event Info */}
               <div className="flex flex-wrap items-center" style={{ gap: '8px' }}>
                 {/* Location */}
-                {event.localizacao && (
+                {(event.localizacao || event.ngo?.localizacao) && (
                   <div className="flex items-center gap-1">
                     <MapPin className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
                     <span 
@@ -141,7 +141,7 @@ const CompactEventCard = ({ event, className = '' }) => {
                         opacity: 0.7
                       }}
                     >
-                      {event.localizacao}
+                      {event.localizacao || event.ngo?.localizacao}
                     </span>
                   </div>
                 )}
