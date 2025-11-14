@@ -207,13 +207,13 @@ export default async function NGODetailPage({ params }) {
               {/* Tags - Áreas de Atuação */}
               {heroAreas.length > 0 && (
                 <div 
-                  className="w-full flex gap-4 items-center justify-center overflow-hidden"
+                  className="w-full flex flex-nowrap gap-4 items-center justify-center overflow-hidden"
                   style={{ padding: '40px 0 40px 8px' }}
                 >
                   {heroAreas.map((area, index) => (
                     <div 
                       key={index}
-                      className="flex gap-2 items-center justify-center rounded-[200px] border border-solid"
+                      className="flex-1 min-w-0 flex gap-2 items-center justify-center rounded-[200px] border border-solid"
                       style={{ 
                         borderColor: 'rgba(64, 64, 64, 0.5)',
                         padding: '8px 16px'
@@ -234,7 +234,7 @@ export default async function NGODetailPage({ params }) {
                   ))}
                   {extraAreasCount > 0 && (
                     <div 
-                      className="flex gap-2 items-center justify-center rounded-[200px] border border-solid"
+                      className="flex-1 min-w-0 flex gap-2 items-center justify-center rounded-[200px] border border-solid"
                       style={{ 
                         borderColor: 'rgba(64, 64, 64, 0.5)',
                         padding: '8px 16px'
