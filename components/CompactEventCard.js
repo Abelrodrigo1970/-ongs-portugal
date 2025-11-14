@@ -201,10 +201,10 @@ const CompactEventCard = ({ event, className = '' }) => {
               </div>
             )}
 
-            {/* Button and Availability */}
+            {/* Button */}
             <div className="flex flex-col" style={{ gap: '8px', padding: '0 16px 16px 16px' }}>
               <div 
-                className="flex items-center justify-center"
+                className="flex items-center justify-center gap-2"
                 style={{
                   backgroundColor: 'var(--color-button-primary)',
                   borderRadius: '100px',
@@ -220,24 +220,21 @@ const CompactEventCard = ({ event, className = '' }) => {
                     lineHeight: '1.2'
                   }}
                 >
-                  Participar
+                  Quero colaborar
                 </span>
-              </div>
-
-              {/* Availability Text */}
-              {vagasDisponiveis > 0 && vagasTotal > 0 && (
-                <p 
-                  className="text-center"
-                  style={{ 
-                    color: '#404040',
-                    fontSize: '12px',
-                    fontWeight: '700',
-                    lineHeight: '1.4'
-                  }}
+                <svg 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="white" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
                 >
-                  Faltam {vagasDisponiveis} vagas
-                </p>
-              )}
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </div>
             </div>
           </div>
         </div>

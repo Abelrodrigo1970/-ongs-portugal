@@ -751,7 +751,7 @@ export default async function NGODetailPage({ params }) {
                 </div>
               </div>
 
-              {/* Morada */}
+              {/* Localização */}
               <div className="w-full flex flex-col items-start">
                 <div className="w-full flex flex-col items-start justify-center">
                   <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
@@ -764,7 +764,7 @@ export default async function NGODetailPage({ params }) {
                         color: '#1E1E1E'
                       }}
                     >
-                      Morada
+                      Localização
                     </span>
                     <div className="flex items-center" style={{ gap: '16px' }}>
                       <span 
@@ -776,7 +776,7 @@ export default async function NGODetailPage({ params }) {
                           color: '#404040'
                         }}
                       >
-                        {ngo.morada || ngo.localizacao}
+                        {ngo.localizacao}
                       </span>
                     </div>
                   </div>
