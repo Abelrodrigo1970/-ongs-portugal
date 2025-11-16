@@ -4,11 +4,11 @@ import Link from 'next/link';
 import React from 'react';
 import { getNGOById, getRelatedNGOs } from '@/lib/repositories/ngos';
 import { getEventsByNGO } from '@/lib/repositories/events';
-import CompactEventCard from '@/components/CompactEventCard';
 import MetricBanner from '@/components/ngo/MetricBanner';
 import AreaBanner from '@/components/ngo/AreaBanner';
 import { getAreaIcon } from '@/lib/utils/areaIcons';
 import ResponsiveVideo from '@/components/ResponsiveVideo';
+import EventsSection from '@/components/ngo/EventsSection';
 import { 
   MapPin, 
   Globe,
@@ -393,36 +393,7 @@ export default async function NGODetailPage({ params }) {
             )}
 
             {/* Próximos Eventos */}
-            {ngoEvents.length > 0 && (
-              <div className="w-full flex flex-col gap-6 items-start max-w-[920px] px-4 sm:px-6 md:px-0" style={{ gap: '24px' }}>
-                <div className="w-full flex flex-col items-start">
-                  <div className="w-full flex flex-col items-start justify-center">
-                    <div 
-                      className="w-full flex gap-1 items-center"
-                      style={{ padding: '8px 0' }}
-                    >
-                      <h3 
-                        className="font-semibold text-2xl sm:text-3xl md:text-[40px]"
-                        style={{ 
-                          fontFamily: 'Inter, sans-serif',
-                          lineHeight: '1.2',
-                          color: '#1e1e1e'
-                        }}
-                      >
-                        Próximos eventos
-                      </h3>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 items-stretch sm:items-start">
-                  {ngoEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className="flex-1 w-full sm:w-auto" style={{ minWidth: '0' }}>
-                      <CompactEventCard event={event} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <EventsSection events={ngoEvents} />
 
             {/* Vídeo Section */}
             <div 
