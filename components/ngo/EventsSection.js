@@ -143,7 +143,7 @@ export default function EventsSection({ events }) {
             className="event-card flex-shrink-0"
             style={{ 
               minWidth: '280px',
-              width: 'calc((100% - 48px) / 3)',
+              flex: '0 0 calc((100% - 48px) / 3)',
               maxWidth: 'calc((100% - 48px) / 3)'
             }}
           >
