@@ -129,7 +129,7 @@ export default function EventsSection({ events }) {
       {/* Events Container with Horizontal Scroll */}
       <div 
         ref={scrollContainerRef}
-        className="w-full flex gap-6 items-start overflow-x-auto scrollbar-hide"
+        className="w-full flex items-start overflow-x-auto scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
@@ -137,14 +137,15 @@ export default function EventsSection({ events }) {
           paddingBottom: '8px'
         }}
       >
-        {events.map((event) => (
+        {events.map((event, index) => (
           <div 
             key={event.id} 
             className="event-card flex-shrink-0"
             style={{ 
               minWidth: '280px',
-              flex: '0 0 calc((100% - 48px) / 3)',
-              maxWidth: 'calc((100% - 48px) / 3)'
+              width: 'calc((100% - 48px) / 3)',
+              maxWidth: 'calc((100% - 48px) / 3)',
+              marginRight: index < events.length - 1 ? '24px' : '0'
             }}
           >
             <CompactEventCard event={event} />
