@@ -57,126 +57,158 @@ async function ONGsContent({ searchParams }) {
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
-      {/* Hero Section */}
-      <div className="w-full py-16 md:py-20" style={{ backgroundColor: '#F2F2F7' }}>
-        <div className="w-full max-w-[1440px] mx-auto px-8 md:px-16">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 
-              style={{ 
-                color: '#404040',
-                fontSize: '48px',
-                lineHeight: '1.2',
-                fontWeight: '700',
-                marginBottom: '24px'
-              }}
-            >
-              ONGs em Portugal
-            </h1>
-            <p 
-              style={{ 
-                color: '#595959',
-                fontSize: '20px',
-                lineHeight: '1.4',
-                fontWeight: '500'
-              }}
-            >
-              Descobre organizações não-governamentais e encontra formas de colaborar para um mundo melhor
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* About Us - Métricas */}
-      <div className="w-full" style={{ paddingTop: '32px', paddingBottom: '64px', backgroundColor: '#F2F2F7' }}>
-        <div className="w-full max-w-[1440px] mx-auto px-8 md:px-16">
-          <div className="w-full max-w-[918px] mx-auto">
+      {/* About Section - Baseado no Figma */}
+      <div 
+        className="w-full flex flex-col items-center"
+        style={{ 
+          padding: '100px 0px 0px',
+          gap: '40px'
+        }}
+      >
+        {/* Frame 2 - Search and Filters */}
+        <div 
+          className="w-full flex flex-col items-start"
+          style={{ 
+            padding: '64px 0px 0px 0px',
+            gap: '16px',
+            maxWidth: '1440px',
+            margin: '0 auto',
+            paddingLeft: '16px',
+            paddingRight: '16px'
+          }}
+        >
+          {/* Search Bar Container */}
+          <div 
+            className="flex items-center"
+            style={{ 
+              boxShadow: '0px 0px 50px #d4e6ff',
+              width: '866px',
+              maxWidth: '100%',
+              gap: '24px'
+            }}
+          >
+            {/* Search Input */}
             <div 
-              className="flex flex-col md:flex-row items-stretch w-full"
+              className="flex items-center flex-1"
               style={{ 
-                gap: '24px',
-                backgroundColor: 'rgba(242, 242, 247, 0.05)'
+                backgroundColor: '#ffffff',
+                border: '1px solid #d5e1ff',
+                borderRadius: '200px',
+                height: '46px',
+                padding: '16px',
+                gap: '16px'
               }}
             >
-              <MetricBanner 
-                value={totalNgos.pagination.total}
-                label="ONGs Registadas"
+              <Search 
+                style={{ 
+                  width: '24px', 
+                  height: '24px',
+                  color: 'rgba(100, 116, 139, 1)'
+                }} 
               />
-              <MetricBanner 
-                value={areasOptions.length}
-                label="Áreas de Atuação"
-              />
-              <MetricBanner 
-                value={odsOptions.length}
-                label="ODS Representados"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Filtros */}
-      <div className="w-full border-b" style={{ backgroundColor: '#F2F2F7', borderColor: 'rgba(64, 64, 64, 0.15)', paddingBottom: '32px' }}>
-        <div className="w-full max-w-[1440px] mx-auto px-8 md:px-16">
-          <FilterBar
-            odsOptions={formattedOdsOptions}
-            areasOptions={formattedAreasOptions}
-            colaboracaoOptions={formattedColaboracaoOptions}
-            className="max-w-6xl mx-auto"
-          />
-        </div>
-      </div>
-
-      {/* Próximos Eventos */}
-      {upcomingEvents && upcomingEvents.length > 0 && (
-        <div className="w-full" style={{ paddingTop: '64px', paddingBottom: '64px', backgroundColor: '#F2F2F7' }}>
-          <div className="w-full max-w-[1440px] mx-auto px-8 md:px-16">
-            <div className="w-full max-w-[918px] mx-auto">
-              {/* Header */}
-              <div className="flex items-center justify-between" style={{ paddingBottom: '32px' }}>
-                <h2 
+              <form 
+                action="/ongs" 
+                method="get"
+                className="flex-1 flex items-center"
+                style={{ gap: '16px' }}
+              >
+                <input
+                  type="text"
+                  name="query"
+                  placeholder="copy"
+                  defaultValue={searchParams.query || ''}
+                  className="flex-1 outline-none bg-transparent"
                   style={{ 
-                    color: '#1E1E1E',
-                    fontSize: '39px',
-                    fontWeight: '700',
-                    lineHeight: '1.2'
+                    color: 'rgba(100, 116, 139, 1)',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '16px',
+                    fontWeight: '400',
+                    lineHeight: 'normal',
+                    border: 'none'
                   }}
-                >
-                  Próximos eventos
-                </h2>
-                <Link 
-                  href="/eventos"
-                  className="flex items-center gap-2 hover:opacity-70 transition-opacity"
-                  style={{ color: '#1E1E1E' }}
-                >
-                  <ChevronRight className="h-6 w-6" />
-                </Link>
-              </div>
-
-              {/* Events Grid */}
-              <div className="flex flex-col gap-6">
-                {upcomingEvents.map((event) => (
-                  <CompactEventCard key={event.id} event={event} />
-                ))}
-              </div>
+                />
+              </form>
             </div>
           </div>
-        </div>
-      )}
 
-      {/* Conteúdo */}
-      <div className="w-full" style={{ paddingTop: '64px', paddingBottom: '64px' }}>
-        <div className="w-full max-w-[1440px] mx-auto px-8 md:px-16">
+          {/* Filters Row */}
+          <div 
+            className="flex items-center justify-center w-full"
+            style={{ 
+              boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
+              height: '46px',
+              gap: '16px'
+            }}
+          >
+            <FilterBar
+              odsOptions={formattedOdsOptions}
+              areasOptions={formattedAreasOptions}
+              colaboracaoOptions={formattedColaboracaoOptions}
+              className="w-full"
+              figmaStyle={true}
+            />
+          </div>
+        </div>
+
+        {/* Frame 5 - NPOs Section */}
+        <div 
+          className="w-full flex flex-col items-start"
+          style={{ 
+            gap: '24px',
+            maxWidth: '1440px',
+            margin: '0 auto',
+            paddingLeft: '16px',
+            paddingRight: '16px'
+          }}
+        >
+          {/* Section Header */}
+          <div 
+            className="w-full flex items-center justify-center"
+            style={{ gap: '24px' }}
+          >
+            <div 
+              className="flex-1 flex items-center"
+              style={{ gap: '8px' }}
+            >
+              <h2 
+                style={{ 
+                  color: 'rgba(2, 6, 23, 1)',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '32px',
+                  fontWeight: '600',
+                  lineHeight: '120%',
+                  marginTop: '-1px'
+                }}
+              >
+                NPOs
+              </h2>
+            </div>
+          </div>
+
+          {/* NPOs Grid */}
           {ngos.length > 0 ? (
             <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" style={{ marginBottom: '64px' }}>
+              <div 
+                className="w-full flex flex-wrap"
+                style={{ gap: '24px' }}
+              >
                 {ngos.map((ngo) => (
-                  <NgoCard key={ngo.id} ngo={ngo} />
+                  <div 
+                    key={ngo.id}
+                    style={{ 
+                      width: 'calc((100% - 72px) / 4)',
+                      minWidth: '280px',
+                      flex: '0 0 calc((100% - 72px) / 4)'
+                    }}
+                  >
+                    <NgoCard ngo={ngo} />
+                  </div>
                 ))}
               </div>
 
               {/* Pagination */}
               {pagination.pages > 1 && (
-                <div className="flex justify-center">
+                <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
                   <div className="flex gap-3">
                     {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
                       const params = new URLSearchParams(searchParams);
@@ -220,7 +252,7 @@ async function ONGsContent({ searchParams }) {
               )}
             </>
           ) : (
-            <div className="flex justify-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+            <div className="w-full flex justify-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
               <EmptyState
                 icon={Search}
                 title="Nenhuma ONG encontrada"

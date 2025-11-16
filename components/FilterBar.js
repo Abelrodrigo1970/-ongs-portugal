@@ -7,7 +7,7 @@ import MultiSelect from './ui/MultiSelect';
 import Select from './ui/Select';
 import Toggle from './ui/Toggle';
 import Button from './ui/Button';
-import { Search, X } from 'lucide-react';
+import { Search, X, ChevronDown } from 'lucide-react';
 
 const FilterBar = ({ 
   odsOptions = [], 
@@ -16,7 +16,8 @@ const FilterBar = ({
   tipoOptions = [],
   showEventFilters = false,
   onSearch = null,
-  className = '' 
+  className = '',
+  figmaStyle = false
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -137,6 +138,115 @@ const FilterBar = ({
     { value: 'guimaraes', label: 'Guimarães' },
     { value: 'funchal', label: 'Funchal' }
   ];
+
+  // Se figmaStyle, mostrar apenas os 3 botões de filtro
+  if (figmaStyle) {
+    return (
+      <div className={`flex items-center justify-center gap-4 ${className}`}>
+        {/* Filter Button 1 - ODS */}
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="flex items-center justify-center rounded-[200px] transition-colors"
+          style={{
+            backgroundColor: '#ffffff',
+            border: '1px solid #d5e1ff',
+            borderRadius: '200px',
+            boxShadow: '0px 0px 50px #d4e7ff',
+            height: '46px',
+            padding: '8px 16px',
+            gap: '8px'
+          }}
+        >
+          <span 
+            style={{ 
+              color: 'rgba(100, 116, 139, 1)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '14px',
+              fontWeight: '500',
+              lineHeight: '16.8px'
+            }}
+          >
+            filter
+          </span>
+          <ChevronDown 
+            style={{ 
+              width: '24px', 
+              height: '24px',
+              color: 'rgba(100, 116, 139, 1)'
+            }} 
+          />
+        </button>
+
+        {/* Filter Button 2 - Areas */}
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="flex items-center justify-center rounded-[200px] transition-colors"
+          style={{
+            backgroundColor: '#ffffff',
+            border: '1px solid #d5e1ff',
+            borderRadius: '200px',
+            boxShadow: '0px 0px 50px #d4e7ff',
+            height: '46px',
+            padding: '8px 16px',
+            gap: '8px'
+          }}
+        >
+          <span 
+            style={{ 
+              color: 'rgba(100, 116, 139, 1)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '14px',
+              fontWeight: '500',
+              lineHeight: '16.8px'
+            }}
+          >
+            filter
+          </span>
+          <ChevronDown 
+            style={{ 
+              width: '24px', 
+              height: '24px',
+              color: 'rgba(100, 116, 139, 1)'
+            }} 
+          />
+        </button>
+
+        {/* Filter Button 3 - Colaboração */}
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="flex items-center justify-center rounded-[200px] transition-colors"
+          style={{
+            backgroundColor: '#ffffff',
+            border: '1px solid #d5e1ff',
+            borderRadius: '200px',
+            boxShadow: '0px 0px 50px #d4e7ff',
+            height: '46px',
+            padding: '8px 16px',
+            gap: '8px'
+          }}
+        >
+          <span 
+            style={{ 
+              color: 'rgba(100, 116, 139, 1)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '14px',
+              fontWeight: '500',
+              lineHeight: '16.8px'
+            }}
+          >
+            filter
+          </span>
+          <ChevronDown 
+            style={{ 
+              width: '24px', 
+              height: '24px',
+              color: 'rgba(100, 116, 139, 1)'
+            }} 
+          />
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={`${className}`}>
