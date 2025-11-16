@@ -7,7 +7,8 @@ import { Play } from 'lucide-react';
 const ResponsiveVideo = ({ 
   url, 
   title = 'Vídeo',
-  className = 'aspect-video w-full rounded-lg overflow-hidden'
+  className = 'aspect-video w-full rounded-lg overflow-hidden',
+  style = {}
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -64,7 +65,7 @@ const ResponsiveVideo = ({
 
   if (isPlaying && embedUrl) {
     return (
-      <div className={className}>
+      <div className={className} style={style}>
         <iframe
           src={embedUrl}
           title={title}
@@ -81,6 +82,7 @@ const ResponsiveVideo = ({
     <div 
       className={`${className} cursor-pointer group relative overflow-hidden`}
       onClick={() => setIsPlaying(true)}
+      style={style}
     >
       {thumbnailUrl ? (
         <Image
@@ -94,16 +96,15 @@ const ResponsiveVideo = ({
         <div className="absolute inset-0 bg-gray-200" />
       )}
 
+      <div className="absolute inset-0 bg-black bg-opacity-40" />
+
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="bg-black bg-opacity-50 rounded-full p-4 group-hover:bg-opacity-70 transition-all duration-200">
-          <Play className="h-8 w-8 text-white" />
+        <div 
+          className="flex items-center justify-center"
+          style={{ width: '75px', height: '60px' }}
+        >
+          <Play className="text-white" style={{ width: '75px', height: '60px' }} fill="white" />
         </div>
-      </div>
-      
-      <div className="absolute bottom-4 left-4 right-4">
-        <p className="text-white text-sm font-medium bg-black bg-opacity-50 px-3 py-1 rounded">
-          {title}
-        </p>
       </div>
     </div>
   );

@@ -3,39 +3,51 @@ const AreaBanner = ({ icon, name, className = '' }) => {
     <div 
       className={`flex flex-col items-center justify-center ${className}`}
       style={{ 
-        width: '150px',
-        backgroundColor: '#F2F2F7',
+        width: '212px',
+        height: '92px',
         borderRadius: '16px',
-        border: '1px solid rgba(64, 64, 64, 0.15)',
-        padding: '24px 16px',
-        gap: '32px'
+        border: '1px solid #cbd5e1',
+        padding: '16px 8px',
+        gap: '4px'
       }}
     >
-      {/* Icon */}
-      {icon && (
-        <div 
-          style={{ 
-            width: '24px',
-            height: '24px',
-            opacity: 0.9
-          }}
-        >
-          {icon}
-        </div>
-      )}
-      
-      {/* Name */}
+      {/* Icon and Text Container */}
       <div 
+        className="flex flex-col items-center justify-center"
         style={{ 
-          fontSize: '16px',
-          fontWeight: '400',
-          color: '#404040',
-          textAlign: 'center',
-          lineHeight: '1.5',
-          width: '100%'
+          width: '150px',
+          height: '60px',
+          gap: '4px'
         }}
       >
-        {name}
+        {/* Icon */}
+        {icon && (
+          <div 
+            style={{ 
+              width: '24px',
+              height: '24px',
+              opacity: 0.9,
+              flexShrink: 0
+            }}
+          >
+            {icon}
+          </div>
+        )}
+        
+        {/* Name */}
+        <div 
+          style={{ 
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '18px',
+            fontWeight: '700',
+            color: '#1e293b',
+            textAlign: 'center',
+            lineHeight: '1.75',
+            width: '100%'
+          }}
+        >
+          {name}
+        </div>
       </div>
     </div>
   );

@@ -116,64 +116,63 @@ export default async function NGODetailPage({ params }) {
       <div className="w-full flex flex-col items-start relative" style={{ width: '1440px', margin: '0 auto' }}>
         <div className="w-full flex flex-col gap-2 items-center px-16 py-2" style={{ padding: '8px 64px' }}>
           <div 
-            className="w-full max-w-[918px] flex flex-col items-center relative z-10"
+            className="w-full max-w-[920px] flex flex-col items-center relative z-10"
             style={{ 
               paddingTop: ngo.imagem ? '0px' : '304px',
-              paddingBottom: '40px',
+              paddingBottom: '0px',
               marginTop: ngo.imagem ? '-200px' : '0px',
-              gap: '40px'
+              gap: '32px'
             }}
           >
             {/* Frame 403 - Header Card */}
             <div 
               className="w-[918px] flex flex-col items-center rounded-[32px] border border-solid backdrop-blur-[100px]"
               style={{ 
-                background: 'rgba(242, 242, 247, 0.05)',
-                borderColor: 'rgba(64, 64, 64, 0.15)',
-                padding: '32px'
+                background: 'rgba(248, 250, 252, 0.05)',
+                borderColor: '#cbd5e1',
+                padding: '40px'
               }}
             >
               {/* Top Row: Logo + Title + Location/Website */}
-              <div className="w-full flex items-center">
-                <div className="flex-1 flex gap-2 items-center justify-center">
+              <div className="w-full flex items-center" style={{ padding: '0' }}>
+                <div className="flex-1 flex gap-2 items-center justify-center min-w-0">
                   {ngo.logo && (
                     <div 
-                      className="relative rounded-[200px] overflow-hidden"
-                      style={{ width: '56px', height: '58px', background: '#EF4037' }}
+                      className="relative rounded-full overflow-hidden flex-shrink-0"
+                      style={{ width: '48px', height: '48px' }}
                     >
                       <Image
                         src={ngo.logo}
                         alt={`${ngo.nome} logo`}
-                        width={56}
-                        height={58}
-                        className="object-contain"
-                        style={{ width: 'auto', height: 'auto' }}
+                        width={48}
+                        height={48}
+                        className="object-cover"
                       />
                     </div>
                   )}
                   <h1 
-                    className="flex-1 font-extrabold whitespace-pre-wrap"
+                    className="flex-1 font-semibold whitespace-pre-wrap min-w-0"
                     style={{ 
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '48px',
+                      fontSize: '40px',
                       lineHeight: '1.2',
-                      color: '#404040'
+                      color: '#020617'
                     }}
                   >
                     {ngo.nome}
                   </h1>
                 </div>
 
-                <div className="flex gap-4 items-center justify-center" style={{ padding: '8px 0' }}>
+                <div className="flex gap-2 items-center justify-center flex-shrink-0" style={{ padding: '0' }}>
                   <div className="flex gap-1 items-center">
-                    <MapPin style={{ width: '16px', height: '16px' }} />
+                    <MapPin style={{ width: '16px', height: '16px', color: '#64748b' }} />
                     <span 
-                      className="font-medium"
+                      className="font-normal"
                       style={{ 
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '16px',
-                        lineHeight: '1.2',
-                        color: '#595959'
+                        lineHeight: '1.5',
+                        color: '#64748b'
                       }}
                     >
                       {ngo.localizacao}
@@ -182,18 +181,18 @@ export default async function NGODetailPage({ params }) {
                   
                   {ngo.websiteUrl && (
                     <>
-                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                      <div style={{ background: '#e2e8f0', width: '1px', height: '24px' }} />
                       <div className="flex gap-1 items-center">
-                        <Globe style={{ width: '16px', height: '16px' }} />
+                        <Globe style={{ width: '16px', height: '16px', color: '#64748b' }} />
                         <Link 
                           href={ngo.websiteUrl}
                           target="_blank"
-                          className="font-medium hover:underline"
+                          className="font-normal hover:underline"
                           style={{ 
                             fontFamily: 'Inter, sans-serif',
                             fontSize: '16px',
-                            lineHeight: '1.2',
-                            color: '#595959'
+                            lineHeight: '1.5',
+                            color: '#64748b'
                           }}
                         >
                           {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
@@ -208,36 +207,15 @@ export default async function NGODetailPage({ params }) {
               {heroAreas.length > 0 && (
                 <div 
                   className="w-full flex flex-nowrap gap-4 items-center justify-center overflow-hidden"
-                  style={{ padding: '40px 0 40px 8px' }}
+                  style={{ padding: '32px 0' }}
                 >
                   {heroAreas.map((area, index) => (
                     <div 
                       key={index}
-                      className="flex-1 min-w-0 flex gap-2 items-center justify-center rounded-[200px] border border-solid"
+                      className="flex-shrink-0 flex gap-2 items-center justify-center rounded-[8px] border border-solid"
                       style={{ 
-                        borderColor: 'rgba(64, 64, 64, 0.5)',
-                        padding: '8px 16px'
-                      }}
-                    >
-                      <span 
-                        className="font-semibold whitespace-nowrap overflow-hidden text-ellipsis"
-                        style={{ 
-                          fontFamily: 'Inter, sans-serif',
-                          fontSize: '14px',
-                          lineHeight: '1.4',
-                          color: 'rgba(64, 64, 64, 0.5)'
-                        }}
-                      >
-                        {area}
-                      </span>
-                    </div>
-                  ))}
-                  {extraAreasCount > 0 && (
-                    <div 
-                      className="flex-1 min-w-0 flex gap-2 items-center justify-center rounded-[200px] border border-solid"
-                      style={{ 
-                        borderColor: 'rgba(64, 64, 64, 0.5)',
-                        padding: '8px 16px'
+                        borderColor: '#64748b',
+                        padding: '4px 16px'
                       }}
                     >
                       <span 
@@ -246,7 +224,28 @@ export default async function NGODetailPage({ params }) {
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '14px',
                           lineHeight: '1.4',
-                          color: 'rgba(64, 64, 64, 0.5)'
+                          color: '#64748b'
+                        }}
+                      >
+                        {area}
+                      </span>
+                    </div>
+                  ))}
+                  {extraAreasCount > 0 && (
+                    <div 
+                      className="flex-shrink-0 flex gap-2 items-center justify-center rounded-[8px] border border-solid"
+                      style={{ 
+                        borderColor: 'rgba(64, 64, 64, 0.15)',
+                        padding: '4px 16px'
+                      }}
+                    >
+                      <span 
+                        className="font-semibold whitespace-nowrap"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '14px',
+                          lineHeight: '1.4',
+                          color: '#64748b'
                         }}
                       >
                         +{extraAreasCount}
@@ -257,99 +256,99 @@ export default async function NGODetailPage({ params }) {
               )}
 
               {/* Buttons */}
-              <div className="w-full flex gap-4 items-center justify-center">
+              <div className="w-full flex gap-4 items-center justify-center" style={{ padding: '0' }}>
                 <button 
-                  className="flex-1 flex gap-4 items-center justify-center rounded-[100px]"
+                  className="flex-1 flex gap-2 items-center justify-center rounded-[100px]"
                   style={{
-                    background: 'var(--color-button-primary)',
-                    padding: '16px 12px'
+                    background: '#155dfc',
+                    padding: '8px 24px'
                   }}
                 >
                   <span 
-                    className="font-semibold"
+                    className="font-bold"
                     style={{ 
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '20px',
-                      lineHeight: 'normal',
-                      color: '#F2F2F7'
+                      fontSize: '18px',
+                      lineHeight: '1.75',
+                      color: '#f1f5f9'
                     }}
                   >
                     Quero colaborar
                   </span>
-                  <ArrowRight style={{ width: '24px', height: '24px', color: '#F2F2F7' }} />
+                  <ArrowRight style={{ width: '24px', height: '24px', color: '#f1f5f9' }} />
                 </button>
                 <button 
-                  className="flex-1 flex gap-4 items-center justify-center rounded-[100px] border border-solid"
+                  className="flex-1 flex gap-2 items-center justify-center rounded-[100px] border-2 border-solid"
                   style={{
-                    borderColor: 'rgba(64, 64, 64, 0.15)',
-                    padding: '16px 12px'
+                    borderColor: '#cbd5e1',
+                    padding: '8px 24px'
                   }}
                 >
                   <span 
-                    className="font-semibold"
+                    className="font-bold"
                     style={{ 
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '20px',
-                      lineHeight: 'normal',
-                      color: '#595959'
+                      fontSize: '18px',
+                      lineHeight: '1.75',
+                      color: '#020617'
                     }}
                   >
                     Seguir ONG
                   </span>
-                  <Bookmark style={{ width: '24px', height: '24px' }} />
+                  <Bookmark style={{ width: '24px', height: '24px', color: '#020617' }} />
                 </button>
               </div>
             </div>
 
             {/* Frame 428 - About Text */}
-            <div className="w-full flex flex-col items-start">
-              <div className="w-full flex flex-col items-start">
-                <div 
-                  className="w-full flex flex-col gap-4 items-start"
-                  style={{ height: '65px' }}
-                >
-                  <h2 
-                    className="font-bold w-full whitespace-pre-wrap"
-                    style={{ 
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '39px',
-                      lineHeight: '1.4',
-                      color: '#404040'
-                    }}
-                  >
-                    {ngo.missao 
-                      ? (ngo.missao.length > 45 ? ngo.missao.substring(0, 45) + '...' : ngo.missao)
-                      : 'Transformamos vidas, todos os dias.'}
-                  </h2>
-                </div>
-              </div>
-              <div className="flex gap-2 items-center justify-center" style={{ padding: '8px 0' }}>
-                <p 
-                  className="font-medium whitespace-pre-wrap"
+            <div className="w-full flex flex-col items-start" style={{ width: '920px' }}>
+              <div className="w-full flex flex-col gap-4 items-start" style={{ padding: '16px 0 32px 0' }}>
+                <h2 
+                  className="font-semibold w-full whitespace-pre-wrap"
                   style={{ 
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '20px',
-                    lineHeight: '1.4',
-                    color: '#595959',
-                    width: '918px'
+                    fontSize: '40px',
+                    lineHeight: '1.2',
+                    color: '#1e293b'
                   }}
                 >
-                  {ngo.descricao}
-                </p>
+                  {ngo.missao 
+                    ? (ngo.missao.length > 45 ? ngo.missao.substring(0, 45) + '...' : ngo.missao)
+                    : 'Transformamos vidas, todos os dias.'}
+                </h2>
+                <div style={{ padding: '8px 0' }}>
+                  <p 
+                    className="font-normal whitespace-pre-wrap"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '18px',
+                      lineHeight: '1.75',
+                      color: '#595959',
+                      width: '918px'
+                    }}
+                  >
+                    {ngo.descricao}
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* About us - Métrica */}
             {impactosData.length > 0 && (
-              <div className="w-full flex gap-6 items-center">
-                <div className="flex-1 flex items-center" style={{ background: 'rgba(242, 242, 247, 0.05)' }}>
+              <div className="w-full flex items-center justify-between" style={{ padding: '0 16px', width: '920px' }}>
+                <div className="flex-1 flex gap-[60px] items-center justify-center" style={{ background: 'rgba(242, 242, 247, 0.05)' }}>
                   {impactosData.slice(0, 3).map((impact, index) => (
-                    <div key={index} className="flex-1">
-                      <MetricBanner 
-                        value={impact.valor || ''}
-                        label={impact.descricao}
-                      />
-                    </div>
+                    <React.Fragment key={index}>
+                      <div style={{ width: '188px', height: '94px' }}>
+                        <MetricBanner 
+                          value={impact.valor || ''}
+                          label={impact.descricao}
+                        />
+                      </div>
+                      {index < 2 && (
+                        <div style={{ background: '#e2e8f0', width: '1px', height: '64px' }} />
+                      )}
+                    </React.Fragment>
                   ))}
                 </div>
               </div>
@@ -357,20 +356,20 @@ export default async function NGODetailPage({ params }) {
 
             {/* Áreas de Atuação */}
             {areasList.length > 0 && (
-              <div className="w-full flex flex-col gap-4 items-start">
+              <div className="w-full flex flex-col gap-4 items-start" style={{ width: '920px' }}>
                 <div className="w-full flex flex-col items-start">
                   <div className="w-full flex flex-col items-start justify-center">
                     <div 
                       className="w-full flex gap-1 items-center"
-                      style={{ padding: '0 0 32px 0' }}
+                      style={{ padding: '0 0 16px 0' }}
                     >
                       <h3 
-                        className="font-bold"
+                        className="font-semibold"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '39px',
+                          fontSize: '40px',
                           lineHeight: '1.2',
-                          color: '#1E1E1E'
+                          color: '#1e1e1e'
                         }}
                       >
                         Áreas de Atuação
@@ -378,10 +377,10 @@ export default async function NGODetailPage({ params }) {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex flex-col gap-6 items-center justify-center">
+                <div className="w-full flex flex-col gap-6 items-start" style={{ gap: '24px' }}>
                   <div 
-                    className="w-full flex flex-wrap gap-8 items-center justify-center overflow-clip"
-                    style={{ gap: '32px' }}
+                    className="w-full flex flex-wrap gap-6 items-center justify-center overflow-clip"
+                    style={{ gap: '24px' }}
                   >
                     {areasList.map((area, index) => {
                       const iconPath = getAreaIcon(area);
@@ -406,7 +405,7 @@ export default async function NGODetailPage({ params }) {
 
             {/* Próximos Eventos */}
             {ngoEvents.length > 0 && (
-              <div className="w-full flex flex-col gap-6 items-start">
+              <div className="w-full flex flex-col gap-6 items-start" style={{ width: '920px', gap: '24px' }}>
                 <div className="w-full flex flex-col items-start">
                   <div className="w-full flex flex-col items-start justify-center">
                     <div 
@@ -414,12 +413,12 @@ export default async function NGODetailPage({ params }) {
                       style={{ padding: '8px 0' }}
                     >
                       <h3 
-                        className="font-bold"
+                        className="font-semibold"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '39px',
+                          fontSize: '40px',
                           lineHeight: '1.2',
-                          color: '#1E1E1E'
+                          color: '#1e1e1e'
                         }}
                       >
                         Próximos eventos
@@ -427,9 +426,9 @@ export default async function NGODetailPage({ params }) {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex gap-6 items-start">
+                <div className="w-full flex gap-6 items-start" style={{ gap: '24px' }}>
                   {ngoEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className="flex-1">
+                    <div key={event.id} className="flex-1" style={{ minWidth: '0' }}>
                       <CompactEventCard event={event} />
                     </div>
                   ))}
@@ -440,72 +439,102 @@ export default async function NGODetailPage({ params }) {
             {/* Vídeo Section */}
             <div 
               className="w-full flex flex-col gap-2 items-start"
-              style={{ padding: '32px 0 60px 0' }}
+              style={{ padding: '32px 0 60px 0', width: '920px' }}
             >
               <div className="w-full flex flex-col gap-2 items-start">
                 {ngo.videoUrl ? (
                   <ResponsiveVideo
                     url={ngo.videoUrl}
                     title={`Vídeo da ${ngo.nome}`}
+                    className="w-full"
+                    style={{ height: '472.5px', borderRadius: '4px' }}
                   />
                 ) : (
-                  <p 
-                    className="text-gray-500 text-sm"
-                    style={{ fontFamily: 'Inter, sans-serif', lineHeight: '1.4' }}
+                  <div 
+                    className="w-full relative rounded-[4px] overflow-hidden"
+                    style={{ height: '472.5px', backgroundColor: '#f1f5f9' }}
                   >
-                    Esta ONG ainda não adicionou um vídeo institucional.
-                  </p>
+                    <p 
+                      className="absolute inset-0 flex items-center justify-center text-gray-500"
+                      style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', lineHeight: '1.5' }}
+                    >
+                      Esta ONG ainda não adicionou um vídeo institucional.
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
 
             {/* Projetos em destaque */}
             {projetosToDisplay.length > 0 && (
-              <div className="w-full flex flex-col gap-6 items-start">
-                <div className="w-full flex flex-col gap-10">
-                  {projetosToDisplay.map((project, index) => (
+              <div className="w-full flex flex-col gap-16 items-start" style={{ width: '920px', gap: '64px' }}>
+                {projetosToDisplay.map((project, index) => {
+                  const isEven = index % 2 === 1; // Alternar layout
+                  return (
                     <div
                       key={`${project.titulo}-${index}`}
-                      className="flex flex-col md:flex-row gap-6 items-center md:items-start"
-                      style={{ background: '#FFFFFF', borderRadius: '24px', padding: '24px' }}
+                      className="flex gap-6 items-center"
+                      style={{ borderRadius: '32px', gap: '24px' }}
                     >
-                      {project.imagem && (
+                      {!isEven && project.imagem && (
                         <div
-                          className="relative overflow-hidden rounded-[24px]"
-                          style={{ width: '260px', height: '200px', flexShrink: 0 }}
+                          className="relative overflow-hidden rounded-[16px] flex-shrink-0"
+                          style={{ width: '290px', height: index === 0 ? '266px' : index === 1 ? '277px' : '298px' }}
                         >
                           <Image
                             src={project.imagem}
                             alt={project.titulo}
                             fill
-                            sizes="(max-width: 768px) 100vw, 260px"
+                            sizes="290px"
                             className="object-cover"
                           />
                         </div>
                       )}
 
-                      <div className="flex-1 flex flex-col gap-3 text-left">
+                      <div className="flex-1 flex flex-col gap-2 text-left" style={{ width: '606px', gap: '8px' }}>
                         <h4
-                          className="font-bold"
+                          className="font-semibold"
                           style={{
                             fontFamily: 'Inter, sans-serif',
-                            fontSize: '28px',
-                            lineHeight: '1.3',
-                            color: '#1E1E1E'
+                            fontSize: '24px',
+                            lineHeight: '1.4',
+                            color: '#1e293b',
+                            width: '526px'
                           }}
                         >
                           {project.titulo}
                         </h4>
                         <p
-                          className="text-base text-gray-600 whitespace-pre-wrap"
-                          style={{ fontFamily: 'Inter, sans-serif', lineHeight: '1.6' }}
+                          className="font-normal whitespace-pre-wrap"
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif', 
+                            fontSize: '18px',
+                            lineHeight: '1.75',
+                            color: '#595959',
+                            width: '606px'
+                          }}
                         >
                           {project.descricao}
                         </p>
                       </div>
+
+                      {isEven && project.imagem && (
+                        <div
+                          className="relative overflow-hidden rounded-[16px] flex-shrink-0"
+                          style={{ width: '290px', height: index === 0 ? '266px' : index === 1 ? '277px' : '298px' }}
+                        >
+                          <Image
+                            src={project.imagem}
+                            alt={project.titulo}
+                            fill
+                            sizes="290px"
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
             )}
 
@@ -516,12 +545,13 @@ export default async function NGODetailPage({ params }) {
                 background: 'rgba(242, 242, 247, 0.05)',
                 borderColor: 'rgba(64, 64, 64, 0.15)',
                 padding: '24px 32px 32px 32px',
-                gap: '32px'
+                gap: '32px',
+                width: '918px'
               }}
             >
               {/* Site */}
               {ngo.websiteUrl && (
-                <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
                   <div className="w-full flex flex-col items-start justify-between" style={{ height: '40px' }}>
                     <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                       <span 
@@ -530,7 +560,7 @@ export default async function NGODetailPage({ params }) {
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#1E1E1E'
+                          color: '#1e1e1e'
                         }}
                       >
                         Site:
@@ -543,7 +573,7 @@ export default async function NGODetailPage({ params }) {
                             fontFamily: 'Inter, sans-serif',
                             fontSize: '20px',
                             lineHeight: '1.2',
-                            color: '#404040',
+                            color: '#1e293b',
                             textUnderlinePosition: 'from-font',
                             textDecorationLine: 'underline',
                             textDecorationStyle: 'solid'
@@ -553,12 +583,13 @@ export default async function NGODetailPage({ params }) {
                         </Link>
                     </div>
                   </div>
+                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
                 </div>
               )}
 
               {/* Tipos de Colaboração */}
               {colaboracaoList.length > 0 && (
-                <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
                   <div className="w-full flex flex-col items-start justify-center">
                     <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                       <span 
@@ -567,7 +598,7 @@ export default async function NGODetailPage({ params }) {
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#1E1E1E'
+                          color: '#1e1e1e'
                         }}
                       >
                         Tipos de Colaboração
@@ -596,13 +627,13 @@ export default async function NGODetailPage({ params }) {
                                   fontFamily: 'Inter, sans-serif',
                                   fontSize: '20px',
                                   lineHeight: '1.2',
-                                  color: '#404040'
+                                  color: '#1e293b'
                                 }}
                               >
                                 {colab} {emoji}
                               </span>
                               {index < colaboracaoList.length - 1 && (
-                                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
                               )}
                             </React.Fragment>
                           );
@@ -610,12 +641,13 @@ export default async function NGODetailPage({ params }) {
                       </div>
                     </div>
                   </div>
+                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
                 </div>
               )}
 
               {/* ODS */}
-              <div className="w-full flex flex-col items-start">
-                <div className="w-full flex flex-col items-start justify-center">
+              <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
+                <div className="w-full flex flex-col items-start justify-between" style={{ height: '40px' }}>
                   <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                     <span 
                       className="font-bold"
@@ -623,52 +655,33 @@ export default async function NGODetailPage({ params }) {
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '20px',
                         lineHeight: '1.2',
-                        color: '#1E1E1E'
+                        color: '#1e1e1e'
                       }}
                     >
                       ODS
                     </span>
-                    <div className="flex gap-2 items-center flex-wrap justify-end">
-                      {odsList.length > 0 ? (
-                        odsList.map((ods) => (
-                          <div 
-                            key={ods.id} 
-                            className="relative rounded-lg overflow-hidden" 
-                            style={{ width: '40px', height: '40px' }}
-                          >
-                            <Image
-                              src={`/ods/ods-${ods.numero.toString().padStart(2, '0')}.png`}
-                              alt={`ODS ${ods.numero} - ${ods.nome}`}
-                              fill
-                              sizes="40px"
-                              className="object-cover"
-                            />
-                          </div>
-                        ))
-                      ) : (
-                        <span 
-                          className="font-normal underline"
-                          style={{ 
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '20px',
-                            lineHeight: '1.2',
-                            color: '#404040',
-                            textUnderlinePosition: 'from-font',
-                            textDecorationLine: 'underline',
-                            textDecorationStyle: 'solid'
-                          }}
-                        >
-                          -
-                        </span>
-                      )}
-                    </div>
+                    <span 
+                      className="font-normal underline"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '20px',
+                        lineHeight: '1.2',
+                        color: '#1e293b',
+                        textUnderlinePosition: 'from-font',
+                        textDecorationLine: 'underline',
+                        textDecorationStyle: 'solid'
+                      }}
+                    >
+                      -
+                    </span>
                   </div>
                 </div>
+                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
               </div>
 
               {/* Redes Sociais */}
-              {(ngo.instagramUrl || ngo.websiteUrl) && (
-                <div className="w-full flex flex-col items-start">
+              {(ngo.instagramUrl || ngo.facebookUrl || ngo.linkedinUrl || ngo.tiktokUrl) && (
+                <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
                   <div className="w-full flex flex-col items-start justify-center">
                     <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                       <span 
@@ -677,12 +690,75 @@ export default async function NGODetailPage({ params }) {
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#1E1E1E'
+                          color: '#1e1e1e'
                         }}
                       >
-                        Redes Sociais
+                        Redes Sociais:
                       </span>
                       <div className="flex items-center" style={{ gap: '16px' }}>
+                        {ngo.facebookUrl && (
+                          <Link 
+                            href={ngo.facebookUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              fontSize: '20px',
+                              lineHeight: '1.2',
+                              color: '#1e293b',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Facebook
+                          </Link>
+                        )}
+                        {ngo.facebookUrl && (ngo.tiktokUrl || ngo.linkedinUrl || ngo.instagramUrl) && (
+                          <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                        )}
+                        {ngo.tiktokUrl && (
+                          <Link 
+                            href={ngo.tiktokUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              fontSize: '20px',
+                              lineHeight: '1.2',
+                              color: '#1e293b',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Tiktok
+                          </Link>
+                        )}
+                        {ngo.tiktokUrl && (ngo.linkedinUrl || ngo.instagramUrl) && (
+                          <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                        )}
+                        {ngo.linkedinUrl && (
+                          <Link 
+                            href={ngo.linkedinUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              fontSize: '20px',
+                              lineHeight: '1.2',
+                              color: '#1e293b',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Linkedin
+                          </Link>
+                        )}
+                        {ngo.linkedinUrl && ngo.instagramUrl && (
+                          <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                        )}
                         {ngo.instagramUrl && (
                           <Link 
                             href={ngo.instagramUrl}
@@ -692,7 +768,7 @@ export default async function NGODetailPage({ params }) {
                               fontFamily: 'Inter, sans-serif',
                               fontSize: '20px',
                               lineHeight: '1.2',
-                              color: '#404040',
+                              color: '#1e293b',
                               textUnderlinePosition: 'from-font',
                               textDecorationLine: 'underline',
                               textDecorationStyle: 'solid'
@@ -704,11 +780,12 @@ export default async function NGODetailPage({ params }) {
                       </div>
                     </div>
                   </div>
+                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
                 </div>
               )}
 
               {/* Contacto */}
-              <div className="w-full flex flex-col items-start">
+              <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
                 <div className="w-full flex flex-col items-start justify-center">
                   <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                     <span 
@@ -717,7 +794,7 @@ export default async function NGODetailPage({ params }) {
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '20px',
                         lineHeight: '1.2',
-                        color: '#1E1E1E'
+                        color: '#1e1e1e'
                       }}
                     >
                       Contacto
@@ -729,19 +806,19 @@ export default async function NGODetailPage({ params }) {
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#404040'
+                          color: '#1e293b'
                         }}
                       >
                         {ngo.email}
                       </span>
-                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '100%' }} />
+                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
                       <span 
                         className="font-normal"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#404040'
+                          color: '#1e293b'
                         }}
                       >
                         {ngo.telefone}
@@ -749,10 +826,11 @@ export default async function NGODetailPage({ params }) {
                     </div>
                   </div>
                 </div>
+                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
               </div>
 
-              {/* Localização */}
-              <div className="w-full flex flex-col items-start">
+              {/* Morada */}
+              <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
                 <div className="w-full flex flex-col items-start justify-center">
                   <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
                     <span 
@@ -761,10 +839,10 @@ export default async function NGODetailPage({ params }) {
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '20px',
                         lineHeight: '1.2',
-                        color: '#1E1E1E'
+                        color: '#1e1e1e'
                       }}
                     >
-                      Localização
+                      Morada
                     </span>
                     <div className="flex items-center" style={{ gap: '16px' }}>
                       <span 
@@ -773,10 +851,10 @@ export default async function NGODetailPage({ params }) {
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#404040'
+                          color: '#1e293b'
                         }}
                       >
-                        {ngo.localizacao}
+                        {ngo.morada || ngo.localizacao}
                       </span>
                     </div>
                   </div>

@@ -3,9 +3,9 @@ const MetricBanner = ({ value, label, subtitle, className = '' }) => {
     <div 
       className={`flex flex-col items-center w-full ${className}`}
       style={{ 
-        backgroundColor: '#F2F2F7',
-        borderRadius: '32px',
-        gap: '16px'
+        gap: '8px',
+        width: '188px',
+        height: '94px'
       }}
     >
       {/* Number */}
@@ -13,14 +13,15 @@ const MetricBanner = ({ value, label, subtitle, className = '' }) => {
         <div 
           className="w-full flex items-center justify-center"
           style={{ 
-            padding: '16px 16px 0px'
+            padding: '0'
           }}
         >
           <div 
             style={{ 
+              fontFamily: 'Inter, sans-serif',
               fontSize: '48px',
               fontWeight: '700',
-              color: '#404040',
+              color: '#020617',
               textAlign: 'center',
               lineHeight: '1.2',
               width: '100%'
@@ -36,14 +37,15 @@ const MetricBanner = ({ value, label, subtitle, className = '' }) => {
         <div 
           className="w-full"
           style={{ 
-            padding: '0px 16px 16px 16px'
+            padding: '0'
           }}
         >
           <div 
             style={{ 
+              fontFamily: 'Inter, sans-serif',
               fontSize: '20px',
               fontWeight: '700',
-              color: '#8C8C8C',
+              color: '#64748b',
               textAlign: 'center',
               lineHeight: '1.4',
               width: '100%'
