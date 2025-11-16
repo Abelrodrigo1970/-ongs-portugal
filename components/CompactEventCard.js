@@ -47,23 +47,23 @@ const CompactEventCard = ({ event, className = '' }) => {
       }}
     >
       <Link href={`/eventos/${event.id}`} className="block">
-        <div className="flex flex-col" style={{ gap: '16px' }}>
+        <div className="flex flex-col" style={{ gap: '8px' }}>
           {/* Event Image with Badge */}
-          <div className="relative" style={{ height: '120px' }}>
+          <div className="relative" style={{ height: '120px', padding: '6px' }}>
             {event.imagem ? (
               <Image
                 src={event.imagem}
                 alt={event.nome}
                 fill
                 className="object-cover"
-                style={{ borderRadius: '32px 32px 0 0' }}
+                style={{ borderRadius: '0' }}
               />
             ) : (
               <div 
                 className="w-full h-full flex items-center justify-center" 
                 style={{ 
                   backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                  borderRadius: '32px 32px 0 0'
+                  borderRadius: '0'
                 }}
               >
                 <div 
@@ -97,127 +97,127 @@ const CompactEventCard = ({ event, className = '' }) => {
                 <Users className="h-4 w-4" style={{ color: '#155dfc' }} />
                 <span 
                   style={{ 
+                    fontFamily: 'Inter, sans-serif',
                     color: '#155dfc',
                     fontSize: '14px',
                     fontWeight: '500',
                     lineHeight: '1.2'
                   }}
                 >
-                  {vagasOcupadas} / {vagasTotal}
+                  <span style={{ fontWeight: '700' }}>{vagasOcupadas}</span> <span style={{ color: '#9ca3af' }}>/ {vagasTotal}</span>
                 </span>
               </div>
             )}
           </div>
 
           {/* Content */}
-          <div className="flex flex-col" style={{ gap: '16px' }}>
-            {/* Title and Info */}
-            <div className="flex flex-col" style={{ gap: '8px', padding: '0 16px' }}>
+          <div className="flex flex-col" style={{ gap: '24px', padding: '0 0 24px 0' }}>
+            <div className="flex flex-col" style={{ gap: '16px', padding: '0 16px' }}>
+              {/* Title */}
               <h3 
-                className="line-clamp-2" 
+                className="font-bold whitespace-pre-wrap" 
                 style={{ 
-                  color: '#404040',
-                  fontSize: '18px',
+                  fontFamily: 'Inter, sans-serif',
+                  color: '#595959',
+                  fontSize: '20px',
                   fontWeight: '700',
-                  lineHeight: '1.4',
-                  minHeight: '50px'
+                  lineHeight: '1.4'
                 }}
               >
                 {event.nome}
               </h3>
               
-              {/* Event Info */}
-              <div className="flex flex-wrap items-center" style={{ gap: '8px' }}>
-                {/* Location */}
-                {(event.morada || event.ngo?.localizacao) && (
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
+              {/* Location (separate line) */}
+              <div className="flex flex-col" style={{ gap: '4px' }}>
+                {(event.localizacao || event.ngo?.localizacao) && (
+                  <div className="flex items-start gap-2">
+                    <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" style={{ color: '#595959', opacity: 0.7 }} />
                     <span 
                       style={{ 
+                        fontFamily: 'Inter, sans-serif',
                         color: '#595959',
                         fontSize: '14px',
-                        fontWeight: '500',
-                        lineHeight: '1.2',
+                        fontWeight: '400',
+                        lineHeight: '1.5',
                         opacity: 0.7
                       }}
                     >
-                      {event.morada || event.ngo?.localizacao}
+                      {event.localizacao || event.ngo?.localizacao}
                     </span>
                   </div>
                 )}
 
-                {/* Time */}
+                {/* Date and Time (same line) */}
                 {event.dataInicio && (
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
-                    <span 
-                      style={{ 
-                        color: '#595959',
-                        fontSize: '14px',
-                        fontWeight: '500',
-                        lineHeight: '1.2',
-                        opacity: 0.7
-                      }}
-                    >
-                      {formatEventTime(event.dataInicio)}
-                    </span>
-                  </div>
-                )}
-
-                {/* Date */}
-                {event.dataInicio && (
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
-                    <span 
-                      style={{ 
-                        color: '#595959',
-                        fontSize: '14px',
-                        fontWeight: '500',
-                        lineHeight: '1.2',
-                        opacity: 0.7
-                      }}
-                    >
-                      {formatEventDate(event.dataInicio)}
-                    </span>
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
+                      <span 
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          color: '#595959',
+                          fontSize: '14px',
+                          fontWeight: '400',
+                          lineHeight: '1.5',
+                          opacity: 0.7
+                        }}
+                      >
+                        {formatEventDate(event.dataInicio)}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
+                      <span 
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          color: '#595959',
+                          fontSize: '14px',
+                          fontWeight: '400',
+                          lineHeight: '1.5',
+                          opacity: 0.7
+                        }}
+                      >
+                        {formatEventTime(event.dataInicio)}
+                      </span>
+                    </div>
                   </div>
                 )}
               </div>
-            </div>
 
-            {/* Description */}
-            {event.descricao && (
-              <div style={{ padding: '0 16px' }}>
+              {/* Description */}
+              {event.descricao && (
                 <p 
-                  className="line-clamp-2" 
+                  className="font-normal whitespace-pre-wrap" 
                   style={{ 
+                    fontFamily: 'Inter, sans-serif',
                     color: '#595959',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    lineHeight: '1.4'
+                    fontSize: '16px',
+                    fontWeight: '400',
+                    lineHeight: '1.5'
                   }}
                 >
                   {event.descricao}
                 </p>
-              </div>
-            )}
+              )}
 
-            {/* Button */}
-            <div className="flex flex-col" style={{ gap: '8px', padding: '0 16px 16px 16px' }}>
+              {/* Button */}
               <div 
-                className="flex items-center justify-center gap-2"
+                className="flex items-center justify-center gap-4"
                 style={{
-                  backgroundColor: 'var(--color-button-primary)',
+                  backgroundColor: '#155dfc',
                   borderRadius: '100px',
                   padding: '8px 16px',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  width: '100%'
                 }}
               >
                 <span 
                   style={{ 
+                    fontFamily: 'Inter, sans-serif',
                     color: '#FFFFFF',
                     fontSize: '16px',
                     fontWeight: '500',
-                    lineHeight: '1.2'
+                    lineHeight: 'normal'
                   }}
                 >
                   Quero colaborar
