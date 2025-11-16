@@ -41,29 +41,29 @@ const CompactEventCard = ({ event, className = '' }) => {
       className={`hover:shadow-xl transition-all duration-300 overflow-hidden ${className}`}
       style={{ 
         backgroundColor: '#FFFFFF',
-        borderColor: 'rgba(64, 64, 64, 0.15)',
+        borderColor: '#d9d9d9',
         borderRadius: '32px',
-        borderWidth: '1px'
+        borderWidth: '1px',
+        borderStyle: 'solid'
       }}
     >
       <Link href={`/eventos/${event.id}`} className="block">
-        <div className="flex flex-col" style={{ gap: '8px' }}>
+        <div className="flex flex-col" style={{ gap: '8px', padding: '0 0 24px 0' }}>
           {/* Event Image with Badge */}
-          <div className="relative" style={{ height: '120px', padding: '6px' }}>
+          <div className="relative w-full" style={{ height: '120px' }}>
             {event.imagem ? (
               <Image
                 src={event.imagem}
                 alt={event.nome}
                 fill
                 className="object-cover"
-                style={{ borderRadius: '0' }}
+                style={{ objectPosition: '50% 50%' }}
               />
             ) : (
               <div 
                 className="w-full h-full flex items-center justify-center" 
                 style={{ 
-                  backgroundColor: 'rgba(0, 0, 0, 0.1)',
-                  borderRadius: '0'
+                  backgroundColor: 'rgba(0, 0, 0, 0.1)'
                 }}
               >
                 <div 
@@ -85,34 +85,43 @@ const CompactEventCard = ({ event, className = '' }) => {
             {/* Badge de Vagas */}
             {vagasTotal > 0 && (
               <div 
-                className="absolute flex items-center gap-2"
+                className="absolute flex flex-col"
                 style={{
                   top: '13.33%',
-                  right: '5.23%',
+                  left: '66.34%',
+                  width: '28.43%',
+                  height: '20.83%',
                   backgroundColor: '#ebf2ff',
                   borderRadius: '200px',
-                  padding: '4px 8px'
+                  padding: '4px 8px',
+                  gap: '8px'
                 }}
               >
-                <Users className="h-4 w-4" style={{ color: '#155dfc' }} />
-                <span 
-                  style={{ 
-                    fontFamily: 'Inter, sans-serif',
-                    color: '#155dfc',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    lineHeight: '1.2'
-                  }}
-                >
-                  <span style={{ fontWeight: '700' }}>{vagasOcupadas}</span> <span style={{ color: '#9ca3af' }}>/ {vagasTotal}</span>
-                </span>
+                <div className="flex items-center gap-2 w-full">
+                  <Users className="h-4 w-4 flex-shrink-0" style={{ color: '#155dfc', width: '16px', height: '16px' }} />
+                  <p 
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      color: '#155dfc',
+                      fontSize: '14px',
+                      fontWeight: '400',
+                      lineHeight: '16.8px',
+                      margin: 0,
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    <span style={{ fontWeight: '700' }}>{vagasOcupadas}</span>
+                    <span style={{ fontWeight: '500' }}> </span>
+                    <span style={{ color: '#a3a3a3', fontWeight: '500' }}>/ {vagasTotal}</span>
+                  </p>
+                </div>
               </div>
             )}
           </div>
 
           {/* Content */}
-          <div className="flex flex-col" style={{ gap: '24px', padding: '0 0 24px 0' }}>
-            <div className="flex flex-col" style={{ gap: '16px', padding: '0 16px' }}>
+          <div className="flex flex-col" style={{ gap: '24px' }}>
+            <div className="flex flex-col" style={{ gap: '16px', padding: '0 16px 0 16px' }}>
               {/* Title */}
               <h3 
                 className="font-bold whitespace-pre-wrap" 
@@ -121,37 +130,43 @@ const CompactEventCard = ({ event, className = '' }) => {
                   color: '#595959',
                   fontSize: '20px',
                   fontWeight: '700',
-                  lineHeight: '1.4'
+                  lineHeight: '1.4',
+                  marginTop: '-1px'
                 }}
               >
                 {event.nome}
               </h3>
               
-              {/* Location (separate line) */}
+              {/* Location and Date/Time */}
               <div className="flex flex-col" style={{ gap: '4px' }}>
+                {/* Location (separate line) */}
                 {(event.localizacao || event.ngo?.localizacao) && (
-                  <div className="flex items-start gap-2">
-                    <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5" style={{ color: '#595959', opacity: 0.7 }} />
-                    <span 
-                      style={{ 
-                        fontFamily: 'Inter, sans-serif',
-                        color: '#595959',
-                        fontSize: '14px',
-                        fontWeight: '400',
-                        lineHeight: '1.5',
-                        opacity: 0.7
-                      }}
-                    >
-                      {event.localizacao || event.ngo?.localizacao}
-                    </span>
+                  <div className="flex items-start" style={{ gap: '8px' }}>
+                    <div className="flex items-center" style={{ gap: '6px' }}>
+                      <MapPin className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7, width: '16px', height: '16px' }} />
+                      <span 
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          color: '#595959',
+                          fontSize: '14px',
+                          fontWeight: '400',
+                          lineHeight: '1.5',
+                          opacity: 0.7,
+                          marginTop: '-1px',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {event.localizacao || event.ngo?.localizacao}
+                      </span>
+                    </div>
                   </div>
                 )}
 
                 {/* Date and Time (same line) */}
                 {event.dataInicio && (
-                  <div className="flex items-start gap-3">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
+                  <div className="flex items-start" style={{ gap: '12px' }}>
+                    <div className="flex items-center" style={{ gap: '8px' }}>
+                      <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7, width: '16px', height: '16px' }} />
                       <span 
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
@@ -159,14 +174,16 @@ const CompactEventCard = ({ event, className = '' }) => {
                           fontSize: '14px',
                           fontWeight: '400',
                           lineHeight: '1.5',
-                          opacity: 0.7
+                          opacity: 0.7,
+                          marginTop: '-1px',
+                          whiteSpace: 'nowrap'
                         }}
                       >
                         {formatEventDate(event.dataInicio)}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7 }} />
+                    <div className="flex items-center" style={{ gap: '8px' }}>
+                      <Clock className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7, width: '16px', height: '16px' }} />
                       <span 
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
@@ -174,7 +191,9 @@ const CompactEventCard = ({ event, className = '' }) => {
                           fontSize: '14px',
                           fontWeight: '400',
                           lineHeight: '1.5',
-                          opacity: 0.7
+                          opacity: 0.7,
+                          marginTop: '-1px',
+                          whiteSpace: 'nowrap'
                         }}
                       >
                         {formatEventTime(event.dataInicio)}
@@ -202,13 +221,14 @@ const CompactEventCard = ({ event, className = '' }) => {
 
               {/* Button */}
               <div 
-                className="flex items-center justify-center gap-4"
+                className="flex items-center justify-center"
                 style={{
                   backgroundColor: '#155dfc',
                   borderRadius: '100px',
                   padding: '8px 16px',
                   cursor: 'pointer',
-                  width: '100%'
+                  width: '100%',
+                  gap: '16px'
                 }}
               >
                 <span 
@@ -217,7 +237,9 @@ const CompactEventCard = ({ event, className = '' }) => {
                     color: '#FFFFFF',
                     fontSize: '16px',
                     fontWeight: '500',
-                    lineHeight: 'normal'
+                    lineHeight: 'normal',
+                    marginTop: '-1px',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   Quero colaborar
@@ -231,6 +253,7 @@ const CompactEventCard = ({ event, className = '' }) => {
                   strokeWidth="2" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
+                  style={{ flexShrink: 0 }}
                 >
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
