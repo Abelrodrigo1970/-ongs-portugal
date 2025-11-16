@@ -3,31 +3,31 @@ const AreaBanner = ({ icon, name, className = '' }) => {
     <div 
       className={`flex flex-col items-center justify-center ${className}`}
       style={{ 
-        width: '212px',
-        height: '92px',
+        width: '100%',
+        maxWidth: '212px',
+        minHeight: '80px',
         borderRadius: '16px',
         border: '1px solid #cbd5e1',
-        padding: '16px 8px',
+        padding: '12px 8px',
         gap: '4px'
       }}
     >
       {/* Icon and Text Container */}
       <div 
-        className="flex flex-col items-center justify-center"
+        className="flex flex-col items-center justify-center w-full"
         style={{ 
-          width: '150px',
-          height: '60px',
+          minHeight: '50px',
           gap: '4px'
         }}
       >
         {/* Icon */}
         {icon && (
           <div 
+            className="flex-shrink-0"
             style={{ 
-              width: '24px',
-              height: '24px',
-              opacity: 0.9,
-              flexShrink: 0
+              width: '20px',
+              height: '20px',
+              opacity: 0.9
             }}
           >
             {icon}
@@ -36,14 +36,14 @@ const AreaBanner = ({ icon, name, className = '' }) => {
         
         {/* Name */}
         <div 
+          className="text-center w-full px-2"
           style={{ 
             fontFamily: 'Inter, sans-serif',
-            fontSize: '18px',
+            fontSize: '14px',
             fontWeight: '700',
             color: '#1e293b',
-            textAlign: 'center',
-            lineHeight: '1.75',
-            width: '100%'
+            lineHeight: '1.5',
+            wordWrap: 'break-word'
           }}
         >
           {name}

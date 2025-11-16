@@ -91,7 +91,7 @@ export default async function NGODetailPage({ params }) {
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
       {/* Hero Section with background image */}
       {ngo.imagem && (
-        <div className="relative w-full h-[450px]">
+        <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px]">
           <div className="absolute inset-0 overflow-hidden">
             <Image
               src={ngo.imagem}
@@ -113,29 +113,30 @@ export default async function NGODetailPage({ params }) {
       )}
 
       {/* About us section */}
-      <div className="w-full flex flex-col items-start relative" style={{ width: '1440px', margin: '0 auto' }}>
-        <div className="w-full flex flex-col gap-2 items-center px-16 py-2" style={{ padding: '8px 64px' }}>
+      <div className="w-full flex flex-col items-start relative max-w-[1440px] mx-auto">
+        <div className="w-full flex flex-col gap-2 items-center px-4 sm:px-8 md:px-16 py-2">
           <div 
-            className="w-full max-w-[920px] flex flex-col items-center relative z-10"
+            className="w-full max-w-[920px] flex flex-col items-center relative z-10 px-4 sm:px-6 md:px-0"
             style={{ 
-              paddingTop: ngo.imagem ? '0px' : '304px',
+              paddingTop: ngo.imagem ? '0px' : '40px',
               paddingBottom: '0px',
-              marginTop: ngo.imagem ? '-200px' : '0px',
-              gap: '32px'
+              marginTop: ngo.imagem ? '-60px' : '0px',
+              gap: '24px'
             }}
           >
             {/* Frame 403 - Header Card */}
             <div 
-              className="w-[918px] flex flex-col items-center rounded-[32px] border border-solid backdrop-blur-[100px]"
+              className="w-full max-w-[918px] flex flex-col items-center rounded-[24px] md:rounded-[32px] border border-solid backdrop-blur-[100px] px-4 sm:px-6 md:px-10"
               style={{ 
                 background: 'rgba(248, 250, 252, 0.05)',
                 borderColor: '#cbd5e1',
-                padding: '40px'
+                paddingTop: '20px',
+                paddingBottom: '20px'
               }}
             >
               {/* Top Row: Logo + Title + Location/Website */}
-              <div className="w-full flex items-center" style={{ padding: '0' }}>
-                <div className="flex-1 flex gap-2 items-center justify-center min-w-0">
+              <div className="w-full flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0" style={{ padding: '0' }}>
+                <div className="flex-1 flex gap-2 items-center justify-start sm:justify-center min-w-0 w-full sm:w-auto">
                   {ngo.logo && (
                     <div 
                       className="relative rounded-full overflow-hidden flex-shrink-0"
@@ -151,10 +152,9 @@ export default async function NGODetailPage({ params }) {
                     </div>
                   )}
                   <h1 
-                    className="flex-1 font-semibold whitespace-pre-wrap min-w-0"
+                    className="flex-1 font-semibold whitespace-pre-wrap min-w-0 text-2xl sm:text-3xl md:text-[40px]"
                     style={{ 
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '40px',
                       lineHeight: '1.2',
                       color: '#020617'
                     }}
@@ -163,14 +163,13 @@ export default async function NGODetailPage({ params }) {
                   </h1>
                 </div>
 
-                <div className="flex gap-2 items-center justify-center flex-shrink-0" style={{ padding: '0' }}>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-2 items-start sm:items-center justify-start sm:justify-center flex-shrink-0 w-full sm:w-auto" style={{ padding: '0' }}>
                   <div className="flex gap-1 items-center">
                     <MapPin style={{ width: '16px', height: '16px', color: '#64748b' }} />
                     <span 
-                      className="font-normal"
+                      className="font-normal text-sm sm:text-base"
                       style={{ 
                         fontFamily: 'Inter, sans-serif',
-                        fontSize: '16px',
                         lineHeight: '1.5',
                         color: '#64748b'
                       }}
@@ -181,16 +180,15 @@ export default async function NGODetailPage({ params }) {
                   
                   {ngo.websiteUrl && (
                     <>
-                      <div style={{ background: '#e2e8f0', width: '1px', height: '24px' }} />
+                      <div className="hidden sm:block" style={{ background: '#e2e8f0', width: '1px', height: '24px' }} />
                       <div className="flex gap-1 items-center">
                         <Globe style={{ width: '16px', height: '16px', color: '#64748b' }} />
                         <Link 
                           href={ngo.websiteUrl}
                           target="_blank"
-                          className="font-normal hover:underline"
+                          className="font-normal hover:underline text-sm sm:text-base"
                           style={{ 
                             fontFamily: 'Inter, sans-serif',
-                            fontSize: '16px',
                             lineHeight: '1.5',
                             color: '#64748b'
                           }}
@@ -206,8 +204,8 @@ export default async function NGODetailPage({ params }) {
               {/* Tags - Áreas de Atuação */}
               {heroAreas.length > 0 && (
                 <div 
-                  className="w-full flex flex-nowrap gap-4 items-center justify-center overflow-hidden"
-                  style={{ padding: '32px 0' }}
+                  className="w-full flex flex-wrap gap-2 sm:gap-4 items-center justify-center overflow-hidden"
+                  style={{ padding: '24px 0' }}
                 >
                   {heroAreas.map((area, index) => (
                     <div 
@@ -215,14 +213,13 @@ export default async function NGODetailPage({ params }) {
                       className="flex-shrink-0 flex gap-2 items-center justify-center rounded-[8px] border border-solid"
                       style={{ 
                         borderColor: '#64748b',
-                        padding: '4px 16px'
+                        padding: '4px 12px'
                       }}
                     >
                       <span 
-                        className="font-semibold whitespace-nowrap"
+                        className="font-semibold whitespace-nowrap text-xs sm:text-sm"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '14px',
                           lineHeight: '1.4',
                           color: '#64748b'
                         }}
@@ -236,14 +233,13 @@ export default async function NGODetailPage({ params }) {
                       className="flex-shrink-0 flex gap-2 items-center justify-center rounded-[8px] border border-solid"
                       style={{ 
                         borderColor: 'rgba(64, 64, 64, 0.15)',
-                        padding: '4px 16px'
+                        padding: '4px 12px'
                       }}
                     >
                       <span 
-                        className="font-semibold whitespace-nowrap"
+                        className="font-semibold whitespace-nowrap text-xs sm:text-sm"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '14px',
                           lineHeight: '1.4',
                           color: '#64748b'
                         }}
@@ -256,58 +252,55 @@ export default async function NGODetailPage({ params }) {
               )}
 
               {/* Buttons */}
-              <div className="w-full flex gap-4 items-center justify-center" style={{ padding: '0' }}>
+              <div className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-center" style={{ padding: '0' }}>
                 <button 
                   className="flex-1 flex gap-2 items-center justify-center rounded-[100px]"
                   style={{
                     background: '#155dfc',
-                    padding: '8px 24px'
+                    padding: '8px 20px'
                   }}
                 >
                   <span 
-                    className="font-bold"
+                    className="font-bold text-sm sm:text-base md:text-lg"
                     style={{ 
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '18px',
                       lineHeight: '1.75',
                       color: '#f1f5f9'
                     }}
                   >
                     Quero colaborar
                   </span>
-                  <ArrowRight style={{ width: '24px', height: '24px', color: '#f1f5f9' }} />
+                  <ArrowRight className="hidden sm:block" style={{ width: '20px', height: '20px', color: '#f1f5f9' }} />
                 </button>
                 <button 
                   className="flex-1 flex gap-2 items-center justify-center rounded-[100px] border-2 border-solid"
                   style={{
                     borderColor: '#cbd5e1',
-                    padding: '8px 24px'
+                    padding: '8px 20px'
                   }}
                 >
                   <span 
-                    className="font-bold"
+                    className="font-bold text-sm sm:text-base md:text-lg"
                     style={{ 
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '18px',
                       lineHeight: '1.75',
                       color: '#020617'
                     }}
                   >
                     Seguir ONG
                   </span>
-                  <Bookmark style={{ width: '24px', height: '24px', color: '#020617' }} />
+                  <Bookmark className="hidden sm:block" style={{ width: '20px', height: '20px', color: '#020617' }} />
                 </button>
               </div>
             </div>
 
             {/* Frame 428 - About Text */}
-            <div className="w-full flex flex-col items-start" style={{ width: '920px' }}>
-              <div className="w-full flex flex-col gap-4 items-start" style={{ padding: '16px 0 32px 0' }}>
+            <div className="w-full flex flex-col items-start max-w-[920px] px-4 sm:px-6 md:px-0">
+              <div className="w-full flex flex-col gap-4 items-start" style={{ padding: '16px 0 24px 0' }}>
                 <h2 
-                  className="font-semibold w-full whitespace-pre-wrap"
+                  className="font-semibold w-full whitespace-pre-wrap text-2xl sm:text-3xl md:text-[40px]"
                   style={{ 
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '40px',
                     lineHeight: '1.2',
                     color: '#1e293b'
                   }}
@@ -318,13 +311,11 @@ export default async function NGODetailPage({ params }) {
                 </h2>
                 <div style={{ padding: '8px 0' }}>
                   <p 
-                    className="font-normal whitespace-pre-wrap"
+                    className="font-normal whitespace-pre-wrap text-base sm:text-lg w-full"
                     style={{ 
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '18px',
                       lineHeight: '1.75',
-                      color: '#595959',
-                      width: '918px'
+                      color: '#595959'
                     }}
                   >
                     {ngo.descricao}
@@ -335,18 +326,18 @@ export default async function NGODetailPage({ params }) {
 
             {/* About us - Métrica */}
             {impactosData.length > 0 && (
-              <div className="w-full flex items-center justify-between" style={{ padding: '0 16px', width: '920px' }}>
-                <div className="flex-1 flex gap-[60px] items-center justify-center" style={{ background: 'rgba(242, 242, 247, 0.05)' }}>
+              <div className="w-full flex items-center justify-center max-w-[920px] px-4 sm:px-6 md:px-0">
+                <div className="flex-1 flex flex-col sm:flex-row gap-4 sm:gap-8 md:gap-[60px] items-center justify-center px-4 sm:px-8" style={{ background: 'rgba(242, 242, 247, 0.05)', borderRadius: '16px', padding: '16px' }}>
                   {impactosData.slice(0, 3).map((impact, index) => (
                     <React.Fragment key={index}>
-                      <div style={{ width: '188px', height: '94px' }}>
+                      <div className="w-full sm:w-auto" style={{ minWidth: '150px', maxWidth: '188px' }}>
                         <MetricBanner 
                           value={impact.valor || ''}
                           label={impact.descricao}
                         />
                       </div>
                       {index < 2 && (
-                        <div style={{ background: '#e2e8f0', width: '1px', height: '64px' }} />
+                        <div className="hidden sm:block" style={{ background: '#e2e8f0', width: '1px', height: '64px' }} />
                       )}
                     </React.Fragment>
                   ))}
@@ -356,7 +347,7 @@ export default async function NGODetailPage({ params }) {
 
             {/* Áreas de Atuação */}
             {areasList.length > 0 && (
-              <div className="w-full flex flex-col gap-4 items-start" style={{ width: '920px' }}>
+              <div className="w-full flex flex-col gap-4 items-start max-w-[920px] px-4 sm:px-6 md:px-0">
                 <div className="w-full flex flex-col items-start">
                   <div className="w-full flex flex-col items-start justify-center">
                     <div 
@@ -364,10 +355,9 @@ export default async function NGODetailPage({ params }) {
                       style={{ padding: '0 0 16px 0' }}
                     >
                       <h3 
-                        className="font-semibold"
+                        className="font-semibold text-2xl sm:text-3xl md:text-[40px]"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '40px',
                           lineHeight: '1.2',
                           color: '#1e1e1e'
                         }}
@@ -377,10 +367,9 @@ export default async function NGODetailPage({ params }) {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex flex-col gap-6 items-start" style={{ gap: '24px' }}>
+                <div className="w-full flex flex-col gap-6 items-start" style={{ gap: '16px' }}>
                   <div 
-                    className="w-full flex flex-wrap gap-6 items-center justify-center overflow-clip"
-                    style={{ gap: '24px' }}
+                    className="w-full flex flex-wrap gap-4 sm:gap-6 items-center justify-center overflow-clip"
                   >
                     {areasList.map((area, index) => {
                       const iconPath = getAreaIcon(area);
@@ -405,7 +394,7 @@ export default async function NGODetailPage({ params }) {
 
             {/* Próximos Eventos */}
             {ngoEvents.length > 0 && (
-              <div className="w-full flex flex-col gap-6 items-start" style={{ width: '920px', gap: '24px' }}>
+              <div className="w-full flex flex-col gap-6 items-start max-w-[920px] px-4 sm:px-6 md:px-0" style={{ gap: '24px' }}>
                 <div className="w-full flex flex-col items-start">
                   <div className="w-full flex flex-col items-start justify-center">
                     <div 
@@ -413,10 +402,9 @@ export default async function NGODetailPage({ params }) {
                       style={{ padding: '8px 0' }}
                     >
                       <h3 
-                        className="font-semibold"
+                        className="font-semibold text-2xl sm:text-3xl md:text-[40px]"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '40px',
                           lineHeight: '1.2',
                           color: '#1e1e1e'
                         }}
@@ -426,9 +414,9 @@ export default async function NGODetailPage({ params }) {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex gap-6 items-start" style={{ gap: '24px' }}>
+                <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 items-stretch sm:items-start">
                   {ngoEvents.slice(0, 3).map((event) => (
-                    <div key={event.id} className="flex-1" style={{ minWidth: '0' }}>
+                    <div key={event.id} className="flex-1 w-full sm:w-auto" style={{ minWidth: '0' }}>
                       <CompactEventCard event={event} />
                     </div>
                   ))}
@@ -438,8 +426,8 @@ export default async function NGODetailPage({ params }) {
 
             {/* Vídeo Section */}
             <div 
-              className="w-full flex flex-col gap-2 items-start"
-              style={{ padding: '32px 0 60px 0', width: '920px' }}
+              className="w-full flex flex-col gap-2 items-start max-w-[920px] px-4 sm:px-6 md:px-0"
+              style={{ padding: '24px 0 40px 0' }}
             >
               <div className="w-full flex flex-col gap-2 items-start">
                 {ngo.videoUrl ? (
@@ -447,16 +435,16 @@ export default async function NGODetailPage({ params }) {
                     url={ngo.videoUrl}
                     title={`Vídeo da ${ngo.nome}`}
                     className="w-full"
-                    style={{ height: '472.5px', borderRadius: '4px' }}
+                    style={{ height: 'auto', minHeight: '200px', aspectRatio: '16/9', borderRadius: '4px' }}
                   />
                 ) : (
                   <div 
                     className="w-full relative rounded-[4px] overflow-hidden"
-                    style={{ height: '472.5px', backgroundColor: '#f1f5f9' }}
+                    style={{ height: '200px', minHeight: '200px', aspectRatio: '16/9', backgroundColor: '#f1f5f9' }}
                   >
                     <p 
-                      className="absolute inset-0 flex items-center justify-center text-gray-500"
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', lineHeight: '1.5' }}
+                      className="absolute inset-0 flex items-center justify-center text-gray-500 text-sm sm:text-base px-4"
+                      style={{ fontFamily: 'Inter, sans-serif', lineHeight: '1.5' }}
                     >
                       Esta ONG ainda não adicionou um vídeo institucional.
                     </p>
@@ -467,51 +455,47 @@ export default async function NGODetailPage({ params }) {
 
             {/* Projetos em destaque */}
             {projetosToDisplay.length > 0 && (
-              <div className="w-full flex flex-col gap-16 items-start" style={{ width: '920px', gap: '64px' }}>
+              <div className="w-full flex flex-col gap-12 sm:gap-16 items-start max-w-[920px] px-4 sm:px-6 md:px-0">
                 {projetosToDisplay.map((project, index) => {
                   const isEven = index % 2 === 1; // Alternar layout
                   return (
                     <div
                       key={`${project.titulo}-${index}`}
-                      className="flex gap-6 items-center"
-                      style={{ borderRadius: '32px', gap: '24px' }}
+                      className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center w-full"
+                      style={{ borderRadius: '32px' }}
                     >
                       {!isEven && project.imagem && (
                         <div
-                          className="relative overflow-hidden rounded-[16px] flex-shrink-0"
-                          style={{ width: '290px', height: index === 0 ? '266px' : index === 1 ? '277px' : '298px' }}
+                          className="relative overflow-hidden rounded-[16px] w-full sm:w-[290px] flex-shrink-0"
+                          style={{ height: '200px', minHeight: '200px' }}
                         >
                           <Image
                             src={project.imagem}
                             alt={project.titulo}
                             fill
-                            sizes="290px"
+                            sizes="(max-width: 640px) 100vw, 290px"
                             className="object-cover"
                           />
                         </div>
                       )}
 
-                      <div className="flex-1 flex flex-col gap-2 text-left" style={{ width: '606px', gap: '8px' }}>
+                      <div className="flex-1 flex flex-col gap-2 text-left w-full sm:w-auto">
                         <h4
-                          className="font-semibold"
+                          className="font-semibold text-lg sm:text-xl md:text-2xl"
                           style={{
                             fontFamily: 'Inter, sans-serif',
-                            fontSize: '24px',
                             lineHeight: '1.4',
-                            color: '#1e293b',
-                            width: '526px'
+                            color: '#1e293b'
                           }}
                         >
                           {project.titulo}
                         </h4>
                         <p
-                          className="font-normal whitespace-pre-wrap"
+                          className="font-normal whitespace-pre-wrap text-sm sm:text-base md:text-lg"
                           style={{ 
                             fontFamily: 'Inter, sans-serif', 
-                            fontSize: '18px',
                             lineHeight: '1.75',
-                            color: '#595959',
-                            width: '606px'
+                            color: '#595959'
                           }}
                         >
                           {project.descricao}
@@ -520,14 +504,14 @@ export default async function NGODetailPage({ params }) {
 
                       {isEven && project.imagem && (
                         <div
-                          className="relative overflow-hidden rounded-[16px] flex-shrink-0"
-                          style={{ width: '290px', height: index === 0 ? '266px' : index === 1 ? '277px' : '298px' }}
+                          className="relative overflow-hidden rounded-[16px] w-full sm:w-[290px] flex-shrink-0"
+                          style={{ height: '200px', minHeight: '200px' }}
                         >
                           <Image
                             src={project.imagem}
                             alt={project.titulo}
                             fill
-                            sizes="290px"
+                            sizes="(max-width: 640px) 100vw, 290px"
                             className="object-cover"
                           />
                         </div>
@@ -540,70 +524,65 @@ export default async function NGODetailPage({ params }) {
 
             {/* Frame 403 - Informações Adicionais Section */}
             <div 
-              className="w-[918px] flex flex-col items-center rounded-[32px] border border-solid backdrop-blur-[100px]"
+              className="w-full max-w-[918px] flex flex-col items-center rounded-[24px] md:rounded-[32px] border border-solid backdrop-blur-[100px] px-4 sm:px-6 md:px-8"
               style={{ 
                 background: 'rgba(242, 242, 247, 0.05)',
                 borderColor: 'rgba(64, 64, 64, 0.15)',
-                padding: '24px 32px 32px 32px',
-                gap: '32px',
-                width: '918px'
+                paddingTop: '20px',
+                paddingBottom: '20px',
+                gap: '24px'
               }}
             >
               {/* Site */}
               {ngo.websiteUrl && (
-                <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
-                  <div className="w-full flex flex-col items-start justify-between" style={{ height: '40px' }}>
-                    <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
-                      <span 
-                        className="font-bold"
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ minHeight: '40px' }}>
+                    <span 
+                      className="font-bold text-base sm:text-lg md:text-xl"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        lineHeight: '1.2',
+                        color: '#1e1e1e'
+                      }}
+                    >
+                      Site:
+                    </span>
+                      <Link 
+                        href={ngo.websiteUrl}
+                        target="_blank"
+                        className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl break-all sm:break-normal"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
                           lineHeight: '1.2',
-                          color: '#1e1e1e'
+                          color: '#1e293b',
+                          textUnderlinePosition: 'from-font',
+                          textDecorationLine: 'underline',
+                          textDecorationStyle: 'solid'
                         }}
                       >
-                        Site:
-                      </span>
-                        <Link 
-                          href={ngo.websiteUrl}
-                          target="_blank"
-                          className="font-normal underline hover:no-underline"
-                          style={{ 
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '20px',
-                            lineHeight: '1.2',
-                            color: '#1e293b',
-                            textUnderlinePosition: 'from-font',
-                            textDecorationLine: 'underline',
-                            textDecorationStyle: 'solid'
-                          }}
-                        >
-                          {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
-                        </Link>
-                    </div>
+                        {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                      </Link>
                   </div>
-                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
+                  <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
                 </div>
               )}
 
               {/* Tipos de Colaboração */}
               {colaboracaoList.length > 0 && (
-                <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
+                <div className="w-full flex flex-col items-start">
                   <div className="w-full flex flex-col items-start justify-center">
-                    <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
                       <span 
-                        className="font-bold"
+                        className="font-bold text-base sm:text-lg md:text-xl"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
                           lineHeight: '1.2',
                           color: '#1e1e1e'
                         }}
                       >
                         Tipos de Colaboração
                       </span>
-                      <div className="flex items-center" style={{ gap: '16px' }}>
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                         {colaboracaoList.map((colab, index) => {
                           // Map collaboration types to emojis
                           const emojiMap = {
@@ -622,10 +601,9 @@ export default async function NGODetailPage({ params }) {
                           return (
                             <React.Fragment key={index}>
                               <span 
-                                className="font-normal"
+                                className="font-normal text-sm sm:text-base md:text-xl"
                                 style={{ 
                                   fontFamily: 'Inter, sans-serif',
-                                  fontSize: '20px',
                                   lineHeight: '1.2',
                                   color: '#1e293b'
                                 }}
@@ -633,7 +611,7 @@ export default async function NGODetailPage({ params }) {
                                 {colab} {emoji}
                               </span>
                               {index < colaboracaoList.length - 1 && (
-                                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                                <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
                               )}
                             </React.Fragment>
                           );
@@ -641,69 +619,63 @@ export default async function NGODetailPage({ params }) {
                       </div>
                     </div>
                   </div>
-                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
+                  <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
                 </div>
               )}
 
               {/* ODS */}
-              <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
-                <div className="w-full flex flex-col items-start justify-between" style={{ height: '40px' }}>
-                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
-                    <span 
-                      className="font-bold"
-                      style={{ 
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '20px',
-                        lineHeight: '1.2',
-                        color: '#1e1e1e'
-                      }}
-                    >
-                      ODS
-                    </span>
-                    <span 
-                      className="font-normal underline"
-                      style={{ 
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '20px',
-                        lineHeight: '1.2',
-                        color: '#1e293b',
-                        textUnderlinePosition: 'from-font',
-                        textDecorationLine: 'underline',
-                        textDecorationStyle: 'solid'
-                      }}
-                    >
-                      -
-                    </span>
-                  </div>
+              <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ minHeight: '40px' }}>
+                  <span 
+                    className="font-bold text-base sm:text-lg md:text-xl"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      lineHeight: '1.2',
+                      color: '#1e1e1e'
+                    }}
+                  >
+                    ODS
+                  </span>
+                  <span 
+                    className="font-normal underline text-sm sm:text-base md:text-xl"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      lineHeight: '1.2',
+                      color: '#1e293b',
+                      textUnderlinePosition: 'from-font',
+                      textDecorationLine: 'underline',
+                      textDecorationStyle: 'solid'
+                    }}
+                  >
+                    -
+                  </span>
                 </div>
-                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
+                <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
               </div>
 
               {/* Redes Sociais */}
               {(ngo.instagramUrl || ngo.facebookUrl || ngo.linkedinUrl || ngo.tiktokUrl) && (
-                <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
+                <div className="w-full flex flex-col items-start">
                   <div className="w-full flex flex-col items-start justify-center">
-                    <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
                       <span 
-                        className="font-bold"
+                        className="font-bold text-base sm:text-lg md:text-xl"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
                           lineHeight: '1.2',
                           color: '#1e1e1e'
                         }}
                       >
                         Redes Sociais:
                       </span>
-                      <div className="flex items-center" style={{ gap: '16px' }}>
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                         {ngo.facebookUrl && (
                           <Link 
                             href={ngo.facebookUrl}
                             target="_blank"
-                            className="font-normal underline hover:no-underline"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
                             style={{ 
                               fontFamily: 'Inter, sans-serif',
-                              fontSize: '20px',
                               lineHeight: '1.2',
                               color: '#1e293b',
                               textUnderlinePosition: 'from-font',
@@ -715,16 +687,15 @@ export default async function NGODetailPage({ params }) {
                           </Link>
                         )}
                         {ngo.facebookUrl && (ngo.tiktokUrl || ngo.linkedinUrl || ngo.instagramUrl) && (
-                          <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                          <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
                         )}
                         {ngo.tiktokUrl && (
                           <Link 
                             href={ngo.tiktokUrl}
                             target="_blank"
-                            className="font-normal underline hover:no-underline"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
                             style={{ 
                               fontFamily: 'Inter, sans-serif',
-                              fontSize: '20px',
                               lineHeight: '1.2',
                               color: '#1e293b',
                               textUnderlinePosition: 'from-font',
@@ -736,16 +707,15 @@ export default async function NGODetailPage({ params }) {
                           </Link>
                         )}
                         {ngo.tiktokUrl && (ngo.linkedinUrl || ngo.instagramUrl) && (
-                          <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                          <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
                         )}
                         {ngo.linkedinUrl && (
                           <Link 
                             href={ngo.linkedinUrl}
                             target="_blank"
-                            className="font-normal underline hover:no-underline"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
                             style={{ 
                               fontFamily: 'Inter, sans-serif',
-                              fontSize: '20px',
                               lineHeight: '1.2',
                               color: '#1e293b',
                               textUnderlinePosition: 'from-font',
@@ -757,16 +727,15 @@ export default async function NGODetailPage({ params }) {
                           </Link>
                         )}
                         {ngo.linkedinUrl && ngo.instagramUrl && (
-                          <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                          <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
                         )}
                         {ngo.instagramUrl && (
                           <Link 
                             href={ngo.instagramUrl}
                             target="_blank"
-                            className="font-normal underline hover:no-underline"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
                             style={{ 
                               fontFamily: 'Inter, sans-serif',
-                              fontSize: '20px',
                               lineHeight: '1.2',
                               color: '#1e293b',
                               textUnderlinePosition: 'from-font',
@@ -780,43 +749,40 @@ export default async function NGODetailPage({ params }) {
                       </div>
                     </div>
                   </div>
-                  <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
+                  <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
                 </div>
               )}
 
               {/* Contacto */}
-              <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
+              <div className="w-full flex flex-col items-start">
                 <div className="w-full flex flex-col items-start justify-center">
-                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
                     <span 
-                      className="font-bold"
+                      className="font-bold text-base sm:text-lg md:text-xl"
                       style={{ 
                         fontFamily: 'Inter, sans-serif',
-                        fontSize: '20px',
                         lineHeight: '1.2',
                         color: '#1e1e1e'
                       }}
                     >
                       Contacto
                     </span>
-                    <div className="flex items-center" style={{ gap: '16px' }}>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                       <span 
-                        className="font-normal"
+                        className="font-normal text-sm sm:text-base md:text-xl break-all sm:break-normal"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
                           lineHeight: '1.2',
                           color: '#1e293b'
                         }}
                       >
                         {ngo.email}
                       </span>
-                      <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                      <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
                       <span 
-                        className="font-normal"
+                        className="font-normal text-sm sm:text-base md:text-xl"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
                           lineHeight: '1.2',
                           color: '#1e293b'
                         }}
@@ -826,30 +792,28 @@ export default async function NGODetailPage({ params }) {
                     </div>
                   </div>
                 </div>
-                <div style={{ background: 'rgba(64, 64, 64, 0.15)', width: '854px', height: '1px', marginTop: '32px' }} />
+                <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
               </div>
 
               {/* Morada */}
-              <div className="w-full flex flex-col items-start" style={{ width: '854px' }}>
+              <div className="w-full flex flex-col items-start">
                 <div className="w-full flex flex-col items-start justify-center">
-                  <div className="w-full flex items-center justify-between" style={{ padding: '8px 0' }}>
+                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
                     <span 
-                      className="font-bold"
+                      className="font-bold text-base sm:text-lg md:text-xl"
                       style={{ 
                         fontFamily: 'Inter, sans-serif',
-                        fontSize: '20px',
                         lineHeight: '1.2',
                         color: '#1e1e1e'
                       }}
                     >
                       Morada
                     </span>
-                    <div className="flex items-center" style={{ gap: '16px' }}>
+                    <div className="flex items-center">
                       <span 
-                        className="font-normal"
+                        className="font-normal text-sm sm:text-base md:text-xl break-all sm:break-normal"
                         style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          fontSize: '20px',
                           lineHeight: '1.2',
                           color: '#1e293b'
                         }}
