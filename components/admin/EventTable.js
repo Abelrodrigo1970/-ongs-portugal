@@ -84,7 +84,7 @@ export default function EventTable({ events, onEdit, onDelete, loading }) {
                   </div>
                   <div className="flex items-start gap-2 text-gray-700">
                     <MapPin className="w-4 h-4 text-gray-500 mt-0.5" />
-                    <span className="truncate max-w-sm">{event.localizacao}</span>
+                    <span className="truncate max-w-sm">{event.morada}</span>
                   </div>
                 </td>
                 <td className="px-6 py-4 text-gray-700">{event.ngo?.nome || '—'}</td>

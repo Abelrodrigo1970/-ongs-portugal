@@ -76,7 +76,7 @@ const EventCard = ({ event, className = '', showInscricao = false }) => {
               {/* Location */}
               <div className="flex items-center text-sm text-gray-500 mb-3">
                 <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
-                <span className="truncate">{event.localizacao}</span>
+                <span className="truncate">{event.morada}</span>
               </div>
             </div>
           </Link>

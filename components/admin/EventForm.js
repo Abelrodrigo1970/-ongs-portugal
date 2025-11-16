@@ -12,6 +12,7 @@ const defaultValues = {
   ngoId: '',
   dataInicio: '',
   dataFim: '',
+  morada: '',
   localizacao: '',
   tipo: 'PRESENCIAL',
   maxParticipantes: '',
@@ -119,10 +120,17 @@ export default function EventForm({ initialData, ngos, onSubmit, onCancel, loadi
           onChange={(e) => handleChange('dataFim', e.target.value)}
         />
         <Input
-          label="Localização"
+          label="Morada"
+          value={formValues.morada}
+          onChange={(e) => handleChange('morada', e.target.value)}
+          required
+        />
+        <Input
+          label="Localização (Cidade / País)"
           value={formValues.localizacao}
           onChange={(e) => handleChange('localizacao', e.target.value)}
-          required
+          maxLength={25}
+          placeholder="ex: Porto, Portugal"
         />
         <Select
           label="Tipo de Evento"

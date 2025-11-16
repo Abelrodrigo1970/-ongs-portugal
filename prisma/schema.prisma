@@ -114,7 +114,8 @@ model Event {
   descricao      String
   dataInicio     DateTime
   dataFim        DateTime?
-  localizacao    String
+  morada         String
+  localizacao    String?  @db.VarChar(25)
   latitude       Float?
   longitude      Float?
   tipo           EventTipo @default(PRESENCIAL) // PRESENCIAL, REMOTO, HIBRIDO

@@ -45,9 +45,9 @@ export async function POST(request) {
         );
       }
 
-      if (!data.localizacao) {
+      if (!data.morada) {
         return Response.json(
-          { error: 'Localização é obrigatória' },
+          { error: 'Morada é obrigatória' },
           { status: 400 }
         );
       }

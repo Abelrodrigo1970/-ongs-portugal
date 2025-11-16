@@ -183,10 +183,10 @@ export default async function EventPage({ params }) {
 
                 {/* Location */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Localização</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Morada</h3>
                   <div className="flex items-center text-gray-600">
                     <MapPin className="h-5 w-5 mr-3" />
-                    <span>{event.localizacao}</span>
+                    <span>{event.morada}</span>
                   </div>
                 </div>
 
@@ -247,7 +247,7 @@ export default async function EventPage({ params }) {
                     latitude={event.latitude}
                     longitude={event.longitude}
                     title={event.nome}
-                    description={event.localizacao}
+                    description={event.morada}
                   />
                 </div>
               </Card>
