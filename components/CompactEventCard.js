@@ -9,12 +9,12 @@ const CompactEventCard = ({ event, className = '' }) => {
     if (!dateString) return '';
     
     const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const day = date.getDate();
+    const monthNames = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
     const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
     
-    return `${day} ${month} ${year}`;
+    return `${day} de ${month}, ${year}`;
   };
 
   // Função para formatar hora
@@ -49,7 +49,7 @@ const CompactEventCard = ({ event, className = '' }) => {
       <Link href={`/eventos/${event.id}`} className="block">
         <div className="flex flex-col" style={{ gap: '16px' }}>
           {/* Event Image with Badge */}
-          <div className="relative" style={{ height: '250px' }}>
+          <div className="relative" style={{ height: '120px' }}>
             {event.imagem ? (
               <Image
                 src={event.imagem}
@@ -87,17 +87,17 @@ const CompactEventCard = ({ event, className = '' }) => {
               <div 
                 className="absolute flex items-center gap-2"
                 style={{
-                  top: '14px',
-                  right: '14px',
-                  backgroundColor: '#C4D6FF',
+                  top: '13.33%',
+                  right: '5.23%',
+                  backgroundColor: '#ebf2ff',
                   borderRadius: '200px',
                   padding: '4px 8px'
                 }}
               >
-                <Users className="h-4 w-4" style={{ color: 'var(--color-button-primary)' }} />
+                <Users className="h-4 w-4" style={{ color: '#155dfc' }} />
                 <span 
                   style={{ 
-                    color: 'var(--color-button-primary)',
+                    color: '#155dfc',
                     fontSize: '14px',
                     fontWeight: '500',
                     lineHeight: '1.2'
