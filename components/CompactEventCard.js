@@ -100,16 +100,16 @@ const CompactEventCard = ({ event, className = '' }) => {
                 <div className="flex items-center gap-2 w-full">
                   <Users className="h-4 w-4 flex-shrink-0" style={{ color: '#155dfc', width: '16px', height: '16px' }} />
                   <p 
-                    style={{ 
+                  style={{ 
                       fontFamily: 'Inter, sans-serif',
                       color: '#155dfc',
-                      fontSize: '14px',
+                    fontSize: '14px',
                       fontWeight: '400',
                       lineHeight: '16.8px',
                       margin: 0,
                       whiteSpace: 'nowrap'
-                    }}
-                  >
+                  }}
+                >
                     <span style={{ fontWeight: '700' }}>{vagasOcupadas}</span>
                     <span style={{ fontWeight: '500' }}> </span>
                     <span style={{ color: '#a3a3a3', fontWeight: '500' }}>/ {vagasTotal}</span>
@@ -144,20 +144,20 @@ const CompactEventCard = ({ event, className = '' }) => {
                   <div className="flex items-start" style={{ gap: '8px' }}>
                     <div className="flex items-center" style={{ gap: '6px' }}>
                       <MapPin className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7, width: '16px', height: '16px' }} />
-                      <span 
-                        style={{ 
+                    <span 
+                      style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          color: '#595959',
-                          fontSize: '14px',
+                        color: '#595959',
+                        fontSize: '14px',
                           fontWeight: '400',
                           lineHeight: '1.5',
                           opacity: 0.7,
                           marginTop: '-1px',
                           whiteSpace: 'nowrap'
-                        }}
-                      >
+                      }}
+                    >
                         {event.localizacao || event.ngo?.localizacao}
-                      </span>
+                    </span>
                     </div>
                   </div>
                 )}
@@ -167,44 +167,44 @@ const CompactEventCard = ({ event, className = '' }) => {
                   <div className="flex items-start" style={{ gap: '12px' }}>
                     <div className="flex items-center" style={{ gap: '8px' }}>
                       <Calendar className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7, width: '16px', height: '16px' }} />
-                      <span 
-                        style={{ 
+                    <span 
+                      style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          color: '#595959',
-                          fontSize: '14px',
+                        color: '#595959',
+                        fontSize: '14px',
                           fontWeight: '400',
                           lineHeight: '1.5',
                           opacity: 0.7,
                           marginTop: '-1px',
                           whiteSpace: 'nowrap'
-                        }}
-                      >
+                      }}
+                    >
                         {formatEventDate(event.dataInicio)}
-                      </span>
-                    </div>
+                    </span>
+                  </div>
                     <div className="flex items-center" style={{ gap: '8px' }}>
                       <Clock className="h-4 w-4 flex-shrink-0" style={{ color: '#595959', opacity: 0.7, width: '16px', height: '16px' }} />
-                      <span 
-                        style={{ 
+                    <span 
+                      style={{ 
                           fontFamily: 'Inter, sans-serif',
-                          color: '#595959',
-                          fontSize: '14px',
+                        color: '#595959',
+                        fontSize: '14px',
                           fontWeight: '400',
                           lineHeight: '1.5',
                           opacity: 0.7,
                           marginTop: '-1px',
                           whiteSpace: 'nowrap'
-                        }}
-                      >
+                      }}
+                    >
                         {formatEventTime(event.dataInicio)}
-                      </span>
+                    </span>
                     </div>
                   </div>
                 )}
-              </div>
+            </div>
 
-              {/* Description */}
-              {event.descricao && (
+            {/* Description */}
+            {event.descricao && (
                 <p 
                   className="font-normal whitespace-pre-wrap" 
                   style={{ 
@@ -217,7 +217,7 @@ const CompactEventCard = ({ event, className = '' }) => {
                 >
                   {event.descricao}
                 </p>
-              )}
+            )}
 
               {/* Button */}
               <div 
