@@ -7,6 +7,7 @@ import { getAllColaboracaoTipos } from '@/lib/repositories/colaboracao';
 import { getUpcomingEvents } from '@/lib/repositories/events';
 import FilterBar from '@/components/FilterBar';
 import NgoCard from '@/components/NgoCard';
+import FavoriteNPOSection from '@/components/ngo/FavoriteNPOSection';
 import CompactEventCard from '@/components/CompactEventCard';
 import MetricBanner from '@/components/ngo/MetricBanner';
 import EmptyState from '@/components/ui/EmptyState';
@@ -150,6 +151,9 @@ async function ONGsContent({ searchParams }) {
           </div>
         </div>
 
+        {/* Frame 5 - Favorite NPO Section */}
+        <FavoriteNPOSection ngos={ngos} />
+
         {/* Frame 5 - NPOs Section */}
         <div 
           className="w-full flex flex-col items-start"
@@ -185,26 +189,30 @@ async function ONGsContent({ searchParams }) {
             </div>
           </div>
 
-          {/* NPOs Grid */}
+          {/* NPOs Grid - 2 rows of 4 cards */}
           {ngos.length > 0 ? (
             <>
+              {/* First Row */}
               <div 
-                className="w-full flex flex-wrap"
+                className="w-full flex flex-wrap justify-center"
                 style={{ gap: '24px' }}
               >
-                {ngos.map((ngo) => (
-                  <div 
-                    key={ngo.id}
-                    style={{ 
-                      width: 'calc((100% - 72px) / 4)',
-                      minWidth: '280px',
-                      flex: '0 0 calc((100% - 72px) / 4)'
-                    }}
-                  >
-                    <NgoCard ngo={ngo} />
-                  </div>
+                {ngos.slice(0, 4).map((ngo) => (
+                  <NgoCard key={ngo.id} ngo={ngo} />
                 ))}
               </div>
+              
+              {/* Second Row */}
+              {ngos.length > 4 && (
+                <div 
+                  className="w-full flex flex-wrap justify-center"
+                  style={{ gap: '24px' }}
+                >
+                  {ngos.slice(4, 8).map((ngo) => (
+                    <NgoCard key={ngo.id} ngo={ngo} />
+                  ))}
+                </div>
+              )}
 
               {/* Pagination */}
               {pagination.pages > 1 && (
