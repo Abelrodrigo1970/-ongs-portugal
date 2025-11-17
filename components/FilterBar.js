@@ -42,7 +42,12 @@ const FilterBar = ({
     if (!figmaStyle) return;
     
     const handleClickOutside = (event) => {
-      if (openDropdown && !event.target.closest('.filter-dropdown-container')) {
+      // Não fechar se clicar dentro do dropdown ou do MultiSelect
+      if (openDropdown && 
+          !event.target.closest('.filter-dropdown-container') &&
+          !event.target.closest('.absolute') && // Não fechar se clicar dentro do dropdown
+          !event.target.closest('[role="listbox"]') && // Não fechar se clicar dentro do MultiSelect
+          !event.target.closest('input[type="checkbox"]')) { // Não fechar se clicar em checkbox
         setOpenDropdown(null);
       }
     };
@@ -217,9 +222,10 @@ const FilterBar = ({
                 label="Áreas de Atuação"
                 placeholder="Selecionar áreas..."
                 options={areasOptions}
-                value={filters.areas}
+                value={filters.areas || []}
                 onChange={(value) => {
-                  updateFilters({ areas: value });
+                  console.log('🔧 Áreas changed:', value);
+                  updateFilters({ areas: Array.isArray(value) ? value : [] });
                 }}
               />
             </div>
@@ -342,9 +348,10 @@ const FilterBar = ({
                 label="Tipo de Evento"
                 placeholder="Selecionar tipos..."
                 options={tipoOptions}
-                value={filters.tipo}
+                value={filters.tipo || []}
                 onChange={(value) => {
-                  updateFilters({ tipo: value });
+                  console.log('🔧 Tipo changed:', value);
+                  updateFilters({ tipo: Array.isArray(value) ? value : [] });
                 }}
               />
             </div>
