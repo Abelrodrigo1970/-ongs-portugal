@@ -122,7 +122,7 @@ async function ONGsContent({ searchParams }) {
                     <input
                       type="text"
                       name="query"
-                      placeholder="copy"
+                      placeholder="Pesquisa ONG's"
                       defaultValue={searchParams.query || ''}
                       className="flex-1 outline-none bg-transparent"
                       style={{ 

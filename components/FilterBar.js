@@ -143,7 +143,7 @@ const FilterBar = ({
   if (figmaStyle) {
     return (
       <div className={`flex items-center justify-center gap-4 ${className}`}>
-        {/* Filter Button 1 - ODS */}
+        {/* Filter Button 1 - Áreas de Interesse */}
         <button
           onClick={() => setShowFilters(!showFilters)}
           className="flex items-center justify-center rounded-[200px] transition-colors"
@@ -166,7 +166,7 @@ const FilterBar = ({
               lineHeight: '16.8px'
             }}
           >
-            filter
+            Áreas de Interesse
           </span>
           <ChevronDown 
             style={{ 
@@ -177,7 +177,7 @@ const FilterBar = ({
           />
         </button>
 
-        {/* Filter Button 2 - Areas */}
+        {/* Filter Button 2 - Localização */}
         <button
           onClick={() => setShowFilters(!showFilters)}
           className="flex items-center justify-center rounded-[200px] transition-colors"
@@ -200,7 +200,7 @@ const FilterBar = ({
               lineHeight: '16.8px'
             }}
           >
-            filter
+            Localização
           </span>
           <ChevronDown 
             style={{ 
@@ -211,7 +211,7 @@ const FilterBar = ({
           />
         </button>
 
-        {/* Filter Button 3 - Colaboração */}
+        {/* Filter Button 3 - Tipo de evento */}
         <button
           onClick={() => setShowFilters(!showFilters)}
           className="flex items-center justify-center rounded-[200px] transition-colors"
@@ -234,7 +234,7 @@ const FilterBar = ({
               lineHeight: '16.8px'
             }}
           >
-            filter
+            Tipo de evento
           </span>
           <ChevronDown 
             style={{ 
