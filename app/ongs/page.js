@@ -30,13 +30,14 @@ async function ONGsContent({ searchParams }) {
     limit: 12
   };
 
-  const [ngosResult, odsOptions, areasOptions, colaboracaoOptions, upcomingEvents, totalNgos] = await Promise.all([
+  const [ngosResult, odsOptions, areasOptions, colaboracaoOptions, upcomingEvents, totalNgos, allVisibleNGOs] = await Promise.all([
     getNGOs(filters),
     getAllODS(),
     getAllAreas(),
     getAllColaboracaoTipos(),
     getUpcomingEvents(3),
-    getNGOs({ visivel: true, limit: 1000 }) // Get total visible NGOs for metrics
+    getNGOs({ visivel: true, limit: 1000 }), // Get total visible NGOs for metrics
+    getNGOs({ visivel: true, limit: 1000 }) // Get all visible NGOs for favorites section
   ]);
 
   const { ngos, pagination } = ngosResult;
@@ -78,7 +79,7 @@ async function ONGsContent({ searchParams }) {
           >
             {/* Frame 2 - Search and Filters (Frame 445) */}
             <div 
-              className="w-full flex flex-col items-start"
+              className="w-full flex flex-col items-center"
               style={{ 
                 padding: '64px 0px 0px 0px',
                 gap: '16px'
@@ -86,7 +87,7 @@ async function ONGsContent({ searchParams }) {
             >
               {/* Frame Wrapper - Search Bar */}
               <div 
-                className="flex items-center"
+                className="flex items-center justify-center"
                 style={{ 
                   boxShadow: '0px 0px 50px #d4e6ff',
                   width: '866px',
@@ -157,7 +158,7 @@ async function ONGsContent({ searchParams }) {
             </div>
 
             {/* Frame 5 - Favorite NPO Section */}
-            <FavoriteNPOSection ngos={ngos} />
+            <FavoriteNPOSection ngos={allVisibleNGOs.ngos || []} />
 
             {/* Frame 5 - NPOs Section */}
             <div 
