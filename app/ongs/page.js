@@ -76,7 +76,7 @@ async function ONGsContent({ searchParams }) {
               gap: '40px'
             }}
           >
-            {/* Frame 2 - Search and Filters */}
+            {/* Frame 2 - Search and Filters (Frame 445) */}
             <div 
               className="w-full flex flex-col items-start"
               style={{ 
@@ -84,61 +84,60 @@ async function ONGsContent({ searchParams }) {
                 gap: '16px'
               }}
             >
-          {/* Search Bar Container */}
-          <div 
-            className="flex items-center"
-            style={{ 
-              boxShadow: '0px 0px 50px #d4e6ff',
-              width: '866px',
-              maxWidth: '100%',
-              gap: '24px'
-            }}
-          >
-            {/* Search Input */}
-            <div 
-              className="flex items-center flex-1"
-              style={{ 
-                backgroundColor: '#ffffff',
-                border: '1px solid #d5e1ff',
-                borderRadius: '200px',
-                height: '46px',
-                padding: '16px',
-                gap: '16px'
-              }}
-            >
-              <Search 
+              {/* Frame Wrapper - Search Bar */}
+              <div 
+                className="flex items-center"
                 style={{ 
-                  width: '24px', 
-                  height: '24px',
-                  color: 'rgba(100, 116, 139, 1)'
-                }} 
-              />
-              <form 
-                action="/ongs" 
-                method="get"
-                className="flex-1 flex items-center"
-                style={{ gap: '16px' }}
+                  boxShadow: '0px 0px 50px #d4e6ff',
+                  width: '866px',
+                  maxWidth: '100%'
+                }}
               >
-                <input
-                  type="text"
-                  name="query"
-                  placeholder="copy"
-                  defaultValue={searchParams.query || ''}
-                  className="flex-1 outline-none bg-transparent"
+                {/* Search Input - div inside frame-wrapper */}
+                <div 
+                  className="flex items-center flex-1"
                   style={{ 
-                    color: 'rgba(100, 116, 139, 1)',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '16px',
-                    fontWeight: '400',
-                    lineHeight: 'normal',
-                    border: 'none'
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #d5e1ff',
+                    borderRadius: '200px',
+                    height: '46px',
+                    padding: '16px',
+                    gap: '16px'
                   }}
-                />
-              </form>
-            </div>
-          </div>
+                >
+                  <Search 
+                    style={{ 
+                      width: '24px', 
+                      height: '24px',
+                      color: 'rgba(100, 116, 139, 1)'
+                    }} 
+                  />
+                  <form 
+                    action="/ongs" 
+                    method="get"
+                    className="flex-1 flex items-center"
+                    style={{ gap: '16px' }}
+                  >
+                    <input
+                      type="text"
+                      name="query"
+                      placeholder="copy"
+                      defaultValue={searchParams.query || ''}
+                      className="flex-1 outline-none bg-transparent"
+                      style={{ 
+                        color: 'rgba(100, 116, 139, 1)',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '16px',
+                        fontWeight: '400',
+                        lineHeight: 'normal',
+                        border: 'none'
+                      }}
+                    />
+                  </form>
+                </div>
+              </div>
 
-              {/* Filters Row - Frame 4 */}
+              {/* div-2 - Filters Row */}
               <div 
                 className="flex items-center justify-center w-full"
                 style={{ 
