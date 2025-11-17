@@ -168,7 +168,10 @@ const FilterBar = ({
   // Se figmaStyle, mostrar apenas os 3 botões de filtro com dropdowns individuais
   if (figmaStyle) {
     return (
-      <div className={`flex items-center justify-center gap-4 relative ${className}`}>
+      <div 
+        className={`flex items-center justify-center gap-4 relative ${className}`}
+        style={{ backgroundColor: 'transparent' }}
+      >
         {/* Filter Button 1 - Áreas de Interesse */}
         <div className="filter-dropdown-container relative">
           <button
