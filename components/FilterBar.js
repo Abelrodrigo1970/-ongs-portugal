@@ -80,6 +80,7 @@ const FilterBar = ({
       // Senão, update URL (para páginas de ONGs e Eventos)
       const params = new URLSearchParams();
       
+      // Construir parâmetros apenas com os filtros ativos
       if (updatedFilters.query) params.set('query', updatedFilters.query);
       if (updatedFilters.ods.length > 0) params.set('ods', updatedFilters.ods.join(','));
       if (updatedFilters.areas.length > 0) params.set('areas', updatedFilters.areas.join(','));
@@ -91,7 +92,13 @@ const FilterBar = ({
       if (updatedFilters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc')) params.set('sort', updatedFilters.sort);
       
       const basePath = showEventFilters ? '/eventos' : '/ongs';
-      router.push(`${basePath}?${params.toString()}`);
+      const queryString = params.toString();
+      const newUrl = queryString ? `${basePath}?${queryString}` : basePath;
+      
+      console.log('🔧 FilterBar updating URL:', newUrl, 'with filters:', updatedFilters);
+      
+      // Usar push para garantir que a navegação acontece
+      router.push(newUrl);
     }
   };
 
