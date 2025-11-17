@@ -35,6 +35,20 @@ const FilterBar = ({
   });
 
   const [showFilters, setShowFilters] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null); // 'areas', 'localizacao', 'tipo', null
+
+  // Fechar dropdown ao clicar fora (apenas quando figmaStyle está ativo)
+  useEffect(() => {
+    if (!figmaStyle) return;
+    
+    const handleClickOutside = (event) => {
+      if (openDropdown && !event.target.closest('.filter-dropdown-container')) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openDropdown, figmaStyle]);
 
   // Debounced search function
   const debouncedSearch = useCallback(
@@ -139,111 +153,196 @@ const FilterBar = ({
     { value: 'funchal', label: 'Funchal' }
   ];
 
-  // Se figmaStyle, mostrar apenas os 3 botões de filtro
+  // Se figmaStyle, mostrar apenas os 3 botões de filtro com dropdowns individuais
   if (figmaStyle) {
     return (
-      <div className={`flex items-center justify-center gap-4 ${className}`}>
+      <div className={`flex items-center justify-center gap-4 relative ${className}`}>
         {/* Filter Button 1 - Áreas de Interesse */}
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center justify-center rounded-[200px] transition-colors"
-          style={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #d5e1ff',
-            borderRadius: '200px',
-            boxShadow: '0px 0px 50px #d4e7ff',
-            height: '46px',
-            padding: '8px 16px',
-            gap: '8px'
-          }}
-        >
-          <span 
-            style={{ 
-              color: 'rgba(100, 116, 139, 1)',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '14px',
-              fontWeight: '500',
-              lineHeight: '16.8px'
+        <div className="filter-dropdown-container relative">
+          <button
+            onClick={() => setOpenDropdown(openDropdown === 'areas' ? null : 'areas')}
+            className="flex items-center justify-center rounded-[200px] transition-colors"
+            style={{
+              backgroundColor: '#ffffff',
+              border: '1px solid #d5e1ff',
+              borderRadius: '200px',
+              boxShadow: '0px 0px 50px #d4e7ff',
+              height: '46px',
+              padding: '8px 16px',
+              gap: '8px'
             }}
           >
-            Áreas de Interesse
-          </span>
-          <ChevronDown 
-            style={{ 
-              width: '24px', 
-              height: '24px',
-              color: 'rgba(100, 116, 139, 1)'
-            }} 
-          />
-        </button>
+            <span 
+              style={{ 
+                color: 'rgba(100, 116, 139, 1)',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px',
+                fontWeight: '500',
+                lineHeight: '16.8px'
+              }}
+            >
+              Áreas de Interesse
+            </span>
+            <ChevronDown 
+              style={{ 
+                width: '24px', 
+                height: '24px',
+                color: 'rgba(100, 116, 139, 1)',
+                transform: openDropdown === 'areas' ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s'
+              }} 
+            />
+          </button>
+          
+          {/* Dropdown para Áreas de Interesse */}
+          {openDropdown === 'areas' && (
+            <div 
+              className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                padding: '16px',
+                minWidth: '280px',
+                maxWidth: '320px'
+              }}
+            >
+              <MultiSelect
+                label="Áreas de Atuação"
+                placeholder="Selecionar áreas..."
+                options={areasOptions}
+                value={filters.areas}
+                onChange={(value) => {
+                  updateFilters({ areas: value });
+                }}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Filter Button 2 - Localização */}
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center justify-center rounded-[200px] transition-colors"
-          style={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #d5e1ff',
-            borderRadius: '200px',
-            boxShadow: '0px 0px 50px #d4e7ff',
-            height: '46px',
-            padding: '8px 16px',
-            gap: '8px'
-          }}
-        >
-          <span 
-            style={{ 
-              color: 'rgba(100, 116, 139, 1)',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '14px',
-              fontWeight: '500',
-              lineHeight: '16.8px'
+        <div className="filter-dropdown-container relative">
+          <button
+            onClick={() => setOpenDropdown(openDropdown === 'localizacao' ? null : 'localizacao')}
+            className="flex items-center justify-center rounded-[200px] transition-colors"
+            style={{
+              backgroundColor: '#ffffff',
+              border: '1px solid #d5e1ff',
+              borderRadius: '200px',
+              boxShadow: '0px 0px 50px #d4e7ff',
+              height: '46px',
+              padding: '8px 16px',
+              gap: '8px'
             }}
           >
-            Localização
-          </span>
-          <ChevronDown 
-            style={{ 
-              width: '24px', 
-              height: '24px',
-              color: 'rgba(100, 116, 139, 1)'
-            }} 
-          />
-        </button>
+            <span 
+              style={{ 
+                color: 'rgba(100, 116, 139, 1)',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px',
+                fontWeight: '500',
+                lineHeight: '16.8px'
+              }}
+            >
+              Localização
+            </span>
+            <ChevronDown 
+              style={{ 
+                width: '24px', 
+                height: '24px',
+                color: 'rgba(100, 116, 139, 1)',
+                transform: openDropdown === 'localizacao' ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s'
+              }} 
+            />
+          </button>
+          
+          {/* Dropdown para Localização */}
+          {openDropdown === 'localizacao' && (
+            <div 
+              className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                padding: '16px',
+                minWidth: '280px',
+                maxWidth: '320px'
+              }}
+            >
+              <Select
+                label="Localização"
+                placeholder="Selecionar localização..."
+                options={localizacaoOptions}
+                value={filters.localizacao}
+                onChange={(e) => {
+                  updateFilters({ localizacao: e.target.value });
+                  setOpenDropdown(null);
+                }}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Filter Button 3 - Tipo de evento */}
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center justify-center rounded-[200px] transition-colors"
-          style={{
-            backgroundColor: '#ffffff',
-            border: '1px solid #d5e1ff',
-            borderRadius: '200px',
-            boxShadow: '0px 0px 50px #d4e7ff',
-            height: '46px',
-            padding: '8px 16px',
-            gap: '8px'
-          }}
-        >
-          <span 
-            style={{ 
-              color: 'rgba(100, 116, 139, 1)',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '14px',
-              fontWeight: '500',
-              lineHeight: '16.8px'
+        <div className="filter-dropdown-container relative">
+          <button
+            onClick={() => setOpenDropdown(openDropdown === 'tipo' ? null : 'tipo')}
+            className="flex items-center justify-center rounded-[200px] transition-colors"
+            style={{
+              backgroundColor: '#ffffff',
+              border: '1px solid #d5e1ff',
+              borderRadius: '200px',
+              boxShadow: '0px 0px 50px #d4e7ff',
+              height: '46px',
+              padding: '8px 16px',
+              gap: '8px'
             }}
           >
-            Tipo de evento
-          </span>
-          <ChevronDown 
-            style={{ 
-              width: '24px', 
-              height: '24px',
-              color: 'rgba(100, 116, 139, 1)'
-            }} 
-          />
-        </button>
+            <span 
+              style={{ 
+                color: 'rgba(100, 116, 139, 1)',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px',
+                fontWeight: '500',
+                lineHeight: '16.8px'
+              }}
+            >
+              Tipo de evento
+            </span>
+            <ChevronDown 
+              style={{ 
+                width: '24px', 
+                height: '24px',
+                color: 'rgba(100, 116, 139, 1)',
+                transform: openDropdown === 'tipo' ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s'
+              }} 
+            />
+          </button>
+          
+          {/* Dropdown para Tipo de evento */}
+          {openDropdown === 'tipo' && (
+            <div 
+              className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+              style={{
+                backgroundColor: '#FFFFFF',
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                padding: '16px',
+                minWidth: '280px',
+                maxWidth: '320px'
+              }}
+            >
+              <MultiSelect
+                label="Tipo de Evento"
+                placeholder="Selecionar tipos..."
+                options={tipoOptions}
+                value={filters.tipo}
+                onChange={(value) => {
+                  updateFilters({ tipo: value });
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

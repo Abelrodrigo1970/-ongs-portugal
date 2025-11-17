@@ -4,7 +4,7 @@ import { getNGOs } from '@/lib/repositories/ngos';
 import { getAllODS } from '@/lib/repositories/ods';
 import { getAllAreas } from '@/lib/repositories/areas';
 import { getAllColaboracaoTipos } from '@/lib/repositories/colaboracao';
-import { getUpcomingEvents } from '@/lib/repositories/events';
+import { getUpcomingEvents, getEventTypes } from '@/lib/repositories/events';
 import FilterBar from '@/components/FilterBar';
 import NgoCard from '@/components/NgoCard';
 import FavoriteNPOSection from '@/components/ngo/FavoriteNPOSection';
@@ -56,6 +56,8 @@ async function ONGsContent({ searchParams }) {
     value: colab.id,
     label: colab.nome
   }));
+
+  const tipoOptions = getEventTypes();
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
@@ -151,6 +153,7 @@ async function ONGsContent({ searchParams }) {
                   odsOptions={formattedOdsOptions}
                   areasOptions={formattedAreasOptions}
                   colaboracaoOptions={formattedColaboracaoOptions}
+                  tipoOptions={tipoOptions}
                   className="w-full"
                   figmaStyle={true}
                 />
