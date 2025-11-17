@@ -58,26 +58,32 @@ async function ONGsContent({ searchParams }) {
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
-      {/* About Section - Baseado no Figma */}
-      <div 
-        className="w-full flex flex-col items-center"
-        style={{ 
-          padding: '100px 0px 0px',
-          gap: '40px'
-        }}
-      >
-        {/* Frame 2 - Search and Filters */}
+      {/* About Us Section - Baseado no Figma */}
+      <div className="w-full flex flex-col items-center">
+        {/* Page Content */}
         <div 
-          className="w-full flex flex-col items-start"
+          className="w-full flex flex-col items-center"
           style={{ 
-            padding: '64px 0px 0px 0px',
-            gap: '16px',
-            maxWidth: '1440px',
-            margin: '0 auto',
-            paddingLeft: '16px',
-            paddingRight: '16px'
+            padding: '8px 64px',
+            maxWidth: '100%'
           }}
         >
+          {/* About Section */}
+          <div 
+            className="w-full flex flex-col items-center"
+            style={{ 
+              padding: '100px 0px 0px',
+              gap: '40px'
+            }}
+          >
+            {/* Frame 2 - Search and Filters */}
+            <div 
+              className="w-full flex flex-col items-start"
+              style={{ 
+                padding: '64px 0px 0px 0px',
+                gap: '16px'
+              }}
+            >
           {/* Search Bar Container */}
           <div 
             className="flex items-center"
@@ -132,142 +138,139 @@ async function ONGsContent({ searchParams }) {
             </div>
           </div>
 
-          {/* Filters Row */}
-          <div 
-            className="flex items-center justify-center w-full"
-            style={{ 
-              boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
-              height: '46px',
-              gap: '16px'
-            }}
-          >
-            <FilterBar
-              odsOptions={formattedOdsOptions}
-              areasOptions={formattedAreasOptions}
-              colaboracaoOptions={formattedColaboracaoOptions}
-              className="w-full"
-              figmaStyle={true}
-            />
-          </div>
-        </div>
-
-        {/* Frame 5 - Favorite NPO Section */}
-        <FavoriteNPOSection ngos={ngos} />
-
-        {/* Frame 5 - NPOs Section */}
-        <div 
-          className="w-full flex flex-col items-start"
-          style={{ 
-            gap: '24px',
-            maxWidth: '1440px',
-            margin: '0 auto',
-            paddingLeft: '16px',
-            paddingRight: '16px'
-          }}
-        >
-          {/* Section Header */}
-          <div 
-            className="w-full flex items-center justify-center"
-            style={{ gap: '24px' }}
-          >
-            <div 
-              className="flex-1 flex items-center"
-              style={{ gap: '8px' }}
-            >
-              <h2 
+              {/* Filters Row - Frame 4 */}
+              <div 
+                className="flex items-center justify-center w-full"
                 style={{ 
-                  color: 'rgba(2, 6, 23, 1)',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '32px',
-                  fontWeight: '600',
-                  lineHeight: '120%',
-                  marginTop: '-1px'
+                  boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
+                  height: '46px',
+                  gap: '16px'
                 }}
               >
-                NPOs
-              </h2>
+                <FilterBar
+                  odsOptions={formattedOdsOptions}
+                  areasOptions={formattedAreasOptions}
+                  colaboracaoOptions={formattedColaboracaoOptions}
+                  className="w-full"
+                  figmaStyle={true}
+                />
+              </div>
             </div>
-          </div>
 
-          {/* NPOs Grid - 2 rows of 4 cards */}
-          {ngos.length > 0 ? (
-            <>
-              {/* First Row */}
+            {/* Frame 5 - Favorite NPO Section */}
+            <FavoriteNPOSection ngos={ngos} />
+
+            {/* Frame 5 - NPOs Section */}
+            <div 
+              className="w-full flex flex-col items-start"
+              style={{ 
+                gap: '24px'
+              }}
+            >
+              {/* Frame 6 - Section Header */}
               <div 
-                className="w-full flex flex-wrap justify-center"
+                className="w-full flex items-center justify-center"
                 style={{ gap: '24px' }}
               >
-                {ngos.slice(0, 4).map((ngo) => (
-                  <NgoCard key={ngo.id} ngo={ngo} />
-                ))}
-              </div>
-              
-              {/* Second Row */}
-              {ngos.length > 4 && (
                 <div 
-                  className="w-full flex flex-wrap justify-center"
-                  style={{ gap: '24px' }}
+                  className="flex-1 flex items-center"
+                  style={{ gap: '8px' }}
                 >
-                  {ngos.slice(4, 8).map((ngo) => (
-                    <NgoCard key={ngo.id} ngo={ngo} />
-                  ))}
+                  <h2 
+                    style={{ 
+                      color: 'rgba(2, 6, 23, 1)',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '32px',
+                      fontWeight: '600',
+                      lineHeight: '120%',
+                      marginTop: '-1px'
+                    }}
+                  >
+                    NPOs
+                  </h2>
                 </div>
-              )}
+              </div>
 
-              {/* Pagination */}
-              {pagination.pages > 1 && (
-                <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
-                  <div className="flex gap-3">
-                    {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
-                      const params = new URLSearchParams(searchParams);
-                      params.set('page', page.toString());
-                      
-                      return (
-                        <a
-                          key={page}
-                          href={`/ongs?${params.toString()}`}
-                          className={`rounded-full transition-all duration-200 ${
-                            page === pagination.page
-                              ? 'text-white shadow-lg'
-                              : 'border hover:shadow-md hover:scale-105'
-                          }`}
-                          style={
-                            page === pagination.page
-                              ? { 
-                                  backgroundColor: 'var(--color-button-primary)',
-                                  padding: '12px 24px',
-                                  fontSize: '16px',
-                                  fontWeight: '600',
-                                  lineHeight: '1.2'
-                                }
-                              : { 
-                                  backgroundColor: '#FFFFFF', 
-                                  color: '#595959', 
-                                  borderColor: 'rgba(64, 64, 64, 0.15)',
-                                  padding: '12px 24px',
-                                  fontSize: '16px',
-                                  fontWeight: '600',
-                                  lineHeight: '1.2'
-                                }
-                          }
-                        >
-                          {page}
-                        </a>
-                      );
-                    })}
+              {/* Frame 8 - First Row of 4 cards */}
+              {ngos.length > 0 ? (
+                <>
+                  <div 
+                    className="w-full flex flex-wrap justify-center"
+                    style={{ gap: '24px' }}
+                  >
+                    {ngos.slice(0, 4).map((ngo) => (
+                      <NgoCard key={ngo.id} ngo={ngo} />
+                    ))}
                   </div>
+                  
+                  {/* Frame 8 - Second Row of 4 cards */}
+                  {ngos.length > 4 && (
+                    <div 
+                      className="w-full flex flex-wrap justify-center"
+                      style={{ gap: '24px' }}
+                    >
+                      {ngos.slice(4, 8).map((ngo) => (
+                        <NgoCard key={ngo.id} ngo={ngo} />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Pagination */}
+                  {pagination.pages > 1 && (
+                    <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
+                      <div className="flex gap-3">
+                        {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
+                          const params = new URLSearchParams(searchParams);
+                          params.set('page', page.toString());
+                          
+                          return (
+                            <a
+                              key={page}
+                              href={`/ongs?${params.toString()}`}
+                              className={`rounded-full transition-all duration-200 ${
+                                page === pagination.page
+                                  ? 'text-white shadow-lg'
+                                  : 'border hover:shadow-md hover:scale-105'
+                              }`}
+                              style={
+                                page === pagination.page
+                                  ? { 
+                                      backgroundColor: 'var(--color-button-primary)',
+                                      padding: '12px 24px',
+                                      fontSize: '16px',
+                                      fontWeight: '600',
+                                      lineHeight: '1.2'
+                                    }
+                                  : { 
+                                      backgroundColor: '#FFFFFF', 
+                                      color: '#595959', 
+                                      borderColor: 'rgba(64, 64, 64, 0.15)',
+                                      padding: '12px 24px',
+                                      fontSize: '16px',
+                                      fontWeight: '600',
+                                      lineHeight: '1.2'
+                                    }
+                              }
+                            >
+                              {page}
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="w-full flex justify-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+                  <EmptyState
+                    icon={Search}
+                    title="Nenhuma ONG encontrada"
+                    description="Tenta ajustar os filtros para encontrar mais resultados."
+                  />
                 </div>
               )}
-            </>
-          ) : (
-            <div className="w-full flex justify-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-              <EmptyState
-                icon={Search}
-                title="Nenhuma ONG encontrada"
-                description="Tenta ajustar os filtros para encontrar mais resultados."
-              />
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

@@ -44,14 +44,10 @@ export default function FavoriteNPOSection({ ngos }) {
     <div 
       className="w-full flex flex-col items-start"
       style={{ 
-        gap: '24px',
-        maxWidth: '1440px',
-        margin: '0 auto',
-        paddingLeft: '16px',
-        paddingRight: '16px'
+        gap: '24px'
       }}
     >
-      {/* Section Header */}
+      {/* Frame 6 - Section Header */}
       <div 
         className="w-full flex items-center justify-center"
         style={{ gap: '24px' }}
@@ -75,7 +71,7 @@ export default function FavoriteNPOSection({ ngos }) {
         </div>
       </div>
 
-      {/* Favorite NPOs Grid */}
+      {/* Frame 8 - Favorite NPOs Grid */}
       <div 
         className="w-full flex flex-wrap justify-center"
         style={{ gap: '24px' }}
