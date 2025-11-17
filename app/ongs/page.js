@@ -27,7 +27,7 @@ async function ONGsContent({ searchParams }) {
     visivel: searchParams.visivel !== 'false', // Por padrão mostrar ONGs visíveis
     sort: searchParams.sort || 'nome-asc',
     page: parseInt(searchParams.page) || 1,
-    limit: 12
+    limit: 8 // 2 linhas de 4 cards = 8 cards por página
   };
 
   const [ngosResult, odsOptions, areasOptions, colaboracaoOptions, upcomingEvents, totalNgos, allVisibleNGOs] = await Promise.all([
