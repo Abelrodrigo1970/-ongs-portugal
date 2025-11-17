@@ -144,7 +144,7 @@ async function ONGsContent({ searchParams }) {
               <div 
                 className="flex items-center justify-center w-full"
                 style={{ 
-                  boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
+                  backgroundColor: 'transparent',
                   height: '46px',
                   gap: '16px'
                 }}
