@@ -46,7 +46,7 @@ async function EventsContent({ searchParams }) {
   }));
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#020617' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       {/* About Us Section - Baseado no Figma */}
       <div className="w-full flex flex-col items-center">
         {/* Page Content */}
@@ -165,11 +165,11 @@ async function EventsContent({ searchParams }) {
                   >
                     <h2 
                       style={{ 
-                        color: '#f1f5f9',
+                        color: '#020617',
                         fontFamily: 'Inter, sans-serif',
                         fontSize: '32px',
                         fontWeight: '600',
-                        lineHeight: '120%',
+                        lineHeight: '38.40',
                         marginTop: '-1px'
                       }}
                     >
@@ -208,11 +208,11 @@ async function EventsContent({ searchParams }) {
                 >
                   <h2 
                     style={{ 
-                      color: '#f1f5f9',
+                      color: '#020617',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '32px',
                       fontWeight: '600',
-                      lineHeight: '120%',
+                      lineHeight: '38.40',
                       marginTop: '-1px'
                     }}
                   >
