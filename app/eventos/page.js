@@ -4,10 +4,10 @@ import { getAllODS } from '@/lib/repositories/ods';
 import { getAllAreas } from '@/lib/repositories/areas';
 import { getEventTypes } from '@/lib/repositories/events';
 import FilterBar from '@/components/FilterBar';
-import EventCard from '@/components/EventCard';
+import CompactEventCard from '@/components/CompactEventCard';
 import EmptyState from '@/components/ui/EmptyState';
 import Loader from '@/components/ui/Loader';
-import { Calendar } from 'lucide-react';
+import { Search, Calendar } from 'lucide-react';
 
 // Force dynamic rendering to avoid SSG issues with database
 export const dynamic = 'force-dynamic';
@@ -23,7 +23,7 @@ async function EventsContent({ searchParams }) {
     visivel: searchParams.visivel !== 'false',
     sort: searchParams.sort || 'dataInicio-asc',
     page: parseInt(searchParams.page) || 1,
-    limit: 12
+    limit: 8 // 2 linhas de 4 cards = 8 cards por página
   };
 
   const [eventsResult, odsOptions, areasOptions, tipoOptions] = await Promise.all([
@@ -46,80 +46,218 @@ async function EventsContent({ searchParams }) {
   }));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 p-6">
-              Eventos de Voluntariado
-            </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-8">
-              Descobre eventos e oportunidades de voluntariado organizados por ONGs em Portugal
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Filtros */}
-      <div className="bg-gradient-to-br from-green-100 via-green-50 to-emerald-50 shadow-sm border-b border-gray-100">
-        <div className="container mx-auto px-4 py-6">
-          <FilterBar
-            odsOptions={formattedOdsOptions}
-            areasOptions={formattedAreasOptions}
-            tipoOptions={tipoOptions}
-            showEventFilters={true}
-            className="max-w-6xl mx-auto"
-          />
-        </div>
-      </div>
-
-      {/* Conteúdo */}
-      <div className="min-h-screen p-2">
-        <div className="container mx-auto px-4 py-8">
-          {events.length > 0 ? (
-            <>
-              <div className="grid grid-cols-4 gap-6 mb-8">
-                {events.map((event) => (
-                  <EventCard key={event.id} event={event} />
-                ))}
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
+      {/* About Us Section - Baseado no Figma */}
+      <div className="w-full flex flex-col items-center">
+        {/* Page Content */}
+        <div 
+          className="w-full flex flex-col items-center"
+          style={{ 
+            padding: '8px 64px',
+            maxWidth: '100%'
+          }}
+        >
+          {/* About Section */}
+          <div 
+            className="w-full flex flex-col items-center"
+            style={{ 
+              padding: '100px 0px 0px',
+              gap: '40px'
+            }}
+          >
+            {/* Frame 2 - Search and Filters (Frame 445) */}
+            <div 
+              className="w-full flex flex-col items-center"
+              style={{ 
+                padding: '64px 0px 0px 0px',
+                gap: '16px'
+              }}
+            >
+              {/* Frame Wrapper - Search Bar */}
+              <div 
+                className="flex items-center justify-center"
+                style={{ 
+                  boxShadow: '0px 0px 50px #d4e6ff',
+                  width: '866px',
+                  maxWidth: '100%'
+                }}
+              >
+                {/* Search Input - div inside frame-wrapper */}
+                <div 
+                  className="flex items-center flex-1"
+                  style={{ 
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #d5e1ff',
+                    borderRadius: '200px',
+                    height: '46px',
+                    padding: '16px',
+                    gap: '16px'
+                  }}
+                >
+                  <Search 
+                    style={{ 
+                      width: '24px', 
+                      height: '24px',
+                      color: 'rgba(100, 116, 139, 1)'
+                    }} 
+                  />
+                  <form 
+                    action="/eventos" 
+                    method="get"
+                    className="flex-1 flex items-center"
+                    style={{ gap: '16px' }}
+                  >
+                    <input
+                      type="text"
+                      name="query"
+                      placeholder="copy"
+                      defaultValue={searchParams.query || ''}
+                      className="flex-1 outline-none bg-transparent"
+                      style={{ 
+                        color: 'rgba(100, 116, 139, 1)',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '16px',
+                        fontWeight: '400',
+                        lineHeight: 'normal',
+                        border: 'none'
+                      }}
+                    />
+                  </form>
+                </div>
               </div>
 
-              {/* Pagination */}
-              {pagination.pages > 1 && (
-                <div className="flex justify-center">
-                  <div className="flex space-x-2">
-                    {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
-                      const params = new URLSearchParams(searchParams);
-                      params.set('page', page.toString());
-                      
-                      return (
-                        <a
-                          key={page}
-                          href={`/eventos?${params.toString()}`}
-                          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                            page === pagination.page
-                              ? 'bg-primary-600 text-white shadow-md'
-                              : 'bg-white text-gray-700 border border-gray-200 hover:bg-green-50 hover:border-green-200'
-                          }`}
-                        >
-                          {page}
-                        </a>
-                      );
-                    })}
+              {/* div-2 - Filters Row */}
+              <div 
+                className="flex items-center justify-center w-full"
+                style={{ 
+                  backgroundColor: 'transparent',
+                  height: '46px',
+                  gap: '16px'
+                }}
+              >
+                <FilterBar
+                  odsOptions={formattedOdsOptions}
+                  areasOptions={formattedAreasOptions}
+                  tipoOptions={tipoOptions}
+                  showEventFilters={true}
+                  className="w-full"
+                  figmaStyle={true}
+                />
+              </div>
+            </div>
+
+            {/* Events Section */}
+            <div 
+              className="w-full flex flex-col items-start"
+              style={{ 
+                gap: '24px'
+              }}
+            >
+              {/* Frame 6 - Section Header */}
+              <div 
+                className="w-full flex items-center justify-center"
+                style={{ gap: '24px' }}
+              >
+                <div 
+                  className="flex-1 flex items-center"
+                  style={{ gap: '8px' }}
+                >
+                  <h2 
+                    style={{ 
+                      color: 'rgba(2, 6, 23, 1)',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '32px',
+                      fontWeight: '600',
+                      lineHeight: '120%',
+                      marginTop: '-1px'
+                    }}
+                  >
+                    Eventos
+                  </h2>
+                </div>
+              </div>
+
+              {/* Frame 8 - Events Grid */}
+              {events.length > 0 ? (
+                <>
+                  {/* First Row of 4 cards */}
+                  <div 
+                    className="w-full flex flex-wrap justify-center"
+                    style={{ gap: '24px' }}
+                  >
+                    {events.slice(0, 4).map((event) => (
+                      <CompactEventCard key={event.id} event={event} />
+                    ))}
                   </div>
+                  
+                  {/* Second Row of 4 cards */}
+                  {events.length > 4 && (
+                    <div 
+                      className="w-full flex flex-wrap justify-center"
+                      style={{ gap: '24px' }}
+                    >
+                      {events.slice(4, 8).map((event) => (
+                        <CompactEventCard key={event.id} event={event} />
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Pagination */}
+                  {pagination.pages > 1 && (
+                    <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
+                      <div className="flex gap-3">
+                        {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
+                          const params = new URLSearchParams(searchParams);
+                          params.set('page', page.toString());
+                          
+                          return (
+                            <a
+                              key={page}
+                              href={`/eventos?${params.toString()}`}
+                              className={`rounded-full transition-all duration-200 ${
+                                page === pagination.page
+                                  ? 'text-white shadow-lg'
+                                  : 'border hover:shadow-md hover:scale-105'
+                              }`}
+                              style={
+                                page === pagination.page
+                                  ? { 
+                                      backgroundColor: 'var(--color-button-primary)',
+                                      padding: '12px 24px',
+                                      fontSize: '16px',
+                                      fontWeight: '600',
+                                      lineHeight: '1.2'
+                                    }
+                                  : { 
+                                      backgroundColor: '#FFFFFF', 
+                                      color: '#595959', 
+                                      borderColor: 'rgba(64, 64, 64, 0.15)',
+                                      padding: '12px 24px',
+                                      fontSize: '16px',
+                                      fontWeight: '600',
+                                      lineHeight: '1.2'
+                                    }
+                              }
+                            >
+                              {page}
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="w-full flex justify-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+                  <EmptyState
+                    icon={Search}
+                    title="Nenhum evento encontrado"
+                    description="Tenta ajustar os filtros para encontrar mais resultados."
+                  />
                 </div>
               )}
-            </>
-          ) : (
-            <div className="flex justify-center">
-              <EmptyState
-                icon={Calendar}
-                title="Nenhum evento encontrado"
-                description="Tenta ajustar os filtros para encontrar mais resultados."
-              />
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

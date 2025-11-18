@@ -40,11 +40,12 @@ const CompactEventCard = ({ event, className = '' }) => {
     <Card 
       className={`hover:shadow-xl transition-all duration-300 overflow-hidden ${className}`}
       style={{ 
-        backgroundColor: '#FFFFFF',
-        borderColor: '#d9d9d9',
-        borderRadius: '32px',
+        backgroundColor: '#f8fafc',
+        borderColor: '#cbd5e1',
+        borderRadius: '36px',
         borderWidth: '1px',
-        borderStyle: 'solid'
+        borderStyle: 'solid',
+        width: '310px'
       }}
     >
       <Link href={`/eventos/${event.id}`} className="block">

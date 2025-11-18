@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Input from './ui/Input';
 import MultiSelect from './ui/MultiSelect';
@@ -35,7 +35,8 @@ const FilterBar = ({
   });
 
   const [showFilters, setShowFilters] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null); // 'areas', 'localizacao', 'tipo', null
+  const [openDropdown, setOpenDropdown] = useState(null); // 'areas', 'localizacao', 'tipo', 'ods', null
+  const filterBarRef = useRef(null);
 
   // Fechar dropdown ao clicar fora (apenas quando figmaStyle está ativo)
   useEffect(() => {
@@ -165,12 +166,14 @@ const FilterBar = ({
     { value: 'funchal', label: 'Funchal' }
   ];
 
-  // Se figmaStyle, mostrar apenas os 3 botões de filtro com dropdowns individuais
+  // Se figmaStyle, mostrar botões de filtro com dropdowns individuais
+  // Para eventos: 5 botões, para ONGs: 3 botões
   if (figmaStyle) {
     return (
       <div 
         className={`flex items-center justify-center gap-4 relative ${className}`}
         style={{ backgroundColor: 'transparent' }}
+        ref={filterBarRef}
       >
         {/* Filter Button 1 - Áreas de Interesse */}
         <div className="filter-dropdown-container relative">
@@ -360,6 +363,104 @@ const FilterBar = ({
             </div>
           )}
         </div>
+
+        {/* Filter Button 4 - ODS (apenas para eventos) */}
+        {showEventFilters && (
+          <div className="filter-dropdown-container relative">
+            <button
+              onClick={() => setOpenDropdown(openDropdown === 'ods' ? null : 'ods')}
+              className="flex items-center justify-center rounded-[200px] transition-colors"
+              style={{
+                backgroundColor: '#ffffff',
+                border: '1px solid #d5e1ff',
+                borderRadius: '200px',
+                boxShadow: '0px 0px 50px #d4e7ff',
+                height: '46px',
+                padding: '8px 16px',
+                gap: '8px'
+              }}
+            >
+              <span 
+                style={{ 
+                  color: 'rgba(100, 116, 139, 1)',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  lineHeight: '16.8px'
+                }}
+              >
+                ODS
+              </span>
+              <ChevronDown 
+                style={{ 
+                  width: '24px', 
+                  height: '24px',
+                  color: 'rgba(100, 116, 139, 1)',
+                  transform: openDropdown === 'ods' ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s'
+                }} 
+              />
+            </button>
+            
+            {/* Dropdown para ODS */}
+            {openDropdown === 'ods' && (
+              <div 
+                className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderColor: 'rgba(64, 64, 64, 0.15)',
+                  padding: '16px',
+                  minWidth: '280px',
+                  maxWidth: '320px'
+                }}
+              >
+                <MultiSelect
+                  label="ODS"
+                  placeholder="Selecionar ODS..."
+                  options={odsOptions}
+                  value={filters.ods || []}
+                  onChange={(value) => {
+                    console.log('🔧 ODS changed:', value);
+                    updateFilters({ ods: Array.isArray(value) ? value : [] });
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Filter Button 5 - Inscrições Abertas (apenas para eventos) */}
+        {showEventFilters && (
+          <div className="filter-dropdown-container relative">
+            <button
+              onClick={() => {
+                updateFilters({ inscricoesAbertas: !filters.inscricoesAbertas });
+              }}
+              className="flex items-center justify-center rounded-[200px] transition-colors"
+              style={{
+                backgroundColor: filters.inscricoesAbertas ? 'var(--color-button-primary)' : '#ffffff',
+                border: '1px solid #d5e1ff',
+                borderRadius: '200px',
+                boxShadow: '0px 0px 50px #d4e7ff',
+                height: '46px',
+                padding: '8px 16px',
+                gap: '8px'
+              }}
+            >
+              <span 
+                style={{ 
+                  color: filters.inscricoesAbertas ? '#FFFFFF' : 'rgba(100, 116, 139, 1)',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  lineHeight: '16.8px'
+                }}
+              >
+                Inscrições Abertas
+              </span>
+            </button>
+          </div>
+        )}
       </div>
     );
   }
