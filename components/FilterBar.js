@@ -29,13 +29,15 @@ const FilterBar = ({
     colaboracao: searchParams.get('colaboracao')?.split(',').filter(Boolean) || [],
     tipo: searchParams.get('tipo')?.split(',').filter(Boolean) || [],
     localizacao: searchParams.get('localizacao') || '',
+    vagas: searchParams.get('vagas') || '',
+    duracao: searchParams.get('duracao') || '',
     inscricoesAbertas: searchParams.get('inscricoesAbertas') === 'true',
     visivel: searchParams.get('visivel') === 'true',
     sort: searchParams.get('sort') || (showEventFilters ? 'dataInicio-asc' : 'nome-asc')
   });
 
   const [showFilters, setShowFilters] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null); // 'areas', 'localizacao', 'tipo', 'ods', null
+  const [openDropdown, setOpenDropdown] = useState(null); // 'areas', 'localizacao', 'tipo', 'vagas', 'duracao', null
   const filterBarRef = useRef(null);
 
   // Fechar dropdown ao clicar fora (apenas quando figmaStyle está ativo)
@@ -93,6 +95,8 @@ const FilterBar = ({
       if (updatedFilters.colaboracao.length > 0) params.set('colaboracao', updatedFilters.colaboracao.join(','));
       if (updatedFilters.tipo.length > 0) params.set('tipo', updatedFilters.tipo.join(','));
       if (updatedFilters.localizacao) params.set('localizacao', updatedFilters.localizacao);
+      if (updatedFilters.vagas) params.set('vagas', updatedFilters.vagas);
+      if (updatedFilters.duracao) params.set('duracao', updatedFilters.duracao);
       if (updatedFilters.inscricoesAbertas) params.set('inscricoesAbertas', 'true');
       if (updatedFilters.visivel) params.set('visivel', 'true');
       if (updatedFilters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc')) params.set('sort', updatedFilters.sort);
@@ -116,6 +120,8 @@ const FilterBar = ({
       colaboracao: [],
       tipo: [],
       localizacao: '',
+      vagas: '',
+      duracao: '',
       inscricoesAbertas: false,
       visivel: false,
       sort: showEventFilters ? 'dataInicio-asc' : 'nome-asc'
@@ -131,6 +137,8 @@ const FilterBar = ({
     filters.colaboracao.length > 0 || 
     filters.tipo.length > 0 ||
     filters.localizacao ||
+    filters.vagas ||
+    filters.duracao ||
     filters.inscricoesAbertas ||
     filters.visivel ||
     filters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc');
@@ -364,11 +372,11 @@ const FilterBar = ({
           )}
         </div>
 
-        {/* Filter Button 4 - ODS (apenas para eventos) */}
+        {/* Filter Button 4 - Vagas (apenas para eventos) */}
         {showEventFilters && (
           <div className="filter-dropdown-container relative">
             <button
-              onClick={() => setOpenDropdown(openDropdown === 'ods' ? null : 'ods')}
+              onClick={() => setOpenDropdown(openDropdown === 'vagas' ? null : 'vagas')}
               className="flex items-center justify-center rounded-[200px] transition-colors"
               style={{
                 backgroundColor: '#ffffff',
@@ -389,21 +397,21 @@ const FilterBar = ({
                   lineHeight: '16.8px'
                 }}
               >
-                ODS
+                Vagas
               </span>
               <ChevronDown 
                 style={{ 
                   width: '24px', 
                   height: '24px',
                   color: 'rgba(100, 116, 139, 1)',
-                  transform: openDropdown === 'ods' ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transform: openDropdown === 'vagas' ? 'rotate(180deg)' : 'rotate(0deg)',
                   transition: 'transform 0.2s'
                 }} 
               />
             </button>
             
-            {/* Dropdown para ODS */}
-            {openDropdown === 'ods' && (
+            {/* Dropdown para Vagas */}
+            {openDropdown === 'vagas' && (
               <div 
                 className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
                 style={{
@@ -414,14 +422,18 @@ const FilterBar = ({
                   maxWidth: '320px'
                 }}
               >
-                <MultiSelect
-                  label="ODS"
-                  placeholder="Selecionar ODS..."
-                  options={odsOptions}
-                  value={filters.ods || []}
-                  onChange={(value) => {
-                    console.log('🔧 ODS changed:', value);
-                    updateFilters({ ods: Array.isArray(value) ? value : [] });
+                <Select
+                  label="Vagas Disponíveis"
+                  placeholder="Selecionar..."
+                  options={[
+                    { value: '', label: 'Todas' },
+                    { value: 'available', label: 'Com vagas disponíveis' },
+                    { value: 'full', label: 'Sem vagas' }
+                  ]}
+                  value={filters.vagas || ''}
+                  onChange={(e) => {
+                    updateFilters({ vagas: e.target.value });
+                    setOpenDropdown(null);
                   }}
                 />
               </div>
@@ -429,16 +441,14 @@ const FilterBar = ({
           </div>
         )}
 
-        {/* Filter Button 5 - Inscrições Abertas (apenas para eventos) */}
+        {/* Filter Button 5 - Duração (apenas para eventos) */}
         {showEventFilters && (
           <div className="filter-dropdown-container relative">
             <button
-              onClick={() => {
-                updateFilters({ inscricoesAbertas: !filters.inscricoesAbertas });
-              }}
+              onClick={() => setOpenDropdown(openDropdown === 'duracao' ? null : 'duracao')}
               className="flex items-center justify-center rounded-[200px] transition-colors"
               style={{
-                backgroundColor: filters.inscricoesAbertas ? 'var(--color-button-primary)' : '#ffffff',
+                backgroundColor: '#ffffff',
                 border: '1px solid #d5e1ff',
                 borderRadius: '200px',
                 boxShadow: '0px 0px 50px #d4e7ff',
@@ -449,16 +459,55 @@ const FilterBar = ({
             >
               <span 
                 style={{ 
-                  color: filters.inscricoesAbertas ? '#FFFFFF' : 'rgba(100, 116, 139, 1)',
+                  color: 'rgba(100, 116, 139, 1)',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '14px',
                   fontWeight: '500',
                   lineHeight: '16.8px'
                 }}
               >
-                Inscrições Abertas
+                Duração
               </span>
+              <ChevronDown 
+                style={{ 
+                  width: '24px', 
+                  height: '24px',
+                  color: 'rgba(100, 116, 139, 1)',
+                  transform: openDropdown === 'duracao' ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s'
+                }} 
+              />
             </button>
+            
+            {/* Dropdown para Duração */}
+            {openDropdown === 'duracao' && (
+              <div 
+                className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  borderColor: 'rgba(64, 64, 64, 0.15)',
+                  padding: '16px',
+                  minWidth: '280px',
+                  maxWidth: '320px'
+                }}
+              >
+                <Select
+                  label="Duração"
+                  placeholder="Selecionar..."
+                  options={[
+                    { value: '', label: 'Todas' },
+                    { value: 'short', label: 'Curta (até 4 horas)' },
+                    { value: 'medium', label: 'Média (4-8 horas)' },
+                    { value: 'long', label: 'Longa (mais de 8 horas)' }
+                  ]}
+                  value={filters.duracao || ''}
+                  onChange={(e) => {
+                    updateFilters({ duracao: e.target.value });
+                    setOpenDropdown(null);
+                  }}
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
