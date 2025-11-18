@@ -46,7 +46,7 @@ async function EventsContent({ searchParams }) {
   }));
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       {/* About Us Section - Baseado no Figma */}
       <div className="w-full flex flex-col items-center">
         {/* Page Content */}
@@ -110,7 +110,7 @@ async function EventsContent({ searchParams }) {
                     <input
                       type="text"
                       name="query"
-                      placeholder="copy"
+                      placeholder="Pesquisa Iniciativas para participar"
                       defaultValue={searchParams.query || ''}
                       className="flex-1 outline-none bg-transparent"
                       style={{ 
@@ -146,14 +146,58 @@ async function EventsContent({ searchParams }) {
               </div>
             </div>
 
-            {/* Events Section */}
+            {/* Iniciativas para si Section */}
+            {events.length > 0 && (
+              <div 
+                className="w-full flex flex-col items-start"
+                style={{ 
+                  gap: '24px'
+                }}
+              >
+                {/* Section Header */}
+                <div 
+                  className="w-full flex items-center justify-center"
+                  style={{ gap: '24px' }}
+                >
+                  <div 
+                    className="flex-1 flex items-center"
+                    style={{ gap: '8px' }}
+                  >
+                    <h2 
+                      style={{ 
+                        color: '#020617',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '32px',
+                        fontWeight: '600',
+                        lineHeight: '120%',
+                        marginTop: '-1px'
+                      }}
+                    >
+                      Iniciativas para si
+                    </h2>
+                  </div>
+                </div>
+
+                {/* First 4 cards in 2x2 grid */}
+                <div 
+                  className="w-full flex flex-wrap justify-start"
+                  style={{ gap: '24px' }}
+                >
+                  {events.slice(0, 4).map((event) => (
+                    <CompactEventCard key={event.id} event={event} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Todas as iniciativas Section */}
             <div 
               className="w-full flex flex-col items-start"
               style={{ 
                 gap: '24px'
               }}
             >
-              {/* Frame 6 - Section Header */}
+              {/* Section Header */}
               <div 
                 className="w-full flex items-center justify-center"
                 style={{ gap: '24px' }}
@@ -164,7 +208,7 @@ async function EventsContent({ searchParams }) {
                 >
                   <h2 
                     style={{ 
-                      color: 'rgba(2, 6, 23, 1)',
+                      color: '#020617',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '32px',
                       fontWeight: '600',
@@ -172,31 +216,31 @@ async function EventsContent({ searchParams }) {
                       marginTop: '-1px'
                     }}
                   >
-                    Eventos
+                    Todas as iniciativas
                   </h2>
                 </div>
               </div>
 
-              {/* Frame 8 - Events Grid */}
+              {/* Events Grid */}
               {events.length > 0 ? (
                 <>
                   {/* First Row of 4 cards */}
                   <div 
-                    className="w-full flex flex-wrap justify-center"
+                    className="w-full flex flex-wrap justify-start"
                     style={{ gap: '24px' }}
                   >
-                    {events.slice(0, 4).map((event) => (
+                    {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
                       <CompactEventCard key={event.id} event={event} />
                     ))}
                   </div>
                   
                   {/* Second Row of 4 cards */}
-                  {events.length > 4 && (
+                  {events.length > 8 && (
                     <div 
-                      className="w-full flex flex-wrap justify-center"
+                      className="w-full flex flex-wrap justify-start"
                       style={{ gap: '24px' }}
                     >
-                      {events.slice(4, 8).map((event) => (
+                      {events.slice(8, 12).map((event) => (
                         <CompactEventCard key={event.id} event={event} />
                       ))}
                     </div>
