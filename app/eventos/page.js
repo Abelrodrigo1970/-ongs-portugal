@@ -48,18 +48,27 @@ async function EventsContent({ searchParams }) {
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       {/* About Section - Baseado no Figma */}
-      <div 
-        className="w-full flex flex-col items-center"
-        style={{ 
-          paddingTop: '100px',
-          paddingBottom: '0',
-          paddingLeft: '0',
-          paddingRight: '0',
-          gap: '40px',
-          width: '100%',
-          height: '100%'
-        }}
-      >
+      <div className="w-full flex flex-col items-center">
+        {/* Page Content */}
+        <div 
+          className="w-full flex flex-col items-center"
+          style={{ 
+            padding: '8px 64px',
+            maxWidth: '100%'
+          }}
+        >
+          {/* About Section */}
+          <div 
+            className="w-full flex flex-col items-center"
+            style={{ 
+              paddingTop: '100px',
+              paddingBottom: '0',
+              paddingLeft: '0',
+              paddingRight: '0',
+              gap: '40px',
+              width: '100%'
+            }}
+          >
             {/* Frame 2 - Search and Filters (Frame 445) */}
             <div 
               className="w-full flex flex-col items-start"
@@ -162,7 +171,7 @@ async function EventsContent({ searchParams }) {
               >
                 {/* Section Header */}
                 <div 
-                  className="w-full flex items-center justify-center"
+                  className="w-full flex items-center"
                   style={{ 
                     gap: '24px',
                     width: '100%'
@@ -193,15 +202,16 @@ async function EventsContent({ searchParams }) {
 
                 {/* First 4 cards in 2x2 grid */}
                 <div 
-                  className="w-full flex items-start"
+                  className="w-full flex flex-wrap justify-start items-start"
                   style={{ 
                     gap: '24px',
-                    width: '100%',
-                    overflow: 'hidden'
+                    width: '100%'
                   }}
                 >
                   {events.slice(0, 4).map((event) => (
-                    <CompactEventCard key={event.id} event={event} />
+                    <div key={event.id} style={{ flexShrink: 0 }}>
+                      <CompactEventCard event={event} />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -217,7 +227,7 @@ async function EventsContent({ searchParams }) {
             >
               {/* Section Header */}
               <div 
-                className="w-full flex items-center justify-center"
+                className="w-full flex items-center"
                 style={{ 
                   gap: '24px',
                   width: '100%'
@@ -251,30 +261,32 @@ async function EventsContent({ searchParams }) {
                 <>
                   {/* First Row of 4 cards */}
                   <div 
-                    className="w-full flex items-start"
+                    className="w-full flex flex-wrap justify-start items-start"
                     style={{ 
                       gap: '24px',
-                      width: '100%',
-                      overflow: 'hidden'
+                      width: '100%'
                     }}
                   >
                     {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
-                      <CompactEventCard key={event.id} event={event} />
+                      <div key={event.id} style={{ flexShrink: 0 }}>
+                        <CompactEventCard event={event} />
+                      </div>
                     ))}
                   </div>
                   
                   {/* Second Row of 4 cards */}
                   {events.length > 8 && (
                     <div 
-                      className="w-full flex items-start"
+                      className="w-full flex flex-wrap justify-start items-start"
                       style={{ 
                         gap: '24px',
-                        width: '100%',
-                        overflow: 'hidden'
+                        width: '100%'
                       }}
                     >
                       {events.slice(8, 12).map((event) => (
-                        <CompactEventCard key={event.id} event={event} />
+                        <div key={event.id} style={{ flexShrink: 0 }}>
+                          <CompactEventCard event={event} />
+                        </div>
                       ))}
                     </div>
                   )}
@@ -335,6 +347,8 @@ async function EventsContent({ searchParams }) {
               )}
             </div>
           </div>
+        </div>
+      </div>
     </div>
   );
 }
