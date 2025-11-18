@@ -48,50 +48,74 @@ async function EventsContent({ searchParams }) {
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       {/* About Us Section - Baseado no Figma */}
-      <div className="w-full flex flex-col items-center">
-        {/* Page Content */}
+      <div 
+        className="w-full flex flex-col items-center"
+        style={{ 
+          width: '100%',
+          height: '100%',
+          paddingLeft: '64px',
+          paddingRight: '64px',
+          paddingTop: '8px',
+          paddingBottom: '8px',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          gap: '8px',
+          display: 'inline-flex'
+        }}
+      >
+        {/* About Section */}
         <div 
           className="w-full flex flex-col items-center"
           style={{ 
-            padding: '8px 64px',
-            maxWidth: '100%'
+            alignSelf: 'stretch',
+            paddingTop: '100px',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            gap: '40px',
+            display: 'flex'
           }}
         >
-          {/* About Section */}
-          <div 
-            className="w-full flex flex-col items-center"
-            style={{ 
-              padding: '100px 0px 0px',
-              gap: '40px'
-            }}
-          >
             {/* Frame 2 - Search and Filters (Frame 445) */}
             <div 
-              className="w-full flex flex-col items-center"
+              className="w-full flex flex-col items-start"
               style={{ 
-                padding: '64px 0px 0px 0px',
-                gap: '16px'
+                paddingTop: '64px',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                gap: '16px',
+                display: 'flex'
               }}
             >
               {/* Frame Wrapper - Search Bar */}
               <div 
-                className="flex items-center justify-center"
+                className="flex items-center"
                 style={{ 
-                  boxShadow: '0px 0px 50px #d4e6ff',
                   width: '866px',
-                  maxWidth: '100%'
+                  boxShadow: '0px 0px 50px #D4E7FF',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: '24px',
+                  display: 'inline-flex'
                 }}
               >
                 {/* Search Input - div inside frame-wrapper */}
                 <div 
                   className="flex items-center flex-1"
                   style={{ 
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #d5e1ff',
-                    borderRadius: '200px',
+                    flex: '1 1 0',
                     height: '46px',
                     padding: '16px',
-                    gap: '16px'
+                    background: 'white',
+                    borderRadius: '200px',
+                    outline: '1px #D5E1FF solid',
+                    outlineOffset: '-1px',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '16px',
+                    display: 'flex'
                   }}
                 >
                   <Search 
@@ -130,9 +154,13 @@ async function EventsContent({ searchParams }) {
               <div 
                 className="flex items-center justify-center w-full"
                 style={{ 
-                  backgroundColor: 'transparent',
+                  alignSelf: 'stretch',
                   height: '46px',
-                  gap: '16px'
+                  boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '16px',
+                  display: 'inline-flex'
                 }}
               >
                 <FilterBar
@@ -151,26 +179,43 @@ async function EventsContent({ searchParams }) {
               <div 
                 className="w-full flex flex-col items-start"
                 style={{ 
-                  gap: '24px'
+                  alignSelf: 'stretch',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  gap: '24px',
+                  display: 'flex'
                 }}
               >
                 {/* Section Header */}
                 <div 
                   className="w-full flex items-center justify-center"
-                  style={{ gap: '24px' }}
+                  style={{ 
+                    alignSelf: 'stretch',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '24px',
+                    display: 'inline-flex'
+                  }}
                 >
                   <div 
                     className="flex-1 flex items-center"
-                    style={{ gap: '8px' }}
+                    style={{ 
+                      flex: '1 1 0',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      gap: '8px',
+                      display: 'flex'
+                    }}
                   >
                     <h2 
                       style={{ 
                         color: '#020617',
-                        fontFamily: 'Inter, sans-serif',
                         fontSize: '32px',
+                        fontFamily: 'Inter',
                         fontWeight: '600',
                         lineHeight: '38.40',
-                        marginTop: '-1px'
+                        wordWrap: 'break-word'
                       }}
                     >
                       Iniciativas para si
@@ -180,8 +225,15 @@ async function EventsContent({ searchParams }) {
 
                 {/* First Row of 4 cards */}
                 <div 
-                  className="w-full flex flex-wrap justify-center"
-                  style={{ gap: '24px' }}
+                  className="w-full flex flex-wrap justify-start"
+                  style={{ 
+                    alignSelf: 'stretch',
+                    overflow: 'hidden',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    gap: '24px',
+                    display: 'inline-flex'
+                  }}
                 >
                   {events.slice(0, 4).map((event) => (
                     <CompactEventCard key={event.id} event={event} />
@@ -194,26 +246,43 @@ async function EventsContent({ searchParams }) {
             <div 
               className="w-full flex flex-col items-start"
               style={{ 
-                gap: '24px'
+                alignSelf: 'stretch',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                gap: '24px',
+                display: 'flex'
               }}
             >
               {/* Section Header */}
               <div 
                 className="w-full flex items-center justify-center"
-                style={{ gap: '24px' }}
+                style={{ 
+                  alignSelf: 'stretch',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '24px',
+                  display: 'inline-flex'
+                }}
               >
                 <div 
                   className="flex-1 flex items-center"
-                  style={{ gap: '8px' }}
+                  style={{ 
+                    flex: '1 1 0',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '8px',
+                    display: 'flex'
+                  }}
                 >
                   <h2 
                     style={{ 
                       color: '#020617',
-                      fontFamily: 'Inter, sans-serif',
                       fontSize: '32px',
+                      fontFamily: 'Inter',
                       fontWeight: '600',
                       lineHeight: '38.40',
-                      marginTop: '-1px'
+                      wordWrap: 'break-word'
                     }}
                   >
                     Todas as iniciativas
@@ -226,8 +295,15 @@ async function EventsContent({ searchParams }) {
                 <>
                   {/* First Row of 4 cards */}
                   <div 
-                    className="w-full flex flex-wrap justify-center"
-                    style={{ gap: '24px' }}
+                    className="w-full flex flex-wrap justify-start"
+                    style={{ 
+                      alignSelf: 'stretch',
+                      overflow: 'hidden',
+                      justifyContent: 'flex-start',
+                      alignItems: 'flex-start',
+                      gap: '24px',
+                      display: 'inline-flex'
+                    }}
                   >
                     {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
                       <CompactEventCard key={event.id} event={event} />
@@ -237,8 +313,15 @@ async function EventsContent({ searchParams }) {
                   {/* Second Row of 4 cards */}
                   {events.length > 8 && (
                     <div 
-                      className="w-full flex flex-wrap justify-center"
-                      style={{ gap: '24px' }}
+                      className="w-full flex flex-wrap justify-start"
+                      style={{ 
+                        alignSelf: 'stretch',
+                        overflow: 'hidden',
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start',
+                        gap: '24px',
+                        display: 'inline-flex'
+                      }}
                     >
                       {events.slice(8, 12).map((event) => (
                         <CompactEventCard key={event.id} event={event} />
@@ -249,8 +332,15 @@ async function EventsContent({ searchParams }) {
                   {/* Third Row of 4 cards */}
                   {events.length > 12 && (
                     <div 
-                      className="w-full flex flex-wrap justify-center"
-                      style={{ gap: '24px' }}
+                      className="w-full flex flex-wrap justify-start"
+                      style={{ 
+                        alignSelf: 'stretch',
+                        overflow: 'hidden',
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start',
+                        gap: '24px',
+                        display: 'inline-flex'
+                      }}
                     >
                       {events.slice(12, 16).map((event) => (
                         <CompactEventCard key={event.id} event={event} />
