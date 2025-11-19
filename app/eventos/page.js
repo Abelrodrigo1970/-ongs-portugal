@@ -46,7 +46,7 @@ async function EventsContent({ searchParams }) {
   }));
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
       {/* About Section - Baseado no Figma */}
       <div 
         className="w-full flex flex-col items-center"
