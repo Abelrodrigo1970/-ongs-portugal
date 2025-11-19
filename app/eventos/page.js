@@ -135,7 +135,6 @@ async function EventsContent({ searchParams }) {
                   backgroundColor: 'transparent',
                   height: '46px',
                   gap: '16px',
-                  boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
                   width: '100%'
                 }}
               >
@@ -167,27 +166,17 @@ async function EventsContent({ searchParams }) {
                     width: '100%'
                   }}
                 >
-                  <div 
-                    className="flex-1 flex items-center"
+                  <h2 
                     style={{ 
-                      gap: '8px',
-                      flex: '1 1 0%',
-                      minWidth: '0',
-                      minHeight: '0'
+                      color: '#020617',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '32px',
+                      fontWeight: '600',
+                      lineHeight: 1.2
                     }}
                   >
-                    <h2 
-                      style={{ 
-                        color: '#020617',
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '32px',
-                        fontWeight: '600',
-                        lineHeight: 1.2
-                      }}
-                    >
-                      Iniciativas para si
-                    </h2>
-                  </div>
+                    Iniciativas para si
+                  </h2>
                 </div>
 
                 {/* First 4 cards in horizontal row */}
@@ -224,27 +213,17 @@ async function EventsContent({ searchParams }) {
                   width: '100%'
                 }}
               >
-                <div 
-                  className="flex-1 flex items-center"
+                <h2 
                   style={{ 
-                    gap: '8px',
-                    flex: '1 1 0%',
-                    minWidth: '0',
-                    minHeight: '0'
+                    color: '#020617',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '32px',
+                    fontWeight: '600',
+                    lineHeight: 1.2
                   }}
                 >
-                  <h2 
-                    style={{ 
-                      color: '#020617',
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '32px',
-                      fontWeight: '600',
-                      lineHeight: 1.2
-                    }}
-                  >
-                    Todas as iniciativas
-                  </h2>
-                </div>
+                  Todas as iniciativas
+                </h2>
               </div>
 
               {/* Events Grid */}
