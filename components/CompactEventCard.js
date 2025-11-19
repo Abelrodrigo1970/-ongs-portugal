@@ -49,7 +49,7 @@ const CompactEventCard = ({ event, className = '' }) => {
       }}
     >
       <Link href={`/eventos/${event.id}`} className="block">
-        <div className="flex flex-col" style={{ gap: '8px', padding: '0 0 24px 0' }}>
+        <div className="flex flex-col">
           {/* Event Image with Badge */}
           <div className="relative w-full" style={{ height: '120px' }}>
             {event.imagem ? (
@@ -121,18 +121,30 @@ const CompactEventCard = ({ event, className = '' }) => {
           </div>
 
           {/* Content */}
-          <div className="flex flex-col" style={{ gap: '24px' }}>
-            <div className="flex flex-col" style={{ gap: '16px', padding: '0 16px 0 16px' }}>
+          <div 
+            className="flex flex-col" 
+            style={{ 
+              gap: '16px',
+              paddingTop: '8px',
+              paddingBottom: '24px',
+              paddingLeft: '24px',
+              paddingRight: '24px'
+            }}
+          >
+            <div className="flex flex-col" style={{ gap: '16px' }}>
               {/* Title */}
               <h3 
                 className="font-bold whitespace-pre-wrap" 
                 style={{ 
                   fontFamily: 'Inter, sans-serif',
-                  color: '#595959',
+                  color: '#020617',
                   fontSize: '20px',
                   fontWeight: '700',
-                  lineHeight: '1.4',
-                  marginTop: '-1px'
+                  lineHeight: '1.2',
+                  height: '48px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-end'
                 }}
               >
                 {event.nome}
@@ -219,46 +231,46 @@ const CompactEventCard = ({ event, className = '' }) => {
                   {event.descricao}
                 </p>
             )}
+            </div>
 
-              {/* Button */}
-              <div 
-                className="flex items-center justify-center"
-                style={{
-                  backgroundColor: '#155dfc',
-                  borderRadius: '100px',
-                  padding: '8px 16px',
-                  cursor: 'pointer',
-                  width: '100%',
-                  gap: '16px'
+            {/* Button */}
+            <div 
+              className="flex items-center justify-center"
+              style={{
+                backgroundColor: '#155dfc',
+                borderRadius: '100px',
+                padding: '8px 16px',
+                cursor: 'pointer',
+                width: '100%',
+                gap: '16px'
+              }}
+            >
+              <span 
+                style={{ 
+                  fontFamily: 'Inter, sans-serif',
+                  color: '#FFFFFF',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  lineHeight: 'normal',
+                  marginTop: '-1px',
+                  whiteSpace: 'nowrap'
                 }}
               >
-                <span 
-                  style={{ 
-                    fontFamily: 'Inter, sans-serif',
-                    color: '#FFFFFF',
-                    fontSize: '16px',
-                    fontWeight: '500',
-                    lineHeight: 'normal',
-                    marginTop: '-1px',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  Quero colaborar
-                </span>
-                <svg 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="white" 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                  style={{ flexShrink: 0 }}
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </div>
+                Quero colaborar
+              </span>
+              <svg 
+                width="16" 
+                height="16" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="white" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                style={{ flexShrink: 0 }}
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
             </div>
           </div>
         </div>
