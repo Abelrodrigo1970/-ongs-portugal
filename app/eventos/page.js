@@ -75,7 +75,6 @@ async function EventsContent({ searchParams }) {
               <div 
                 className="flex items-center justify-center"
                 style={{ 
-                  boxShadow: '0px 0px 50px #d4e7ff',
                   width: '866px',
                   maxWidth: '100%',
                   gap: '24px',
@@ -152,15 +151,81 @@ async function EventsContent({ searchParams }) {
             {/* Iniciativas para si Section */}
             {events.length > 0 && (
               <div 
-                className="w-full flex flex-col items-start"
+                className="w-full flex flex-col items-center"
                 style={{ 
                   gap: '24px',
                   width: '100%'
                 }}
               >
+                {/* Container para título e cards alinhados */}
+                <div 
+                  className="flex flex-col"
+                  style={{ 
+                    gap: '24px',
+                    width: '100%',
+                    maxWidth: 'calc(4 * 310px + 3 * 24px)'
+                  }}
+                >
+                  {/* Section Header */}
+                  <div 
+                    className="w-full flex items-center justify-start"
+                    style={{ 
+                      gap: '24px',
+                      width: '100%'
+                    }}
+                  >
+                    <h2 
+                      style={{ 
+                        color: '#020617',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '32px',
+                        fontWeight: '600',
+                        lineHeight: 1.2
+                      }}
+                    >
+                      Iniciativas para si
+                    </h2>
+                  </div>
+
+                  {/* First 4 cards in horizontal row */}
+                  <div 
+                    className="w-full flex justify-start items-start"
+                    style={{ 
+                      gap: '24px',
+                      width: '100%',
+                      overflow: 'hidden'
+                    }}
+                  >
+                    {events.slice(0, 4).map((event) => (
+                      <div key={event.id} style={{ flexShrink: 0 }}>
+                        <CompactEventCard event={event} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Todas as iniciativas Section */}
+            <div 
+              className="w-full flex flex-col items-center"
+              style={{ 
+                gap: '24px',
+                width: '100%'
+              }}
+            >
+              {/* Container para título e cards alinhados */}
+              <div 
+                className="flex flex-col"
+                style={{ 
+                  gap: '24px',
+                  width: '100%',
+                  maxWidth: 'calc(4 * 310px + 3 * 24px)'
+                }}
+              >
                 {/* Section Header */}
                 <div 
-                  className="w-full flex items-center justify-center"
+                  className="w-full flex items-center justify-start"
                   style={{ 
                     gap: '24px',
                     width: '100%'
@@ -175,93 +240,46 @@ async function EventsContent({ searchParams }) {
                       lineHeight: 1.2
                     }}
                   >
-                    Iniciativas para si
+                    Todas as iniciativas
                   </h2>
                 </div>
 
-                {/* First 4 cards in horizontal row */}
-                <div 
-                  className="w-full flex justify-center items-start"
-                  style={{ 
-                    gap: '24px',
-                    width: '100%',
-                    overflow: 'hidden'
-                  }}
-                >
-                  {events.slice(0, 4).map((event) => (
-                    <div key={event.id} style={{ flexShrink: 0 }}>
-                      <CompactEventCard event={event} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Todas as iniciativas Section */}
-            <div 
-              className="w-full flex flex-col items-start"
-              style={{ 
-                gap: '24px',
-                width: '100%'
-              }}
-            >
-              {/* Section Header */}
-              <div 
-                className="w-full flex items-center justify-center"
-                style={{ 
-                  gap: '24px',
-                  width: '100%'
-                }}
-              >
-                <h2 
-                  style={{ 
-                    color: '#020617',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '32px',
-                    fontWeight: '600',
-                    lineHeight: 1.2
-                  }}
-                >
-                  Todas as iniciativas
-                </h2>
-              </div>
-
-              {/* Events Grid */}
-              {events.length > 0 ? (
-                <>
-                  {/* First Row of 4 cards */}
-                  <div 
-                    className="w-full flex justify-center items-start"
-                    style={{ 
-                      gap: '24px',
-                      width: '100%',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
-                      <div key={event.id} style={{ flexShrink: 0 }}>
-                        <CompactEventCard event={event} />
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Second Row of 4 cards */}
-                  {events.length > 8 && (
+                {/* Events Grid */}
+                {events.length > 0 ? (
+                  <>
+                    {/* First Row of 4 cards */}
                     <div 
-                      className="w-full flex justify-center items-start"
+                      className="w-full flex justify-start items-start"
                       style={{ 
                         gap: '24px',
                         width: '100%',
                         overflow: 'hidden'
                       }}
                     >
-                      {events.slice(8, 12).map((event) => (
+                      {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
                         <div key={event.id} style={{ flexShrink: 0 }}>
                           <CompactEventCard event={event} />
                         </div>
                       ))}
                     </div>
-                  )}
+                    
+                    {/* Second Row of 4 cards */}
+                    {events.length > 8 && (
+                      <div 
+                        className="w-full flex justify-start items-start"
+                        style={{ 
+                          gap: '24px',
+                          width: '100%',
+                          overflow: 'hidden'
+                        }}
+                      >
+                        {events.slice(8, 12).map((event) => (
+                          <div key={event.id} style={{ flexShrink: 0 }}>
+                            <CompactEventCard event={event} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                   {/* Pagination */}
                   {pagination.pages > 1 && (
@@ -317,6 +335,7 @@ async function EventsContent({ searchParams }) {
                   />
                 </div>
               )}
+              </div>
             </div>
           </div>
     </div>
