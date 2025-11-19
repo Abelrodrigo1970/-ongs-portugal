@@ -61,7 +61,7 @@ async function EventsContent({ searchParams }) {
       >
             {/* Frame 2 - Search and Filters (Frame 445) */}
             <div 
-              className="w-full flex flex-col items-start"
+              className="w-full flex flex-col items-center"
               style={{ 
                 paddingTop: '64px',
                 paddingBottom: '0',
@@ -73,7 +73,7 @@ async function EventsContent({ searchParams }) {
             >
               {/* Frame Wrapper - Search Bar */}
               <div 
-                className="flex items-center"
+                className="flex items-center justify-center"
                 style={{ 
                   boxShadow: '0px 0px 50px #d4e7ff',
                   width: '866px',
@@ -192,7 +192,7 @@ async function EventsContent({ searchParams }) {
 
                 {/* First 4 cards in horizontal row */}
                 <div 
-                  className="w-full flex justify-start items-start"
+                  className="w-full flex justify-center items-start"
                   style={{ 
                     gap: '24px',
                     width: '100%',
@@ -252,7 +252,7 @@ async function EventsContent({ searchParams }) {
                 <>
                   {/* First Row of 4 cards */}
                   <div 
-                    className="w-full flex justify-start items-start"
+                    className="w-full flex justify-center items-start"
                     style={{ 
                       gap: '24px',
                       width: '100%',
@@ -269,7 +269,7 @@ async function EventsContent({ searchParams }) {
                   {/* Second Row of 4 cards */}
                   {events.length > 8 && (
                     <div 
-                      className="w-full flex justify-start items-start"
+                      className="w-full flex justify-center items-start"
                       style={{ 
                         gap: '24px',
                         width: '100%',
