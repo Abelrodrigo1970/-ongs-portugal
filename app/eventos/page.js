@@ -200,12 +200,13 @@ async function EventsContent({ searchParams }) {
                   </div>
                 </div>
 
-                {/* First 4 cards in 2x2 grid */}
+                {/* First 4 cards in horizontal row */}
                 <div 
-                  className="w-full flex flex-wrap justify-start items-start"
+                  className="w-full flex justify-start items-start"
                   style={{ 
                     gap: '24px',
-                    width: '100%'
+                    width: '100%',
+                    overflowX: 'auto'
                   }}
                 >
                   {events.slice(0, 4).map((event) => (
@@ -261,10 +262,11 @@ async function EventsContent({ searchParams }) {
                 <>
                   {/* First Row of 4 cards */}
                   <div 
-                    className="w-full flex flex-wrap justify-start items-start"
+                    className="w-full flex justify-start items-start"
                     style={{ 
                       gap: '24px',
-                      width: '100%'
+                      width: '100%',
+                      overflowX: 'auto'
                     }}
                   >
                     {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
@@ -277,10 +279,11 @@ async function EventsContent({ searchParams }) {
                   {/* Second Row of 4 cards */}
                   {events.length > 8 && (
                     <div 
-                      className="w-full flex flex-wrap justify-start items-start"
+                      className="w-full flex justify-start items-start"
                       style={{ 
                         gap: '24px',
-                        width: '100%'
+                        width: '100%',
+                        overflowX: 'auto'
                       }}
                     >
                       {events.slice(8, 12).map((event) => (
