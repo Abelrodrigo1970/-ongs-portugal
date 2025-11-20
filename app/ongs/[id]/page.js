@@ -840,7 +840,9 @@ export default async function NGODetailPage({ params }) {
                           color: '#1e293b'
                         }}
                       >
-                        {ngo.morada || ngo.localizacao}
+                        {ngo.morada
+                          ? `${ngo.morada}${ngo.localizacao ? ' - ' + ngo.localizacao : ''}`
+                          : ngo.localizacao}
                       </span>
                     </div>
                   </div>
