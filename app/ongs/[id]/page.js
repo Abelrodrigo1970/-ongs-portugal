@@ -428,63 +428,114 @@ export default async function NGODetailPage({ params }) {
             {projetosToDisplay.length > 0 && (
               <div className="w-full flex flex-col gap-12 sm:gap-16 items-start max-w-[920px] px-4 sm:px-6 md:px-0">
                 {projetosToDisplay.map((project, index) => {
-                  const isEven = index % 2 === 1; // Alternar layout
+                  const isEven = index % 2 === 1; // Alternar layout (imagem à esquerda/direita)
+
                   return (
                     <div
                       key={`${project.titulo}-${index}`}
-                      className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center w-full"
-                      style={{ borderRadius: '32px' }}
+                      className="w-full"
+                      style={{
+                        width: '100%',
+                        borderRadius: '32px',
+                        display: 'inline-flex',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                        gap: '24px'
+                      }}
                     >
+                      {/* Imagem à esquerda quando não é par */}
                       {!isEven && project.imagem && (
                         <div
-                          className="relative overflow-hidden rounded-[16px] w-full sm:w-[290px] flex-shrink-0"
-                          style={{ height: '200px', minHeight: '200px' }}
+                          style={{
+                            width: '290px',
+                            alignSelf: 'stretch',
+                            padding: '4.75px',
+                            borderRadius: '16px',
+                            overflow: 'hidden',
+                            flexShrink: 0
+                          }}
                         >
-                          <Image
-                            src={project.imagem}
-                            alt={project.titulo}
-                            fill
-                            sizes="(max-width: 640px) 100vw, 290px"
-                            className="object-cover"
-                          />
+                          <div
+                            className="relative"
+                            style={{ width: '100%', height: '100%', minHeight: '200px' }}
+                          >
+                            <Image
+                              src={project.imagem}
+                              alt={project.titulo}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 290px"
+                              className="object-cover"
+                              style={{ borderRadius: '16px' }}
+                            />
+                          </div>
                         </div>
                       )}
 
-                      <div className="flex-1 flex flex-col gap-2 text-left w-full sm:w-auto">
-                        <h4
-                          className="font-semibold text-lg sm:text-xl md:text-2xl"
+                      {/* Conteúdo de texto */}
+                      <div
+                        style={{
+                          flex: '1 1 0',
+                          display: 'inline-flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          alignItems: 'flex-start',
+                          gap: '8px'
+                        }}
+                      >
+                        <div
                           style={{
+                            width: '526px',
+                            color: '#404040',
                             fontFamily: 'Inter, sans-serif',
-                            lineHeight: '1.4',
-                            color: '#1e293b'
+                            fontSize: '24px',
+                            fontWeight: 600,
+                            lineHeight: '33.6px',
+                            wordWrap: 'break-word'
                           }}
                         >
                           {project.titulo}
-                        </h4>
-                        <p
-                          className="font-normal whitespace-pre-wrap text-sm sm:text-base md:text-lg"
-                          style={{ 
-                            fontFamily: 'Inter, sans-serif', 
-                            lineHeight: '1.75',
-                            color: '#595959'
+                        </div>
+                        <div
+                          style={{
+                            alignSelf: 'stretch',
+                            color: '#595959',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '18px',
+                            fontWeight: 400,
+                            lineHeight: '31.5px',
+                            wordWrap: 'break-word'
                           }}
                         >
                           {project.descricao}
-                        </p>
+                        </div>
                       </div>
 
+                      {/* Imagem à direita quando é par */}
                       {isEven && project.imagem && (
                         <div
-                          className="relative overflow-hidden rounded-[16px] w-full sm:w-[290px] flex-shrink-0"
-                          style={{ height: '200px', minHeight: '200px' }}
+                          style={{
+                            width: '290px',
+                            alignSelf: 'stretch',
+                            padding: '4.75px',
+                            borderRadius: '16px',
+                            overflow: 'hidden',
+                            flexShrink: 0
+                          }}
                         >
-                          <Image
-                            src={project.imagem}
-                            alt={project.titulo}
-                            fill
-                            sizes="(max-width: 640px) 100vw, 290px"
-                            className="object-cover"
-                          />
+                          <div
+                            className="relative"
+                            style={{ width: '100%', height: '100%', minHeight: '200px' }}
+                          >
+                            <Image
+                              src={project.imagem}
+                              alt={project.titulo}
+                              fill
+                              sizes="(max-width: 640px) 100vw, 290px"
+                              className="object-cover"
+                              style={{ borderRadius: '16px' }}
+                            />
+                          </div>
                         </div>
                       )}
                     </div>
