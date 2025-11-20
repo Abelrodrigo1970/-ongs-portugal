@@ -25,6 +25,7 @@ const defaultValues = {
   visivel: true,
   areas: [],
   ods: [],
+  colaboracao: [],
   projetos: [],
   impactos: [
     { valor: '', descricao: '' },
@@ -45,7 +46,7 @@ const pickAllowedFields = (data) => {
 const maxProjects = 3;
 const maxImpacts = 3;
 
-export default function NGOForm({ initialData, areasOptions = [], odsOptions = [], onSubmit, onCancel, loading }) {
+export default function NGOForm({ initialData, areasOptions = [], odsOptions = [], colaboracaoOptions = [], onSubmit, onCancel, loading }) {
   const [formValues, setFormValues] = useState(defaultValues);
 
   useEffect(() => {
@@ -54,6 +55,9 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
         ...initialData,
         areas: (initialData.areaAtuacao || []).map((area) => area.areaAtuacaoTipoId || area.tipo?.id).filter(Boolean),
         ods: (initialData.ods || []).map((odsItem) => odsItem.odsId || odsItem.ods?.id).filter(Boolean),
+        colaboracao: (initialData.colaboracao || [])
+          .map((colab) => colab.colaboracaoTipoId || colab.tipo?.id)
+          .filter(Boolean),
         projetos: (initialData.projetos || [])
           .sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
           .map((project) => ({
@@ -79,6 +83,7 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
         ...sanitized,
         areas: sanitized.areas || [],
         ods: sanitized.ods || [],
+        colaboracao: sanitized.colaboracao || [],
         projetos: sanitized.projetos || [],
         impactos: paddedImpacts.length > 0 ? paddedImpacts : defaultValues.impactos
       });
@@ -156,6 +161,13 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
     }));
   };
 
+  const handleColaboracaoChange = (selectedColab) => {
+    setFormValues((prev) => ({
+      ...prev,
+      colaboracao: selectedColab
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -186,6 +198,7 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
       ...pickAllowedFields(formValues),
       areas: formValues.areas,
       ods: formValues.ods,
+      colaboracao: formValues.colaboracao,
       projetos: sanitizedProjects,
       impactos: sanitizedImpacts
     };
@@ -315,6 +328,26 @@ export default function NGOForm({ initialData, areasOptions = [], odsOptions = [
             value={formValues.ods}
             onChange={handleODSChange}
             placeholder="Selecionar ODS"
+          />
+        )}
+      </div>
+
+      <div className="space-y-3">
+        {colaboracaoOptions.length === 0 ? (
+          <>
+            <label className="text-sm font-medium text-gray-700">Tipos de Colaboração</label>
+            <p className="text-sm text-gray-500">Nenhum tipo de colaboração cadastrado.</p>
+          </>
+        ) : (
+          <MultiSelect
+            label="Tipos de Colaboração"
+            options={colaboracaoOptions.map((tipo) => ({
+              value: tipo.id,
+              label: tipo.emoji ? `${tipo.emoji} ${tipo.nome}` : tipo.nome
+            }))}
+            value={formValues.colaboracao}
+            onChange={handleColaboracaoChange}
+            placeholder="Selecionar tipos de colaboração"
           />
         )}
       </div>

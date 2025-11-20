@@ -21,11 +21,13 @@ export default function AdminNGOsPage() {
   const [formLoading, setFormLoading] = useState(false);
   const [areasOptions, setAreasOptions] = useState([]);
   const [odsOptions, setOdsOptions] = useState([]);
+  const [colaboracaoOptions, setColaboracaoOptions] = useState([]);
   const ensuringVisibilityRef = useRef(false);
 
   useEffect(() => {
     loadAreas();
     loadODS();
+    loadColaboracaoTipos();
   }, []);
 
   useEffect(() => {
@@ -57,6 +59,20 @@ export default function AdminNGOsPage() {
       }
     } catch (error) {
       console.error('Erro ao carregar ODS:', error);
+    }
+  };
+
+  const loadColaboracaoTipos = async () => {
+    try {
+      const headers = getAuthHeaders();
+      const response = await fetch('/api/admin/colaboracao-tipos', { headers });
+      const data = await response.json();
+
+      if (data.success) {
+        setColaboracaoOptions(data.tipos || []);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar tipos de colaboração:', error);
     }
   };
 
@@ -261,6 +277,7 @@ export default function AdminNGOsPage() {
           initialData={selectedNGO}
           areasOptions={areasOptions}
           odsOptions={odsOptions}
+          colaboracaoOptions={colaboracaoOptions}
           onSubmit={handleSubmit}
           onCancel={closeModal}
           loading={formLoading}
