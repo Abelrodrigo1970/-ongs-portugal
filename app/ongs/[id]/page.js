@@ -47,7 +47,11 @@ export default async function NGODetailPage({ params }) {
 
   const odsList = ngo.ods?.map(ngoods => ngoods.ods) || [];
   const areasList = ngo.areaAtuacao?.map(area => area.tipo.nome) || [];
-  const colaboracaoList = ngo.colaboracao?.map(colab => colab.tipo.nome) || [];
+  const colaboracaoList =
+    ngo.colaboracao?.map(colab => ({
+      nome: colab.tipo.nome,
+      emoji: colab.tipo.emoji || ''
+    })) || [];
   const projetos = ngo.projetos || [];
   const impactosData = ngo.impactos && ngo.impactos.length > 0
     ? [...ngo.impactos].sort((a, b) => (a.ordem || 0) - (b.ordem || 0))
@@ -605,39 +609,23 @@ export default async function NGODetailPage({ params }) {
                         Tipos de Colaboração
                       </span>
                       <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                        {colaboracaoList.map((colab, index) => {
-                          // Map collaboration types to emojis
-                          const emojiMap = {
-                            'Voluntariado presencial': '🤝',
-                            'Voluntariado remoto': '🤝',
-                            'Voluntariado': '🤝',
-                            'Donativos em espécie': '🧩',
-                            'Donativos monetários': '🧩',
-                            'Recursos': '🧩',
-                            'Mentoria': '💡',
-                            'Parcerias': '🤝',
-                            'Patrocínios': '💼'
-                          };
-                          const emoji = emojiMap[colab] || '';
-                          
-                          return (
-                            <React.Fragment key={index}>
-                              <span 
-                                className="font-normal text-sm sm:text-base md:text-xl"
-                                style={{ 
-                                  fontFamily: 'Inter, sans-serif',
-                                  lineHeight: '1.2',
-                                  color: '#1e293b'
-                                }}
-                              >
-                                {colab} {emoji}
-                              </span>
-                              {index < colaboracaoList.length - 1 && (
-                                <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
-                              )}
-                            </React.Fragment>
-                          );
-                        })}
+                        {colaboracaoList.map((colab, index) => (
+                          <React.Fragment key={index}>
+                            <span 
+                              className="font-normal text-sm sm:text-base md:text-xl"
+                              style={{ 
+                                fontFamily: 'Inter, sans-serif',
+                                lineHeight: '1.2',
+                                color: '#1e293b'
+                              }}
+                            >
+                              {colab.emoji ? `${colab.emoji} ${colab.nome}` : colab.nome}
+                            </span>
+                            {index < colaboracaoList.length - 1 && (
+                              <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                            )}
+                          </React.Fragment>
+                        ))}
                       </div>
                     </div>
                   </div>
