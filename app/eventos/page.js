@@ -47,51 +47,42 @@ async function EventsContent({ searchParams }) {
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
-      {/* PageContent wrapper - padding e tipografia base do Figma */}
-      <div
+      {/* About Section - Baseado no Figma */}
+      <div 
         className="w-full flex flex-col items-center"
-        style={{
-          padding: '8px 64px',
-          boxSizing: 'border-box',
-          textAlign: 'left',
-          fontSize: '16px',
-          color: '#64748b',
-          fontFamily: 'Inter, sans-serif'
+        style={{ 
+          paddingTop: '100px',
+          paddingBottom: '0',
+          paddingLeft: '0',
+          paddingRight: '0',
+          gap: '40px',
+          width: '100%'
         }}
       >
-        {/* About Section - Baseado no Figma */}
-        <div 
-          className="w-full flex flex-col items-center"
-          style={{ 
-            paddingTop: '100px',
-            paddingBottom: '0',
-            paddingLeft: '0',
-            paddingRight: '0',
-            gap: '40px',
-            width: '100%',
-            maxWidth: '100%'
-          }}
-        >
             {/* Frame 2 - Search and Filters (Frame 445) */}
-        <div 
-          className="w-full flex flex-col items-center"
-          style={{ 
-            paddingTop: '64px',
-            paddingBottom: '0',
-            paddingLeft: '0',
-            paddingRight: '0',
-            gap: '16px',
-            width: '100%'
-          }}
-        >
-          {/* Frame Wrapper - Search Bar */}
-          <div 
-            className="flex items-center justify-center"
-            style={{ 
-              width: '866px',
-              maxWidth: '100%'
-            }}
-          >
+            <div 
+              className="w-full flex flex-col items-center"
+              style={{ 
+                paddingTop: '64px',
+                paddingBottom: '0',
+                paddingLeft: '0',
+                paddingRight: '0',
+                gap: '16px',
+                width: '100%'
+              }}
+            >
+              {/* Frame Wrapper - Search Bar */}
+              <div 
+                className="flex items-center justify-center"
+                style={{ 
+                  width: '866px',
+                  maxWidth: '100%',
+                  gap: '24px',
+                  position: 'sticky',
+                  top: '0',
+                  zIndex: 10
+                }}
+              >
                 {/* Search Input - div inside frame-wrapper */}
                 <div 
                   className="flex items-center flex-1"
@@ -133,39 +124,39 @@ async function EventsContent({ searchParams }) {
                       }}
                     />
                   </form>
+                </div>
+              </div>
+
+              {/* div-2 - Filters Row */}
+              <div 
+                className="flex items-center justify-center w-full"
+                style={{ 
+                  backgroundColor: 'transparent',
+                  height: '46px',
+                  gap: '16px',
+                  width: '100%'
+                }}
+              >
+                <FilterBar
+                  odsOptions={formattedOdsOptions}
+                  areasOptions={formattedAreasOptions}
+                  tipoOptions={tipoOptions}
+                  showEventFilters={true}
+                  className="w-full"
+                  figmaStyle={true}
+                />
+              </div>
             </div>
-          </div>
 
-          {/* div-2 - Filters Row */}
-          <div 
-            className="flex items-center justify-center w-full"
-            style={{ 
-              backgroundColor: 'transparent',
-              height: '46px',
-              gap: '16px',
-              width: '100%'
-            }}
-          >
-            <FilterBar
-              odsOptions={formattedOdsOptions}
-              areasOptions={formattedAreasOptions}
-              tipoOptions={tipoOptions}
-              showEventFilters={true}
-              className="w-full"
-              figmaStyle={true}
-            />
-          </div>
-        </div>
-
-        {/* Iniciativas para si Section */}
-        {events.length > 0 && (
-          <div 
-            className="w-full flex flex-col items-center"
-            style={{ 
-              gap: '24px',
-              width: '100%'
-            }}
-          >
+            {/* Iniciativas para si Section */}
+            {events.length > 0 && (
+              <div 
+                className="w-full flex flex-col items-center"
+                style={{ 
+                  gap: '24px',
+                  width: '100%'
+                }}
+              >
                 {/* Container para título e cards alinhados */}
                 <div 
                   className="flex flex-col"
