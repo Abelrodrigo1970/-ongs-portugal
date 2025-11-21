@@ -192,7 +192,6 @@ const FilterBar = ({
               backgroundColor: '#ffffff',
               border: '1px solid #d5e1ff',
               borderRadius: '200px',
-              boxShadow: '0px 0px 50px #d4e7ff',
               height: '46px',
               padding: '8px 16px',
               gap: '8px'
@@ -255,7 +254,6 @@ const FilterBar = ({
               backgroundColor: '#ffffff',
               border: '1px solid #d5e1ff',
               borderRadius: '200px',
-              boxShadow: '0px 0px 50px #d4e7ff',
               height: '46px',
               padding: '8px 16px',
               gap: '8px'
@@ -318,7 +316,6 @@ const FilterBar = ({
               backgroundColor: '#ffffff',
               border: '1px solid #d5e1ff',
               borderRadius: '200px',
-              boxShadow: '0px 0px 50px #d4e7ff',
               height: '46px',
               padding: '8px 16px',
               gap: '8px'
@@ -382,7 +379,6 @@ const FilterBar = ({
                 backgroundColor: '#ffffff',
                 border: '1px solid #d5e1ff',
                 borderRadius: '200px',
-                boxShadow: '0px 0px 50px #d4e7ff',
                 height: '46px',
                 padding: '8px 16px',
                 gap: '8px'
@@ -451,7 +447,6 @@ const FilterBar = ({
                 backgroundColor: '#ffffff',
                 border: '1px solid #d5e1ff',
                 borderRadius: '200px',
-                boxShadow: '0px 0px 50px #d4e7ff',
                 height: '46px',
                 padding: '8px 16px',
                 gap: '8px'
