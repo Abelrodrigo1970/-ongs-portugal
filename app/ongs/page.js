@@ -58,11 +58,31 @@ async function ONGsContent({ searchParams }) {
   }));
 
   const tipoOptions = getEventTypes();
-
+ 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
+    <div className="w-full min-h-screen relative" style={{ backgroundColor: '#F2F2F7' }}>
+      {/* Hero gradient overlay - baseado no .hero do Figma */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '450px',
+          margin: 0,
+          borderRadius: '0 0 200px 200px',
+          background:
+            'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.25) 50%, rgba(21, 93, 252, 0.5))',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
+
       {/* About Us Section - Baseado no Figma */}
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center relative" style={{ zIndex: 1 }}>
         {/* Page Content */}
         <div 
           className="w-full flex flex-col items-center"
