@@ -185,7 +185,7 @@ async function ONGsContent({ searchParams }) {
 
             {/* Frame 5 - NPOs Section */}
             <div 
-              className="w-full flex flex-col items-start"
+              className="w-full flex flex-col items-center"
               style={{ 
                 gap: '24px'
               }}

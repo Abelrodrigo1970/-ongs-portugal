@@ -42,7 +42,7 @@ export default function FavoriteNPOSection({ ngos }) {
 
   return (
     <div 
-      className="w-full flex flex-col items-start"
+      className="w-full flex flex-col items-center"
       style={{ 
         gap: '24px'
       }}
