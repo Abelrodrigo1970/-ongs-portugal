@@ -95,7 +95,7 @@ export default async function NGODetailPage({ params }) {
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
       {/* Hero Section with background image */}
       {ngo.imagem && (
-        <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px]">
+        <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] overflow-hidden rounded-b-[200px]">
           <div className="absolute inset-0 overflow-hidden">
             <Image
               src={ngo.imagem}
@@ -107,10 +107,12 @@ export default async function NGODetailPage({ params }) {
               priority
             />
           </div>
+          {/* Gradient Overlay - match Figma .hero */}
           <div 
-            className="absolute inset-0"
+            className="absolute inset-0 flex flex-col items-start"
             style={{
-              background: 'linear-gradient(180deg, rgba(242,242,247,0) 67.696%, rgba(242,242,247,1) 94.162%)'
+              borderRadius: '0 0 200px 200px',
+              background: 'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.25) 50%, rgba(21, 93, 252, 0.5))'
             }}
           />
         </div>

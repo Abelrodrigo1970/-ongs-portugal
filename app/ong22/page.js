@@ -11,7 +11,7 @@ export default function Ong22Page() {
   return (
     <div className="bg-[#f2f2f7] min-h-screen w-full">
       {/* Hero Section with Background Image */}
-      <div className="relative w-full h-[450px]">
+      <div className="relative w-full h-[450px] overflow-hidden rounded-b-[200px]">
         <div className="absolute inset-0 overflow-hidden">
           <Image
             src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1440&h=1440&fit=crop"
@@ -23,11 +23,12 @@ export default function Ong22Page() {
             priority
           />
         </div>
-        {/* Gradient Overlay */}
+        {/* Gradient Overlay - match Figma .hero */}
         <div 
-          className="absolute inset-0"
+          className="absolute inset-0 flex flex-col items-start"
           style={{
-            background: 'linear-gradient(180deg, rgba(242,242,247,0) 67.696%, rgba(242,242,247,1) 94.162%)'
+            borderRadius: '0 0 200px 200px',
+            background: 'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.25) 50%, rgba(21, 93, 252, 0.5))'
           }}
         />
       </div>
