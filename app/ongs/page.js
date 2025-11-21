@@ -190,14 +190,19 @@ async function ONGsContent({ searchParams }) {
                 gap: '24px'
               }}
             >
-              {/* Frame 6 - Section Header */}
-              <div 
-                className="w-full flex items-center justify-center"
-                style={{ gap: '24px' }}
+              {/* Container para título e cards alinhados */}
+              <div
+                className="flex flex-col"
+                style={{
+                  gap: '24px',
+                  width: '100%',
+                  maxWidth: 'calc(4 * 310px + 3 * 24px)'
+                }}
               >
+                {/* Frame 6 - Section Header */}
                 <div 
-                  className="flex-1 flex items-center"
-                  style={{ gap: '8px' }}
+                  className="w-full flex items-center justify-start"
+                  style={{ gap: '24px', width: '100%' }}
                 >
                   <h2 
                     style={{ 
@@ -209,89 +214,89 @@ async function ONGsContent({ searchParams }) {
                       marginTop: '-1px'
                     }}
                   >
-                    NPOs
+                    ONG’s
                   </h2>
                 </div>
-              </div>
 
-              {/* Frame 8 - First Row of 4 cards */}
-              {ngos.length > 0 ? (
-                <>
-                  <div 
-                    className="w-full flex flex-wrap justify-center"
-                    style={{ gap: '24px' }}
-                  >
-                    {ngos.slice(0, 4).map((ngo) => (
-                      <NgoCard key={ngo.id} ngo={ngo} />
-                    ))}
-                  </div>
-                  
-                  {/* Frame 8 - Second Row of 4 cards */}
-                  {ngos.length > 4 && (
+                {/* Frame 8 - First Row of 4 cards */}
+                {ngos.length > 0 ? (
+                  <>
                     <div 
-                      className="w-full flex flex-wrap justify-center"
+                      className="w-full flex flex-wrap justify-start"
                       style={{ gap: '24px' }}
                     >
-                      {ngos.slice(4, 8).map((ngo) => (
+                      {ngos.slice(0, 4).map((ngo) => (
                         <NgoCard key={ngo.id} ngo={ngo} />
                       ))}
                     </div>
-                  )}
-
-                  {/* Pagination */}
-                  {pagination.pages > 1 && (
-                    <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
-                      <div className="flex gap-3">
-                        {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
-                          const params = new URLSearchParams(searchParams);
-                          params.set('page', page.toString());
-                          
-                          return (
-                            <a
-                              key={page}
-                              href={`/ongs?${params.toString()}`}
-                              className={`rounded-full transition-all duration-200 ${
-                                page === pagination.page
-                                  ? 'text-white shadow-lg'
-                                  : 'border hover:shadow-md hover:scale-105'
-                              }`}
-                              style={
-                                page === pagination.page
-                                  ? { 
-                                      backgroundColor: 'var(--color-button-primary)',
-                                      padding: '12px 24px',
-                                      fontSize: '16px',
-                                      fontWeight: '600',
-                                      lineHeight: '1.2'
-                                    }
-                                  : { 
-                                      backgroundColor: '#FFFFFF', 
-                                      color: '#595959', 
-                                      borderColor: 'rgba(64, 64, 64, 0.15)',
-                                      padding: '12px 24px',
-                                      fontSize: '16px',
-                                      fontWeight: '600',
-                                      lineHeight: '1.2'
-                                    }
-                              }
-                            >
-                              {page}
-                            </a>
-                          );
-                        })}
+                    
+                    {/* Frame 8 - Second Row of 4 cards */}
+                    {ngos.length > 4 && (
+                      <div 
+                        className="w-full flex flex-wrap justify-start"
+                        style={{ gap: '24px' }}
+                      >
+                        {ngos.slice(4, 8).map((ngo) => (
+                          <NgoCard key={ngo.id} ngo={ngo} />
+                        ))}
                       </div>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className="w-full flex justify-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-                  <EmptyState
-                    icon={Search}
-                    title="Nenhuma ONG encontrada"
-                    description="Tenta ajustar os filtros para encontrar mais resultados."
-                  />
-                </div>
-              )}
+                    )}
+
+                    {/* Pagination */}
+                    {pagination.pages > 1 && (
+                      <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
+                        <div className="flex gap-3">
+                          {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
+                            const params = new URLSearchParams(searchParams);
+                            params.set('page', page.toString());
+                            
+                            return (
+                              <a
+                                key={page}
+                                href={`/ongs?${params.toString()}`}
+                                className={`rounded-full transition-all duration-200 ${
+                                  page === pagination.page
+                                    ? 'text-white shadow-lg'
+                                    : 'border hover:shadow-md hover:scale-105'
+                                }`}
+                                style={
+                                  page === pagination.page
+                                    ? { 
+                                        backgroundColor: 'var(--color-button-primary)',
+                                        padding: '12px 24px',
+                                        fontSize: '16px',
+                                        fontWeight: '600',
+                                        lineHeight: '1.2'
+                                      }
+                                    : { 
+                                        backgroundColor: '#FFFFFF', 
+                                        color: '#595959', 
+                                        borderColor: 'rgba(64, 64, 64, 0.15)',
+                                        padding: '12px 24px',
+                                        fontSize: '16px',
+                                        fontWeight: '600',
+                                        lineHeight: '1.2'
+                                      }
+                                }
+                              >
+                                {page}
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="w-full flex justify-center" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+                    <EmptyState
+                      icon={Search}
+                      title="Nenhuma ONG encontrada"
+                      description="Tenta ajustar os filtros para encontrar mais resultados."
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

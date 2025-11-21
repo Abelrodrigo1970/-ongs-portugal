@@ -47,14 +47,19 @@ export default function FavoriteNPOSection({ ngos }) {
         gap: '24px'
       }}
     >
-      {/* Frame 6 - Section Header */}
-      <div 
-        className="w-full flex items-center justify-center"
-        style={{ gap: '24px' }}
+      {/* Container para título e cards alinhados (como no Figma) */}
+      <div
+        className="flex flex-col"
+        style={{
+          gap: '24px',
+          width: '100%',
+          maxWidth: 'calc(4 * 310px + 3 * 24px)'
+        }}
       >
+        {/* Frame 6 - Section Header */}
         <div 
-          className="flex-1 flex items-center"
-          style={{ gap: '8px' }}
+          className="w-full flex items-center justify-start"
+          style={{ gap: '24px', width: '100%' }}
         >
           <h2 
             style={{ 
@@ -66,27 +71,27 @@ export default function FavoriteNPOSection({ ngos }) {
               marginTop: '-1px'
             }}
           >
-            Favorite NPO
+            ONG’s Favoritas
           </h2>
         </div>
-      </div>
 
-      {/* Frame 8 - Favorite NPOs Grid */}
-      <div 
-        className="w-full flex flex-wrap justify-center"
-        style={{ gap: '24px' }}
-      >
-        {favoriteNGOsList.map((ngo) => (
-          <NgoCard 
-            key={ngo.id} 
-            ngo={ngo} 
-            isFavorite={true}
-            onFavoriteToggle={(ngoId, isFavorite) => {
-              // Dispatch custom event to update other components
-              window.dispatchEvent(new Event('favoriteUpdated'));
-            }}
-          />
-        ))}
+        {/* Frame 8 - Favorite NPOs Grid */}
+        <div 
+          className="w-full flex flex-wrap justify-start"
+          style={{ gap: '24px' }}
+        >
+          {favoriteNGOsList.map((ngo) => (
+            <NgoCard 
+              key={ngo.id} 
+              ngo={ngo} 
+              isFavorite={true}
+              onFavoriteToggle={(ngoId, isFavorite) => {
+                // Dispatch custom event para actualizar outros componentes
+                window.dispatchEvent(new Event('favoriteUpdated'));
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
