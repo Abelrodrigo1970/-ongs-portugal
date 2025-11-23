@@ -3,7 +3,12 @@ import Button from '@/components/ui/Button';
 
 const CTASection = () => {
   return (
-    <section className="text-white" style={{ backgroundColor: 'rgb(36, 180, 23)' }}>
+    <section 
+      className="text-white" 
+      style={{ 
+        background: 'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.25) 50%, rgba(21, 93, 252, 0.5))'
+      }}
+    >
       <div className="container-custom">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4 p-2">
