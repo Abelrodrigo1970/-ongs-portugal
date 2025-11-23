@@ -1,91 +1,61 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import EventCard from '@/components/EventCard';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import CompactEventCard from '@/components/CompactEventCard';
 
 const FeaturedEvents = ({ events = [] }) => {
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const scrollContainerRef = useRef(null);
-
-  useEffect(() => {
-    checkScrollButtons();
-  }, [events]);
-
-  const checkScrollButtons = () => {
-    if (!scrollContainerRef.current) return;
-    
-    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-    setCanScrollLeft(scrollLeft > 0);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-  };
-
-  const scroll = (direction) => {
-    if (!scrollContainerRef.current) return;
-    
-    const scrollAmount = 300;
-    const newPosition = direction === 'left' 
-      ? scrollContainerRef.current.scrollLeft - scrollAmount
-      : scrollContainerRef.current.scrollLeft + scrollAmount;
-    
-    scrollContainerRef.current.scrollTo({
-      left: newPosition,
-      behavior: 'smooth'
-    });
-    
-    setTimeout(checkScrollButtons, 300);
-  };
 
   if (events.length === 0) {
     return null;
   }
 
   return (
-    <section className="section-padding-top">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-0">
-            <h2 className="text-xl md:text-2xl font-bold figma-text-primary">
-              Voluntariados Para Si
-            </h2>
-            <div className="flex gap-2">
-              <button
-                onClick={() => scroll('left')}
-                disabled={!canScrollLeft}
-                className="figma-nav-button"
-                aria-label="Anterior"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => scroll('right')}
-                disabled={!canScrollRight}
-                className="figma-nav-button"
-                aria-label="Próximo"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Events Carousel */}
-          <div 
-            ref={scrollContainerRef}
-            onScroll={checkScrollButtons}
-            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+    <div 
+      className="w-full flex flex-col items-center"
+      style={{ 
+        gap: '24px',
+        paddingTop: '64px',
+        paddingBottom: '64px'
+      }}
+    >
+      {/* Container para título e cards alinhados */}
+      <div
+        className="flex flex-col"
+        style={{
+          gap: '24px',
+          width: '100%',
+          maxWidth: 'calc(4 * 310px + 3 * 24px)'
+        }}
+      >
+        {/* Frame 6 - Section Header */}
+        <div 
+          className="w-full flex items-center justify-start"
+          style={{ gap: '24px', width: '100%' }}
+        >
+          <h2 
+            style={{ 
+              color: 'rgba(2, 6, 23, 1)',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '32px',
+              fontWeight: '600',
+              lineHeight: '120%',
+              marginTop: '-1px'
+            }}
           >
-            {events.map((event) => (
-              <div key={event.id} className="flex-shrink-0 w-[280px]">
-                <EventCard event={event} />
-              </div>
-            ))}
-          </div>
+            Voluntariados Para Si
+          </h2>
+        </div>
+
+        {/* Events Grid */}
+        <div 
+          className="w-full flex flex-wrap justify-start"
+          style={{ gap: '24px' }}
+        >
+          {events.map((event) => (
+            <CompactEventCard key={event.id} event={event} />
+          ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

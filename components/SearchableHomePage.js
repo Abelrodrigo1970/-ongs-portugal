@@ -141,88 +141,190 @@ const SearchableHomePage = ({
   const filteredEvents = searchResults.events;
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
-            <Hero 
-              odsOptions={odsOptions} 
-              areasOptions={areasOptions}
-              colaboracaoOptions={colaboracaoOptions}
-              tipoOptions={tipoOptions}
-              onSearch={handleSearch}
-            />
+    <div className="w-full min-h-screen relative" style={{ backgroundColor: '#F2F2F7' }}>
+      {/* Hero gradient overlay - baseado no .hero do Figma */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '450px',
+          margin: 0,
+          borderRadius: '0 0 200px 200px',
+          background:
+            'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.25) 50%, rgba(21, 93, 252, 0.5))',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
+      
+      <div className="relative" style={{ zIndex: 1 }}>
+        <Hero 
+          odsOptions={odsOptions} 
+          areasOptions={areasOptions}
+          colaboracaoOptions={colaboracaoOptions}
+          tipoOptions={tipoOptions}
+          onSearch={handleSearch}
+        />
+      </div>
       
       {isSearching ? (
         // Resultados da pesquisa
-        <div className="container mx-auto px-4">
-          {searchResults.loading ? (
-            <div className="text-center py-16">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-gray-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
+        <div className="w-full flex flex-col items-center relative" style={{ zIndex: 1 }}>
+          <div 
+            className="w-full flex flex-col items-center"
+            style={{ 
+              padding: '8px 64px',
+              maxWidth: '100%'
+            }}
+          >
+            {searchResults.loading ? (
+              <div className="text-center py-16">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-gray-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">A pesquisar...</h3>
+                <p className="text-gray-600">Aguarda um momento enquanto procuramos resultados.</p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">A pesquisar...</h3>
-              <p className="text-gray-600">Aguarda um momento enquanto procuramos resultados.</p>
-            </div>
-          ) : (
-            <>
-              {/* Resultados de ONGs */}
-              {filteredNGOs.length > 0 && (
-                <div className="mb-16">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center p-2">
-                    ONGs ({filteredNGOs.length})
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    {filteredNGOs.map((ngo) => (
-                      <NgoCard key={ngo.id} ngo={ngo} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Resultados de Eventos */}
-              {filteredEvents.length > 0 && (
-                <div className="mb-16">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center p-2">
-                    Eventos ({filteredEvents.length})
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    {filteredEvents.map((event) => (
-                      <CompactEventCard key={event.id} event={event} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Sem resultados */}
-              {filteredNGOs.length === 0 && filteredEvents.length === 0 && !searchResults.loading && (
-                <div className="text-center py-16">
-                  <div className="max-w-md mx-auto">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
+            ) : (
+              <>
+                {/* Resultados de ONGs */}
+                {filteredNGOs.length > 0 && (
+                  <div 
+                    className="w-full flex flex-col items-center"
+                    style={{ 
+                      gap: '24px',
+                      marginBottom: '64px',
+                      marginTop: '40px'
+                    }}
+                  >
+                    <div
+                      className="flex flex-col"
+                      style={{
+                        gap: '24px',
+                        width: '100%',
+                        maxWidth: 'calc(4 * 310px + 3 * 24px)'
+                      }}
+                    >
+                      <div 
+                        className="w-full flex items-center justify-start"
+                        style={{ gap: '24px', width: '100%' }}
+                      >
+                        <h2 
+                          style={{ 
+                            color: 'rgba(2, 6, 23, 1)',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '32px',
+                            fontWeight: '600',
+                            lineHeight: '120%',
+                            marginTop: '-1px'
+                          }}
+                        >
+                          ONGs ({filteredNGOs.length})
+                        </h2>
+                      </div>
+                      <div 
+                        className="w-full flex flex-wrap justify-start"
+                        style={{ gap: '24px' }}
+                      >
+                        {filteredNGOs.map((ngo) => (
+                          <NgoCard key={ngo.id} ngo={ngo} />
+                        ))}
+                      </div>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Nenhum resultado encontrado</h3>
-                    <p className="text-gray-600 mb-6">
-                      Tenta ajustar os filtros ou usar palavras-chave diferentes.
-                    </p>
-                    <Button onClick={() => setIsSearching(false)} variant="outline">
-                      Ver Conteúdo em Destaque
-                    </Button>
                   </div>
-                </div>
-              )}
-            </>
-          )}
+                )}
+
+                {/* Resultados de Eventos */}
+                {filteredEvents.length > 0 && (
+                  <div 
+                    className="w-full flex flex-col items-center"
+                    style={{ 
+                      gap: '24px',
+                      marginBottom: '64px'
+                    }}
+                  >
+                    <div
+                      className="flex flex-col"
+                      style={{
+                        gap: '24px',
+                        width: '100%',
+                        maxWidth: 'calc(4 * 310px + 3 * 24px)'
+                      }}
+                    >
+                      <div 
+                        className="w-full flex items-center justify-start"
+                        style={{ gap: '24px', width: '100%' }}
+                      >
+                        <h2 
+                          style={{ 
+                            color: 'rgba(2, 6, 23, 1)',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '32px',
+                            fontWeight: '600',
+                            lineHeight: '120%',
+                            marginTop: '-1px'
+                          }}
+                        >
+                          Eventos ({filteredEvents.length})
+                        </h2>
+                      </div>
+                      <div 
+                        className="w-full flex flex-wrap justify-start"
+                        style={{ gap: '24px' }}
+                      >
+                        {filteredEvents.map((event) => (
+                          <CompactEventCard key={event.id} event={event} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Sem resultados */}
+                {filteredNGOs.length === 0 && filteredEvents.length === 0 && !searchResults.loading && (
+                  <div className="text-center py-16">
+                    <div className="max-w-md mx-auto">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">Nenhum resultado encontrado</h3>
+                      <p className="text-gray-600 mb-6">
+                        Tenta ajustar os filtros ou usar palavras-chave diferentes.
+                      </p>
+                      <Button onClick={() => setIsSearching(false)} variant="outline">
+                        Ver Conteúdo em Destaque
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
       ) : (
         // Conteúdo original da página
-        <>
-          
-          <FeaturedEvents events={featuredEvents} />
-          <FeaturedNGOs ngos={featuredNGOs} />
-          <CTASection />
-        </>
+        <div className="w-full flex flex-col items-center relative" style={{ zIndex: 1 }}>
+          <div 
+            className="w-full flex flex-col items-center"
+            style={{ 
+              padding: '8px 64px',
+              maxWidth: '100%'
+            }}
+          >
+            <FeaturedEvents events={featuredEvents} />
+            <FeaturedNGOs ngos={featuredNGOs} />
+            <CTASection />
+          </div>
+        </div>
       )}
     </div>
   );

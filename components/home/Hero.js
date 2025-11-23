@@ -37,10 +37,34 @@ const Hero = ({
   };
 
   return (
-    <div className="w-full" style={{ backgroundColor: '#F2F2F7' }}>
-      <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 lg:px-16 pt-8 md:pt-12 lg:pt-16">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold mb-8" style={{ color: '#404040' }}>
+    <div className="w-full flex flex-col items-center">
+      <div 
+        className="w-full flex flex-col items-center"
+        style={{ 
+          padding: '100px 0px 0px',
+          gap: '40px',
+          width: '100%'
+        }}
+      >
+        {/* Frame 2 - Search and Filters */}
+        <div 
+          className="w-full flex flex-col items-center"
+          style={{ 
+            padding: '64px 0px 0px 0px',
+            gap: '16px'
+          }}
+        >
+          <h1 
+            style={{ 
+              color: '#404040',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '48px',
+              fontWeight: '800',
+              lineHeight: '120%',
+              textAlign: 'center',
+              marginBottom: '0px'
+            }}
+          >
             Hoje é dia de fazer a diferença
           </h1>
 
@@ -51,7 +75,8 @@ const Hero = ({
             colaboracaoOptions={colaboracaoOptions}
             tipoOptions={tipoOptions}
             onSearch={handleSearch}
-            className="max-w-6xl mx-auto"
+            className="w-full"
+            figmaStyle={true}
           />
         </div>
       </div>
