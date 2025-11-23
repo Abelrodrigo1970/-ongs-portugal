@@ -17,7 +17,8 @@ const FilterBar = ({
   showEventFilters = false,
   onSearch = null,
   className = '',
-  figmaStyle = false
+  figmaStyle = false,
+  basePath = null // Permite especificar o caminho base (ex: '/empresas')
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -101,9 +102,9 @@ const FilterBar = ({
       if (updatedFilters.visivel) params.set('visivel', 'true');
       if (updatedFilters.sort !== (showEventFilters ? 'dataInicio-asc' : 'nome-asc')) params.set('sort', updatedFilters.sort);
       
-      const basePath = showEventFilters ? '/eventos' : '/ongs';
+      const path = basePath || (showEventFilters ? '/eventos' : '/ongs');
       const queryString = params.toString();
-      const newUrl = queryString ? `${basePath}?${queryString}` : basePath;
+      const newUrl = queryString ? `${path}?${queryString}` : path;
       
       console.log('🔧 FilterBar updating URL:', newUrl, 'with filters:', updatedFilters);
       
@@ -126,8 +127,8 @@ const FilterBar = ({
       visivel: false,
       sort: showEventFilters ? 'dataInicio-asc' : 'nome-asc'
     });
-    const basePath = showEventFilters ? '/eventos' : '/ongs';
-    router.push(basePath);
+    const path = basePath || (showEventFilters ? '/eventos' : '/ongs');
+    router.push(path);
   };
 
   const hasActiveFilters = 
