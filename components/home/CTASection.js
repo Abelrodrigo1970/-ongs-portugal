@@ -14,7 +14,7 @@ const CTASection = () => {
           <h2 className="text-2xl md:text-3xl font-bold mb-4 p-2">
             Pronto para fazer a diferença?
           </h2>
-          <p className="text-xl mb-8 text-primary-100">
+          <p className="text-xl mb-8" style={{ color: '#000000' }}>
             Junte-se a milhares de pessoas que já estão a colaborar com ONGs em Portugal. 
             Encontre a organização certa para si e comece a sua jornada de impacto positivo.
           </p>
