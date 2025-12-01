@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { MapPin, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) => {
   const [favorite, setFavorite] = useState(isFavorite);
@@ -44,23 +44,17 @@ const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) 
 
   return (
     <div 
-      className={`flex flex-col overflow-hidden rounded-[36px] ${className}`}
+      className={`self-stretch rounded-2xl shadow-[0px_0px_50px_0px_rgba(225,225,225,1.00)] inline-flex flex-col justify-start items-start overflow-hidden ${className}`}
       style={{ 
         width: '310px',
-        height: '400px',
         backgroundColor: 'transparent'
       }}
     >
-      <Link href={`/ongs/${ngo.id}`} className="block h-full">
-        <div className="flex flex-col h-full relative">
-          {/* Image Container - Takes most of the space */}
+      <Link href={`/ongs/${ngo.id}`} className="block w-full">
+        <div className="flex flex-col w-full">
+          {/* Image Container - Based on Figma design (h-44 = 176px) */}
           <div 
-            className="relative"
-            style={{ 
-              height: 'calc(100% - 169px)',
-              minHeight: '231px',
-              position: 'relative'
-            }}
+            className="self-stretch h-44 relative inline-flex justify-start items-center gap-2"
           >
             {ngo.imagem ? (
               <Image
@@ -68,7 +62,7 @@ const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) 
                 alt={ngo.nome}
                 fill
                 sizes="310px"
-                className="object-cover"
+                className="flex-1 self-stretch object-cover"
                 style={{ objectPosition: '50% 50%' }}
               />
             ) : (
@@ -91,89 +85,69 @@ const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) 
               </div>
             )}
             
-            {/* Gradient Overlay */}
-            <div 
-              className="absolute inset-0"
-              style={{
-                background: 'linear-gradient(180deg, rgba(2,6,23,0) 0%, rgba(2,6,23,0.35786) 61.78%, #020617 100%)'
-              }}
-            />
-            
-            {/* Favorite Heart Icon */}
+            {/* Favorite Heart Icon - Based on Figma design */}
             <button
               onClick={handleFavoriteClick}
-              className="absolute top-[13px] right-[13px] z-10 p-1 rounded-full hover:bg-black/20 transition-colors"
-              style={{ width: '26px', height: '26px' }}
+              className="w-7 h-7 left-[277px] top-[8px] absolute z-10 flex items-center justify-center rounded-full hover:bg-black/10 transition-colors"
+              style={{ 
+                boxShadow: '0px 0px 8.88888931274414px 0px rgba(0,0,0,0.75)'
+              }}
             >
+              <div className="w-7 h-7 left-0 top-0 absolute bg-zinc-300 rounded-full" />
               <Heart 
-                className={favorite ? 'fill-red-500' : 'fill-none'}
+                className={`w-5 h-5 relative ${favorite ? 'fill-red-500 text-red-500' : 'fill-white text-white'}`}
                 style={{ 
-                  width: '24px', 
-                  height: '24px',
-                  color: favorite ? 'rgba(239, 68, 68, 1)' : 'rgba(241, 245, 249, 1)',
                   strokeWidth: favorite ? 0 : 2
                 }} 
               />
             </button>
           </div>
 
-          {/* Content - Dark Background - Fixed height */}
+          {/* Content Section - Based on Figma design (white background) */}
           <div 
-            className="flex flex-col"
-            style={{ 
-              backgroundColor: '#020617',
-              height: '169px',
-              padding: '4px 24px 24px 24px',
-              flex: '0 0 auto'
-            }}
+            className="self-stretch px-4 pt-2 pb-4 bg-white flex flex-col justify-start items-start"
           >
             {/* Name and Location */}
-            <div className="flex flex-col" style={{ marginBottom: '8px' }}>
+            <div className="self-stretch h-20 flex flex-col justify-start items-start">
               <h3 
-                className="line-clamp-2" 
+                className="self-stretch justify-start text-gray-900 text-base font-bold font-['Inter'] leading-6 line-clamp-2"
                 style={{ 
-                  color: '#f1f5f9',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '20px',
-                  fontWeight: '700',
-                  lineHeight: '1.2',
+                  color: 'rgba(2, 6, 23, 1)',
                   marginBottom: '4px'
                 }}
               >
                 {ngo.nome}
               </h3>
               <p 
+                className="self-stretch justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5"
                 style={{ 
-                  color: '#cbd5e1',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  lineHeight: '1.2'
+                  color: 'rgba(100, 116, 139, 1)'
                 }}
               >
                 {ngo.localizacao || 'Location'}
               </p>
             </div>
 
-            {/* Labels (Areas) */}
+            {/* Labels (Areas) - Based on Figma badge design */}
             {areasList.length > 0 && (
-              <div className="flex flex-wrap" style={{ gap: '8px' }}>
-                {areasList.slice(0, 3).map((area, index) => (
-                  <span
+              <div className="self-stretch flex flex-col justify-start items-start gap-2">
+                {areasList.slice(0, 2).map((area, index) => (
+                  <div
                     key={index}
+                    className="px-2 py-1 rounded-lg outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-center items-center overflow-hidden"
                     style={{ 
-                      border: '1px solid #cbd5e1',
-                      borderRadius: '8px',
-                      color: '#cbd5e1',
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      lineHeight: '1.4',
-                      padding: '4px 8px'
+                      borderColor: 'rgba(229, 231, 235, 1)'
                     }}
                   >
-                    {area}
-                  </span>
+                    <div 
+                      className="justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5"
+                      style={{ 
+                        color: 'rgba(107, 114, 128, 1)'
+                      }}
+                    >
+                      {area}
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
