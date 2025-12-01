@@ -180,10 +180,14 @@ const FilterBar = ({
   if (figmaStyle) {
     return (
       <div 
-        className="flex items-center justify-center gap-4 relative w-full"
+        className="flex flex-col items-center w-full"
         style={{ backgroundColor: 'transparent' }}
         ref={filterBarRef}
       >
+        {/* Botões de Filtro */}
+        <div 
+          className="flex items-center justify-center gap-4 relative w-full"
+        >
         {/* Filter Button 1 - Áreas de Interesse */}
         <div className="filter-dropdown-container relative">
           <button
@@ -508,6 +512,374 @@ const FilterBar = ({
               </div>
             )}
           </div>
+        )}
+        </div>
+
+        {/* Linha Divisória e Filtros Ativos */}
+        {hasActiveFilters && (
+          <>
+            {/* Linha Divisória */}
+            <div 
+              className="self-stretch"
+              style={{ 
+                height: '1px', 
+                background: '#D9D9D9',
+                marginTop: '16px'
+              }} 
+            />
+
+            {/* Seção de Filtros Ativos */}
+            <div 
+              className="self-stretch"
+              style={{ 
+                padding: '8px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '8px',
+                display: 'flex',
+                flexWrap: 'wrap'
+              }}
+            >
+              {/* Badge de Query */}
+              {filters.query && (
+                <div 
+                  style={{
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
+                    paddingLeft: '12px',
+                    paddingRight: '8px',
+                    background: 'var(--base-neutral-50, #F1F5F9)',
+                    overflow: 'hidden',
+                    borderRadius: '200px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '16px',
+                    display: 'flex'
+                  }}
+                >
+                  <div style={{
+                    color: 'var(--content-text-primary, #020617)',
+                    fontSize: '14px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: '600',
+                    lineHeight: '19.60px',
+                    wordWrap: 'break-word'
+                  }}>
+                    {filters.query}
+                  </div>
+                  <button
+                    onClick={() => updateFilters({ query: '' })}
+                    style={{
+                      width: '12px',
+                      height: '12px',
+                      position: 'relative',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 0
+                    }}
+                  >
+                    <div style={{
+                      width: '12px',
+                      height: '12px',
+                      left: 0,
+                      top: 0,
+                      position: 'absolute',
+                      background: '#D9D9D9',
+                      borderRadius: '50%'
+                    }} />
+                    <div style={{
+                      width: '7px',
+                      height: '7px',
+                      left: '2.5px',
+                      top: '2.5px',
+                      position: 'absolute',
+                      background: '#1C1B1F',
+                      borderRadius: '50%'
+                    }} />
+                  </button>
+                </div>
+              )}
+
+              {/* Badge de ODS */}
+              {filters.ods.length > 0 && (
+                <div 
+                  style={{
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
+                    paddingLeft: '12px',
+                    paddingRight: '8px',
+                    background: 'var(--base-neutral-50, #F1F5F9)',
+                    overflow: 'hidden',
+                    borderRadius: '200px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '16px',
+                    display: 'flex'
+                  }}
+                >
+                  <div style={{
+                    color: 'var(--content-text-primary, #020617)',
+                    fontSize: '14px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: '600',
+                    lineHeight: '19.60px',
+                    wordWrap: 'break-word'
+                  }}>
+                    {filters.ods.length} ODS
+                  </div>
+                  <button
+                    onClick={() => updateFilters({ ods: [] })}
+                    style={{
+                      width: '12px',
+                      height: '12px',
+                      position: 'relative',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 0
+                    }}
+                  >
+                    <div style={{
+                      width: '12px',
+                      height: '12px',
+                      left: 0,
+                      top: 0,
+                      position: 'absolute',
+                      background: '#D9D9D9',
+                      borderRadius: '50%'
+                    }} />
+                    <div style={{
+                      width: '7px',
+                      height: '7px',
+                      left: '2.5px',
+                      top: '2.5px',
+                      position: 'absolute',
+                      background: '#1C1B1F',
+                      borderRadius: '50%'
+                    }} />
+                  </button>
+                </div>
+              )}
+
+              {/* Badge de Áreas */}
+              {filters.areas.length > 0 && (
+                <div 
+                  style={{
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
+                    paddingLeft: '12px',
+                    paddingRight: '8px',
+                    background: 'var(--base-neutral-50, #F1F5F9)',
+                    overflow: 'hidden',
+                    borderRadius: '200px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '16px',
+                    display: 'flex'
+                  }}
+                >
+                  <div style={{
+                    color: 'var(--content-text-primary, #020617)',
+                    fontSize: '14px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: '600',
+                    lineHeight: '19.60px',
+                    wordWrap: 'break-word'
+                  }}>
+                    {filters.areas.length} Área{filters.areas.length > 1 ? 's' : ''}
+                  </div>
+                  <button
+                    onClick={() => updateFilters({ areas: [] })}
+                    style={{
+                      width: '12px',
+                      height: '12px',
+                      position: 'relative',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 0
+                    }}
+                  >
+                    <div style={{
+                      width: '12px',
+                      height: '12px',
+                      left: 0,
+                      top: 0,
+                      position: 'absolute',
+                      background: '#D9D9D9',
+                      borderRadius: '50%'
+                    }} />
+                    <X 
+                      style={{
+                        width: '7px',
+                        height: '7px',
+                        left: '2.5px',
+                        top: '2.5px',
+                        position: 'absolute',
+                        color: '#1C1B1F'
+                      }}
+                    />
+                  </button>
+                </div>
+              )}
+
+              {/* Badge de Localização */}
+              {filters.localizacao.length > 0 && (
+                <div 
+                  style={{
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
+                    paddingLeft: '12px',
+                    paddingRight: '8px',
+                    background: 'var(--base-neutral-50, #F1F5F9)',
+                    overflow: 'hidden',
+                    borderRadius: '200px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '16px',
+                    display: 'flex'
+                  }}
+                >
+                  <div style={{
+                    color: 'var(--content-text-primary, #020617)',
+                    fontSize: '14px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: '600',
+                    lineHeight: '19.60px',
+                    wordWrap: 'break-word'
+                  }}>
+                    {filters.localizacao.length} Localização{filters.localizacao.length > 1 ? 'ões' : ''}
+                  </div>
+                  <button
+                    onClick={() => updateFilters({ localizacao: [] })}
+                    style={{
+                      width: '12px',
+                      height: '12px',
+                      position: 'relative',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 0
+                    }}
+                  >
+                    <div style={{
+                      width: '12px',
+                      height: '12px',
+                      left: 0,
+                      top: 0,
+                      position: 'absolute',
+                      background: '#D9D9D9',
+                      borderRadius: '50%'
+                    }} />
+                    <X 
+                      style={{
+                        width: '7px',
+                        height: '7px',
+                        left: '2.5px',
+                        top: '2.5px',
+                        position: 'absolute',
+                        color: '#1C1B1F'
+                      }}
+                    />
+                  </button>
+                </div>
+              )}
+
+              {/* Badge de Colaboração */}
+              {filters.colaboracao.length > 0 && (
+                <div 
+                  style={{
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
+                    paddingLeft: '12px',
+                    paddingRight: '8px',
+                    background: 'var(--base-neutral-50, #F1F5F9)',
+                    overflow: 'hidden',
+                    borderRadius: '200px',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: '16px',
+                    display: 'flex'
+                  }}
+                >
+                  <div style={{
+                    color: 'var(--content-text-primary, #020617)',
+                    fontSize: '14px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: '600',
+                    lineHeight: '19.60px',
+                    wordWrap: 'break-word'
+                  }}>
+                    {filters.colaboracao.length} Colaboração{filters.colaboracao.length > 1 ? 'ões' : ''}
+                  </div>
+                  <button
+                    onClick={() => updateFilters({ colaboracao: [] })}
+                    style={{
+                      width: '12px',
+                      height: '12px',
+                      position: 'relative',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 0
+                    }}
+                  >
+                    <div style={{
+                      width: '12px',
+                      height: '12px',
+                      left: 0,
+                      top: 0,
+                      position: 'absolute',
+                      background: '#D9D9D9',
+                      borderRadius: '50%'
+                    }} />
+                    <X 
+                      style={{
+                        width: '7px',
+                        height: '7px',
+                        left: '2.5px',
+                        top: '2.5px',
+                        position: 'absolute',
+                        color: '#1C1B1F'
+                      }}
+                    />
+                  </button>
+                </div>
+              )}
+
+              {/* Botão Clear All */}
+              <button
+                onClick={clearFilters}
+                style={{
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
+                  paddingTop: '12px',
+                  paddingBottom: '12px',
+                  background: 'var(--base-neutral-50, #F1F5F9)',
+                  overflow: 'hidden',
+                  borderRadius: '200px',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '16px',
+                  display: 'flex',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <div style={{
+                  color: 'var(--content-text-primary, #020617)',
+                  fontSize: '14px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: '600',
+                  lineHeight: '19.60px',
+                  wordWrap: 'break-word'
+                }}>
+                  Clear all
+                </div>
+              </button>
+            </div>
+          </>
         )}
       </div>
     );
