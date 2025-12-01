@@ -57,7 +57,7 @@ const MultiSelect = ({
         </label>
       )}
       
-      <div className="relative" ref={dropdownRef}>
+      <div className="relative" ref={dropdownRef} style={{ zIndex: isOpen ? 10001 : 'auto' }}>
         <div
           className={clsx(
             'w-full min-h-[42px] px-3 py-2 border rounded-lg cursor-pointer flex items-center flex-wrap gap-1',
@@ -102,18 +102,22 @@ const MultiSelect = ({
         </div>
 
         {isOpen && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-hidden">
-            <div className="p-2 border-b border-gray-200">
+          <div 
+            className="absolute w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-hidden"
+            style={{ zIndex: 10000 }}
+          >
+            <div className="p-2 border-b border-gray-200 bg-white">
               <input
                 type="text"
                 placeholder="Buscar..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
                 onClick={(e) => e.stopPropagation()}
+                style={{ backgroundColor: '#FFFFFF' }}
               />
             </div>
-            <div className="max-h-48 overflow-y-auto">
+            <div className="max-h-48 overflow-y-auto bg-white">
               {filteredOptions.length === 0 ? (
                 <div className="px-3 py-2 text-gray-500 text-sm">
                   Nenhuma opção encontrada
