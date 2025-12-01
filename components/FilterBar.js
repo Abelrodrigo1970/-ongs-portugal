@@ -193,7 +193,7 @@ const FilterBar = ({
           className="flex items-center justify-center gap-4 relative w-full"
         >
         {/* Filter Button 1 - Áreas de Interesse */}
-        <div className="filter-dropdown-container relative">
+        <div className="filter-dropdown-container relative" style={{ zIndex: openDropdown === 'areas' ? 10000 : 'auto' }}>
           <button
             onClick={() => setOpenDropdown(openDropdown === 'areas' ? null : 'areas')}
             className="flex items-center justify-center rounded-[200px] transition-colors"
@@ -232,13 +232,14 @@ const FilterBar = ({
           {/* Dropdown para Áreas de Interesse */}
           {openDropdown === 'areas' && (
             <div 
-              className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+              className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
               style={{
                 backgroundColor: '#FFFFFF',
                 borderColor: 'rgba(64, 64, 64, 0.15)',
                 padding: '16px',
                 minWidth: '280px',
-                maxWidth: '320px'
+                maxWidth: '320px',
+                zIndex: 9999
               }}
             >
               <MultiSelect
@@ -256,7 +257,7 @@ const FilterBar = ({
         </div>
 
         {/* Filter Button 2 - Localização */}
-        <div className="filter-dropdown-container relative">
+        <div className="filter-dropdown-container relative" style={{ zIndex: openDropdown === 'localizacao' ? 10000 : 'auto' }}>
           <button
             onClick={() => setOpenDropdown(openDropdown === 'localizacao' ? null : 'localizacao')}
             className="flex items-center justify-center rounded-[200px] transition-colors"
@@ -295,13 +296,14 @@ const FilterBar = ({
           {/* Dropdown para Localização */}
           {openDropdown === 'localizacao' && (
             <div 
-              className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+              className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
               style={{
                 backgroundColor: '#FFFFFF',
                 borderColor: 'rgba(64, 64, 64, 0.15)',
                 padding: '16px',
                 minWidth: '280px',
-                maxWidth: '320px'
+                maxWidth: '320px',
+                zIndex: 9999
               }}
             >
               <MultiSelect
@@ -319,7 +321,7 @@ const FilterBar = ({
         </div>
 
         {/* Filter Button 3 - Tipo de Colaboração */}
-        <div className="filter-dropdown-container relative">
+        <div className="filter-dropdown-container relative" style={{ zIndex: openDropdown === 'colaboracao' ? 10000 : 'auto' }}>
           <button
             onClick={() => setOpenDropdown(openDropdown === 'colaboracao' ? null : 'colaboracao')}
             className="flex items-center justify-center rounded-[200px] transition-colors"
@@ -358,13 +360,14 @@ const FilterBar = ({
           {/* Dropdown para Tipo de Colaboração */}
           {openDropdown === 'colaboracao' && (
             <div 
-              className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+              className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
               style={{
                 backgroundColor: '#FFFFFF',
                 borderColor: 'rgba(64, 64, 64, 0.15)',
                 padding: '16px',
                 minWidth: '280px',
-                maxWidth: '320px'
+                maxWidth: '320px',
+                zIndex: 9999
               }}
             >
               <MultiSelect
@@ -421,13 +424,14 @@ const FilterBar = ({
             {/* Dropdown para Vagas */}
             {openDropdown === 'vagas' && (
               <div 
-                className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+                className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
                 style={{
                   backgroundColor: '#FFFFFF',
                   borderColor: 'rgba(64, 64, 64, 0.15)',
                   padding: '16px',
                   minWidth: '280px',
-                  maxWidth: '320px'
+                  maxWidth: '320px',
+                  zIndex: 9999
                 }}
               >
                 <Select
@@ -489,13 +493,14 @@ const FilterBar = ({
             {/* Dropdown para Duração */}
             {openDropdown === 'duracao' && (
               <div 
-                className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
+                className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
                 style={{
                   backgroundColor: '#FFFFFF',
                   borderColor: 'rgba(64, 64, 64, 0.15)',
                   padding: '16px',
                   minWidth: '280px',
-                  maxWidth: '320px'
+                  maxWidth: '320px',
+                  zIndex: 9999
                 }}
               >
                 <Select
