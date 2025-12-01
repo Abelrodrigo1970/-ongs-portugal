@@ -296,16 +296,29 @@ const FilterBar = ({
                 maxWidth: '320px'
               }}
             >
-              <Select
-                label="Localização"
-                placeholder="Selecionar localização..."
-                options={localizacaoOptions}
-                value={filters.localizacao}
-                onChange={(e) => {
-                  updateFilters({ localizacao: e.target.value });
-                  setOpenDropdown(null);
-                }}
-              />
+              <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Localização
+                </label>
+                <div className="space-y-1 max-h-60 overflow-y-auto">
+                  {localizacaoOptions.map((option) => (
+                    <div
+                      key={option.value}
+                      className={`px-3 py-2 rounded-md cursor-pointer transition-colors ${
+                        filters.localizacao === option.value
+                          ? 'bg-primary-100 text-primary-800 font-medium'
+                          : 'hover:bg-gray-50 text-gray-900'
+                      }`}
+                      onClick={() => {
+                        updateFilters({ localizacao: option.value });
+                        setOpenDropdown(null);
+                      }}
+                    >
+                      <span className="text-sm">{option.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>
