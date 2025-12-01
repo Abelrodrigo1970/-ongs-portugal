@@ -38,7 +38,7 @@ const FilterBar = ({
   });
 
   const [showFilters, setShowFilters] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null); // 'areas', 'localizacao', 'tipo', 'vagas', 'duracao', null
+  const [openDropdown, setOpenDropdown] = useState(null); // 'areas', 'localizacao', 'colaboracao', 'tipo', 'vagas', 'duracao', null
   const filterBarRef = useRef(null);
 
   // Fechar dropdown ao clicar fora (apenas quando figmaStyle está ativo)
@@ -180,7 +180,7 @@ const FilterBar = ({
   if (figmaStyle) {
     return (
       <div 
-        className={`flex items-center justify-center gap-4 relative ${className}`}
+        className="flex items-center justify-center gap-4 relative w-full"
         style={{ backgroundColor: 'transparent' }}
         ref={filterBarRef}
       >
@@ -190,8 +190,8 @@ const FilterBar = ({
             onClick={() => setOpenDropdown(openDropdown === 'areas' ? null : 'areas')}
             className="flex items-center justify-center rounded-[200px] transition-colors"
             style={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #d5e1ff',
+              backgroundColor: 'rgb(255, 255, 255)',
+              border: '1px solid rgb(213, 225, 255)',
               borderRadius: '200px',
               height: '46px',
               padding: '8px 16px',
@@ -200,7 +200,7 @@ const FilterBar = ({
           >
             <span 
               style={{ 
-                color: 'rgba(100, 116, 139, 1)',
+                color: 'rgb(100, 116, 139)',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '14px',
                 fontWeight: '500',
@@ -210,10 +210,11 @@ const FilterBar = ({
               Áreas de Interesse
             </span>
             <ChevronDown 
+              className="lucide lucide-chevron-down"
               style={{ 
                 width: '24px', 
                 height: '24px',
-                color: 'rgba(100, 116, 139, 1)',
+                color: 'rgb(100, 116, 139)',
                 transform: openDropdown === 'areas' ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: 'transform 0.2s'
               }} 
@@ -252,8 +253,8 @@ const FilterBar = ({
             onClick={() => setOpenDropdown(openDropdown === 'localizacao' ? null : 'localizacao')}
             className="flex items-center justify-center rounded-[200px] transition-colors"
             style={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #d5e1ff',
+              backgroundColor: 'rgb(255, 255, 255)',
+              border: '1px solid rgb(213, 225, 255)',
               borderRadius: '200px',
               height: '46px',
               padding: '8px 16px',
@@ -262,7 +263,7 @@ const FilterBar = ({
           >
             <span 
               style={{ 
-                color: 'rgba(100, 116, 139, 1)',
+                color: 'rgb(100, 116, 139)',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '14px',
                 fontWeight: '500',
@@ -272,10 +273,11 @@ const FilterBar = ({
               Localização
             </span>
             <ChevronDown 
+              className="lucide lucide-chevron-down"
               style={{ 
                 width: '24px', 
                 height: '24px',
-                color: 'rgba(100, 116, 139, 1)',
+                color: 'rgb(100, 116, 139)',
                 transform: openDropdown === 'localizacao' ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: 'transform 0.2s'
               }} 
@@ -308,14 +310,14 @@ const FilterBar = ({
           )}
         </div>
 
-        {/* Filter Button 3 - Tipo de evento */}
+        {/* Filter Button 3 - Tipo de Colaboração */}
         <div className="filter-dropdown-container relative">
           <button
-            onClick={() => setOpenDropdown(openDropdown === 'tipo' ? null : 'tipo')}
+            onClick={() => setOpenDropdown(openDropdown === 'colaboracao' ? null : 'colaboracao')}
             className="flex items-center justify-center rounded-[200px] transition-colors"
             style={{
-              backgroundColor: '#ffffff',
-              border: '1px solid #d5e1ff',
+              backgroundColor: 'rgb(255, 255, 255)',
+              border: '1px solid rgb(213, 225, 255)',
               borderRadius: '200px',
               height: '46px',
               padding: '8px 16px',
@@ -324,28 +326,29 @@ const FilterBar = ({
           >
             <span 
               style={{ 
-                color: 'rgba(100, 116, 139, 1)',
+                color: 'rgb(100, 116, 139)',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '14px',
                 fontWeight: '500',
                 lineHeight: '16.8px'
               }}
             >
-              Tipo de evento
+              Tipo de Colaboração
             </span>
             <ChevronDown 
+              className="lucide lucide-chevron-down"
               style={{ 
                 width: '24px', 
                 height: '24px',
-                color: 'rgba(100, 116, 139, 1)',
-                transform: openDropdown === 'tipo' ? 'rotate(180deg)' : 'rotate(0deg)',
+                color: 'rgb(100, 116, 139)',
+                transform: openDropdown === 'colaboracao' ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: 'transform 0.2s'
               }} 
             />
           </button>
           
-          {/* Dropdown para Tipo de evento */}
-          {openDropdown === 'tipo' && (
+          {/* Dropdown para Tipo de Colaboração */}
+          {openDropdown === 'colaboracao' && (
             <div 
               className="absolute top-full left-0 mt-2 z-50 rounded-lg shadow-lg border"
               style={{
@@ -357,13 +360,13 @@ const FilterBar = ({
               }}
             >
               <MultiSelect
-                label="Tipo de Evento"
+                label="Tipo de Colaboração"
                 placeholder="Selecionar tipos..."
-                options={tipoOptions}
-                value={filters.tipo || []}
+                options={colaboracaoOptions}
+                value={filters.colaboracao || []}
                 onChange={(value) => {
-                  console.log('🔧 Tipo changed:', value);
-                  updateFilters({ tipo: Array.isArray(value) ? value : [] });
+                  console.log('🔧 Colaboração changed:', value);
+                  updateFilters({ colaboracao: Array.isArray(value) ? value : [] });
                 }}
               />
             </div>
