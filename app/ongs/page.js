@@ -165,7 +165,6 @@ async function ONGsContent({ searchParams }) {
                 className="flex items-center justify-center w-full"
                 style={{ 
                   backgroundColor: 'transparent',
-                  height: '46px',
                   gap: '16px'
                 }}
               >

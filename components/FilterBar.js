@@ -181,7 +181,11 @@ const FilterBar = ({
     return (
       <div 
         className="flex flex-col items-center w-full"
-        style={{ backgroundColor: 'transparent' }}
+        style={{ 
+          backgroundColor: 'transparent',
+          position: 'relative',
+          zIndex: 1
+        }}
         ref={filterBarRef}
       >
         {/* Botões de Filtro */}
@@ -524,7 +528,8 @@ const FilterBar = ({
               style={{ 
                 height: '1px', 
                 background: '#D9D9D9',
-                marginTop: '16px'
+                marginTop: '16px',
+                width: '100%'
               }} 
             />
 
