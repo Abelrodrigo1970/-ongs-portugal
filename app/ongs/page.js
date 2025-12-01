@@ -23,7 +23,7 @@ async function ONGsContent({ searchParams }) {
     ods: searchParams.ods ? searchParams.ods.split(',') : [],
     areas: searchParams.areas ? searchParams.areas.split(',') : [],
     colaboracao: searchParams.colaboracao ? searchParams.colaboracao.split(',') : [],
-    localizacao: searchParams.localizacao || '',
+    localizacao: searchParams.localizacao ? searchParams.localizacao.split(',') : [],
     visivel: searchParams.visivel !== 'false', // Por padrão mostrar ONGs visíveis
     sort: searchParams.sort || 'nome-asc',
     page: parseInt(searchParams.page) || 1,

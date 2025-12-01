@@ -29,7 +29,7 @@ const FilterBar = ({
     areas: searchParams.get('areas')?.split(',').filter(Boolean) || [],
     colaboracao: searchParams.get('colaboracao')?.split(',').filter(Boolean) || [],
     tipo: searchParams.get('tipo')?.split(',').filter(Boolean) || [],
-    localizacao: searchParams.get('localizacao') || '',
+    localizacao: searchParams.get('localizacao')?.split(',').filter(Boolean) || [],
     vagas: searchParams.get('vagas') || '',
     duracao: searchParams.get('duracao') || '',
     inscricoesAbertas: searchParams.get('inscricoesAbertas') === 'true',
@@ -95,7 +95,7 @@ const FilterBar = ({
       if (updatedFilters.areas.length > 0) params.set('areas', updatedFilters.areas.join(','));
       if (updatedFilters.colaboracao.length > 0) params.set('colaboracao', updatedFilters.colaboracao.join(','));
       if (updatedFilters.tipo.length > 0) params.set('tipo', updatedFilters.tipo.join(','));
-      if (updatedFilters.localizacao) params.set('localizacao', updatedFilters.localizacao);
+      if (updatedFilters.localizacao.length > 0) params.set('localizacao', updatedFilters.localizacao.join(','));
       if (updatedFilters.vagas) params.set('vagas', updatedFilters.vagas);
       if (updatedFilters.duracao) params.set('duracao', updatedFilters.duracao);
       if (updatedFilters.inscricoesAbertas) params.set('inscricoesAbertas', 'true');
@@ -120,7 +120,7 @@ const FilterBar = ({
       areas: [],
       colaboracao: [],
       tipo: [],
-      localizacao: '',
+      localizacao: [],
       vagas: '',
       duracao: '',
       inscricoesAbertas: false,
@@ -137,7 +137,7 @@ const FilterBar = ({
     filters.areas.length > 0 || 
     filters.colaboracao.length > 0 || 
     filters.tipo.length > 0 ||
-    filters.localizacao ||
+    filters.localizacao.length > 0 ||
     filters.vagas ||
     filters.duracao ||
     filters.inscricoesAbertas ||
@@ -296,29 +296,16 @@ const FilterBar = ({
                 maxWidth: '320px'
               }}
             >
-              <div className="w-full">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Localização
-                </label>
-                <div className="space-y-1 max-h-60 overflow-y-auto">
-                  {localizacaoOptions.map((option) => (
-                    <div
-                      key={option.value}
-                      className={`px-3 py-2 rounded-md cursor-pointer transition-colors ${
-                        filters.localizacao === option.value
-                          ? 'bg-primary-100 text-primary-800 font-medium'
-                          : 'hover:bg-gray-50 text-gray-900'
-                      }`}
-                      onClick={() => {
-                        updateFilters({ localizacao: option.value });
-                        setOpenDropdown(null);
-                      }}
-                    >
-                      <span className="text-sm">{option.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <MultiSelect
+                label="Localização"
+                placeholder="Selecionar localizações..."
+                options={localizacaoOptions.filter(opt => opt.value !== '')}
+                value={filters.localizacao || []}
+                onChange={(value) => {
+                  console.log('🔧 Localização changed:', value);
+                  updateFilters({ localizacao: Array.isArray(value) ? value : [] });
+                }}
+              />
             </div>
           )}
         </div>
@@ -623,12 +610,12 @@ const FilterBar = ({
             />
 
             {/* Localização */}
-            <Select
+            <MultiSelect
               label="Localização"
-              placeholder="Selecionar localização..."
-              options={localizacaoOptions}
-              value={filters.localizacao}
-              onChange={(e) => updateFilters({ localizacao: e.target.value })}
+              placeholder="Selecionar localizações..."
+              options={localizacaoOptions.filter(opt => opt.value !== '')}
+              value={filters.localizacao || []}
+              onChange={(value) => updateFilters({ localizacao: Array.isArray(value) ? value : [] })}
             />
 
             {/* Colaboração (para ONGs ou página principal) */}
@@ -752,7 +739,7 @@ const FilterBar = ({
             </span>
           )}
 
-          {filters.localizacao && (
+          {filters.localizacao.length > 0 && (
             <span 
               className="inline-flex items-center rounded-full" 
               style={{ 
@@ -764,9 +751,9 @@ const FilterBar = ({
                 fontWeight: '500'
               }}
             >
-              {localizacaoOptions.find(opt => opt.value === filters.localizacao)?.label || filters.localizacao}
+              {filters.localizacao.length} Localização{filters.localizacao.length > 1 ? 'ões' : ''}
               <button
-                onClick={() => updateFilters({ localizacao: '' })}
+                onClick={() => updateFilters({ localizacao: [] })}
                 className="rounded-full ml-1 p-0.5"
               >
                 <X className="h-3 w-3" />
