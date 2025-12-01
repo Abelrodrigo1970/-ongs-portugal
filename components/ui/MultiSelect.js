@@ -49,15 +49,15 @@ const MultiSelect = ({
   }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full" style={{ backgroundColor: isOpen ? '#FFFFFF' : 'transparent', position: 'relative', zIndex: isOpen ? 10001 : 'auto' }}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 mb-1" style={{ backgroundColor: isOpen ? '#FFFFFF' : 'transparent' }}>
           {label}
           {props.required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       
-      <div className="relative" ref={dropdownRef} style={{ zIndex: isOpen ? 10001 : 'auto' }}>
+      <div className="relative" ref={dropdownRef} style={{ zIndex: isOpen ? 10001 : 'auto', backgroundColor: isOpen ? '#FFFFFF' : 'transparent' }}>
         <div
           className={clsx(
             'w-full min-h-[42px] px-3 py-2 border rounded-lg cursor-pointer flex items-center flex-wrap gap-1',
