@@ -184,13 +184,14 @@ const FilterBar = ({
         style={{ 
           backgroundColor: 'transparent',
           position: 'relative',
-          zIndex: 1
+          zIndex: openDropdown ? 10002 : 1
         }}
         ref={filterBarRef}
       >
         {/* Botões de Filtro */}
         <div 
           className="flex items-center justify-center gap-4 relative w-full"
+          style={{ zIndex: openDropdown ? 10002 : 'auto' }}
         >
         {/* Filter Button 1 - Áreas de Interesse */}
         <div className="filter-dropdown-container relative" style={{ zIndex: openDropdown === 'areas' ? 10000 : 'auto' }}>
