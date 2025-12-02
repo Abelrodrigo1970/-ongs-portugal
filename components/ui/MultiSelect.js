@@ -250,16 +250,16 @@ const MultiSelect = ({
                             top: 0,
                             position: 'absolute',
                             background: '#D9D9D9',
-                            borderRadius: '50%'
+                            borderRadius: '0'
                           }} />
                           <div style={{
-                            width: '18px',
-                            height: '18px',
-                            left: '3px',
-                            top: '3px',
+                            width: '16px',
+                            height: '16px',
+                            left: '4px',
+                            top: '4px',
                             position: 'absolute',
                             background: 'var(--content-fill-tertiary, #64748B)',
-                            borderRadius: '50%'
+                            borderRadius: '0'
                           }} />
                         </>
                       ) : (
@@ -270,7 +270,7 @@ const MultiSelect = ({
                           top: 0,
                           position: 'absolute',
                           background: '#D9D9D9',
-                          borderRadius: '50%'
+                          borderRadius: '0'
                         }} />
                       )}
                     </div>
