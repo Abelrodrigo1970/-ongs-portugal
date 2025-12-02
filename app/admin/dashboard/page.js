@@ -5,7 +5,7 @@ import { useAdmin } from '@/lib/context/AdminContext';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import { Building2, Calendar, BarChart3, Users, ArrowRight } from 'lucide-react';
+import { Building2, Calendar, BarChart3, Users, ArrowRight, MapPin } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { getAuthHeaders } = useAdmin();
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">
           Ações Rápidas
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Link href="/admin/ngos">
             <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary-200">
               <div className="flex items-center gap-4">
@@ -133,6 +133,25 @@ export default function AdminDashboard() {
                   </h4>
                   <p className="text-sm text-gray-600">
                     Criar, editar e gerir eventos
+                  </p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-gray-400" />
+              </div>
+            </Card>
+          </Link>
+
+          <Link href="/admin/areas">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary-200">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg">
+                  <MapPin className="w-6 h-6 text-green-600" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-gray-900 mb-1">
+                    Gerir Áreas de Atuação
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Criar, editar e gerir áreas de atuação
                   </p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400" />
