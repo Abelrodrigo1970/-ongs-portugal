@@ -32,7 +32,8 @@ export async function POST(request) {
       }
 
       const area = await createArea({
-        nome: data.nome.trim()
+        nome: data.nome.trim(),
+        icone: data.icone?.trim() || null
       });
 
       return Response.json({

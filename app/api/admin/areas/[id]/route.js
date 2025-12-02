@@ -44,7 +44,8 @@ export async function PUT(request, { params }) {
       }
 
       const area = await updateArea(id, {
-        nome: data.nome.trim()
+        nome: data.nome.trim(),
+        icone: data.icone?.trim() || null
       });
 
       return Response.json({

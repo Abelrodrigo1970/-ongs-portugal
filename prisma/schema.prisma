@@ -92,6 +92,7 @@ model Colaboracao {
 model AreaAtuacaoTipo {
   id      String @id @default(cuid())
   nome    String @unique
+  icone   String? // path/url para o ícone
   ngos    AreaAtuacao[]
   eventos EventArea[]
   createdAt DateTime @default(now())

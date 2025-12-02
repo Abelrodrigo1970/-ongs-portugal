@@ -16,7 +16,7 @@ export default function AdminAreasPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedArea, setSelectedArea] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
-  const [formData, setFormData] = useState({ nome: '' });
+  const [formData, setFormData] = useState({ nome: '', icone: '' });
 
   useEffect(() => {
     loadAreas();
@@ -41,13 +41,13 @@ export default function AdminAreasPage() {
 
   const handleCreate = () => {
     setSelectedArea(null);
-    setFormData({ nome: '' });
+    setFormData({ nome: '', icone: '' });
     setIsFormOpen(true);
   };
 
   const handleEdit = (area) => {
     setSelectedArea(area);
-    setFormData({ nome: area.nome });
+    setFormData({ nome: area.nome, icone: area.icone || '' });
     setIsFormOpen(true);
   };
 
@@ -97,7 +97,7 @@ export default function AdminAreasPage() {
       if (response.ok) {
         setIsFormOpen(false);
         loadAreas();
-        setFormData({ nome: '' });
+        setFormData({ nome: '', icone: '' });
       } else {
         const error = await response.json();
         alert(error.message || 'Erro ao salvar área');
@@ -167,7 +167,19 @@ export default function AdminAreasPage() {
                   key={area.id}
                   className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  <span className="text-gray-900 font-medium">{area.nome}</span>
+                  <div className="flex items-center gap-3">
+                    {area.icone && (
+                      <img 
+                        src={area.icone} 
+                        alt={area.nome}
+                        className="w-6 h-6 object-contain"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    )}
+                    <span className="text-gray-900 font-medium">{area.nome}</span>
+                  </div>
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleEdit(area)}
@@ -196,7 +208,7 @@ export default function AdminAreasPage() {
         isOpen={isFormOpen}
         onClose={() => {
           setIsFormOpen(false);
-          setFormData({ nome: '' });
+          setFormData({ nome: '', icone: '' });
           setSelectedArea(null);
         }}
         title={selectedArea ? 'Editar Área' : 'Nova Área'}
@@ -209,10 +221,25 @@ export default function AdminAreasPage() {
             <Input
               type="text"
               value={formData.nome}
-              onChange={(e) => setFormData({ nome: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
               placeholder="Ex: Ação Social"
               required
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Ícone (URL)
+            </label>
+            <Input
+              type="text"
+              value={formData.icone}
+              onChange={(e) => setFormData({ ...formData, icone: e.target.value })}
+              placeholder="Ex: https://exemplo.com/icone.png ou /images/areas/icone.svg"
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              URL ou caminho para o ícone da área
+            </p>
           </div>
 
           <div className="flex justify-end gap-3 pt-4">
@@ -221,7 +248,7 @@ export default function AdminAreasPage() {
               variant="outline"
               onClick={() => {
                 setIsFormOpen(false);
-                setFormData({ nome: '' });
+                setFormData({ nome: '', icone: '' });
                 setSelectedArea(null);
               }}
             >
