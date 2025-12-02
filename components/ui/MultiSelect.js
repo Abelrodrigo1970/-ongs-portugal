@@ -103,39 +103,177 @@ const MultiSelect = ({
 
         {isOpen && (
           <div 
-            className="absolute w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-hidden"
-            style={{ zIndex: 10000 }}
+            className="absolute w-full mt-1 bg-white overflow-hidden"
+            style={{ 
+              zIndex: 10000,
+              width: '350px',
+              paddingTop: '8px',
+              paddingBottom: '8px',
+              paddingLeft: '24px',
+              paddingRight: '4px',
+              background: 'white',
+              boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
+              borderRadius: '16px',
+              outline: '1px #D5E1FF solid',
+              outlineOffset: '-1px',
+              display: 'inline-flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              gap: '16px'
+            }}
           >
-            <div className="p-2 border-b border-gray-200 bg-white">
-              <input
-                type="text"
-                placeholder="Buscar..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
-                onClick={(e) => e.stopPropagation()}
-                style={{ backgroundColor: '#FFFFFF' }}
-              />
+            {/* Campo de Busca */}
+            <div style={{
+              alignSelf: 'stretch',
+              borderRadius: '32px',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              gap: '16px',
+              display: 'flex'
+            }}>
+              <div style={{
+                alignSelf: 'stretch',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                gap: '16px',
+                display: 'inline-flex'
+              }}>
+                <div style={{
+                  flex: '1 1 0',
+                  paddingTop: '8px',
+                  paddingBottom: '8px',
+                  paddingLeft: '12px',
+                  paddingRight: '16px',
+                  borderRadius: '200px',
+                  outline: '1px #D5E1FF solid',
+                  outlineOffset: '-1px',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: '8px',
+                  display: 'flex',
+                  background: 'white'
+                }}>
+                  <input
+                    type="text"
+                    placeholder="Buscar..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      flex: '1 1 0',
+                      border: 'none',
+                      outline: 'none',
+                      background: 'transparent',
+                      color: 'var(--content-text-tertiary, #64748B)',
+                      fontSize: '14px',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: '400',
+                      lineHeight: '21px'
+                    }}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="max-h-48 overflow-y-auto bg-white">
+
+            {/* Lista de Opções */}
+            <div style={{
+              alignSelf: 'stretch',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              gap: '0px',
+              display: 'flex',
+              maxHeight: '300px',
+              overflowY: 'auto',
+              width: '100%'
+            }}>
               {filteredOptions.length === 0 ? (
-                <div className="px-3 py-2 text-gray-500 text-sm">
+                <div style={{
+                  alignSelf: 'stretch',
+                  paddingTop: '12px',
+                  paddingBottom: '12px',
+                  color: '#595959',
+                  fontSize: '14px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: '400',
+                  lineHeight: '21px'
+                }}>
                   Nenhuma opção encontrada
                 </div>
               ) : (
-                filteredOptions.map(option => (
+                filteredOptions.map((option, index) => (
                   <div
                     key={option.value}
-                    className="px-3 py-2 hover:bg-gray-50 cursor-pointer flex items-center"
+                    style={{
+                      alignSelf: 'stretch',
+                      paddingTop: '12px',
+                      paddingBottom: '12px',
+                      borderBottom: index < filteredOptions.length - 1 ? '1px var(--divider, #E2E8F0) solid' : 'none',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      display: 'inline-flex',
+                      cursor: 'pointer',
+                      width: '100%'
+                    }}
                     onClick={() => handleToggleOption(option.value)}
                   >
-                    <input
-                      type="checkbox"
-                      checked={value.includes(option.value)}
-                      onChange={() => {}}
-                      className="mr-2 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                    />
-                    <span className="text-sm text-gray-900">{option.label}</span>
+                    <div style={{
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      gap: '8px',
+                      display: 'flex'
+                    }}>
+                      <span style={{
+                        color: '#595959',
+                        fontSize: '14px',
+                        fontFamily: 'Inter, sans-serif',
+                        fontWeight: '400',
+                        lineHeight: '21px',
+                        wordWrap: 'break-word'
+                      }}>
+                        {option.label}
+                      </span>
+                    </div>
+                    <div style={{
+                      width: '24px',
+                      height: '24px',
+                      position: 'relative'
+                    }}>
+                      {value.includes(option.value) ? (
+                        <>
+                          <div style={{
+                            width: '24px',
+                            height: '24px',
+                            left: 0,
+                            top: 0,
+                            position: 'absolute',
+                            background: '#D9D9D9',
+                            borderRadius: '50%'
+                          }} />
+                          <div style={{
+                            width: '18px',
+                            height: '18px',
+                            left: '3px',
+                            top: '3px',
+                            position: 'absolute',
+                            background: 'var(--content-fill-tertiary, #64748B)',
+                            borderRadius: '50%'
+                          }} />
+                        </>
+                      ) : (
+                        <div style={{
+                          width: '24px',
+                          height: '24px',
+                          left: 0,
+                          top: 0,
+                          position: 'absolute',
+                          background: '#D9D9D9',
+                          borderRadius: '50%'
+                        }} />
+                      )}
+                    </div>
                   </div>
                 ))
               )}

@@ -233,18 +233,12 @@ const FilterBar = ({
           {/* Dropdown para Áreas de Interesse */}
           {openDropdown === 'areas' && (
             <div 
-              className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
+              className="absolute top-full left-0 mt-2"
               style={{
-                backgroundColor: '#FFFFFF',
-                borderColor: 'rgba(64, 64, 64, 0.15)',
-                padding: '16px',
-                minWidth: '280px',
-                maxWidth: '320px',
                 zIndex: 9999
               }}
             >
               <MultiSelect
-                label="Áreas de Atuação"
                 placeholder="Selecionar áreas..."
                 options={areasOptions}
                 value={filters.areas || []}
@@ -297,18 +291,12 @@ const FilterBar = ({
           {/* Dropdown para Localização */}
           {openDropdown === 'localizacao' && (
             <div 
-              className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
+              className="absolute top-full left-0 mt-2"
               style={{
-                backgroundColor: '#FFFFFF',
-                borderColor: 'rgba(64, 64, 64, 0.15)',
-                padding: '16px',
-                minWidth: '280px',
-                maxWidth: '320px',
                 zIndex: 9999
               }}
             >
               <MultiSelect
-                label="Localização"
                 placeholder="Selecionar localizações..."
                 options={localizacaoOptions.filter(opt => opt.value !== '')}
                 value={filters.localizacao || []}
@@ -361,18 +349,12 @@ const FilterBar = ({
           {/* Dropdown para Tipo de Colaboração */}
           {openDropdown === 'colaboracao' && (
             <div 
-              className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
+              className="absolute top-full left-0 mt-2"
               style={{
-                backgroundColor: '#FFFFFF',
-                borderColor: 'rgba(64, 64, 64, 0.15)',
-                padding: '16px',
-                minWidth: '280px',
-                maxWidth: '320px',
                 zIndex: 9999
               }}
             >
               <MultiSelect
-                label="Tipo de Colaboração"
                 placeholder="Selecionar tipos..."
                 options={colaboracaoOptions}
                 value={filters.colaboracao || []}
