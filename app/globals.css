@@ -47,6 +47,15 @@ body {
   display: none;
 }
 
+.custom-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scroll-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Custom section padding - apenas padding-top */
 .section-padding-top {
   padding-top: 1rem;

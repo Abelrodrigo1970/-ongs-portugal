@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { clsx } from 'clsx';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Search, ChevronUp } from 'lucide-react';
 
 const MultiSelect = ({
   label,
@@ -18,6 +18,8 @@ const MultiSelect = ({
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+  const scrollbarThumbRef = useRef(null);
 
   const filteredOptions = options.filter(option =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase())
@@ -36,6 +38,18 @@ const MultiSelect = ({
 
   const selectedOptions = options.filter(option => value.includes(option.value));
 
+  const handleScrollUp = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ top: -50, behavior: 'smooth' });
+    }
+  };
+
+  const handleScrollDown = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ top: 50, behavior: 'smooth' });
+    }
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -47,6 +61,46 @@ const MultiSelect = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Atualizar scrollbar quando o scroll mudar
+  useEffect(() => {
+    if (!isOpen || !scrollContainerRef.current || !scrollbarThumbRef.current) return;
+
+    const scrollContainer = scrollContainerRef.current;
+    const thumb = scrollbarThumbRef.current;
+
+    const updateScrollbar = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      const trackHeight = scrollContainer.clientHeight;
+      const thumbMinHeight = 36;
+      
+      if (scrollHeight <= clientHeight) {
+        thumb.style.display = 'none';
+        return;
+      }
+      
+      thumb.style.display = 'block';
+      const scrollableHeight = scrollHeight - clientHeight;
+      const thumbHeight = Math.max(thumbMinHeight, (clientHeight / scrollHeight) * (trackHeight - 32));
+      const maxThumbTop = trackHeight - thumbHeight - 32;
+      const thumbTop = (scrollTop / scrollableHeight) * maxThumbTop;
+      
+      thumb.style.top = `${16 + thumbTop}px`;
+      thumb.style.height = `${thumbHeight}px`;
+    };
+
+    updateScrollbar();
+    scrollContainer.addEventListener('scroll', updateScrollbar);
+    
+    // Atualizar quando o conteúdo mudar
+    const resizeObserver = new ResizeObserver(updateScrollbar);
+    resizeObserver.observe(scrollContainer);
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', updateScrollbar);
+      resizeObserver.disconnect();
+    };
+  }, [isOpen, filteredOptions.length]);
 
   return (
     <div className="w-full" style={{ backgroundColor: isOpen ? '#FFFFFF' : 'transparent', position: 'relative', zIndex: isOpen ? 10001 : 'auto' }}>
@@ -103,180 +157,351 @@ const MultiSelect = ({
 
         {isOpen && (
           <div 
-            className="absolute w-full mt-1 bg-white overflow-hidden"
+            className="absolute mt-1 bg-white"
             style={{ 
               zIndex: 10000,
-              width: '350px',
-              paddingTop: '8px',
-              paddingBottom: '8px',
+              width: '320px',
+              height: '509px',
               paddingLeft: '24px',
               paddingRight: '4px',
+              paddingTop: '8px',
+              paddingBottom: '8px',
               background: 'white',
               boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.05)',
               borderRadius: '16px',
               outline: '1px #D5E1FF solid',
               outlineOffset: '-1px',
-              display: 'inline-flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-              gap: '16px'
-            }}
-          >
-            {/* Campo de Busca */}
-            <div style={{
-              alignSelf: 'stretch',
-              borderRadius: '32px',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
+              display: 'flex',
+              flexDirection: 'row',
               alignItems: 'flex-start',
               gap: '16px',
-              display: 'flex'
+              overflow: 'hidden'
+            }}
+          >
+            {/* Conteúdo Principal */}
+            <div style={{
+              flex: '1 0 0',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              gap: '24px',
+              paddingTop: '16px',
+              paddingBottom: '12px',
+              paddingLeft: '0',
+              paddingRight: '0',
+              minHeight: '0',
+              minWidth: '0'
             }}>
+              {/* Container da Lista */}
               <div style={{
                 alignSelf: 'stretch',
+                display: 'flex',
+                flexDirection: 'column',
                 justifyContent: 'flex-start',
-                alignItems: 'center',
+                alignItems: 'flex-start',
                 gap: '16px',
-                display: 'inline-flex'
+                width: '100%'
               }}>
+                {/* Campo de Busca */}
                 <div style={{
-                  flex: '1 1 0',
-                  paddingTop: '8px',
-                  paddingBottom: '8px',
-                  paddingLeft: '12px',
-                  paddingRight: '16px',
-                  borderRadius: '200px',
-                  outline: '1px #D5E1FF solid',
-                  outlineOffset: '-1px',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                  gap: '8px',
+                  alignSelf: 'stretch',
+                  borderRadius: '32px',
                   display: 'flex',
-                  background: 'white'
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  gap: '16px'
                 }}>
-                  <input
-                    type="text"
-                    placeholder="Buscar..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onClick={(e) => e.stopPropagation()}
-                    style={{
+                  <div style={{
+                    alignSelf: 'stretch',
+                    display: 'inline-flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    gap: '16px',
+                    position: 'sticky',
+                    top: '0'
+                  }}>
+                    <div style={{
                       flex: '1 1 0',
-                      border: 'none',
-                      outline: 'none',
-                      background: 'transparent',
-                      color: 'var(--content-text-tertiary, #64748B)',
+                      paddingTop: '8px',
+                      paddingBottom: '8px',
+                      paddingLeft: '12px',
+                      paddingRight: '16px',
+                      borderRadius: '200px',
+                      outline: '1px #D5E1FF solid',
+                      outlineOffset: '-1px',
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      alignItems: 'center',
+                      gap: '8px',
+                      background: 'white'
+                    }}>
+                      <Search 
+                        style={{ 
+                          width: '24px', 
+                          height: '24px',
+                          color: '#64748B',
+                          flexShrink: 0
+                        }} 
+                      />
+                      <input
+                        type="text"
+                        placeholder="Search Bar Text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          flex: '1 1 0',
+                          border: 'none',
+                          outline: 'none',
+                          background: 'transparent',
+                          color: '#64748B',
+                          fontSize: '14px',
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: '400',
+                          lineHeight: '21px'
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Lista de Opções com Scroll */}
+                <div 
+                  ref={scrollContainerRef}
+                  style={{
+                    alignSelf: 'stretch',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                    gap: '0px',
+                    maxHeight: 'calc(509px - 120px)',
+                    overflowY: 'auto',
+                    width: '100%',
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none'
+                  }}
+                  className="custom-scroll-container"
+                  onScroll={() => {
+                    // O scroll é gerenciado pelo useEffect
+                  }}
+                >
+                  {filteredOptions.length === 0 ? (
+                    <div style={{
+                      alignSelf: 'stretch',
+                      paddingTop: '12px',
+                      paddingBottom: '12px',
+                      color: '#595959',
                       fontSize: '14px',
                       fontFamily: 'Inter, sans-serif',
                       fontWeight: '400',
                       lineHeight: '21px'
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Lista de Opções */}
-            <div style={{
-              alignSelf: 'stretch',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-              gap: '0px',
-              display: 'flex',
-              maxHeight: '300px',
-              overflowY: 'auto',
-              width: '100%'
-            }}>
-              {filteredOptions.length === 0 ? (
-                <div style={{
-                  alignSelf: 'stretch',
-                  paddingTop: '12px',
-                  paddingBottom: '12px',
-                  color: '#595959',
-                  fontSize: '14px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontWeight: '400',
-                  lineHeight: '21px'
-                }}>
-                  Nenhuma opção encontrada
-                </div>
-              ) : (
-                filteredOptions.map((option, index) => (
-                  <div
-                    key={option.value}
-                    style={{
-                      alignSelf: 'stretch',
-                      paddingTop: '12px',
-                      paddingBottom: '12px',
-                      borderBottom: index < filteredOptions.length - 1 ? '1px var(--divider, #E2E8F0) solid' : 'none',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      display: 'inline-flex',
-                      cursor: 'pointer',
-                      width: '100%'
-                    }}
-                    onClick={() => handleToggleOption(option.value)}
-                  >
-                    <div style={{
-                      justifyContent: 'flex-start',
-                      alignItems: 'center',
-                      gap: '8px',
-                      display: 'flex'
                     }}>
-                      <span style={{
-                        color: '#595959',
-                        fontSize: '14px',
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: '400',
-                        lineHeight: '21px',
-                        wordWrap: 'break-word'
-                      }}>
-                        {option.label}
-                      </span>
+                      Nenhuma opção encontrada
                     </div>
-                    <div style={{
-                      width: '24px',
-                      height: '24px',
-                      position: 'relative'
-                    }}>
-                      {value.includes(option.value) ? (
-                        <>
-                          <div style={{
-                            width: '24px',
-                            height: '24px',
-                            left: 0,
-                            top: 0,
-                            position: 'absolute',
-                            background: '#D9D9D9',
-                            borderRadius: '0'
-                          }} />
-                          <div style={{
-                            width: '16px',
-                            height: '16px',
-                            left: '4px',
-                            top: '4px',
-                            position: 'absolute',
-                            background: 'var(--content-fill-tertiary, #64748B)',
-                            borderRadius: '0'
-                          }} />
-                        </>
-                      ) : (
+                  ) : (
+                    filteredOptions.map((option, index) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        style={{
+                          alignSelf: 'stretch',
+                          paddingTop: '12px',
+                          paddingBottom: '12px',
+                          borderBottom: index < filteredOptions.length - 1 ? '1px #E2E8F0 solid' : 'none',
+                          borderTop: 'none',
+                          borderLeft: 'none',
+                          borderRight: 'none',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          display: 'inline-flex',
+                          cursor: 'pointer',
+                          width: '100%',
+                          background: 'transparent',
+                          textAlign: 'left'
+                        }}
+                        onClick={() => handleToggleOption(option.value)}
+                      >
+                        <div style={{
+                          justifyContent: 'flex-start',
+                          alignItems: 'center',
+                          gap: '8px',
+                          display: 'flex'
+                        }}>
+                          <span style={{
+                            color: '#595959',
+                            fontSize: '14px',
+                            fontFamily: 'Inter, sans-serif',
+                            fontWeight: '400',
+                            lineHeight: '21px',
+                            wordWrap: 'break-word'
+                          }}>
+                            {option.label}
+                          </span>
+                        </div>
                         <div style={{
                           width: '24px',
                           height: '24px',
-                          left: 0,
-                          top: 0,
-                          position: 'absolute',
-                          background: '#D9D9D9',
-                          borderRadius: '0'
-                        }} />
-                      )}
-                    </div>
-                  </div>
-                ))
-              )}
+                          position: 'relative',
+                          flexShrink: 0
+                        }}>
+                          {value.includes(option.value) ? (
+                            <>
+                              <div style={{
+                                width: '24px',
+                                height: '24px',
+                                left: 0,
+                                top: 0,
+                                position: 'absolute',
+                                background: '#D9D9D9',
+                                borderRadius: '0'
+                              }} />
+                              <div style={{
+                                width: '16px',
+                                height: '16px',
+                                left: '4px',
+                                top: '4px',
+                                position: 'absolute',
+                                background: '#64748B',
+                                borderRadius: '0'
+                              }} />
+                            </>
+                          ) : (
+                            <div style={{
+                              width: '24px',
+                              height: '24px',
+                              left: 0,
+                              top: 0,
+                              position: 'absolute',
+                              background: '#D9D9D9',
+                              borderRadius: '0'
+                            }} />
+                          )}
+                        </div>
+                      </button>
+                    ))
+                  )}
+                </div>
+
+                {/* Link "Less" */}
+                <p style={{
+                  textDecoration: 'underline',
+                  textUnderlinePosition: 'from-font',
+                  fontFamily: 'Inter, sans-serif',
+                  fontStyle: 'normal',
+                  fontWeight: '700',
+                  fontSize: '12px',
+                  lineHeight: '16px',
+                  color: '#020617',
+                  textTransform: 'uppercase',
+                  margin: 0,
+                  cursor: 'pointer'
+                }}
+                onClick={() => setIsOpen(false)}
+                >
+                  Less
+                </p>
+              </div>
+            </div>
+
+            {/* Scrollbar Customizado */}
+            <div 
+              className="custom-scrollbar"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                gap: '16px',
+                height: '100%',
+                width: '16px',
+                flexShrink: 0,
+                paddingTop: '0',
+                paddingBottom: '0',
+                paddingLeft: '0',
+                paddingRight: '0'
+              }}
+            >
+              {/* Seta para cima */}
+              <button
+                type="button"
+                onClick={handleScrollUp}
+                style={{
+                  width: '16px',
+                  height: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0
+                }}
+              >
+                <ChevronUp 
+                  size={16} 
+                  style={{ 
+                    color: '#1e293b',
+                    width: '16px',
+                    height: '16px'
+                  }} 
+                />
+              </button>
+
+              {/* Track do Scrollbar */}
+              <div style={{
+                flex: '1 0 0',
+                width: '16px',
+                position: 'relative',
+                minHeight: '36px'
+              }}>
+                {/* Thumb do Scrollbar */}
+                <div 
+                  ref={scrollbarThumbRef}
+                  className="scrollbar-thumb"
+                  style={{
+                    position: 'absolute',
+                    left: '2px',
+                    top: '16px',
+                    width: '12px',
+                    height: '36px',
+                    background: '#1e293b',
+                    borderRadius: '533.33px',
+                    transition: 'top 0.1s ease-out',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
+
+              {/* Seta para baixo */}
+              <button
+                type="button"
+                onClick={handleScrollDown}
+                style={{
+                  width: '16px',
+                  height: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0
+                }}
+              >
+                <ChevronDown 
+                  size={16} 
+                  style={{ 
+                    color: '#1e293b',
+                    width: '16px',
+                    height: '16px'
+                  }} 
+                />
+              </button>
             </div>
           </div>
         )}
