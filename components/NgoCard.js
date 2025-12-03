@@ -110,18 +110,20 @@ const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) 
             {/* Name and Location */}
             <div className="self-stretch h-20 flex flex-col justify-start items-start">
               <h3 
-                className="self-stretch justify-start text-gray-900 text-base font-bold font-['Inter'] leading-6 line-clamp-2"
+                className="self-stretch justify-start text-base font-bold leading-6 line-clamp-2"
                 style={{ 
                   color: 'rgba(2, 6, 23, 1)',
+                  fontFamily: 'Inter, sans-serif',
                   marginBottom: '4px'
                 }}
               >
                 {ngo.nome}
               </h3>
               <p 
-                className="self-stretch justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5"
+                className="self-stretch justify-start text-sm font-semibold leading-5"
                 style={{ 
-                  color: 'rgba(100, 116, 139, 1)'
+                  color: 'rgba(100, 116, 139, 1)',
+                  fontFamily: 'Inter, sans-serif'
                 }}
               >
                 {ngo.localizacao || 'Location'}
@@ -140,9 +142,10 @@ const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) 
                     }}
                   >
                     <div 
-                      className="justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5"
+                      className="justify-start text-sm font-semibold leading-5"
                       style={{ 
-                        color: 'rgba(107, 114, 128, 1)'
+                        color: 'rgba(107, 114, 128, 1)',
+                        fontFamily: 'Inter, sans-serif'
                       }}
                     >
                       {area}
