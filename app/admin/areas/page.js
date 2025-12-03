@@ -79,6 +79,19 @@ export default function AdminAreasPage() {
     { name: 'inclusao-social', path: '/images/areas/inclusao-social.svg', label: 'Inclusão Social' },
     { name: 'reinsercao', path: '/images/areas/reinsercao.svg', label: 'Reinserção' },
     { name: 'seguranca-alimentar', path: '/images/areas/seguranca-alimentar.svg', label: 'Segurança Alimentar' },
+    { name: 'placeholder', path: '/images/placeholder.svg', label: 'Placeholder' },
+    // Ícones adicionais que podem ser úteis (usando os existentes como base)
+    { name: 'saude', path: '/images/areas/educacao.svg', label: 'Saúde' },
+    { name: 'acao-social', path: '/images/areas/inclusao-social.svg', label: 'Ação Social' },
+    { name: 'direitos-humanos', path: '/images/areas/inclusao-social.svg', label: 'Direitos Humanos' },
+    { name: 'pobreza-exclusao', path: '/images/areas/inclusao-social.svg', label: 'Pobreza e Exclusão' },
+    { name: 'igualdade-genero', path: '/images/areas/inclusao-social.svg', label: 'Igualdade de Género' },
+    { name: 'protecao-animal', path: '/images/areas/ambiente.svg', label: 'Proteção Animal' },
+    { name: 'bem-estar-animal', path: '/images/areas/ambiente.svg', label: 'Bem-estar Animal' },
+    { name: 'conservacao', path: '/images/areas/ambiente.svg', label: 'Conservação' },
+    { name: 'desenvolvimento-comunitario', path: '/images/areas/comunidade.svg', label: 'Desenvolvimento Comunitário' },
+    { name: 'patrimonio', path: '/images/areas/cultura.svg', label: 'Património' },
+    { name: 'ornitologia', path: '/images/areas/ambiente.svg', label: 'Ornitologia' },
   ];
 
   useEffect(() => {
