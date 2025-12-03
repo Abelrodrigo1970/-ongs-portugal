@@ -384,25 +384,6 @@ const MultiSelect = ({
                     ))
                   )}
                 </div>
-
-                {/* Link "Less" */}
-                <p style={{
-                  textDecoration: 'underline',
-                  textUnderlinePosition: 'from-font',
-                  fontFamily: 'Inter, sans-serif',
-                  fontStyle: 'normal',
-                  fontWeight: '700',
-                  fontSize: '12px',
-                  lineHeight: '16px',
-                  color: '#020617',
-                  textTransform: 'uppercase',
-                  margin: 0,
-                  cursor: 'pointer'
-                }}
-                onClick={() => setIsOpen(false)}
-                >
-                  Less
-                </p>
               </div>
             </div>
 
