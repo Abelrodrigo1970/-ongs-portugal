@@ -229,17 +229,87 @@ export default function AdminAreasPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Ícone (URL)
+              Ícone
             </label>
-            <Input
-              type="text"
-              value={formData.icone}
-              onChange={(e) => setFormData({ ...formData, icone: e.target.value })}
-              placeholder="Ex: https://exemplo.com/icone.png ou /images/areas/icone.svg"
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              URL ou caminho para o ícone da área
-            </p>
+            
+            {/* Ícones disponíveis */}
+            <div className="mb-3">
+              <p className="text-xs text-gray-600 mb-2">Ícones disponíveis (clique para selecionar):</p>
+              <div className="grid grid-cols-5 gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
+                {[
+                  { name: 'ambiente', path: '/images/areas/ambiente.svg' },
+                  { name: 'comunidade', path: '/images/areas/comunidade.svg' },
+                  { name: 'cultura', path: '/images/areas/cultura.svg' },
+                  { name: 'desporto', path: '/images/areas/desporto.svg' },
+                  { name: 'educacao', path: '/images/areas/educacao.svg' },
+                  { name: 'empregabilidade', path: '/images/areas/empregabilidade.svg' },
+                  { name: 'formacao', path: '/images/areas/formacao.svg' },
+                  { name: 'inclusao-social', path: '/images/areas/inclusao-social.svg' },
+                  { name: 'reinsercao', path: '/images/areas/reinsercao.svg' },
+                  { name: 'seguranca-alimentar', path: '/images/areas/seguranca-alimentar.svg' },
+                ].map((icon) => (
+                  <button
+                    key={icon.path}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, icone: icon.path })}
+                    className={`p-2 rounded border-2 transition-all hover:border-primary-500 ${
+                      formData.icone === icon.path
+                        ? 'border-primary-600 bg-primary-50'
+                        : 'border-gray-200 bg-white hover:bg-gray-50'
+                    }`}
+                    title={icon.name}
+                  >
+                    <img 
+                      src={icon.path} 
+                      alt={icon.name}
+                      className="w-6 h-6 mx-auto object-contain"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Campo de texto para URL personalizada */}
+            <div>
+              <p className="text-xs text-gray-600 mb-1">Ou digite uma URL personalizada:</p>
+              <Input
+                type="text"
+                value={formData.icone}
+                onChange={(e) => setFormData({ ...formData, icone: e.target.value })}
+                placeholder="Ex: /images/areas/custom.svg ou https://exemplo.com/icone.png"
+              />
+            </div>
+            
+            {/* Preview do ícone */}
+            {formData.icone && (
+              <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                <p className="text-xs text-gray-600 mb-2 font-medium">Preview do ícone:</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 flex items-center justify-center bg-white rounded border border-gray-200">
+                    <img 
+                      src={formData.icone} 
+                      alt="Preview"
+                      className="max-w-full max-h-full object-contain"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        if (e.target.nextSibling) {
+                          e.target.nextSibling.style.display = 'flex';
+                        }
+                      }}
+                    />
+                    <div className="hidden items-center justify-center text-gray-400 text-xs">
+                      Erro
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs text-gray-600 break-all">{formData.icone}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {formData.icone.startsWith('http') ? 'URL externa' : 'Caminho local'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex justify-end gap-3 pt-4">
