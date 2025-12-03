@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { clsx } from 'clsx';
-import { ChevronDown, Search, ChevronUp } from 'lucide-react';
+import { ChevronDown, Search, ChevronUp, X } from 'lucide-react';
 
 const MultiSelect = ({
   label,
@@ -348,37 +348,37 @@ const MultiSelect = ({
                           width: '24px',
                           height: '24px',
                           position: 'relative',
-                          flexShrink: 0
+                          flexShrink: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
                         }}>
                           {value.includes(option.value) ? (
-                            <>
-                              <div style={{
-                                width: '24px',
-                                height: '24px',
-                                left: 0,
-                                top: 0,
-                                position: 'absolute',
-                                background: '#D9D9D9',
-                                borderRadius: '0'
-                              }} />
-                              <div style={{
-                                width: '16px',
-                                height: '16px',
-                                left: '4px',
-                                top: '4px',
-                                position: 'absolute',
-                                background: '#64748B',
-                                borderRadius: '0'
-                              }} />
-                            </>
+                            <div style={{
+                              width: '24px',
+                              height: '24px',
+                              background: '#FFFFFF',
+                              border: '1px solid #64748B',
+                              borderRadius: '0',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              position: 'relative'
+                            }}>
+                              <X 
+                                size={16} 
+                                style={{ 
+                                  color: '#64748B',
+                                  strokeWidth: 3
+                                }} 
+                              />
+                            </div>
                           ) : (
                             <div style={{
                               width: '24px',
                               height: '24px',
-                              left: 0,
-                              top: 0,
-                              position: 'absolute',
-                              background: '#D9D9D9',
+                              background: '#FFFFFF',
+                              border: '1px solid #D9D9D9',
                               borderRadius: '0'
                             }} />
                           )}
