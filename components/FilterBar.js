@@ -246,6 +246,7 @@ const FilterBar = ({
                   console.log('🔧 Áreas changed:', value);
                   updateFilters({ areas: Array.isArray(value) ? value : [] });
                 }}
+                hideTriggerButton={true}
               />
             </div>
           )}
@@ -304,6 +305,7 @@ const FilterBar = ({
                   console.log('🔧 Localização changed:', value);
                   updateFilters({ localizacao: Array.isArray(value) ? value : [] });
                 }}
+                hideTriggerButton={true}
               />
             </div>
           )}
@@ -362,6 +364,7 @@ const FilterBar = ({
                   console.log('🔧 Colaboração changed:', value);
                   updateFilters({ colaboracao: Array.isArray(value) ? value : [] });
                 }}
+                hideTriggerButton={true}
               />
             </div>
           )}

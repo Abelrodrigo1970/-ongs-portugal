@@ -13,9 +13,10 @@ const MultiSelect = ({
   error,
   helperText,
   className = '',
+  hideTriggerButton = false, // Nova prop para ocultar o botão quando usado no FilterBar
   ...props
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(hideTriggerButton); // Se hideTriggerButton for true, começa aberto
   const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef(null);
   const scrollContainerRef = useRef(null);
@@ -112,48 +113,50 @@ const MultiSelect = ({
       )}
       
       <div className="relative" ref={dropdownRef} style={{ zIndex: isOpen ? 10001 : 'auto', backgroundColor: isOpen ? '#FFFFFF' : 'transparent' }}>
-        <div
-          className={clsx(
-            'w-full min-h-[42px] px-3 py-2 border rounded-lg cursor-pointer flex items-center flex-wrap gap-1',
-            'focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-transparent',
-            error
-              ? 'border-red-300 focus-within:ring-red-500'
-              : 'border-gray-300 hover:border-gray-400',
-            className
-          )}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {selectedOptions.length === 0 ? (
-            <span className="text-gray-500">{placeholder}</span>
-          ) : (
-            <div className="flex flex-wrap gap-1">
-              {selectedOptions.map(option => (
-                <span
-                  key={option.value}
-                  className="inline-flex items-center gap-1 px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full"
-                >
-                  {option.label}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRemoveOption(option.value);
-                    }}
-                    className="hover:bg-primary-200 rounded-full p-0.5"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
-          <ChevronDown
+        {!hideTriggerButton && (
+          <div
             className={clsx(
-              'h-4 w-4 text-gray-400 ml-auto transition-transform duration-200',
-              isOpen && 'rotate-180'
+              'w-full min-h-[42px] px-3 py-2 border rounded-lg cursor-pointer flex items-center flex-wrap gap-1',
+              'focus-within:outline-none focus-within:ring-2 focus-within:ring-primary-500 focus-within:border-transparent',
+              error
+                ? 'border-red-300 focus-within:ring-red-500'
+                : 'border-gray-300 hover:border-gray-400',
+              className
             )}
-          />
-        </div>
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {selectedOptions.length === 0 ? (
+              <span className="text-gray-500">{placeholder}</span>
+            ) : (
+              <div className="flex flex-wrap gap-1">
+                {selectedOptions.map(option => (
+                  <span
+                    key={option.value}
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-primary-100 text-primary-800 text-xs rounded-full"
+                  >
+                    {option.label}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveOption(option.value);
+                      }}
+                      className="hover:bg-primary-200 rounded-full p-0.5"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+            <ChevronDown
+              className={clsx(
+                'h-4 w-4 text-gray-400 ml-auto transition-transform duration-200',
+                isOpen && 'rotate-180'
+              )}
+            />
+          </div>
+        )}
 
         {isOpen && (
           <div 
