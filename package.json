@@ -12,6 +12,7 @@
     "db:reset": "prisma migrate reset --force && prisma db seed",
     "db:seed": "prisma db seed",
     "db:create-cais": "node scripts/create-cais-ong.js",
+    "db:add-icons-areas": "node scripts/add-icons-to-areas.js",
     "postinstall": "prisma generate"
   },
   "dependencies": {

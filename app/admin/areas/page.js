@@ -8,6 +8,54 @@ import Input from '@/components/ui/Input';
 import AdminModal from '@/components/admin/AdminModal';
 import { Edit, Plus, Trash2, Search } from 'lucide-react';
 
+// Mapeamento automático de nomes de áreas para ícones
+const getSuggestedIcon = (nome) => {
+  const nomeLower = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  
+  const iconMap = {
+    'ambiente': '/images/areas/ambiente.svg',
+    'ambiental': '/images/areas/ambiente.svg',
+    'conservacao': '/images/areas/ambiente.svg',
+    'comunidade': '/images/areas/comunidade.svg',
+    'desenvolvimento comunitario': '/images/areas/comunidade.svg',
+    'cultura': '/images/areas/cultura.svg',
+    'patrimonio': '/images/areas/cultura.svg',
+    'desporto': '/images/areas/desporto.svg',
+    'esporte': '/images/areas/desporto.svg',
+    'educacao': '/images/areas/educacao.svg',
+    'ensino': '/images/areas/educacao.svg',
+    'empregabilidade': '/images/areas/empregabilidade.svg',
+    'emprego': '/images/areas/empregabilidade.svg',
+    'formacao': '/images/areas/formacao.svg',
+    'capacitacao': '/images/areas/formacao.svg',
+    'inclusao social': '/images/areas/inclusao-social.svg',
+    'inclusao': '/images/areas/inclusao-social.svg',
+    'acao social': '/images/areas/inclusao-social.svg',
+    'pobreza': '/images/areas/inclusao-social.svg',
+    'exclusao': '/images/areas/inclusao-social.svg',
+    'direitos humanos': '/images/areas/inclusao-social.svg',
+    'reinsercao': '/images/areas/reinsercao.svg',
+    'reinsercao social': '/images/areas/reinsercao.svg',
+    'seguranca alimentar': '/images/areas/seguranca-alimentar.svg',
+    'alimentar': '/images/areas/seguranca-alimentar.svg',
+    'fome': '/images/areas/seguranca-alimentar.svg',
+    'saude': '/images/areas/educacao.svg', // Usar educação como fallback
+    'protecao animal': '/images/areas/ambiente.svg', // Usar ambiente como fallback
+    'ornitologia': '/images/areas/ambiente.svg', // Usar ambiente como fallback
+    'bem-estar animal': '/images/areas/ambiente.svg', // Usar ambiente como fallback
+    'igualdade de genero': '/images/areas/inclusao-social.svg', // Usar inclusão como fallback
+  };
+
+  // Buscar correspondência exata ou parcial
+  for (const [key, icon] of Object.entries(iconMap)) {
+    if (nomeLower.includes(key) || key.includes(nomeLower)) {
+      return icon;
+    }
+  }
+
+  return null;
+};
+
 export default function AdminAreasPage() {
   const { getAuthHeaders } = useAdmin();
   const [areas, setAreas] = useState([]);
@@ -47,7 +95,10 @@ export default function AdminAreasPage() {
 
   const handleEdit = (area) => {
     setSelectedArea(area);
-    setFormData({ nome: area.nome, icone: area.icone || '' });
+    setFormData({ 
+      nome: area.nome, 
+      icone: area.icone || getSuggestedIcon(area.nome) || '' 
+    });
     setIsFormOpen(true);
   };
 
@@ -139,10 +190,40 @@ export default function AdminAreasPage() {
             />
           </div>
         </div>
-        <Button onClick={handleCreate}>
-          <Plus className="h-5 w-5 mr-2" />
-          Nova Área
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={async () => {
+              if (!confirm('Deseja adicionar ícones automaticamente a todas as áreas que não têm ícone?')) {
+                return;
+              }
+              try {
+                const headers = getAuthHeaders();
+                const response = await fetch('/api/admin/areas/add-icons', {
+                  method: 'POST',
+                  headers,
+                });
+                const data = await response.json();
+                if (data.success) {
+                  alert(`✅ ${data.message}`);
+                  loadAreas();
+                } else {
+                  alert('Erro ao adicionar ícones');
+                }
+              } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao adicionar ícones');
+              }
+            }}
+            variant="outline"
+            className="text-sm"
+          >
+            🎨 Adicionar Ícones
+          </Button>
+          <Button onClick={handleCreate}>
+            <Plus className="h-5 w-5 mr-2" />
+            Nova Área
+          </Button>
+        </div>
       </div>
 
       {/* Areas List */}
@@ -221,10 +302,23 @@ export default function AdminAreasPage() {
             <Input
               type="text"
               value={formData.nome}
-              onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+              onChange={(e) => {
+                const newNome = e.target.value;
+                const suggestedIcon = getSuggestedIcon(newNome);
+                setFormData({ 
+                  ...formData, 
+                  nome: newNome,
+                  icone: formData.icone || suggestedIcon || ''
+                });
+              }}
               placeholder="Ex: Ação Social"
               required
             />
+            {formData.nome && !formData.icone && getSuggestedIcon(formData.nome) && (
+              <p className="mt-1 text-xs text-blue-600">
+                💡 Sugestão: Um ícone foi sugerido automaticamente baseado no nome
+              </p>
+            )}
           </div>
 
           <div>
@@ -235,35 +329,36 @@ export default function AdminAreasPage() {
             {/* Ícones disponíveis */}
             <div className="mb-3">
               <p className="text-xs text-gray-600 mb-2">Ícones disponíveis (clique para selecionar):</p>
-              <div className="grid grid-cols-5 gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="grid grid-cols-5 gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 max-h-64 overflow-y-auto">
                 {[
-                  { name: 'ambiente', path: '/images/areas/ambiente.svg' },
-                  { name: 'comunidade', path: '/images/areas/comunidade.svg' },
-                  { name: 'cultura', path: '/images/areas/cultura.svg' },
-                  { name: 'desporto', path: '/images/areas/desporto.svg' },
-                  { name: 'educacao', path: '/images/areas/educacao.svg' },
-                  { name: 'empregabilidade', path: '/images/areas/empregabilidade.svg' },
-                  { name: 'formacao', path: '/images/areas/formacao.svg' },
-                  { name: 'inclusao-social', path: '/images/areas/inclusao-social.svg' },
-                  { name: 'reinsercao', path: '/images/areas/reinsercao.svg' },
-                  { name: 'seguranca-alimentar', path: '/images/areas/seguranca-alimentar.svg' },
+                  { name: 'ambiente', path: '/images/areas/ambiente.svg', label: 'Ambiente' },
+                  { name: 'comunidade', path: '/images/areas/comunidade.svg', label: 'Comunidade' },
+                  { name: 'cultura', path: '/images/areas/cultura.svg', label: 'Cultura' },
+                  { name: 'desporto', path: '/images/areas/desporto.svg', label: 'Desporto' },
+                  { name: 'educacao', path: '/images/areas/educacao.svg', label: 'Educação' },
+                  { name: 'empregabilidade', path: '/images/areas/empregabilidade.svg', label: 'Empregabilidade' },
+                  { name: 'formacao', path: '/images/areas/formacao.svg', label: 'Formação' },
+                  { name: 'inclusao-social', path: '/images/areas/inclusao-social.svg', label: 'Inclusão Social' },
+                  { name: 'reinsercao', path: '/images/areas/reinsercao.svg', label: 'Reinserção' },
+                  { name: 'seguranca-alimentar', path: '/images/areas/seguranca-alimentar.svg', label: 'Segurança Alimentar' },
                 ].map((icon) => (
                   <button
                     key={icon.path}
                     type="button"
                     onClick={() => setFormData({ ...formData, icone: icon.path })}
-                    className={`p-2 rounded border-2 transition-all hover:border-primary-500 ${
+                    className={`p-2 rounded border-2 transition-all hover:border-primary-500 flex flex-col items-center gap-1 ${
                       formData.icone === icon.path
                         ? 'border-primary-600 bg-primary-50'
                         : 'border-gray-200 bg-white hover:bg-gray-50'
                     }`}
-                    title={icon.name}
+                    title={icon.label || icon.name}
                   >
                     <img 
                       src={icon.path} 
                       alt={icon.name}
-                      className="w-6 h-6 mx-auto object-contain"
+                      className="w-6 h-6 object-contain"
                     />
+                    <span className="text-[10px] text-gray-600 text-center leading-tight">{icon.label || icon.name}</span>
                   </button>
                 ))}
               </div>
