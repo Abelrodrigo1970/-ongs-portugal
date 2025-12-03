@@ -6,7 +6,7 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import AdminModal from '@/components/admin/AdminModal';
-import { Edit, Plus, Trash2, Search } from 'lucide-react';
+import { Edit, Plus, Trash2, Search, ChevronDown, X } from 'lucide-react';
 
 // Mapeamento automático de nomes de áreas para ícones
 const getSuggestedIcon = (nome) => {
@@ -65,6 +65,21 @@ export default function AdminAreasPage() {
   const [selectedArea, setSelectedArea] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [formData, setFormData] = useState({ nome: '', icone: '' });
+  const [showIconPicker, setShowIconPicker] = useState(false);
+
+  // Lista completa de todos os ícones disponíveis
+  const availableIcons = [
+    { name: 'ambiente', path: '/images/areas/ambiente.svg', label: 'Ambiente' },
+    { name: 'comunidade', path: '/images/areas/comunidade.svg', label: 'Comunidade' },
+    { name: 'cultura', path: '/images/areas/cultura.svg', label: 'Cultura' },
+    { name: 'desporto', path: '/images/areas/desporto.svg', label: 'Desporto' },
+    { name: 'educacao', path: '/images/areas/educacao.svg', label: 'Educação' },
+    { name: 'empregabilidade', path: '/images/areas/empregabilidade.svg', label: 'Empregabilidade' },
+    { name: 'formacao', path: '/images/areas/formacao.svg', label: 'Formação' },
+    { name: 'inclusao-social', path: '/images/areas/inclusao-social.svg', label: 'Inclusão Social' },
+    { name: 'reinsercao', path: '/images/areas/reinsercao.svg', label: 'Reinserção' },
+    { name: 'seguranca-alimentar', path: '/images/areas/seguranca-alimentar.svg', label: 'Segurança Alimentar' },
+  ];
 
   useEffect(() => {
     loadAreas();
@@ -90,6 +105,7 @@ export default function AdminAreasPage() {
   const handleCreate = () => {
     setSelectedArea(null);
     setFormData({ nome: '', icone: '' });
+    setShowIconPicker(false);
     setIsFormOpen(true);
   };
 
@@ -99,6 +115,7 @@ export default function AdminAreasPage() {
       nome: area.nome, 
       icone: area.icone || getSuggestedIcon(area.nome) || '' 
     });
+    setShowIconPicker(false);
     setIsFormOpen(true);
   };
 
@@ -190,40 +207,10 @@ export default function AdminAreasPage() {
             />
           </div>
         </div>
-        <div className="flex gap-2">
-          <Button
-            onClick={async () => {
-              if (!confirm('Deseja adicionar ícones automaticamente a todas as áreas que não têm ícone?')) {
-                return;
-              }
-              try {
-                const headers = getAuthHeaders();
-                const response = await fetch('/api/admin/areas/add-icons', {
-                  method: 'POST',
-                  headers,
-                });
-                const data = await response.json();
-                if (data.success) {
-                  alert(`✅ ${data.message}`);
-                  loadAreas();
-                } else {
-                  alert('Erro ao adicionar ícones');
-                }
-              } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao adicionar ícones');
-              }
-            }}
-            variant="outline"
-            className="text-sm"
-          >
-            🎨 Adicionar Ícones
-          </Button>
-          <Button onClick={handleCreate}>
-            <Plus className="h-5 w-5 mr-2" />
-            Nova Área
-          </Button>
-        </div>
+        <Button onClick={handleCreate}>
+          <Plus className="h-5 w-5 mr-2" />
+          Nova Área
+        </Button>
       </div>
 
       {/* Areas List */}
@@ -291,6 +278,7 @@ export default function AdminAreasPage() {
           setIsFormOpen(false);
           setFormData({ nome: '', icone: '' });
           setSelectedArea(null);
+          setShowIconPicker(false);
         }}
         title={selectedArea ? 'Editar Área' : 'Nova Área'}
       >
@@ -326,59 +314,99 @@ export default function AdminAreasPage() {
               Ícone
             </label>
             
-            {/* Ícones disponíveis */}
-            <div className="mb-3">
-              <p className="text-xs text-gray-600 mb-2">Ícones disponíveis (clique para selecionar):</p>
-              <div className="grid grid-cols-5 gap-2 p-2 bg-gray-50 rounded-lg border border-gray-200 max-h-64 overflow-y-auto">
-                {[
-                  { name: 'ambiente', path: '/images/areas/ambiente.svg', label: 'Ambiente' },
-                  { name: 'comunidade', path: '/images/areas/comunidade.svg', label: 'Comunidade' },
-                  { name: 'cultura', path: '/images/areas/cultura.svg', label: 'Cultura' },
-                  { name: 'desporto', path: '/images/areas/desporto.svg', label: 'Desporto' },
-                  { name: 'educacao', path: '/images/areas/educacao.svg', label: 'Educação' },
-                  { name: 'empregabilidade', path: '/images/areas/empregabilidade.svg', label: 'Empregabilidade' },
-                  { name: 'formacao', path: '/images/areas/formacao.svg', label: 'Formação' },
-                  { name: 'inclusao-social', path: '/images/areas/inclusao-social.svg', label: 'Inclusão Social' },
-                  { name: 'reinsercao', path: '/images/areas/reinsercao.svg', label: 'Reinserção' },
-                  { name: 'seguranca-alimentar', path: '/images/areas/seguranca-alimentar.svg', label: 'Segurança Alimentar' },
-                ].map((icon) => (
-                  <button
-                    key={icon.path}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, icone: icon.path })}
-                    className={`p-2 rounded border-2 transition-all hover:border-primary-500 flex flex-col items-center gap-1 ${
-                      formData.icone === icon.path
-                        ? 'border-primary-600 bg-primary-50'
-                        : 'border-gray-200 bg-white hover:bg-gray-50'
-                    }`}
-                    title={icon.label || icon.name}
-                  >
-                    <img 
-                      src={icon.path} 
-                      alt={icon.name}
-                      className="w-6 h-6 object-contain"
-                    />
-                    <span className="text-[10px] text-gray-600 text-center leading-tight">{icon.label || icon.name}</span>
-                  </button>
-                ))}
-              </div>
+            {/* Seletor de ícone com dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowIconPicker(!showIconPicker)}
+                className="w-full flex items-center justify-between px-3 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  {formData.icone ? (
+                    <>
+                      <img 
+                        src={formData.icone} 
+                        alt="Ícone selecionado"
+                        className="w-5 h-5 object-contain"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                      <span className="text-sm text-gray-700">
+                        {availableIcons.find(i => i.path === formData.icone)?.label || 'Ícone personalizado'}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-sm text-gray-500">Selecione um ícone...</span>
+                  )}
+                </div>
+                <ChevronDown className={`h-4 w-4 text-gray-400 transition-transform ${showIconPicker ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Popup LOV com todos os ícones */}
+              {showIconPicker && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-10" 
+                    onClick={() => setShowIconPicker(false)}
+                  />
+                  <div className="absolute z-20 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-96 overflow-hidden">
+                    <div className="p-3 border-b border-gray-200 flex items-center justify-between">
+                      <p className="text-sm font-medium text-gray-700">Selecione um ícone</p>
+                      <button
+                        type="button"
+                        onClick={() => setShowIconPicker(false)}
+                        className="text-gray-400 hover:text-gray-600"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="p-3 overflow-y-auto max-h-80">
+                      <div className="grid grid-cols-4 gap-2">
+                        {availableIcons.map((icon) => (
+                          <button
+                            key={icon.path}
+                            type="button"
+                            onClick={() => {
+                              setFormData({ ...formData, icone: icon.path });
+                              setShowIconPicker(false);
+                            }}
+                            className={`p-3 rounded-lg border-2 transition-all hover:border-primary-500 flex flex-col items-center gap-2 ${
+                              formData.icone === icon.path
+                                ? 'border-primary-600 bg-primary-50'
+                                : 'border-gray-200 bg-white hover:bg-gray-50'
+                            }`}
+                            title={icon.label}
+                          >
+                            <img 
+                              src={icon.path} 
+                              alt={icon.name}
+                              className="w-8 h-8 object-contain"
+                            />
+                            <span className="text-xs text-gray-600 text-center leading-tight">{icon.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="p-3 border-t border-gray-200">
+                      <p className="text-xs text-gray-600 mb-2">Ou digite uma URL personalizada:</p>
+                      <Input
+                        type="text"
+                        value={formData.icone}
+                        onChange={(e) => setFormData({ ...formData, icone: e.target.value })}
+                        placeholder="Ex: /images/areas/custom.svg"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
-            {/* Campo de texto para URL personalizada */}
-            <div>
-              <p className="text-xs text-gray-600 mb-1">Ou digite uma URL personalizada:</p>
-              <Input
-                type="text"
-                value={formData.icone}
-                onChange={(e) => setFormData({ ...formData, icone: e.target.value })}
-                placeholder="Ex: /images/areas/custom.svg ou https://exemplo.com/icone.png"
-              />
-            </div>
-            
-            {/* Preview do ícone */}
+            {/* Preview do ícone selecionado */}
             {formData.icone && (
               <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <p className="text-xs text-gray-600 mb-2 font-medium">Preview do ícone:</p>
+                <p className="text-xs text-gray-600 mb-2 font-medium">Preview:</p>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 flex items-center justify-center bg-white rounded border border-gray-200">
                     <img 
@@ -398,9 +426,6 @@ export default function AdminAreasPage() {
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-gray-600 break-all">{formData.icone}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {formData.icone.startsWith('http') ? 'URL externa' : 'Caminho local'}
-                    </p>
                   </div>
                 </div>
               </div>
