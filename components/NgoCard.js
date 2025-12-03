@@ -95,9 +95,10 @@ const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) 
             >
               <div className="w-7 h-7 left-0 top-0 absolute bg-zinc-300 rounded-full" />
               <Heart 
-                className={`w-5 h-5 relative ${favorite ? 'fill-red-500 text-red-500' : 'fill-white text-white'}`}
+                className={`w-5 h-5 relative ${favorite ? 'fill-red-500 text-red-500' : 'text-white'}`}
                 style={{ 
-                  strokeWidth: favorite ? 0 : 2
+                  strokeWidth: 2,
+                  fill: favorite ? 'currentColor' : 'none'
                 }} 
               />
             </button>
