@@ -88,14 +88,10 @@ const NgoCard = ({ ngo, className = '', isFavorite = false, onFavoriteToggle }) 
             {/* Favorite Heart Icon - Based on Figma design */}
             <button
               onClick={handleFavoriteClick}
-              className="w-7 h-7 left-[277px] top-[8px] absolute z-10 flex items-center justify-center rounded-full hover:bg-black/10 transition-colors"
-              style={{ 
-                boxShadow: '0px 0px 8.88888931274414px 0px rgba(0,0,0,0.75)'
-              }}
+              className="w-7 h-7 left-[277px] top-[8px] absolute z-10 flex items-center justify-center transition-colors"
             >
-              <div className="w-7 h-7 left-0 top-0 absolute bg-zinc-300 rounded-full" />
               <Heart 
-                className={`w-5 h-5 relative ${favorite ? 'fill-red-500 text-red-500' : 'text-white'}`}
+                className={`w-5 h-5 ${favorite ? 'fill-red-500 text-red-500' : 'text-white'}`}
                 style={{ 
                   strokeWidth: 2,
                   fill: favorite ? 'currentColor' : 'none'
