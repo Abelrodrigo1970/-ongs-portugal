@@ -23,7 +23,7 @@ async function EventsContent({ searchParams }) {
     visivel: searchParams.visivel !== 'false',
     sort: searchParams.sort || 'dataInicio-asc',
     page: parseInt(searchParams.page) || 1,
-    limit: 8 // 2 linhas de 4 cards = 8 cards por página
+    limit: 9 // 3 linhas de 3 cards = 9 cards por página
   };
 
   const [eventsResult, odsOptions, areasOptions, tipoOptions] = await Promise.all([
@@ -209,7 +209,7 @@ async function EventsContent({ searchParams }) {
                     </h2>
                   </div>
 
-                  {/* First 4 cards in horizontal row */}
+                  {/* First 3 cards in horizontal row */}
                   <div 
                     className="w-full flex justify-center items-start"
                     style={{ 
@@ -218,7 +218,7 @@ async function EventsContent({ searchParams }) {
                       overflow: 'clip' // Como no Figma
                     }}
                   >
-                    {events.slice(0, 4).map((event) => (
+                    {events.slice(0, 3).map((event) => (
                       <div key={event.id} style={{ flexShrink: 0 }}>
                         <CompactEventCard event={event} />
                       </div>
@@ -230,7 +230,7 @@ async function EventsContent({ searchParams }) {
 
             {/* Todas as iniciativas Section */}
             <div 
-              className="w-full flex flex-col items-start"
+              className="w-full flex flex-col items-center"
               style={{ 
                 gap: '24px',
                 width: '100%'
@@ -238,7 +238,7 @@ async function EventsContent({ searchParams }) {
             >
               {/* Container para título e cards alinhados */}
               <div 
-                className="flex flex-col"
+                className="flex flex-col items-center"
                 style={{ 
                   gap: '24px',
                   width: '100%',
@@ -269,7 +269,7 @@ async function EventsContent({ searchParams }) {
                 {/* Events Grid */}
                 {events.length > 0 ? (
                   <>
-                    {/* First Row of 4 cards */}
+                    {/* First Row of 3 cards */}
                     <div 
                       className="w-full flex justify-center items-start"
                       style={{ 
@@ -278,15 +278,15 @@ async function EventsContent({ searchParams }) {
                         overflow: 'clip' // Como no Figma
                       }}
                     >
-                      {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
+                      {events.slice(events.length > 3 ? 3 : 0, events.length > 3 ? 6 : 3).map((event) => (
                         <div key={event.id} style={{ flexShrink: 0 }}>
                           <CompactEventCard event={event} />
                         </div>
                       ))}
                     </div>
                     
-                    {/* Second Row of 4 cards */}
-                    {events.length > 8 && (
+                    {/* Second Row of 3 cards */}
+                    {events.length > 6 && (
                       <div 
                         className="w-full flex justify-center items-start"
                         style={{ 
@@ -295,7 +295,25 @@ async function EventsContent({ searchParams }) {
                           overflow: 'clip' // Como no Figma
                         }}
                       >
-                        {events.slice(8, 12).map((event) => (
+                        {events.slice(6, 9).map((event) => (
+                          <div key={event.id} style={{ flexShrink: 0 }}>
+                            <CompactEventCard event={event} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Third Row of 3 cards */}
+                    {events.length > 9 && (
+                      <div 
+                        className="w-full flex justify-center items-start"
+                        style={{ 
+                          gap: '24px',
+                          width: '100%',
+                          overflow: 'clip' // Como no Figma
+                        }}
+                      >
+                        {events.slice(9, 12).map((event) => (
                           <div key={event.id} style={{ flexShrink: 0 }}>
                             <CompactEventCard event={event} />
                           </div>
