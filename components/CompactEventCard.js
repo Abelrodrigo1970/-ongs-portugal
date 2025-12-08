@@ -53,19 +53,21 @@ const CompactEventCard = ({ event, className = '' }) => {
   return (
     <Card 
       className={`hover:shadow-xl transition-all duration-300 overflow-clip ${className}`}
+      padding="none"
       style={{ 
         backgroundColor: '#f8fafc',
         borderColor: '#cbd5e1',
         borderRadius: '36px',
         borderWidth: '1px',
         borderStyle: 'solid',
-        width: '310px' // Mantém 310px conforme Figma original
+        width: '310px', // Mantém 310px conforme Figma original
+        padding: 0 // Sem padding no card
       }}
     >
       <Link href={`/eventos/${event.id}`} className="block">
         <div className="flex flex-col">
-          {/* Event Image with Badge */}
-          <div className="relative w-full" style={{ height: '144px' }}> {/* h-36 = 144px como no código fornecido */}
+          {/* Event Image with Badge - sem padding */}
+          <div className="relative w-full overflow-hidden" style={{ height: '144px' }}> {/* h-36 = 144px como no código fornecido */}
             {event.imagem ? (
               <Image
                 src={event.imagem}

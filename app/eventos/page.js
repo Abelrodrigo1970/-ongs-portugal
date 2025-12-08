@@ -181,48 +181,57 @@ async function EventsContent({ searchParams }) {
               >
                 {/* Container para título e cards alinhados */}
                 <div 
-                  className="flex flex-col items-center"
+                  className="flex flex-col"
                   style={{ 
                     gap: '24px',
                     width: '100%',
                     maxWidth: '1312px' // Largura fixa como no Figma
                   }}
                 >
-                  {/* Section Header */}
-                  <div 
-                    className="w-full flex items-center justify-start"
-                    style={{ 
-                      gap: '24px',
-                      width: '100%'
-                    }}
-                  >
-                    <h2 
+                  {/* Container com título e cards alinhados */}
+                  <div className="relative w-full">
+                    {/* Section Header - alinhado com o primeiro card centralizado */}
+                    <div 
+                      className="w-full flex justify-center"
                       style={{ 
-                        color: '#020617',
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '32px',
-                        fontWeight: '600',
-                        lineHeight: 1.2
+                        marginBottom: '24px'
                       }}
                     >
-                      Iniciativas para si
-                    </h2>
-                  </div>
-
-                  {/* First 3 cards in horizontal row */}
-                  <div 
-                    className="w-full flex justify-center items-start"
-                    style={{ 
-                      gap: '24px',
-                      width: '100%',
-                      overflow: 'clip' // Como no Figma
-                    }}
-                  >
-                    {events.slice(0, 3).map((event) => (
-                      <div key={event.id} style={{ flexShrink: 0 }}>
-                        <CompactEventCard event={event} />
+                      <div style={{ 
+                        width: 'calc(310px * 3 + 24px * 2)', // Largura total dos 3 cards + gaps
+                        display: 'flex',
+                        justifyContent: 'flex-start'
+                      }}>
+                        <h2 
+                          style={{ 
+                            color: '#020617',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '32px',
+                            fontWeight: '600',
+                            lineHeight: 1.2,
+                            margin: 0
+                          }}
+                        >
+                          Iniciativas para si
+                        </h2>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* First 3 cards in horizontal row */}
+                    <div 
+                      className="w-full flex justify-center items-start"
+                      style={{ 
+                        gap: '24px',
+                        width: '100%',
+                        overflow: 'clip' // Como no Figma
+                      }}
+                    >
+                      {events.slice(0, 3).map((event) => (
+                        <div key={event.id} style={{ flexShrink: 0 }}>
+                          <CompactEventCard event={event} />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -245,25 +254,34 @@ async function EventsContent({ searchParams }) {
                   maxWidth: '1312px' // Largura fixa como no Figma
                 }}
               >
-                {/* Section Header */}
-                <div 
-                  className="w-full flex items-center justify-start"
-                  style={{ 
-                    gap: '24px',
-                    width: '100%'
-                  }}
-                >
-                  <h2 
+                {/* Container com título e cards alinhados */}
+                <div className="relative w-full">
+                  {/* Section Header - alinhado com o primeiro card centralizado */}
+                  <div 
+                    className="w-full flex justify-center"
                     style={{ 
-                      color: '#020617',
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '32px',
-                      fontWeight: '600',
-                      lineHeight: 1.2
+                      marginBottom: '24px'
                     }}
                   >
-                    Todas as iniciativas
-                  </h2>
+                    <div style={{ 
+                      width: 'calc(310px * 3 + 24px * 2)', // Largura total dos 3 cards + gaps
+                      display: 'flex',
+                      justifyContent: 'flex-start'
+                    }}>
+                      <h2 
+                        style={{ 
+                          color: '#020617',
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '32px',
+                          fontWeight: '600',
+                          lineHeight: 1.2,
+                          margin: 0
+                        }}
+                      >
+                        Todas as iniciativas
+                      </h2>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Events Grid */}
