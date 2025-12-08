@@ -311,64 +311,124 @@ const FilterBar = ({
           )}
         </div>
 
-        {/* Filter Button 3 - Tipo de Colaboração */}
-        <div className="filter-dropdown-container relative" style={{ zIndex: openDropdown === 'colaboracao' ? 10000 : 'auto' }}>
-          <button
-            onClick={() => setOpenDropdown(openDropdown === 'colaboracao' ? null : 'colaboracao')}
-            className="flex items-center justify-center rounded-[200px] transition-colors"
-            style={{
-              backgroundColor: 'rgb(255, 255, 255)',
-              border: '1px solid rgb(213, 225, 255)',
-              borderRadius: '200px',
-              height: '46px',
-              padding: '8px 16px',
-              gap: '8px'
-            }}
-          >
-            <span 
-              style={{ 
-                color: 'rgb(100, 116, 139)',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '14px',
-                fontWeight: '500',
-                lineHeight: '16.8px'
-              }}
-            >
-              Tipo de Colaboração
-            </span>
-            <ChevronDown 
-              className="lucide lucide-chevron-down"
-              style={{ 
-                width: '24px', 
-                height: '24px',
-                color: 'rgb(100, 116, 139)',
-                transform: openDropdown === 'colaboracao' ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s'
-              }} 
-            />
-          </button>
-          
-          {/* Dropdown para Tipo de Colaboração */}
-          {openDropdown === 'colaboracao' && (
-            <div 
-              className="absolute top-full left-0 mt-2"
+        {/* Filter Button 3 - Tipo de evento (para eventos) ou Tipo de Colaboração (para ONGs) */}
+        {showEventFilters ? (
+          <div className="filter-dropdown-container relative" style={{ zIndex: openDropdown === 'tipo' ? 10000 : 'auto' }}>
+            <button
+              onClick={() => setOpenDropdown(openDropdown === 'tipo' ? null : 'tipo')}
+              className="flex items-center justify-center rounded-[200px] transition-colors"
               style={{
-                zIndex: 9999
+                backgroundColor: 'rgb(255, 255, 255)',
+                border: '1px solid rgb(213, 225, 255)',
+                borderRadius: '200px',
+                height: '46px',
+                padding: '8px 16px',
+                gap: '8px'
               }}
             >
-              <MultiSelect
-                placeholder="Selecionar tipos..."
-                options={colaboracaoOptions}
-                value={filters.colaboracao || []}
-                onChange={(value) => {
-                  console.log('🔧 Colaboração changed:', value);
-                  updateFilters({ colaboracao: Array.isArray(value) ? value : [] });
+              <span 
+                style={{ 
+                  color: 'rgb(100, 116, 139)',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  lineHeight: '16.8px'
                 }}
-                hideTriggerButton={true}
+              >
+                Tipo de evento
+              </span>
+              <ChevronDown 
+                className="lucide lucide-chevron-down"
+                style={{ 
+                  width: '24px', 
+                  height: '24px',
+                  color: 'rgb(100, 116, 139)',
+                  transform: openDropdown === 'tipo' ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s'
+                }} 
               />
-            </div>
-          )}
-        </div>
+            </button>
+            
+            {/* Dropdown para Tipo de evento */}
+            {openDropdown === 'tipo' && (
+              <div 
+                className="absolute top-full left-0 mt-2"
+                style={{
+                  zIndex: 9999
+                }}
+              >
+                <MultiSelect
+                  placeholder="Selecionar tipos..."
+                  options={tipoOptions}
+                  value={filters.tipo || []}
+                  onChange={(value) => {
+                    console.log('🔧 Tipo changed:', value);
+                    updateFilters({ tipo: Array.isArray(value) ? value : [] });
+                  }}
+                  hideTriggerButton={true}
+                />
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="filter-dropdown-container relative" style={{ zIndex: openDropdown === 'colaboracao' ? 10000 : 'auto' }}>
+            <button
+              onClick={() => setOpenDropdown(openDropdown === 'colaboracao' ? null : 'colaboracao')}
+              className="flex items-center justify-center rounded-[200px] transition-colors"
+              style={{
+                backgroundColor: 'rgb(255, 255, 255)',
+                border: '1px solid rgb(213, 225, 255)',
+                borderRadius: '200px',
+                height: '46px',
+                padding: '8px 16px',
+                gap: '8px'
+              }}
+            >
+              <span 
+                style={{ 
+                  color: 'rgb(100, 116, 139)',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  lineHeight: '16.8px'
+                }}
+              >
+                Tipo de Colaboração
+              </span>
+              <ChevronDown 
+                className="lucide lucide-chevron-down"
+                style={{ 
+                  width: '24px', 
+                  height: '24px',
+                  color: 'rgb(100, 116, 139)',
+                  transform: openDropdown === 'colaboracao' ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s'
+                }} 
+              />
+            </button>
+            
+            {/* Dropdown para Tipo de Colaboração */}
+            {openDropdown === 'colaboracao' && (
+              <div 
+                className="absolute top-full left-0 mt-2"
+                style={{
+                  zIndex: 9999
+                }}
+              >
+                <MultiSelect
+                  placeholder="Selecionar tipos..."
+                  options={colaboracaoOptions}
+                  value={filters.colaboracao || []}
+                  onChange={(value) => {
+                    console.log('🔧 Colaboração changed:', value);
+                    updateFilters({ colaboracao: Array.isArray(value) ? value : [] });
+                  }}
+                  hideTriggerButton={true}
+                />
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Filter Button 4 - Vagas (apenas para eventos) */}
         {showEventFilters && (

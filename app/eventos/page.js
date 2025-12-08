@@ -69,12 +69,12 @@ async function EventsContent({ searchParams }) {
 
       {/* About Section - Baseado no Figma */}
       <div 
-        className="w-full flex flex-col items-center relative"
+        className="w-full flex flex-col items-center relative" 
         style={{ 
           paddingTop: '100px',
           paddingBottom: '0',
-          paddingLeft: '0',
-          paddingRight: '0',
+          paddingLeft: '64px',
+          paddingRight: '64px',
           gap: '40px',
           width: '100%',
           zIndex: 1
@@ -132,7 +132,7 @@ async function EventsContent({ searchParams }) {
                     <input
                       type="text"
                       name="query"
-                      placeholder="Pesquisa Iniciativas para participar"
+                      placeholder="Pesquisa uma Iniciativa"
                       defaultValue={searchParams.query || ''}
                       className="flex-1 outline-none bg-transparent"
                       style={{ 
@@ -159,12 +159,13 @@ async function EventsContent({ searchParams }) {
                 }}
               >
                 <FilterBar
-                  odsOptions={formattedOdsOptions}
+                  odsOptions={[]}
                   areasOptions={formattedAreasOptions}
                   tipoOptions={tipoOptions}
                   showEventFilters={true}
                   className="w-full"
                   figmaStyle={true}
+                  basePath="/eventos"
                 />
               </div>
             </div>
