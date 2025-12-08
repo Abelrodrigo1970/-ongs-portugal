@@ -173,7 +173,7 @@ async function EventsContent({ searchParams }) {
             {/* Iniciativas para si Section */}
             {events.length > 0 && (
               <div 
-                className="w-full flex flex-col items-center"
+                className="w-full flex flex-col items-start"
                 style={{ 
                   gap: '24px',
                   width: '100%'
@@ -185,7 +185,7 @@ async function EventsContent({ searchParams }) {
                   style={{ 
                     gap: '24px',
                     width: '100%',
-                    maxWidth: 'calc(4 * 310px + 3 * 24px)'
+                    maxWidth: '1312px' // Largura fixa como no Figma
                   }}
                 >
                   {/* Section Header */}
@@ -215,7 +215,7 @@ async function EventsContent({ searchParams }) {
                     style={{ 
                       gap: '24px',
                       width: '100%',
-                      overflow: 'hidden'
+                      overflow: 'clip' // Como no Figma
                     }}
                   >
                     {events.slice(0, 4).map((event) => (
@@ -230,7 +230,7 @@ async function EventsContent({ searchParams }) {
 
             {/* Todas as iniciativas Section */}
             <div 
-              className="w-full flex flex-col items-center"
+              className="w-full flex flex-col items-start"
               style={{ 
                 gap: '24px',
                 width: '100%'
@@ -242,7 +242,7 @@ async function EventsContent({ searchParams }) {
                 style={{ 
                   gap: '24px',
                   width: '100%',
-                  maxWidth: 'calc(4 * 310px + 3 * 24px)'
+                  maxWidth: '1312px' // Largura fixa como no Figma
                 }}
               >
                 {/* Section Header */}
@@ -275,7 +275,7 @@ async function EventsContent({ searchParams }) {
                       style={{ 
                         gap: '24px',
                         width: '100%',
-                        overflow: 'hidden'
+                        overflow: 'clip' // Como no Figma
                       }}
                     >
                       {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
@@ -292,7 +292,7 @@ async function EventsContent({ searchParams }) {
                         style={{ 
                           gap: '24px',
                           width: '100%',
-                          overflow: 'hidden'
+                          overflow: 'clip' // Como no Figma
                         }}
                       >
                         {events.slice(8, 12).map((event) => (

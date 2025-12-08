@@ -52,7 +52,7 @@ const CompactEventCard = ({ event, className = '' }) => {
 
   return (
     <Card 
-      className={`hover:shadow-xl transition-all duration-300 overflow-hidden ${className}`}
+      className={`hover:shadow-xl transition-all duration-300 overflow-clip ${className}`}
       style={{ 
         backgroundColor: '#f8fafc',
         borderColor: '#cbd5e1',
@@ -146,7 +146,8 @@ const CompactEventCard = ({ event, className = '' }) => {
               paddingBottom: '24px',
               paddingLeft: '24px',
               paddingRight: '24px',
-              backgroundColor: '#f8fafc'
+              backgroundColor: '#f8fafc',
+              width: '310px'
             }}
           >
             {/* Title and Location */}
