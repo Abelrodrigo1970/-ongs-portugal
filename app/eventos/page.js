@@ -173,7 +173,7 @@ async function EventsContent({ searchParams }) {
             {/* Iniciativas para si Section */}
             {events.length > 0 && (
               <div 
-                className="w-full flex flex-col items-start"
+                className="w-full flex flex-col items-center"
                 style={{ 
                   gap: '24px',
                   width: '100%'
@@ -181,7 +181,7 @@ async function EventsContent({ searchParams }) {
               >
                 {/* Container para título e cards alinhados */}
                 <div 
-                  className="flex flex-col"
+                  className="flex flex-col items-center"
                   style={{ 
                     gap: '24px',
                     width: '100%',
@@ -190,7 +190,7 @@ async function EventsContent({ searchParams }) {
                 >
                   {/* Section Header */}
                   <div 
-                    className="w-full flex items-center justify-start"
+                    className="w-full flex items-center justify-center"
                     style={{ 
                       gap: '24px',
                       width: '100%'
@@ -211,7 +211,7 @@ async function EventsContent({ searchParams }) {
 
                   {/* First 4 cards in horizontal row */}
                   <div 
-                    className="w-full flex justify-start items-start"
+                    className="w-full flex justify-center items-start"
                     style={{ 
                       gap: '24px',
                       width: '100%',
@@ -271,7 +271,7 @@ async function EventsContent({ searchParams }) {
                   <>
                     {/* First Row of 4 cards */}
                     <div 
-                      className="w-full flex justify-start items-start"
+                      className="w-full flex justify-center items-start"
                       style={{ 
                         gap: '24px',
                         width: '100%',
@@ -288,7 +288,7 @@ async function EventsContent({ searchParams }) {
                     {/* Second Row of 4 cards */}
                     {events.length > 8 && (
                       <div 
-                        className="w-full flex justify-start items-start"
+                        className="w-full flex justify-center items-start"
                         style={{ 
                           gap: '24px',
                           width: '100%',
