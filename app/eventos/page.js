@@ -190,7 +190,7 @@ async function EventsContent({ searchParams }) {
                 >
                   {/* Section Header */}
                   <div 
-                    className="w-full flex items-center justify-center"
+                    className="w-full flex items-center justify-start"
                     style={{ 
                       gap: '24px',
                       width: '100%'

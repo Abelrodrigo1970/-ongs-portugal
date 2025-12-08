@@ -59,13 +59,13 @@ const CompactEventCard = ({ event, className = '' }) => {
         borderRadius: '36px',
         borderWidth: '1px',
         borderStyle: 'solid',
-        width: '310px'
+        width: '310px' // Mantém 310px conforme Figma original
       }}
     >
       <Link href={`/eventos/${event.id}`} className="block">
         <div className="flex flex-col">
           {/* Event Image with Badge */}
-          <div className="relative w-full" style={{ height: '150px' }}>
+          <div className="relative w-full" style={{ height: '144px' }}> {/* h-36 = 144px como no código fornecido */}
             {event.imagem ? (
               <Image
                 src={event.imagem}
@@ -102,10 +102,10 @@ const CompactEventCard = ({ event, className = '' }) => {
               <div 
                 className="absolute flex flex-col backdrop-blur-[100px]"
                 style={{
-                  top: '15px',
-                  right: '17px', // 310px - 201px - 91.549px ≈ 17px
-                  width: '91.549px',
-                  height: '25px',
+                  top: '16px', // Como no código fornecido
+                  left: '202px', // Como no código fornecido
+                  width: '96px', // w-24 = 96px como no código fornecido
+                  height: '24px', // h-6 = 24px como no código fornecido
                   backgroundColor: 'rgba(26, 26, 26, 0.75)',
                   backdropFilter: 'blur(100px)',
                   borderRadius: '200px',
@@ -147,7 +147,7 @@ const CompactEventCard = ({ event, className = '' }) => {
               paddingLeft: '24px',
               paddingRight: '24px',
               backgroundColor: '#f8fafc',
-              width: '310px'
+              width: '310px' // Mantém 310px conforme Figma original
             }}
           >
             {/* Title and Location */}
