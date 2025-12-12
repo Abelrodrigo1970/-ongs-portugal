@@ -1,9 +1,10 @@
+'use client';
+
 import Image from 'next/image';
-import Link from 'next/link';
 import Card from './ui/Card';
 import { MapPin, Calendar, Clock, Users } from 'lucide-react';
 
-const CompactEventCard = ({ event, className = '' }) => {
+const CompactEventCard = ({ event, className = '', onCardClick }) => {
   // Função para formatar data
   const formatEventDate = (dateString) => {
     if (!dateString) return '';
@@ -52,8 +53,9 @@ const CompactEventCard = ({ event, className = '' }) => {
 
   return (
     <Card 
-      className={`hover:shadow-xl transition-all duration-300 overflow-clip ${className}`}
+      className={`hover:shadow-xl transition-all duration-300 overflow-clip cursor-pointer ${className}`}
       padding="none"
+      onClick={onCardClick}
       style={{ 
         backgroundColor: '#f8fafc',
         borderColor: '#cbd5e1',
@@ -64,7 +66,7 @@ const CompactEventCard = ({ event, className = '' }) => {
         padding: 0 // Sem padding no card
       }}
     >
-      <Link href={`/eventos/${event.id}`} className="block">
+      <div className="block">
         <div className="flex flex-col">
           {/* Event Image with Badge - sem padding */}
           <div className="relative w-full overflow-hidden" style={{ height: '144px' }}> {/* h-36 = 144px como no código fornecido */}
@@ -250,7 +252,7 @@ const CompactEventCard = ({ event, className = '' }) => {
             )}
           </div>
         </div>
-      </Link>
+      </div>
     </Card>
   );
 };
