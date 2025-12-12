@@ -813,27 +813,19 @@ const FilterBar = ({
                         background: 'transparent',
                         border: 'none',
                         cursor: 'pointer',
-                        padding: 0
+                        padding: 0,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
                     >
-                      <div style={{
-                        width: '12px',
-                        height: '12px',
-                        left: 0,
-                        top: 0,
-                        position: 'absolute',
-                        background: '#D9D9D9',
-                        borderRadius: '50%'
-                      }} />
-                      <div style={{
-                        width: '7px',
-                        height: '7px',
-                        left: '2.5px',
-                        top: '2.5px',
-                        position: 'absolute',
-                        background: '#1C1B1F',
-                        borderRadius: '50%'
-                      }} />
+                      <X 
+                        size={12} 
+                        style={{ 
+                          color: '#1C1B1F',
+                          strokeWidth: 3
+                        }} 
+                      />
                     </button>
                   </div>
                 );
