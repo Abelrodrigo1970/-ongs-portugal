@@ -66,8 +66,8 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
         padding: 0 // Sem padding no card
       }}
     >
-      <div className="block">
-        <div className="flex flex-col">
+      <div className="block" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <div className="flex flex-col" style={{ flex: 1 }}>
           {/* Event Image with Badge - sem padding */}
           <div className="relative w-full overflow-hidden" style={{ height: '144px' }}> {/* h-36 = 144px como no código fornecido */}
             {event.imagem ? (
@@ -151,11 +151,12 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
               paddingLeft: '24px',
               paddingRight: '24px',
               backgroundColor: '#f8fafc',
-              width: '310px' // Mantém 310px conforme Figma original
+              width: '310px', // Mantém 310px conforme Figma original
+              minHeight: '252px' // Altura mínima: título(60) + data/hora(24) + descrição(72) + gaps/padding(96)
             }}
           >
             {/* Title and Location */}
-            <div className="flex flex-col items-start" style={{ gap: '0px' }}>
+            <div className="flex flex-col items-start" style={{ gap: '0px', minHeight: '60px' }}>
               <h3 
                 className="font-bold whitespace-pre-wrap" 
                 style={{ 
@@ -165,14 +166,15 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
                   fontWeight: '700',
                   lineHeight: '1.2',
                   margin: 0,
-                  width: '100%'
+                  width: '100%',
+                  minHeight: '48px' // Garante altura mínima de 2 linhas (20px * 1.2 * 2)
                 }}
               >
                 {event.nome}
               </h3>
               
               {/* Location (below title) */}
-              {(event.localizacao || event.ngo?.localizacao) && (
+              {(event.localizacao || event.ngo?.localizacao) ? (
                 <p 
                   style={{ 
                     fontFamily: 'Inter, sans-serif',
@@ -186,6 +188,8 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
                 >
                   {event.localizacao || event.ngo?.localizacao}
                 </p>
+              ) : (
+                <div style={{ height: '21px' }}></div>
               )}
             </div>
 
@@ -222,6 +226,7 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
                     }}
                   >
                     {formatEventTime(event.dataInicio)}
+                    {event.dataFim && ` - ${formatEventTime(event.dataFim)}`}
                   </span>
                 </div>
               </div>
