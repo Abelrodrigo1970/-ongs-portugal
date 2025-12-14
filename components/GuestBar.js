@@ -40,10 +40,10 @@ const GuestBar = ({ className = '', event = null }) => {
       return null;
     }
     
-    // Se houver múltiplos ODS, mostrar o primeiro ou concatenar
+    // Se houver múltiplos ODS, mostrar os nomes completos
     const odsList = event.ods.map(item => {
       const ods = item.ods || item;
-      return ods.numero ? `ODS ${ods.numero}` : null;
+      return ods.nome || null;
     }).filter(Boolean);
     
     if (odsList.length === 0) return null;
