@@ -5,7 +5,7 @@ import { useAdmin } from '@/lib/context/AdminContext';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
-import { Building2, Calendar, BarChart3, Users, ArrowRight, MapPin } from 'lucide-react';
+import { Building2, Calendar, BarChart3, Users, ArrowRight, MapPin, Briefcase, UserCheck } from 'lucide-react';
 
 export default function AdminDashboard() {
   const { getAuthHeaders } = useAdmin();
@@ -152,6 +152,44 @@ export default function AdminDashboard() {
                   </h4>
                   <p className="text-sm text-gray-600">
                     Criar, editar e gerir áreas de atuação
+                  </p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-gray-400" />
+              </div>
+            </Card>
+          </Link>
+
+          <Link href="/admin/empresas">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary-200">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg">
+                  <Briefcase className="w-6 h-6 text-orange-600" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-gray-900 mb-1">
+                    Gerir Empresas
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Criar, editar e gerir empresas
+                  </p>
+                </div>
+                <ArrowRight className="w-5 h-5 text-gray-400" />
+              </div>
+            </Card>
+          </Link>
+
+          <Link href="/admin/colaboradores">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer border-2 border-transparent hover:border-primary-200">
+              <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center w-12 h-12 bg-indigo-100 rounded-lg">
+                  <UserCheck className="w-6 h-6 text-indigo-600" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-semibold text-gray-900 mb-1">
+                    Gerir Colaboradores
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Criar, editar e gerir colaboradores
                   </p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-gray-400" />
