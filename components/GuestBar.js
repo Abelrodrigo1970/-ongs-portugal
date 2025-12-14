@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import AddGuestsModal from './AddGuestsModal';
 
 const GuestBar = ({ className = '', event = null }) => {
   const [colaborador, setColaborador] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     // Carregar colaborador do localStorage
@@ -54,20 +56,22 @@ const GuestBar = ({ className = '', event = null }) => {
   const nomeODS = obterODS() || 'esta causa';
 
   return (
-    <button 
-      className={className}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
-        alignItems: 'flex-start',
-        padding: 0,
-        width: '100%',
-        border: 'none',
-        background: 'transparent',
-        cursor: 'pointer'
-      }}
-    >
+    <>
+      <button 
+        className={className}
+        onClick={() => setIsModalOpen(true)}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          alignItems: 'flex-start',
+          padding: 0,
+          width: '100%',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer'
+        }}
+      >
       {/* Texto com gradiente */}
       <p 
         style={{
@@ -153,6 +157,18 @@ const GuestBar = ({ className = '', event = null }) => {
         </div>
       </div>
     </button>
+
+    <AddGuestsModal
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      eventoId={event?.id}
+      onAddGuests={(colaboradores) => {
+        // Callback quando colaboradores são adicionados
+        console.log('Colaboradores adicionados:', colaboradores);
+        // Aqui você pode atualizar a lista de inscritos se necessário
+      }}
+    />
+    </>
   );
 };
 
