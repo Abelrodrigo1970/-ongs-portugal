@@ -13,6 +13,58 @@
   
   /* Button Colors - Centralized Management */
   --color-button-primary: #155DFC;
+
+  /* Figma Design System Variables - Dialog Volunteer */
+  --body-l-bold-font-family: "Inter", Helvetica;
+  --body-l-bold-font-size: 18px;
+  --body-l-bold-font-style: normal;
+  --body-l-bold-font-weight: 700;
+  --body-l-bold-letter-spacing: 0px;
+  --body-l-bold-line-height: 175%;
+  --body-m-regular-font-family: "Inter", Helvetica;
+  --body-m-regular-font-size: 16px;
+  --body-m-regular-font-style: normal;
+  --body-m-regular-font-weight: 400;
+  --body-m-regular-letter-spacing: 0px;
+  --body-m-regular-line-height: 150%;
+  --body-s-regular-font-family: "Inter", Helvetica;
+  --body-s-regular-font-size: 14px;
+  --body-s-regular-font-style: normal;
+  --body-s-regular-font-weight: 400;
+  --body-s-regular-letter-spacing: 0px;
+  --body-s-regular-line-height: 150%;
+  --border-default: #CBD5E1;
+  --content-content-fill-primary: #020617;
+  --content-content-fill-white: #F1F5F9;
+  --content-content-text-tertiary: #64748B;
+  --content-content-text-white: #F1F5F9;
+  --label-s-medium-font-family: "Inter", Helvetica;
+  --label-s-medium-font-size: 12px;
+  --label-s-medium-font-style: normal;
+  --label-s-medium-font-weight: 500;
+  --label-s-medium-letter-spacing: 0px;
+  --label-s-medium-line-height: 139.9999976158142%;
+  --primitives-base-neutral-0: rgba(248, 250, 252, 1);
+  --primitives-base-neutral-200: rgba(203, 213, 225, 1);
+  --primitives-base-neutral-400: rgba(100, 116, 139, 1);
+  --primitives-base-neutral-50: rgba(241, 245, 249, 1);
+  --primitives-base-neutral-900: rgba(2, 6, 23, 1);
+  --size-space-200: 8px;
+  --size-space-300: 12px;
+  --sizes-border-radius-md: 8px;
+  --sizes-border-radius-pill: 200px;
+  --sizes-border-radius-xxxl: 32px;
+  --sizes-spacing-lg: 24px;
+  --sizes-spacing-md: 16px;
+  --sizes-spacing-xs: 8px;
+  --sizes-spacing-xxs: 4px;
+  --surface-page: #F8FAFC;
+  --title-s-semibold-font-family: "Inter", Helvetica;
+  --title-s-semibold-font-size: 24px;
+  --title-s-semibold-font-style: normal;
+  --title-s-semibold-font-weight: 600;
+  --title-s-semibold-letter-spacing: 0px;
+  --title-s-semibold-line-height: 139.9999976158142%;
 }
 
 /* Custom global styles */
