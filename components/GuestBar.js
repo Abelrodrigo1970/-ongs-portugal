@@ -19,9 +19,39 @@ const GuestBar = ({ className = '', event = null }) => {
     }
   }, []);
 
-  // Valores padrão para demonstração (será substituído por dados reais)
-  const horasDedicadas = colaborador?.horasDedicadas || 4;
-  const nomeCausa = event?.areas?.[0]?.tipo?.nome || event?.ods?.[0]?.ods?.nome || 'esta causa';
+  // Calcular horas pela diferença entre dataInicio e dataFim
+  const calcularHoras = () => {
+    if (!event?.dataInicio) return 0;
+    
+    const inicio = new Date(event.dataInicio);
+    const fim = event.dataFim ? new Date(event.dataFim) : new Date();
+    
+    const diffMs = fim - inicio;
+    const diffHoras = Math.round(diffMs / (1000 * 60 * 60));
+    
+    return Math.max(0, diffHoras);
+  };
+
+  const horasDedicadas = calcularHoras();
+
+  // Buscar ODS relacionados ao evento
+  const obterODS = () => {
+    if (!event?.ods || event.ods.length === 0) {
+      return null;
+    }
+    
+    // Se houver múltiplos ODS, mostrar o primeiro ou concatenar
+    const odsList = event.ods.map(item => {
+      const ods = item.ods || item;
+      return ods.numero ? `ODS ${ods.numero}` : null;
+    }).filter(Boolean);
+    
+    if (odsList.length === 0) return null;
+    if (odsList.length === 1) return odsList[0];
+    return odsList.join(', ');
+  };
+
+  const nomeODS = obterODS() || 'esta causa';
 
   return (
     <button 
@@ -47,7 +77,8 @@ const GuestBar = ({ className = '', event = null }) => {
           lineHeight: '1.5',
           margin: 0,
           width: '100%',
-          whiteSpace: 'pre-wrap'
+          whiteSpace: 'pre-wrap',
+          textAlign: 'left'
         }}
       >
         <span 
@@ -75,7 +106,7 @@ const GuestBar = ({ className = '', event = null }) => {
             backgroundClip: 'text'
           }}
         >
-          {nomeCausa}.
+          {nomeODS}.
         </span>
       </p>
 
@@ -98,7 +129,7 @@ const GuestBar = ({ className = '', event = null }) => {
             borderTop: 'none',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             padding: '8px',
             borderRadius: '8px 8px 0 0',
             width: '100%'
