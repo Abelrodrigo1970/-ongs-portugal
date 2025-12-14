@@ -137,7 +137,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
               </p>
             </div>
 
-            <GuestBar className="guest-bar-instance" />
+            <GuestBar className="guest-bar-instance" event={event} />
             
             <div className="frame-4">
               <div className="frame-4">

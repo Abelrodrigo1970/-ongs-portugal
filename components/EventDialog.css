@@ -401,7 +401,7 @@
   object-fit: cover;
   position: relative;
   width: 421px;
-  height: 650px;
+  height: 602px;
   border-radius: 0 var(--sizes-border-radius-xxxl) var(--sizes-border-radius-xxxl) 0;
   overflow: hidden;
 }
