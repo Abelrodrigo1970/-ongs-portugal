@@ -17,6 +17,8 @@ export default function AdminEventsPage() {
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState(null);
   const [ngos, setNgos] = useState([]);
+  const [odsOptions, setOdsOptions] = useState([]);
+  const [areasOptions, setAreasOptions] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
@@ -27,6 +29,7 @@ export default function AdminEventsPage() {
 
   useEffect(() => {
     loadNgosList();
+    loadODSAndAreas();
   }, []);
 
   const loadEvents = async () => {
@@ -68,6 +71,28 @@ export default function AdminEventsPage() {
       }
     } catch (error) {
       console.error('Erro ao carregar ONGs para seleção:', error);
+    }
+  };
+
+  const loadODSAndAreas = async () => {
+    try {
+      const headers = getAuthHeaders();
+      const [odsResponse, areasResponse] = await Promise.all([
+        fetch('/api/admin/ods', { headers }),
+        fetch('/api/admin/areas', { headers })
+      ]);
+
+      const odsData = await odsResponse.json();
+      const areasData = await areasResponse.json();
+
+      if (odsData.success) {
+        setOdsOptions(odsData.ods);
+      }
+      if (areasData.success) {
+        setAreasOptions(areasData.areas);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar ODS e Áreas:', error);
     }
   };
 
@@ -124,9 +149,23 @@ export default function AdminEventsPage() {
     setIsFormOpen(true);
   };
 
-  const openEditModal = (event) => {
-    setSelectedEvent(event);
-    setIsFormOpen(true);
+  const openEditModal = async (event) => {
+    try {
+      // Buscar evento completo com ODS e áreas
+      const headers = getAuthHeaders();
+      const response = await fetch(`/api/admin/events/${event.id}`, { headers });
+      const data = await response.json();
+
+      if (data.success) {
+        setSelectedEvent(data.data);
+        setIsFormOpen(true);
+      } else {
+        alert('Erro ao carregar dados do evento');
+      }
+    } catch (error) {
+      console.error('Erro ao carregar evento:', error);
+      alert('Erro ao carregar dados do evento');
+    }
   };
 
   const closeModal = () => {
@@ -244,6 +283,8 @@ export default function AdminEventsPage() {
         <EventForm
           initialData={selectedEvent}
           ngos={ngos}
+          odsOptions={odsOptions}
+          areasOptions={areasOptions}
           onSubmit={handleSubmit}
           onCancel={closeModal}
           loading={formLoading}

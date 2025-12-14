@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Input from '@/components/ui/Input';
 import Checkbox from '@/components/ui/Checkbox';
 import Select from '@/components/ui/Select';
+import MultiSelect from '@/components/ui/MultiSelect';
 import Button from '@/components/ui/Button';
 
 const defaultValues = {
@@ -20,10 +21,13 @@ const defaultValues = {
   linkInscricao: '',
   linkEvento: '',
   imagem: '',
-  visivel: true
+  visivel: true,
+  ods: [],
+  areas: []
 };
 
-const allowedKeys = Object.keys(defaultValues);
+// allowedKeys não inclui ods e areas porque são tratados separadamente no submit
+const allowedKeys = ['nome', 'descricao', 'ngoId', 'dataInicio', 'dataFim', 'morada', 'localizacao', 'tipo', 'maxParticipantes', 'inscricoesAbertas', 'linkInscricao', 'linkEvento', 'imagem', 'visivel'];
 
 const filterAllowed = (data) => {
   return allowedKeys.reduce((acc, key) => {
@@ -40,12 +44,16 @@ const eventTypeOptions = [
   { label: 'Híbrido', value: 'HIBRIDO' }
 ];
 
-export default function EventForm({ initialData, ngos, onSubmit, onCancel, loading }) {
+export default function EventForm({ initialData, ngos, odsOptions = [], areasOptions = [], onSubmit, onCancel, loading }) {
   const [formValues, setFormValues] = useState(defaultValues);
 
   useEffect(() => {
     if (initialData) {
       const filtered = filterAllowed(initialData);
+      // Extrair ODS e áreas das relações
+      const ods = (initialData.ods || []).map((eventOds) => eventOds.odsId || eventOds.ods?.id).filter(Boolean);
+      const areas = (initialData.areas || []).map((eventArea) => eventArea.areaAtuacaoTipoId || eventArea.tipo?.id).filter(Boolean);
+      
       setFormValues({
         ...defaultValues,
         ...filtered,
@@ -55,7 +63,9 @@ export default function EventForm({ initialData, ngos, onSubmit, onCancel, loadi
         dataFim: initialData.dataFim
           ? new Date(initialData.dataFim).toISOString().slice(0, 16)
           : '',
-        maxParticipantes: initialData.maxParticipantes || ''
+        maxParticipantes: initialData.maxParticipantes || '',
+        ods: ods,
+        areas: areas
       });
     } else {
       setFormValues(defaultValues);
@@ -73,6 +83,20 @@ export default function EventForm({ initialData, ngos, onSubmit, onCancel, loadi
     }));
   };
 
+  const handleODSChange = (value) => {
+    setFormValues((prev) => ({
+      ...prev,
+      ods: Array.isArray(value) ? value : []
+    }));
+  };
+
+  const handleAreasChange = (value) => {
+    setFormValues((prev) => ({
+      ...prev,
+      areas: Array.isArray(value) ? value : []
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -83,7 +107,9 @@ export default function EventForm({ initialData, ngos, onSubmit, onCancel, loadi
       dataFim: formValues.dataFim ? new Date(formValues.dataFim).toISOString() : null,
       maxParticipantes: formValues.maxParticipantes
         ? Number(formValues.maxParticipantes)
-        : null
+        : null,
+      ods: formValues.ods || [],
+      areas: formValues.areas || []
     };
 
     onSubmit(payload);
@@ -174,6 +200,40 @@ export default function EventForm({ initialData, ngos, onSubmit, onCancel, loadi
           onChange={(e) => handleChange('descricao', e.target.value)}
           required
         />
+      </div>
+
+      <div className="space-y-3">
+        {areasOptions.length === 0 ? (
+          <>
+            <label className="text-sm font-medium text-gray-700">Áreas de Atuação</label>
+            <p className="text-sm text-gray-500">Nenhuma área cadastrada.</p>
+          </>
+        ) : (
+          <MultiSelect
+            label="Áreas de Atuação"
+            options={areasOptions.map((area) => ({ value: area.id, label: area.nome }))}
+            value={formValues.areas}
+            onChange={handleAreasChange}
+            placeholder="Selecionar áreas"
+          />
+        )}
+      </div>
+
+      <div className="space-y-3">
+        {odsOptions.length === 0 ? (
+          <>
+            <label className="text-sm font-medium text-gray-700">ODS Relacionados</label>
+            <p className="text-sm text-gray-500">Nenhum ODS cadastrado.</p>
+          </>
+        ) : (
+          <MultiSelect
+            label="ODS Relacionados"
+            options={odsOptions.map((ods) => ({ value: ods.id, label: `ODS ${ods.numero} - ${ods.nome}` }))}
+            value={formValues.ods}
+            onChange={handleODSChange}
+            placeholder="Selecionar ODS"
+          />
+        )}
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
