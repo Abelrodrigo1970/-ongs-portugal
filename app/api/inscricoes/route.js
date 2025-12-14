@@ -22,12 +22,18 @@ export async function POST(request) {
 
     // Check if already inscribed
     const existingInscricao = await checkInscricao(
-      body.eventoId,
-      body.iniciativaId,
+      body.eventoId || null,
+      body.iniciativaId || null,
       body.emailColaborador
     );
 
     if (existingInscricao) {
+      console.log('Inscrição duplicada detectada:', {
+        email: body.emailColaborador,
+        eventoId: body.eventoId,
+        iniciativaId: body.iniciativaId,
+        existingId: existingInscricao.id
+      });
       return NextResponse.json(
         { error: 'Já está inscrito nesta oportunidade' },
         { status: 409 }

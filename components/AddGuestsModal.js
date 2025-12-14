@@ -74,60 +74,85 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
 
     try {
       // Criar inscrições para cada colaborador selecionado
-      const promises = selectedColaboradores.map(colaborador =>
-        fetch('/api/inscricoes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            eventoId: eventoId,
-            nomeColaborador: colaborador.nome,
-            emailColaborador: colaborador.email,
-            telefone: null,
-            mensagem: null
-          })
-        })
-      );
+      const promises = selectedColaboradores.map(async (colaborador) => {
+        try {
+          const response = await fetch('/api/inscricoes', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              eventoId: eventoId,
+              nomeColaborador: colaborador.nome,
+              emailColaborador: colaborador.email,
+              telefone: null,
+              mensagem: null
+            })
+          });
 
-      const results = await Promise.allSettled(promises);
+          const data = await response.json();
+          
+          return {
+            colaborador,
+            success: response.ok,
+            error: response.ok ? null : (data.error || 'Erro desconhecido'),
+            status: response.status
+          };
+        } catch (error) {
+          return {
+            colaborador,
+            success: false,
+            error: 'Erro de conexão',
+            status: 0
+          };
+        }
+      });
+
+      const results = await Promise.all(promises);
       
       const successful = [];
+      const alreadyInscribed = [];
       const failed = [];
 
-      for (let i = 0; i < results.length; i++) {
-        const result = results[i];
-        const colaborador = selectedColaboradores[i];
-        
-        if (result.status === 'fulfilled' && result.value.ok) {
-          successful.push(colaborador);
+      results.forEach(result => {
+        console.log('Resultado da inscrição:', {
+          colaborador: result.colaborador.nome,
+          email: result.colaborador.email,
+          success: result.success,
+          status: result.status,
+          error: result.error
+        });
+
+        if (result.success) {
+          successful.push(result.colaborador);
+        } else if (result.status === 409 || (result.error && result.error.includes('já está inscrito'))) {
+          alreadyInscribed.push(result.colaborador);
         } else {
-          // Verificar se é erro de duplicata
-          if (result.status === 'fulfilled' && !result.value.ok) {
-            try {
-              const errorData = await result.value.json();
-              if (errorData.error && errorData.error.includes('já está inscrito')) {
-                // Colaborador já inscrito - não adicionar à lista de falhas
-                console.log(`Colaborador ${colaborador.nome} já está inscrito`);
-                continue;
-              }
-            } catch (e) {
-              // Ignorar erro de parsing
-            }
-          }
-          failed.push(colaborador);
+          failed.push(result.colaborador);
         }
+      });
+
+      // Construir mensagem de resultado
+      let message = '';
+      if (successful.length > 0) {
+        message = `${successful.length} colaborador(es) adicionado(s) com sucesso!`;
+      }
+      
+      if (alreadyInscribed.length > 0) {
+        if (message) message += ' ';
+        message += `${alreadyInscribed.length} colaborador(es) já estava(m) inscrito(s).`;
+      }
+      
+      if (failed.length > 0) {
+        if (message) message += ' ';
+        message += `${failed.length} colaborador(es) falharam ao adicionar.`;
       }
 
-      if (successful.length > 0) {
-        const message = failed.length > 0
-          ? `${successful.length} colaborador(es) adicionado(s). ${failed.length} já estava(m) inscrito(s).`
-          : `${successful.length} colaborador(es) adicionado(s) com sucesso!`;
-        
+      if (successful.length > 0 || alreadyInscribed.length > 0) {
         setSuccess(message);
         
         // Chamar callback para atualizar a lista
-        if (onAddGuests) {
+        if (onAddGuests && successful.length > 0) {
           onAddGuests(successful);
         }
 
@@ -138,7 +163,7 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
           onClose();
         }, 2000);
       } else {
-        setError('Erro ao adicionar colaboradores. Verifique se já não estão inscritos.');
+        setError(message || 'Erro ao adicionar colaboradores. Verifique se já não estão inscritos.');
       }
     } catch (err) {
       console.error('Error adding guests:', err);
