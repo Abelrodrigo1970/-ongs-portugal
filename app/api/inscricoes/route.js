@@ -5,6 +5,13 @@ export async function POST(request) {
   try {
     const body = await request.json();
 
+    console.log('Recebida requisição de inscrição:', {
+      nomeColaborador: body.nomeColaborador,
+      emailColaborador: body.emailColaborador,
+      eventoId: body.eventoId,
+      iniciativaId: body.iniciativaId
+    });
+
     // Validate required fields
     if (!body.nomeColaborador || !body.emailColaborador) {
       return NextResponse.json(
@@ -13,7 +20,11 @@ export async function POST(request) {
       );
     }
 
-    if (!body.eventoId && !body.iniciativaId) {
+    // Validar que temos pelo menos um evento ou iniciativa (não vazio)
+    const eventoId = body.eventoId && body.eventoId.trim() !== '' ? body.eventoId.trim() : null;
+    const iniciativaId = body.iniciativaId && body.iniciativaId.trim() !== '' ? body.iniciativaId.trim() : null;
+
+    if (!eventoId && !iniciativaId) {
       return NextResponse.json(
         { error: 'Evento ou Iniciativa é obrigatório' },
         { status: 400 }
@@ -22,8 +33,8 @@ export async function POST(request) {
 
     // Check if already inscribed
     const existingInscricao = await checkInscricao(
-      body.eventoId || null,
-      body.iniciativaId || null,
+      eventoId,
+      iniciativaId,
       body.emailColaborador
     );
 
@@ -41,7 +52,11 @@ export async function POST(request) {
     }
 
     // Create inscription
-    const inscricao = await createInscricao(body);
+    const inscricao = await createInscricao({
+      ...body,
+      eventoId: eventoId,
+      iniciativaId: iniciativaId
+    });
 
     return NextResponse.json({
       success: true,
@@ -50,8 +65,16 @@ export async function POST(request) {
 
   } catch (error) {
     console.error('Error creating inscription:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
     return NextResponse.json(
-      { error: 'Erro ao criar inscrição' },
+      { 
+        error: 'Erro ao criar inscrição',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500 }
     );
   }

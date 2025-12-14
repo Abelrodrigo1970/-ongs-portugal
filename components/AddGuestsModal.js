@@ -68,11 +68,20 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
       return;
     }
 
+    if (!eventoId) {
+      setError('ID do evento não encontrado. Por favor, recarregue a página.');
+      return;
+    }
+
     setAdding(true);
     setError('');
     setSuccess('');
 
     try {
+      console.log('Adicionando colaboradores ao evento:', {
+        eventoId,
+        colaboradores: selectedColaboradores.map(c => ({ nome: c.nome, email: c.email }))
+      });
       // Criar inscrições para cada colaborador selecionado
       const promises = selectedColaboradores.map(async (colaborador) => {
         try {
@@ -90,19 +99,32 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
             })
           });
 
-          const data = await response.json();
+          let data;
+          try {
+            data = await response.json();
+          } catch (parseError) {
+            console.error('Erro ao fazer parse da resposta:', parseError);
+            const text = await response.text().catch(() => 'Erro desconhecido');
+            return {
+              colaborador,
+              success: false,
+              error: `Erro do servidor (${response.status}): ${text}`,
+              status: response.status
+            };
+          }
           
           return {
             colaborador,
             success: response.ok,
-            error: response.ok ? null : (data.error || 'Erro desconhecido'),
+            error: response.ok ? null : (data.error || data.details || 'Erro desconhecido'),
             status: response.status
           };
         } catch (error) {
+          console.error('Erro ao processar inscrição:', error);
           return {
             colaborador,
             success: false,
-            error: 'Erro de conexão',
+            error: error.message || 'Erro de conexão',
             status: 0
           };
         }
