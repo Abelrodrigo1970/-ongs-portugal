@@ -21,8 +21,9 @@ export async function POST(request) {
     }
 
     // Validar que temos pelo menos um evento ou iniciativa (não vazio)
-    const eventoId = body.eventoId && body.eventoId.trim() !== '' ? body.eventoId.trim() : null;
-    const iniciativaId = body.iniciativaId && body.iniciativaId.trim() !== '' ? body.iniciativaId.trim() : null;
+    // Garantir que são strings antes de chamar trim()
+    const eventoId = body.eventoId && typeof body.eventoId === 'string' && body.eventoId.trim() !== '' ? body.eventoId.trim() : null;
+    const iniciativaId = body.iniciativaId && typeof body.iniciativaId === 'string' && body.iniciativaId.trim() !== '' ? body.iniciativaId.trim() : null;
 
     if (!eventoId && !iniciativaId) {
       return NextResponse.json(
@@ -68,14 +69,36 @@ export async function POST(request) {
     console.error('Error details:', {
       message: error.message,
       stack: error.stack,
-      name: error.name
+      name: error.name,
+      code: error.code,
+      meta: error.meta
     });
+    
+    // Retornar mensagem mais específica baseada no tipo de erro
+    let errorMessage = 'Erro ao criar inscrição';
+    let statusCode = 500;
+    
+    if (error.message) {
+      if (error.message.includes('obrigatório')) {
+        statusCode = 400;
+        errorMessage = error.message;
+      } else if (error.message.includes('já está inscrito') || error.message.includes('Já existe')) {
+        statusCode = 409;
+        errorMessage = error.message;
+      } else if (error.message.includes('não encontrado')) {
+        statusCode = 404;
+        errorMessage = error.message;
+      } else {
+        errorMessage = error.message;
+      }
+    }
+    
     return NextResponse.json(
       { 
-        error: 'Erro ao criar inscrição',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
       },
-      { status: 500 }
+      { status: statusCode }
     );
   }
 }
