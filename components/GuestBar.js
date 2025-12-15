@@ -36,24 +36,24 @@ const GuestBar = ({ className = '', event = null }) => {
 
   const horasDedicadas = calcularHoras();
 
-  // Buscar ODS relacionados ao evento
-  const obterODS = () => {
-    if (!event?.ods || event.ods.length === 0) {
+  // Buscar áreas de atuação/causas relacionadas ao evento
+  const obterAreas = () => {
+    if (!event?.areas || event.areas.length === 0) {
       return null;
     }
     
-    // Se houver múltiplos ODS, mostrar os nomes completos
-    const odsList = event.ods.map(item => {
-      const ods = item.ods || item;
-      return ods.nome || null;
+    // Se houver múltiplas áreas, mostrar os nomes completos
+    const areasList = event.areas.map(item => {
+      const tipo = item.tipo || item;
+      return tipo.nome || null;
     }).filter(Boolean);
     
-    if (odsList.length === 0) return null;
-    if (odsList.length === 1) return odsList[0];
-    return odsList.join(', ');
+    if (areasList.length === 0) return null;
+    if (areasList.length === 1) return areasList[0];
+    return areasList.join(', ');
   };
 
-  const nomeODS = obterODS() || 'esta causa';
+  const nomeCausa = obterAreas() || 'esta causa';
 
   return (
     <>
@@ -94,7 +94,7 @@ const GuestBar = ({ className = '', event = null }) => {
             backgroundClip: 'text'
           }}
         >
-          {horasDedicadas.toString().padStart(2, '0')} horas
+          {horasDedicadas} horas
         </span>
         {' '}
         <span style={{ color: '#64748B' }}>
@@ -110,7 +110,7 @@ const GuestBar = ({ className = '', event = null }) => {
             backgroundClip: 'text'
           }}
         >
-          {nomeODS}.
+          {nomeCausa}.
         </span>
       </p>
 
