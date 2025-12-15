@@ -1,11 +1,58 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { X, Calendar, Clock, Users } from 'lucide-react';
 import GuestBar from './GuestBar';
 import './EventDialog.css';
 
 const EventDialog = ({ isOpen, onClose, event }) => {
+  const [vagasInfo, setVagasInfo] = useState({
+    total: 0,
+    ocupadas: 0,
+    disponiveis: 0,
+    hasLimit: false
+  });
+
+  useEffect(() => {
+    const fetchVagas = async () => {
+      if (!isOpen || !event?.id) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/events/${event.id}/vagas`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          setVagasInfo(data.data);
+        } else {
+          // Fallback: usar dados do evento se disponível
+          const total = event.maxParticipantes || 0;
+          const ocupadas = event.inscricoes?.length || 0;
+          setVagasInfo({
+            total,
+            ocupadas,
+            disponiveis: total > 0 ? Math.max(0, total - ocupadas) : null,
+            hasLimit: total > 0
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao buscar vagas:', error);
+        // Fallback em caso de erro
+        const total = event.maxParticipantes || 0;
+        setVagasInfo({
+          total,
+          ocupadas: 0,
+          disponiveis: total,
+          hasLimit: total > 0
+        });
+      }
+    };
+
+    fetchVagas();
+  }, [isOpen, event?.id, event?.maxParticipantes, event?.inscricoes?.length]);
+
   if (!isOpen || !event) return null;
 
   // Função para formatar data (ex: "Sáb, 13 dez")
@@ -34,10 +81,10 @@ const EventDialog = ({ isOpen, onClose, event }) => {
     });
   };
 
-  // Calcular vagas
-  const vagasTotal = event.maxParticipantes || 0;
-  const vagasOcupadas = vagasTotal > 0 ? 10 : 0; // Simulado - ajustar quando houver API de inscrições
-  const vagasDisponiveis = vagasTotal - vagasOcupadas;
+  // Usar dados reais de vagas
+  const vagasTotal = vagasInfo.total;
+  const vagasOcupadas = vagasInfo.ocupadas;
+  const vagasDisponiveis = vagasInfo.disponiveis !== null ? vagasInfo.disponiveis : null;
 
   // Obter localização completa
   const localizacao = event.morada || event.localizacao || event.ngo?.localizacao || '';
@@ -115,7 +162,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
                     </div>
                   </div>
 
-                  {vagasTotal > 0 && (
+                  {vagasInfo.hasLimit && (
                     <div className="frame-9">
                       <div className="frame-10">
                         <div className="frame-11">
@@ -150,7 +197,9 @@ const EventDialog = ({ isOpen, onClose, event }) => {
                     </div>
 
                     <p className="text-wrapper-6">
-                      Abel, Pedro e {vagasOcupadas > 2 ? vagasOcupadas - 2 : 0} pessoas já se registraram.
+                      {vagasOcupadas > 0 
+                        ? `${vagasOcupadas} ${vagasOcupadas === 1 ? 'pessoa já se registrou' : 'pessoas já se registraram'}.`
+                        : 'Ainda não há inscrições neste evento.'}
                     </p>
                   </div>
                 </div>
@@ -171,10 +220,15 @@ const EventDialog = ({ isOpen, onClose, event }) => {
                 <div className="button-text">Participar</div>
               </button>
 
-              {vagasDisponiveis > 0 && (
+              {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis > 0 && (
                 <p className="faltam-vagas-n-o">
-                  <span className="text-wrapper-7">Faltam {vagasDisponiveis} vagas.</span>
+                  <span className="text-wrapper-7">Faltam {vagasDisponiveis} {vagasDisponiveis === 1 ? 'vaga' : 'vagas'}.</span>
                   <span className="text-wrapper-8"> Não fiques de fora!</span>
+                </p>
+              )}
+              {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis === 0 && (
+                <p className="faltam-vagas-n-o">
+                  <span className="text-wrapper-7">Evento lotado.</span>
                 </p>
               )}
             </div>

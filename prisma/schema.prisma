@@ -485,6 +485,8 @@ model Inscricao {
   evento             Event?           @relation(fields: [eventoId], references: [id], onDelete: Cascade)
   iniciativa         Iniciativa?      @relation(fields: [iniciativaId], references: [id], onDelete: Cascade)
   
+  // Constraint única: não pode haver o mesmo email inscrito duas vezes no mesmo evento
+  @@unique([eventoId, emailColaborador])
   @@map("inscricoes")
 }
 
