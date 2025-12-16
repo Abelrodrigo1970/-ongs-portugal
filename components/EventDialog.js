@@ -55,6 +55,13 @@ const EventDialog = ({ isOpen, onClose, event }) => {
     fetchVagas();
   }, [isOpen, event?.id, event?.maxParticipantes, event?.inscricoes?.length]);
 
+  // Limpar convidados selecionados quando fechar o modal
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedGuests([]);
+    }
+  }, [isOpen]);
+
   if (!isOpen || !event) return null;
 
   // Função para formatar data (ex: "Sáb, 13 dez")
@@ -90,13 +97,6 @@ const EventDialog = ({ isOpen, onClose, event }) => {
 
   // Obter localização completa
   const localizacao = event.morada || event.localizacao || event.ngo?.localizacao || '';
-
-  // Limpar convidados selecionados quando fechar o modal
-  useEffect(() => {
-    if (!isOpen) {
-      setSelectedGuests([]);
-    }
-  }, [isOpen]);
 
   // Função para participar no evento (inserir na tabela)
   const handleParticipar = async () => {
