@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, Calendar, Clock, Users } from 'lucide-react';
+import { X, Calendar, Clock, Users, Loader2 } from 'lucide-react';
 import GuestBar from './GuestBar';
 import './EventDialog.css';
 
@@ -13,6 +13,8 @@ const EventDialog = ({ isOpen, onClose, event }) => {
     disponiveis: 0,
     hasLimit: false
   });
+  const [selectedGuests, setSelectedGuests] = useState([]);
+  const [isParticipating, setIsParticipating] = useState(false);
 
   useEffect(() => {
     const fetchVagas = async () => {
@@ -88,6 +90,127 @@ const EventDialog = ({ isOpen, onClose, event }) => {
 
   // Obter localização completa
   const localizacao = event.morada || event.localizacao || event.ngo?.localizacao || '';
+
+  // Limpar convidados selecionados quando fechar o modal
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedGuests([]);
+    }
+  }, [isOpen]);
+
+  // Função para participar no evento (inserir na tabela)
+  const handleParticipar = async () => {
+    if (!event?.id) {
+      console.error('ID do evento não encontrado');
+      return;
+    }
+
+    setIsParticipating(true);
+
+    try {
+      // Inserir o próprio colaborador se houver (do localStorage)
+      let colaboradorAtual = null;
+      if (typeof window !== 'undefined') {
+        const savedColaborador = localStorage.getItem('colaborador');
+        if (savedColaborador) {
+          try {
+            colaboradorAtual = JSON.parse(savedColaborador);
+          } catch (error) {
+            console.error('Erro ao carregar colaborador:', error);
+          }
+        }
+      }
+
+      // Lista de todos os colaboradores para inscrever (incluindo o próprio)
+      const colaboradoresParaInscricao = [];
+      
+      if (colaboradorAtual) {
+        colaboradoresParaInscricao.push({
+          nome: colaboradorAtual.nome,
+          email: colaboradorAtual.email
+        });
+      }
+
+      // Adicionar convidados selecionados
+      selectedGuests.forEach(guest => {
+        colaboradoresParaInscricao.push({
+          nome: guest.nome,
+          email: guest.email
+        });
+      });
+
+      // Criar inscrições para todos os colaboradores
+      const promises = colaboradoresParaInscricao.map(async (colaborador) => {
+        try {
+          const response = await fetch('/api/inscricoes', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              eventoId: event.id,
+              nomeColaborador: colaborador.nome,
+              emailColaborador: colaborador.email,
+              telefone: null,
+              mensagem: null
+            })
+          });
+
+          let data;
+          try {
+            data = await response.json();
+          } catch (parseError) {
+            console.error('Erro ao fazer parse da resposta:', parseError);
+            const text = await response.text().catch(() => 'Erro desconhecido');
+            return {
+              colaborador,
+              success: false,
+              error: `Erro do servidor (${response.status}): ${text}`,
+              status: response.status
+            };
+          }
+          
+          return {
+            colaborador,
+            success: response.ok,
+            error: response.ok ? null : (data.error || data.details || 'Erro desconhecido'),
+            status: response.status
+          };
+        } catch (error) {
+          console.error('Erro ao processar inscrição:', error);
+          return {
+            colaborador,
+            success: false,
+            error: error.message || 'Erro de conexão',
+            status: 0
+          };
+        }
+      });
+
+      const results = await Promise.all(promises);
+      
+      const successful = results.filter(r => r.success);
+      const failed = results.filter(r => !r.success);
+
+      if (successful.length > 0) {
+        // Limpar convidados selecionados
+        setSelectedGuests([]);
+        
+        // Fechar o modal após sucesso
+        setTimeout(() => {
+          onClose();
+        }, 500);
+      } else {
+        console.error('Erro ao participar no evento:', failed);
+        alert('Erro ao participar no evento. Verifique se já não está inscrito.');
+      }
+    } catch (err) {
+      console.error('Error participating in event:', err);
+      alert('Erro ao participar no evento. Tente novamente.');
+    } finally {
+      setIsParticipating(false);
+    }
+  };
 
   return (
     <div 
@@ -184,7 +307,12 @@ const EventDialog = ({ isOpen, onClose, event }) => {
               </p>
             </div>
 
-            <GuestBar className="guest-bar-instance" event={event} />
+            <GuestBar 
+              className="guest-bar-instance" 
+              event={event}
+              selectedGuests={selectedGuests}
+              onSelectedGuestsChange={setSelectedGuests}
+            />
             
             <div className="frame-4">
               <div className="frame-4">
@@ -211,13 +339,25 @@ const EventDialog = ({ isOpen, onClose, event }) => {
             <div className="frame-14">
               <button
                 className="button-primary"
-                onClick={() => {
-                  // TODO: Implementar inscrição
-                  console.log('Participar no evento:', event.id);
-                  onClose();
+                onClick={handleParticipar}
+                disabled={isParticipating}
+                style={{
+                  opacity: isParticipating ? 0.7 : 1,
+                  cursor: isParticipating ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px'
                 }}
               >
-                <div className="button-text">Participar</div>
+                {isParticipating ? (
+                  <>
+                    <Loader2 className="animate-spin" size={16} />
+                    <div className="button-text">A participar...</div>
+                  </>
+                ) : (
+                  <div className="button-text">Participar</div>
+                )}
               </button>
 
               {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis > 0 && (

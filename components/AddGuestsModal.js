@@ -8,9 +8,7 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
   const [colaboradores, setColaboradores] = useState([]);
   const [selectedColaboradores, setSelectedColaboradores] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [adding, setAdding] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   // Buscar colaboradores
   useEffect(() => {
@@ -62,144 +60,26 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
     });
   };
 
-  const handleAddGuests = async () => {
+  const handleAddGuests = () => {
     if (selectedColaboradores.length === 0) {
       setError('Selecione pelo menos um colaborador');
       return;
     }
 
-    if (!eventoId) {
-      setError('ID do evento não encontrado. Por favor, recarregue a página.');
-      return;
+    // Retornar os colaboradores selecionados para o componente pai
+    // Não inserir na tabela ainda - isso será feito ao clicar em "Participar"
+    if (onAddGuests) {
+      onAddGuests(selectedColaboradores);
     }
 
-    setAdding(true);
-    setError('');
-    setSuccess('');
-
-    try {
-      console.log('Adicionando colaboradores ao evento:', {
-        eventoId,
-        colaboradores: selectedColaboradores.map(c => ({ nome: c.nome, email: c.email }))
-      });
-      // Criar inscrições para cada colaborador selecionado
-      const promises = selectedColaboradores.map(async (colaborador) => {
-        try {
-          const response = await fetch('/api/inscricoes', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              eventoId: eventoId,
-              nomeColaborador: colaborador.nome,
-              emailColaborador: colaborador.email,
-              telefone: null,
-              mensagem: null
-            })
-          });
-
-          let data;
-          try {
-            data = await response.json();
-          } catch (parseError) {
-            console.error('Erro ao fazer parse da resposta:', parseError);
-            const text = await response.text().catch(() => 'Erro desconhecido');
-            return {
-              colaborador,
-              success: false,
-              error: `Erro do servidor (${response.status}): ${text}`,
-              status: response.status
-            };
-          }
-          
-          return {
-            colaborador,
-            success: response.ok,
-            error: response.ok ? null : (data.error || data.details || 'Erro desconhecido'),
-            status: response.status
-          };
-        } catch (error) {
-          console.error('Erro ao processar inscrição:', error);
-          return {
-            colaborador,
-            success: false,
-            error: error.message || 'Erro de conexão',
-            status: 0
-          };
-        }
-      });
-
-      const results = await Promise.all(promises);
-      
-      const successful = [];
-      const alreadyInscribed = [];
-      const failed = [];
-
-      results.forEach(result => {
-        console.log('Resultado da inscrição:', {
-          colaborador: result.colaborador.nome,
-          email: result.colaborador.email,
-          success: result.success,
-          status: result.status,
-          error: result.error
-        });
-
-        if (result.success) {
-          successful.push(result.colaborador);
-        } else if (result.status === 409 || (result.error && result.error.includes('já está inscrito'))) {
-          alreadyInscribed.push(result.colaborador);
-        } else {
-          failed.push(result.colaborador);
-        }
-      });
-
-      // Construir mensagem de resultado
-      let message = '';
-      if (successful.length > 0) {
-        message = `${successful.length} colaborador(es) adicionado(s) com sucesso!`;
-      }
-      
-      if (alreadyInscribed.length > 0) {
-        if (message) message += ' ';
-        message += `${alreadyInscribed.length} colaborador(es) já estava(m) inscrito(s).`;
-      }
-      
-      if (failed.length > 0) {
-        if (message) message += ' ';
-        message += `${failed.length} colaborador(es) falharam ao adicionar.`;
-      }
-
-      if (successful.length > 0 || alreadyInscribed.length > 0) {
-        setSuccess(message);
-        
-        // Chamar callback para atualizar a lista
-        if (onAddGuests && successful.length > 0) {
-          onAddGuests(successful);
-        }
-
-        // Limpar seleção e fechar após 2 segundos
-        setTimeout(() => {
-          setSelectedColaboradores([]);
-          setSearchQuery('');
-          onClose();
-        }, 2000);
-      } else {
-        setError(message || 'Erro ao adicionar colaboradores. Verifique se já não estão inscritos.');
-      }
-    } catch (err) {
-      console.error('Error adding guests:', err);
-      setError('Erro ao adicionar colaboradores');
-    } finally {
-      setAdding(false);
-    }
+    // Fechar o modal
+    handleClose();
   };
 
   const handleClose = () => {
     setSelectedColaboradores([]);
     setSearchQuery('');
     setError('');
-    setSuccess('');
     onClose();
   };
 
@@ -250,11 +130,6 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
         {error && (
           <div className="mx-6 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
             {error}
-          </div>
-        )}
-        {success && (
-          <div className="mx-6 mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
-            {success}
           </div>
         )}
 
@@ -344,20 +219,11 @@ const AddGuestsModal = ({ isOpen, onClose, eventoId, onAddGuests }) => {
             </button>
             <button
               onClick={handleAddGuests}
-              disabled={selectedColaboradores.length === 0 || adding}
+              disabled={selectedColaboradores.length === 0}
               className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
             >
-              {adding ? (
-                <>
-                  <Loader2 className="animate-spin" size={16} />
-                  Adicionando...
-                </>
-              ) : (
-                <>
-                  <UserPlus size={16} />
-                  Adicionar ({selectedColaboradores.length})
-                </>
-              )}
+              <UserPlus size={16} />
+              Selecionar ({selectedColaboradores.length})
             </button>
           </div>
         </div>
