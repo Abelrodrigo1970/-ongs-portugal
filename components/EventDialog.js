@@ -16,6 +16,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
   const [selectedGuests, setSelectedGuests] = useState([]);
   const [isParticipating, setIsParticipating] = useState(false);
   const [participantes, setParticipantes] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const fetchVagas = async () => {
@@ -53,13 +54,16 @@ const EventDialog = ({ isOpen, onClose, event }) => {
       }
     };
 
-    fetchVagas();
-  }, [isOpen, event?.id, event?.maxParticipantes, event?.inscricoes?.length]);
+    if (isOpen && event?.id) {
+      fetchVagas();
+    }
+  }, [isOpen, event?.id]);
 
-  // Limpar convidados selecionados quando fechar o modal
+  // Limpar convidados selecionados e mensagem quando fechar o modal
   useEffect(() => {
     if (!isOpen) {
       setSelectedGuests([]);
+      setSuccessMessage('');
     }
   }, [isOpen]);
 
@@ -246,13 +250,71 @@ const EventDialog = ({ isOpen, onClose, event }) => {
       const failed = results.filter(r => !r.success);
 
       if (successful.length > 0) {
+        // Mostrar mensagem de sucesso
+        setSuccessMessage('Convidado Adicionado com Sucesso');
+        
         // Limpar convidados selecionados
         setSelectedGuests([]);
         
-        // Fechar o modal após sucesso
+        // Recarregar vagas e participantes
+        const fetchVagas = async () => {
+          try {
+            const response = await fetch(`/api/events/${event.id}/vagas`);
+            const data = await response.json();
+            if (data.success && data.data) {
+              setVagasInfo(data.data);
+            }
+          } catch (error) {
+            console.error('Erro ao recarregar vagas:', error);
+          }
+        };
+        
+        const fetchParticipantes = async () => {
+          try {
+            const response = await fetch(`/api/inscricoes?eventoId=${event.id}`);
+            const data = await response.json();
+
+            if (data.success && data.data) {
+              const participantesComAvatares = await Promise.all(
+                data.data.slice(0, 3).map(async (inscricao) => {
+                  try {
+                    const colaboradorResponse = await fetch(
+                      `/api/colaboradores/search?query=${encodeURIComponent(inscricao.emailColaborador)}`
+                    );
+                    const colaboradorData = await colaboradorResponse.json();
+                    
+                    const colaborador = colaboradorData.colaboradores?.find(
+                      (c) => c.email?.toLowerCase() === inscricao.emailColaborador?.toLowerCase()
+                    ) || colaboradorData.colaboradores?.[0];
+                    
+                    return {
+                      nome: inscricao.nomeColaborador,
+                      email: inscricao.emailColaborador,
+                      avatar: colaborador?.avatar || null
+                    };
+                  } catch (error) {
+                    console.error('Erro ao buscar colaborador:', error);
+                    return {
+                      nome: inscricao.nomeColaborador,
+                      email: inscricao.emailColaborador,
+                      avatar: null
+                    };
+                  }
+                })
+              );
+              setParticipantes(participantesComAvatares);
+            }
+          } catch (error) {
+            console.error('Erro ao recarregar participantes:', error);
+          }
+        };
+        
+        await Promise.all([fetchVagas(), fetchParticipantes()]);
+        
+        // Remover mensagem de sucesso após 3 segundos
         setTimeout(() => {
-          onClose();
-        }, 500);
+          setSuccessMessage('');
+        }, 3000);
       } else {
         console.error('Erro ao participar no evento:', failed);
         alert('Erro ao participar no evento. Verifique se já não está inscrito.');
@@ -370,6 +432,25 @@ const EventDialog = ({ isOpen, onClose, event }) => {
             <div className="frame-4">
               <div className="frame-4">
                 <div className="frame-12">
+                  {/* Mensagem de sucesso */}
+                  {successMessage && (
+                    <div 
+                      style={{
+                        marginBottom: '12px',
+                        padding: '12px 16px',
+                        backgroundColor: '#10B981',
+                        color: 'white',
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {successMessage}
+                    </div>
+                  )}
                   <div className="frame-13">
                     {/* Avatares sobrepostos */}
                     <div 
