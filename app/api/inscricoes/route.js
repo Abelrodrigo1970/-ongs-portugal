@@ -79,7 +79,13 @@ export async function POST(request) {
     let statusCode = 500;
     
     if (error.message) {
-      if (error.message.includes('obrigatório')) {
+      if (error.message.includes('tabela') && error.message.includes('inscricoes')) {
+        statusCode = 500;
+        errorMessage = 'A tabela de inscrições não existe no banco de dados. Execute o script SQL no Supabase: scripts/add-unique-inscricao-constraint.sql';
+      } else if (error.message.includes('inscricao') && error.message.includes('undefined')) {
+        statusCode = 500;
+        errorMessage = 'A tabela "inscricoes" não existe no banco de dados. Por favor, execute o script SQL no Supabase SQL Editor: scripts/add-unique-inscricao-constraint.sql';
+      } else if (error.message.includes('obrigatório')) {
         statusCode = 400;
         errorMessage = error.message;
       } else if (error.message.includes('já está inscrito') || error.message.includes('Já existe')) {
