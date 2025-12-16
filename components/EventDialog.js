@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, Calendar, Clock, Users, Loader2 } from 'lucide-react';
+import { X, Calendar, Clock, Users, Loader2, User } from 'lucide-react';
 import GuestBar from './GuestBar';
 import './EventDialog.css';
 
@@ -15,6 +15,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
   });
   const [selectedGuests, setSelectedGuests] = useState([]);
   const [isParticipating, setIsParticipating] = useState(false);
+  const [participantes, setParticipantes] = useState([]);
 
   useEffect(() => {
     const fetchVagas = async () => {
@@ -61,6 +62,58 @@ const EventDialog = ({ isOpen, onClose, event }) => {
       setSelectedGuests([]);
     }
   }, [isOpen]);
+
+  // Buscar participantes registrados
+  useEffect(() => {
+    const fetchParticipantes = async () => {
+      if (!isOpen || !event?.id) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/inscricoes?eventoId=${event.id}`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          // Buscar avatares dos colaboradores pelos emails
+          const participantesComAvatares = await Promise.all(
+            data.data.slice(0, 3).map(async (inscricao) => {
+              try {
+                // Tentar buscar colaborador pelo email usando query
+                const colaboradorResponse = await fetch(
+                  `/api/colaboradores/search?query=${encodeURIComponent(inscricao.emailColaborador)}`
+                );
+                const colaboradorData = await colaboradorResponse.json();
+                
+                // Procurar colaborador com email exato (buscar o primeiro resultado, pois a busca pode retornar múltiplos)
+                const colaborador = colaboradorData.colaboradores?.find(
+                  (c) => c.email?.toLowerCase() === inscricao.emailColaborador?.toLowerCase()
+                ) || colaboradorData.colaboradores?.[0];
+                
+                return {
+                  nome: inscricao.nomeColaborador,
+                  email: inscricao.emailColaborador,
+                  avatar: colaborador?.avatar || null
+                };
+              } catch (error) {
+                console.error('Erro ao buscar colaborador:', error);
+                return {
+                  nome: inscricao.nomeColaborador,
+                  email: inscricao.emailColaborador,
+                  avatar: null
+                };
+              }
+            })
+          );
+          setParticipantes(participantesComAvatares);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar participantes:', error);
+      }
+    };
+
+    fetchParticipantes();
+  }, [isOpen, event?.id]);
 
   if (!isOpen || !event) return null;
 
@@ -318,16 +371,77 @@ const EventDialog = ({ isOpen, onClose, event }) => {
               <div className="frame-4">
                 <div className="frame-12">
                   <div className="frame-13">
-                    <div className="group">
-                      <div className="ellipse" />
-                      <div className="ellipse-2" />
-                      <div className="ellipse-3" />
+                    {/* Avatares sobrepostos */}
+                    <div 
+                      className="group"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        position: 'relative',
+                        height: '30px',
+                        width: participantes.length > 0 ? `${32 + (participantes.length - 1) * 24}px` : '60px'
+                      }}
+                    >
+                      {participantes.length > 0 ? (
+                        participantes.map((participante, index) => (
+                          <div
+                            key={index}
+                            style={{
+                              width: '30px',
+                              height: '30px',
+                              borderRadius: '50%',
+                              border: '2px solid white',
+                              backgroundColor: '#E2E8F0',
+                              left: `${index * 24}px`,
+                              position: 'absolute',
+                              top: 0,
+                              zIndex: participantes.length - index,
+                              overflow: 'hidden',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}
+                          >
+                            {participante.avatar ? (
+                              <Image
+                                src={participante.avatar}
+                                alt={participante.nome}
+                                fill
+                                style={{ objectFit: 'cover' }}
+                              />
+                            ) : (
+                              <User size={16} color="#64748B" />
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <>
+                          <div className="ellipse" />
+                          <div className="ellipse-2" />
+                          <div className="ellipse-3" />
+                        </>
+                      )}
                     </div>
 
+                    {/* Texto com nomes e contagem */}
                     <p className="text-wrapper-6">
-                      {vagasOcupadas > 0 
-                        ? `${vagasOcupadas} ${vagasOcupadas === 1 ? 'pessoa já se registrou' : 'pessoas já se registraram'}.`
-                        : 'Ainda não há inscrições neste evento.'}
+                      {vagasOcupadas > 0 ? (
+                        participantes.length > 0 ? (
+                          (() => {
+                            const primeirosNomes = participantes.map(p => p.nome).slice(0, 2);
+                            const restantes = vagasOcupadas - participantes.length;
+                            if (restantes > 0) {
+                              return `${primeirosNomes.join(', ')} e ${restantes} ${restantes === 1 ? 'pessoa' : 'pessoas'} já se registraram.`;
+                            } else {
+                              return `${primeirosNomes.join(', ')} ${primeirosNomes.length === 1 ? 'já se registrou' : 'já se registraram'}.`;
+                            }
+                          })()
+                        ) : (
+                          `${vagasOcupadas} ${vagasOcupadas === 1 ? 'pessoa já se registrou' : 'pessoas já se registraram'}.`
+                        )
+                      ) : (
+                        'Ainda não há inscrições neste evento.'
+                      )}
                     </p>
                   </div>
                 </div>
