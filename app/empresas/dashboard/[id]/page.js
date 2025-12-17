@@ -170,559 +170,409 @@ export default function EmpresaDashboardPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="border-b border-gray-200 bg-white">
-        <div className="max-w-[1528px] mx-auto px-6 py-6">
-          <div className="flex items-start justify-between">
-            {/* Logo e Boas-vindas */}
-            <div className="flex items-start gap-4">
-              {/* Logo FF */}
-              <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-bold text-xl">FF</span>
+      <div className="self-stretch pt-24 inline-flex flex-col justify-center items-start gap-16 px-6">
+        {/* Header com Avatar e Impact Score */}
+        <div className="self-stretch pt-10 inline-flex justify-start items-center gap-6">
+          <div className="flex-1 inline-flex flex-col justify-center items-start gap-6">
+            <img 
+              className="w-20 h-20 rounded-full" 
+              src={empresa?.logo || empresa?.imagem || "https://placehold.co/87x87"} 
+              alt={empresa?.nome || 'Empresa'}
+            />
+            <div className="self-stretch flex flex-col justify-start items-start">
+              <div className="self-stretch justify-start text-stone-900 text-3xl font-semibold font-['Inter'] leading-10">
+                Bem-Vinda, {empresa?.nome || 'Empresa'}
               </div>
-              
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-1">
-                  Bem-Vinda, {empresa?.nome || 'Empresa'}
-                </h1>
-                <p className="text-sm text-gray-600">
-                  Acompanhe o resumo do impacto das tuas atividades recentes.
-                </p>
+              <div className="self-stretch justify-start text-zinc-600 text-lg font-normal font-['Inter'] leading-8">
+                Acompanhe o resumo do impacto das tuas atividades recentes.
               </div>
             </div>
+          </div>
+          
+          {/* UNIVA Impact Score Card */}
+          <div className="w-80 h-44 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-center items-center gap-4">
+            <div className="inline-flex justify-start items-center gap-2">
+              <div className="justify-start text-gray-600 text-lg font-bold font-['Inter'] leading-8">UNIVA Impact Score</div>
+              <div className="w-6 h-6 relative">
+                <Info className="w-6 h-6 text-gray-400" />
+              </div>
+            </div>
+            <div className="flex flex-col justify-start items-start gap-7">
+              <div 
+                className="justify-start text-sky-500 text-6xl font-bold font-['Inter'] leading-[76.80px]"
+                style={{
+                  background: 'linear-gradient(177.14deg, rgba(14, 165, 233, 1) 16.451%, rgba(6, 182, 212, 1) 54.473%, rgba(20, 184, 166, 1) 97.15%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                {impactScore.toFixed(1)}
+              </div>
+            </div>
+          </div>
+        </div>
 
-            {/* Seletor de Data e Impact Score */}
-            <div className="flex items-start gap-6">
-              {/* Seletores de Ano e Mês */}
-              <div className="flex gap-2">
+        {/* Seletores de Data e Botão Exportar */}
+        <div className="self-stretch flex flex-col justify-start items-start gap-8">
+          <div className="self-stretch inline-flex justify-between items-center">
+            <div className="w-[656px] flex justify-start items-center gap-4">
+              <div className="flex justify-start items-center">
                 <select
                   value={ano}
                   onChange={(e) => setAno(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium bg-white text-gray-900"
+                  className="justify-start text-stone-900 text-4xl font-semibold font-['Inter'] leading-[48px] bg-transparent border-none outline-none cursor-pointer"
                 >
                   <option value="2025">2025</option>
                   <option value="2024">2024</option>
                   <option value="2023">2023</option>
                 </select>
+                <div className="w-8 h-8 relative ml-2">
+                  <div className="w-8 h-8 left-0 top-0 absolute bg-zinc-300 rounded"></div>
+                  <div className="w-4 h-2.5 left-[8px] top-[10.67px] absolute bg-gray-700"></div>
+                </div>
+              </div>
+              <div className="flex justify-start items-center">
                 <select
                   value={mes}
                   onChange={(e) => setMes(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium bg-white text-gray-900 capitalize"
+                  className="justify-start text-stone-900 text-4xl font-semibold font-['Inter'] leading-[48px] bg-transparent border-none outline-none cursor-pointer capitalize"
                 >
                   {meses.map(m => (
                     <option key={m} value={m} className="capitalize">{m}</option>
                   ))}
                 </select>
-              </div>
-
-              {/* UNIVA Impact Score Card */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-4 min-w-[200px]">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-sm font-medium text-gray-700">UNIVA Impact Score</span>
-                  <Info size={16} className="text-gray-400" />
-                </div>
-                <div 
-                  className="text-4xl font-bold"
-                  style={{
-                    background: 'linear-gradient(177.14deg, rgba(0, 134, 255, 1) 16.451%, rgba(0, 181, 211, 1) 54.473%, rgba(0, 234, 162, 1) 97.15%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
-                  }}
-                >
-                  {impactScore.toFixed(1)}
+                <div className="w-8 h-8 relative ml-2">
+                  <div className="w-8 h-8 left-0 top-0 absolute bg-zinc-300 rounded"></div>
+                  <div className="w-4 h-2.5 left-[8px] top-[10.67px] absolute bg-gray-700"></div>
                 </div>
               </div>
+            </div>
+            <button className="w-80 px-6 py-2 bg-black rounded-[100px] flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+              <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Exportar Relatório</div>
+              <Download className="w-6 h-6 text-white" />
+            </button>
+          </div>
 
-              {/* Botão Exportar Relatório */}
-              <button className="bg-black text-white px-6 py-3 rounded-lg flex items-center gap-2 font-medium hover:bg-gray-800 transition-colors">
-                <Download size={18} />
-                Exportar Relatório
+          {/* 6 Cards de Estatísticas */}
+          <div className="self-stretch flex flex-col justify-start items-start gap-6">
+            {/* Primeira linha - 2 cards */}
+            <div className="self-stretch inline-flex justify-start items-start gap-6">
+              {/* Card 1: Horas de voluntariado */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Horas de voluntariado</div>
+                  <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                    {Math.round(kpis.horasVoluntariado).toLocaleString('pt-PT')}
+                  </div>
+                  <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Total acumulado</div>
+                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+12% este mês</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2: Número de pessoas impactadas */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Número de pessoas impactadas</div>
+                  <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                    {kpis.pessoasImpactadas.toLocaleString('pt-PT')}
+                  </div>
+                  <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Pessoas beneficiadas</div>
+                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+8% este mês</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Segunda linha - 4 cards */}
+            <div className="self-stretch inline-flex justify-start items-start gap-6">
+              {/* Card 3: Eventos */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Eventos</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                    {kpis.eventos}
+                  </div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Eventos participados</div>
+                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+3 este mês</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 4: Voluntários */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Voluntarios</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                    {kpis.voluntarios}
+                  </div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Colaboradores ativos</div>
+                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+5 este mês</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 5: Hora / Voluntário */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Hora / Voluntário</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                    {Math.round(kpis.horaPorVoluntario).toLocaleString('pt-PT')}
+                  </div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Média por colaborador</div>
+                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+2h este mês</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 6: ONGs Apoiadas */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">ONGs Apoiadas</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                    {kpis.ongsApoiadas}
+                  </div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Parceiros ativos</div>
+                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                    <TrendingUp className="w-5 h-5 text-green-600" />
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+1 este mês</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          {/* Metas 2025 e Minhas Causas - 2 Colunas */}
+          <div className="self-stretch inline-flex justify-start items-start gap-6">
+            {/* Card Metas 2025 */}
+            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
+              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                <div className="self-stretch flex flex-col justify-start items-start gap-1">
+                  <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">Metas 2025</div>
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start gap-2">
+                <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                  <div className="self-stretch inline-flex justify-between items-end">
+                    <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Horas</div>
+                    <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">100€ doados</div>
+                  </div>
+                  <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                    <div className="flex-1 h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '40%' }}></div>
+                  </div>
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                <div className="self-stretch inline-flex justify-between items-end">
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Eventos</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">1000 Horas</div>
+                </div>
+                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '75%' }}></div>
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                <div className="self-stretch inline-flex justify-between items-end">
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Nº voluntários</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">50 participações</div>
+                </div>
+                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '30%' }}></div>
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                <div className="self-stretch inline-flex justify-between items-end">
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Pessoas impactadas</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">5 Mentorandos</div>
+                </div>
+                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '25%' }}></div>
+                </div>
+              </div>
+              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                <div className="self-stretch inline-flex justify-between items-end">
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">ONGs de apoiadas</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">15 Colaborações</div>
+                </div>
+                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '60%' }}></div>
+                </div>
+              </div>
+              <div className="inline-flex justify-start items-start gap-2">
+                <button className="px-6 py-2 bg-black rounded-[100px] flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+                  <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Adicionar Metas</div>
+                </button>
+              </div>
+            </div>
+
+            {/* Card Minhas Causas */}
+            <div className="w-[644px] self-stretch p-6 relative rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-8 overflow-hidden">
+              <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-8">
+                <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                  <div className="self-stretch flex flex-col justify-start items-start gap-1">
+                    <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">Minhas Causas</div>
+                  </div>
+                </div>
+                <div className="self-stretch flex-1 inline-flex justify-start items-start gap-8">
+                  <div className="flex-1 self-stretch flex justify-start items-start gap-2">
+                    <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-4 overflow-y-auto max-h-[400px] pr-2">
+                      <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Ambiente e Ação Climática</div>
+                        <div className="self-stretch flex flex-col justify-start items-start gap-2">
+                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Mitigação das Alterações Climáticas</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">24 iniciativas</span></div>
+                          </div>
+                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Emissões de Gases com Efeito de Estufa</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">12 iniciativas</span></div>
+                          </div>
+                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Transição para Energias Renováveis</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">02 iniciativas</span></div>
+                          </div>
+                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Economia Circular</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">07 iniciativas</span></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Direitos humanos e Proteção</div>
+                        <div className="self-stretch flex flex-col justify-start items-start gap-2">
+                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Proteção da criança</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">02 iniciativas</span></div>
+                          </div>
+                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Suporte à vítimas</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">12 iniciativas</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-[644px] h-32 left-0 top-[439px] absolute bg-gradient-to-b from-slate-50/0 to-slate-50 pointer-events-none"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Iniciativas recentes e ONGs Favoritas - 2 Colunas */}
+          <div className="self-stretch inline-flex justify-start items-start gap-6">
+            {/* Card Iniciativas recentes */}
+            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
+              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">Iniciativas recentes</div>
+              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                {iniciativasRecentes.length > 0 ? (
+                  iniciativasRecentes.map((iniciativa) => (
+                    <div key={iniciativa.id} className="self-stretch h-28 bg-white rounded-2xl shadow-[0px_0px_50px_0px_rgba(225,225,225,1.00)] outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-start items-start overflow-hidden">
+                      <div className="w-48 self-stretch flex justify-start items-center gap-2 relative">
+                        {iniciativa.imagem ? (
+                          <Image src={iniciativa.imagem} alt={iniciativa.titulo || 'Iniciativa'} fill className="flex-1 self-stretch object-cover" sizes="192px" />
+                        ) : (
+                          <div className="flex-1 self-stretch bg-gray-200"></div>
+                        )}
+                      </div>
+                      <div className="flex-1 self-stretch px-4 pt-2 pb-4 bg-white flex justify-start items-start">
+                        <div className="flex-1 self-stretch flex justify-start items-start gap-2">
+                          <div className="flex-1 self-stretch inline-flex flex-col justify-between items-start">
+                            <div className="self-stretch flex-1 flex flex-col justify-start items-start">
+                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-['Inter'] leading-6">{iniciativa.titulo || 'Nome da Iniciativa'}</div>
+                              <div className="self-stretch inline-flex justify-start items-center gap-2">
+                                <div className="justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5">{iniciativa.localizacao || 'Location'}</div>
+                                {iniciativa.dataInicio && (
+                                  <div className="inline-flex flex-col justify-center items-start gap-1">
+                                    <div className="self-stretch inline-flex justify-start items-start gap-3">
+                                      <div className="flex justify-start items-center gap-2">
+                                        <Calendar className="w-4 h-4 text-gray-400" />
+                                        <div className="opacity-70 justify-start text-zinc-600 text-sm font-normal font-['Inter'] leading-5">{formatDateShort(iniciativa.dataInicio)}</div>
+                                      </div>
+                                      <div className="flex justify-start items-center gap-2">
+                                        <Clock className="w-3.5 h-3.5 text-gray-400" />
+                                        <div className="opacity-70 justify-start text-zinc-600 text-sm font-normal font-['Inter'] leading-5">
+                                          {formatTime(iniciativa.dataInicio)}
+                                          {iniciativa.dataFim && ` - ${formatTime(iniciativa.dataFim)}`}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <div className="self-stretch justify-start text-zinc-600 text-sm font-medium font-['Inter'] leading-4">{getTimeAgo(iniciativa.createdAt || iniciativa.dataInicio)}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500 text-center py-8">Nenhuma iniciativa recente</p>
+                )}
+              </div>
+              <button className="px-6 py-2 bg-black rounded-[100px] inline-flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+                <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Ver mais</div>
               </button>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Content */}
-      <div className="max-w-[1528px] mx-auto px-6 py-8">
-        {/* 6 Cards de Estatísticas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {/* Card 1: Horas de voluntariado */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <div className="flex flex-col gap-7">
-              <div>
-                <h3 className="text-base font-bold text-[#00395E] mb-4">Horas de voluntariado</h3>
-                <div className="space-y-4">
-                  <div>
-                    <div className="text-[32px] font-bold text-gray-900 leading-tight">
-                      {Math.round(kpis.horasVoluntariado).toLocaleString('pt-PT')}
-                    </div>
-                    <div className="text-sm text-gray-500">Total acumulado</div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="w-4 h-4 text-[#007104]" />
-                    <span className="font-semibold text-[#007104]">+12% este mês</span>
-                  </div>
-                </div>
-              </div>
-              <div className="w-6 h-6 text-gray-400">
-                <Clock className="w-full h-full" />
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2: Número de pessoas impactadas */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <div className="flex flex-col gap-7">
-              <div>
-                <h3 className="text-base font-bold text-[#00395E] mb-4">Número de pessoas impactadas</h3>
-                <div className="space-y-4">
-                  <div>
-                    <div className="text-[32px] font-bold text-gray-900 leading-tight">
-                      {kpis.pessoasImpactadas.toLocaleString('pt-PT')}
-                    </div>
-                    <div className="text-sm text-gray-500">Pessoas beneficiadas</div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="w-4 h-4 text-[#007104]" />
-                    <span className="font-semibold text-[#007104]">+8% este mês</span>
-                  </div>
-                </div>
-              </div>
-              <div className="w-6 h-6 text-gray-400">
-                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 3: Voluntários */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <div className="flex flex-col gap-7">
-              <div>
-                <h3 className="text-base font-bold text-[#00395E] mb-4">Voluntários</h3>
-                <div className="space-y-4">
-                  <div>
-                    <div className="text-[32px] font-bold text-gray-900 leading-tight">
-                      {kpis.voluntarios}
-                    </div>
-                    <div className="text-sm text-gray-500">Colaboradores ativos</div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="w-4 h-4 text-[#007104]" />
-                    <span className="font-semibold text-[#007104]">+5 este mês</span>
-                  </div>
-                </div>
-              </div>
-              <div className="w-6 h-6 text-gray-400">
-                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 4: Eventos */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <div className="flex flex-col gap-7">
-              <div>
-                <h3 className="text-base font-bold text-[#00395E] mb-4">Eventos</h3>
-                <div className="space-y-4">
-                  <div>
-                    <div className="text-[32px] font-bold text-gray-900 leading-tight">
-                      {kpis.eventos}
-                    </div>
-                    <div className="text-sm text-gray-500">Eventos participados</div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="w-4 h-4 text-[#007104]" />
-                    <span className="font-semibold text-[#007104]">+3 este mês</span>
-                  </div>
-                </div>
-              </div>
-              <div className="w-6 h-6 text-gray-400">
-                <Calendar className="w-full h-full" />
-              </div>
-            </div>
-          </div>
-
-          {/* Card 5: Hora / Voluntário */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <div className="flex flex-col gap-7">
-              <div>
-                <h3 className="text-base font-bold text-[#00395E] mb-4">Hora / Voluntário</h3>
-                <div className="space-y-4">
-                  <div>
-                    <div className="text-[32px] font-bold text-gray-900 leading-tight">
-                      {Math.round(kpis.horaPorVoluntario).toLocaleString('pt-PT')}
-                    </div>
-                    <div className="text-sm text-gray-500">Média por colaborador</div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="w-4 h-4 text-[#007104]" />
-                    <span className="font-semibold text-[#007104]">+2h este mês</span>
-                  </div>
-                </div>
-              </div>
-              <div className="w-6 h-6 text-gray-400">
-                <Clock className="w-full h-full" />
-              </div>
-            </div>
-          </div>
-
-          {/* Card 6: ONGs Apoiadas */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <div className="flex flex-col gap-7">
-              <div>
-                <h3 className="text-base font-bold text-[#00395E] mb-4">ONGs Apoiadas</h3>
-                <div className="space-y-4">
-                  <div>
-                    <div className="text-[32px] font-bold text-gray-900 leading-tight">
-                      {kpis.ongsApoiadas}
-                    </div>
-                    <div className="text-sm text-gray-500">Parceiros ativos</div>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm">
-                    <TrendingUp className="w-4 h-4 text-[#007104]" />
-                    <span className="font-semibold text-[#007104]">+1 este mês</span>
-                  </div>
-                </div>
-              </div>
-              <div className="w-6 h-6 text-gray-400">
-                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Metas 2025 e Minhas Causas - 2 Colunas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Card Metas 2025 */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Metas 2025</h2>
-            <div className="space-y-5">
-              {/* Meta 1: Horas */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-bold text-gray-900">Horas</span>
-                  <span className="text-xs font-bold text-gray-900">1000 Horas</span>
-                </div>
-                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: '75%',
-                      background: 'linear-gradient(90deg, #7EC2FF 2%, #4A9EFF 100%)'
-                    }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* Meta 2: Eventos */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-bold text-gray-900">Eventos</span>
-                  <span className="text-xs font-bold text-gray-900">50 participações</span>
-                </div>
-                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: '30%',
-                      background: 'linear-gradient(90deg, #7EC2FF 2%, #4A9EFF 100%)'
-                    }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* Meta 3: Nº voluntários */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-bold text-gray-900">Nº voluntários</span>
-                  <span className="text-xs font-bold text-gray-900">100€ doados</span>
-                </div>
-                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: '40%',
-                      background: 'linear-gradient(90deg, #7EC2FF 2%, #4A9EFF 100%)'
-                    }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* Meta 4: Pessoas impactadas */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-bold text-gray-900">Pessoas impactadas</span>
-                  <span className="text-xs font-bold text-gray-900">5 Mentorandos</span>
-                </div>
-                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: '25%',
-                      background: 'linear-gradient(90deg, #7EC2FF 2%, #4A9EFF 100%)'
-                    }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* Meta 5: ONGs de apoiadas */}
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-base font-bold text-gray-900">ONGs de apoiadas</span>
-                  <span className="text-xs font-bold text-gray-900">15 Colaborações</span>
-                </div>
-                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: '60%',
-                      background: 'linear-gradient(90deg, #7EC2FF 2%, #4A9EFF 100%)'
-                    }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-
-            <button className="w-full mt-6 bg-black text-white px-4 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-              Adicionar Metas
-            </button>
-          </div>
-
-          {/* Card Minhas Causas */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 max-h-[600px] overflow-y-auto">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Minhas Causas</h2>
-            <div className="space-y-6">
-              {causas.length > 0 ? (
-                // Agrupar causas por categoria (mock - pode ser melhorado depois)
-                <>
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Ambiente e Ação Climática</h3>
-                    <div className="space-y-3">
-                      {causas.filter(c => 
-                        typeof c === 'object' && c.causa && 
-                        (c.causa.nome?.toLowerCase().includes('ambiente') || 
-                         c.causa.nome?.toLowerCase().includes('clima') ||
-                         c.causa.nome?.toLowerCase().includes('energia'))
-                      ).map((causa, idx) => (
-                        <div key={idx} className="flex justify-between items-center py-2">
-                          <span className="text-sm text-gray-700">{causa.causa?.nome || causa.nome}</span>
-                          <span className="text-sm font-medium text-gray-600">
-                            Participaste de {iniciativasRecentes.filter(i => i.causaId === causa.causaId || i.causa?.id === causa.causaId).length} iniciativas
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Direitos humanos e Proteção</h3>
-                    <div className="space-y-3">
-                      {causas.filter(c => 
-                        typeof c === 'object' && c.causa && 
-                        (c.causa.nome?.toLowerCase().includes('direitos') || 
-                         c.causa.nome?.toLowerCase().includes('proteção') ||
-                         c.causa.nome?.toLowerCase().includes('criança'))
-                      ).map((causa, idx) => (
-                        <div key={idx} className="flex justify-between items-center py-2">
-                          <span className="text-sm text-gray-700">{causa.causa?.nome || causa.nome}</span>
-                          <span className="text-sm font-medium text-gray-600">
-                            Participaste de {iniciativasRecentes.filter(i => i.causaId === causa.causaId || i.causa?.id === causa.causaId).length} iniciativas
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Saúde e Bem-Estar</h3>
-                    <div className="space-y-3">
-                      {causas.filter(c => 
-                        typeof c === 'object' && c.causa && 
-                        c.causa.nome?.toLowerCase().includes('saúde')
-                      ).map((causa, idx) => (
-                        <div key={idx} className="flex justify-between items-center py-2">
-                          <span className="text-sm text-gray-700">{causa.causa?.nome || causa.nome}</span>
-                          <span className="text-sm font-medium text-gray-600">
-                            Participaste de {iniciativasRecentes.filter(i => i.causaId === causa.causaId || i.causa?.id === causa.causaId).length} iniciativas
-                          </span>
-                        </div>
-                      ))}
-                      {causas.filter(c => 
-                        typeof c === 'object' && c.causa && 
-                        c.causa.nome?.toLowerCase().includes('saúde')
-                      ).length === 0 && (
-                        <p className="text-sm text-gray-500">Nenhuma causa nesta categoria</p>
-                      )}
-                    </div>
-                  </div>
-                </>
-              ) : (
-                // Mock data quando não há causas
-                <>
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Ambiente e Ação Climática</h3>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-gray-700">Mitigação das Alterações Climáticas</span>
-                        <span className="text-sm font-medium text-gray-600">Participaste de 24 iniciativas</span>
+            {/* Card ONGs Favoritas */}
+            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
+              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">ONGs Favoritas</div>
+              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+                {ongsFavoritas.length > 0 ? (
+                  ongsFavoritas.map((ong) => (
+                    <div key={ong.id} className="self-stretch h-28 bg-white rounded-2xl shadow-[0px_0px_50px_0px_rgba(225,225,225,1.00)] outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-start items-center overflow-hidden">
+                      <div className="w-48 self-stretch flex justify-start items-center gap-2 relative">
+                        {ong.logo || ong.imagem ? (
+                          <Image src={ong.logo || ong.imagem} alt={ong.nome} fill className="flex-1 self-stretch object-cover" sizes="192px" />
+                        ) : (
+                          <div className="flex-1 self-stretch bg-gray-200"></div>
+                        )}
                       </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-gray-700">Emissões de Gases com Efeito de Estufa</span>
-                        <span className="text-sm font-medium text-gray-600">Participaste de 12 iniciativas</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-gray-700">Transição para Energias Renováveis</span>
-                        <span className="text-sm font-medium text-gray-600">Participaste de 02 iniciativas</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-gray-700">Economia Circular</span>
-                        <span className="text-sm font-medium text-gray-600">Participaste de 07 iniciativas</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Direitos humanos e Proteção</h3>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-gray-700">Proteção da criança</span>
-                        <span className="text-sm font-medium text-gray-600">Participaste de 02 iniciativas</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-gray-700">Suporte à vitimas</span>
-                        <span className="text-sm font-medium text-gray-600">Participaste de 12 iniciativas</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-base font-bold text-gray-900 mb-3">Saúde e Bem-Estar</h3>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-gray-700">Saúde Mental</span>
-                        <span className="text-sm font-medium text-gray-600">Participaste de 08 iniciativas</span>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Iniciativas recentes e ONGs Favoritas - 2 Colunas */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Card Iniciativas recentes */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Iniciativas recentes</h2>
-            <div className="space-y-4">
-              {iniciativasRecentes.length > 0 ? (
-                iniciativasRecentes.map((iniciativa) => (
-                  <div key={iniciativa.id} className="flex gap-4 pb-4 border-b border-gray-100 last:border-b-0 last:pb-0">
-                    {iniciativa.imagem ? (
-                      <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
-                          src={iniciativa.imagem}
-                          alt={iniciativa.titulo || 'Iniciativa'}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-20 h-20 bg-gray-200 rounded-lg flex-shrink-0"></div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-bold text-gray-900 mb-1 truncate">
-                        {iniciativa.titulo || 'Nome da Iniciativa'}
-                      </h4>
-                      <div className="flex items-center gap-1.5 text-sm text-gray-600 mb-2">
-                        <MapPin size={14} />
-                        <span className="truncate">{iniciativa.localizacao || 'Location'}</span>
-                      </div>
-                      {iniciativa.dataInicio && (
-                        <div className="flex items-center gap-4 text-xs text-gray-500 mb-1">
-                          <div className="flex items-center gap-1">
-                            <Calendar size={12} />
-                            <span>{formatDateShort(iniciativa.dataInicio)}</span>
+                      <div className="flex-1 self-stretch px-4 pt-2 pb-4 bg-white flex justify-start items-center">
+                        <div className="flex-1 self-stretch flex justify-end items-center gap-2">
+                          <div className="flex-1 self-stretch inline-flex flex-col justify-between items-start">
+                            <div className="self-stretch flex flex-col justify-center items-start">
+                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-['Inter'] leading-6">{ong.nome}</div>
+                              <div className="self-stretch justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5">{ong.localizacao || 'Location'}</div>
+                            </div>
+                            <div className="self-stretch inline-flex justify-start items-center gap-2">
+                              {ong.areas && ong.areas.slice(0, 2).map((area, idx) => (
+                                <div key={idx} className="px-2 py-1 rounded-lg outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-center items-center overflow-hidden">
+                                  <div className="justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5">
+                                    {typeof area === 'object' ? area.tipo?.nome || area.nome : area}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Clock size={12} />
-                            <span>
-                              {formatTime(iniciativa.dataInicio)}
-                              {iniciativa.dataFim && ` - ${formatTime(iniciativa.dataFim)}`}
-                            </span>
+                          <div className="w-7 h-7 relative shadow-[0px_0px_8.88888931274414px_0px_rgba(0,0,0,0.75)]">
+                            <Heart className="w-5 h-5 left-[2.20px] top-[2.91px] absolute text-red-500 fill-red-500" />
                           </div>
                         </div>
-                      )}
-                      <p className="text-xs text-gray-500">{getTimeAgo(iniciativa.createdAt || iniciativa.dataInicio)}</p>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-gray-500 text-center py-8">Nenhuma iniciativa recente</p>
-              )}
-            </div>
-            <button className="w-full mt-6 bg-black text-white px-4 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-              Ver mais
-            </button>
-          </div>
-
-          {/* Card ONGs Favoritas */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">ONGs Favoritas</h2>
-            <div className="space-y-4">
-              {ongsFavoritas.length > 0 ? (
-                ongsFavoritas.map((ong) => (
-                  <div key={ong.id} className="flex items-center gap-4 pb-4 border-b border-gray-100 last:border-b-0 last:pb-0">
-                    {ong.logo ? (
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
-                          src={ong.logo}
-                          alt={ong.nome}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0"></div>
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-bold text-gray-900 mb-1 truncate">
-                        {ong.nome}
-                      </h4>
-                      <div className="flex items-center gap-1.5 text-sm text-gray-600 mb-2">
-                        <MapPin size={14} />
-                        <span className="truncate">{ong.localizacao || 'Location'}</span>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {ong.areas && ong.areas.slice(0, 2).map((area, idx) => (
-                          <span 
-                            key={idx}
-                            className="bg-[#EDF5FF] text-[#193CC8] px-2 py-1 rounded text-xs font-medium"
-                          >
-                            {typeof area === 'object' ? area.tipo?.nome || area.nome : area}
-                          </span>
-                        ))}
                       </div>
                     </div>
-                    <Heart size={20} className="text-red-500 fill-red-500 flex-shrink-0" />
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-gray-500 text-center py-8">Nenhuma ONG favorita</p>
-              )}
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500 text-center py-8">Nenhuma ONG favorita</p>
+                )}
+              </div>
+              <button className="px-6 py-2 bg-black rounded-[100px] inline-flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+                <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Ver mais</div>
+              </button>
             </div>
-            <button className="w-full mt-6 bg-black text-white px-4 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-              Ver mais
-            </button>
           </div>
         </div>
       </div>
