@@ -1,10 +1,50 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Card from './ui/Card';
 import { MapPin, Calendar, Clock, Users } from 'lucide-react';
 
 const CompactEventCard = ({ event, className = '', onCardClick }) => {
+  const [vagasInfo, setVagasInfo] = useState({
+    ocupadas: 0,
+    total: 0
+  });
+
+  // Buscar vagas do evento
+  useEffect(() => {
+    const fetchVagas = async () => {
+      if (!event?.id) return;
+
+      try {
+        const response = await fetch(`/api/events/${event.id}/vagas`);
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          setVagasInfo({
+            ocupadas: data.data.ocupadas || 0,
+            total: data.data.total || 0
+          });
+        } else {
+          // Fallback: usar dados do evento
+          setVagasInfo({
+            ocupadas: 0,
+            total: event.maxParticipantes || 0
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao buscar vagas:', error);
+        // Fallback em caso de erro
+        setVagasInfo({
+          ocupadas: 0,
+          total: event.maxParticipantes || 0
+        });
+      }
+    };
+
+    fetchVagas();
+  }, [event?.id, event?.maxParticipantes]);
+
   // Função para formatar data
   const formatEventDate = (dateString) => {
     if (!dateString) return '';
@@ -30,12 +70,9 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
     });
   };
 
-  // Calcular vagas disponíveis
-  // Como a tabela inscricoes não existe, usamos valores simulados para demonstração
-  const vagasTotal = event.maxParticipantes || 0;
-  // Simular inscrições (10 inscritos como exemplo fixo)
-  const vagasOcupadas = vagasTotal > 0 ? 10 : 0;
-  const vagasDisponiveis = vagasTotal - vagasOcupadas;
+  // Usar dados reais das vagas
+  const vagasTotal = vagasInfo.total || event.maxParticipantes || 0;
+  const vagasOcupadas = vagasInfo.ocupadas || 0;
 
   // Formatar data no estilo do Figma (ex: "Sáb, 13 dez")
   const formatEventDateShort = (dateString) => {

@@ -509,11 +509,14 @@ const EventDialog = ({ isOpen, onClose, event }) => {
                       {vagasOcupadas > 0 ? (
                         participantes.length > 0 ? (
                           (() => {
+                            // Mostrar apenas os 2 primeiros nomes
                             const primeirosNomes = participantes.map(p => p.nome).slice(0, 2);
-                            const restantes = vagasOcupadas - participantes.length;
+                            // Calcular restantes: total de inscrições - 2 nomes mostrados
+                            const restantes = vagasOcupadas - 2;
                             if (restantes > 0) {
                               return `${primeirosNomes.join(', ')} e ${restantes} ${restantes === 1 ? 'pessoa' : 'pessoas'} já se registraram.`;
                             } else {
+                              // Se não há restantes, mostrar apenas os nomes (pode ser 1 ou 2)
                               return `${primeirosNomes.join(', ')} ${primeirosNomes.length === 1 ? 'já se registrou' : 'já se registraram'}.`;
                             }
                           })()
