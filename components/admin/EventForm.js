@@ -253,7 +253,7 @@ export default function EventForm({ initialData, ngos, odsOptions = [], areasOpt
       <div className="flex justify-between items-center pt-4 border-t border-gray-100">
         {initialData && onViewParticipants && (
           <Button 
-            variant="outline" 
+            variant="primary" 
             onClick={() => onViewParticipants(initialData.id, initialData.nome)}
             type="button"
             icon={Users}
