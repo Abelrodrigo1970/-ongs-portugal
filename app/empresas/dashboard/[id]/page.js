@@ -163,7 +163,7 @@ export default function EmpresaDashboardPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0086FF]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -174,32 +174,40 @@ export default function EmpresaDashboardPage() {
         {/* Header com Avatar e Impact Score */}
         <div className="self-stretch pt-10 inline-flex justify-start items-center gap-6">
           <div className="flex-1 inline-flex flex-col justify-center items-start gap-6">
-            <img 
-              className="w-20 h-20 rounded-full" 
-              src={empresa?.logo || empresa?.imagem || "https://placehold.co/87x87"} 
-              alt={empresa?.nome || 'Empresa'}
-            />
+            <div className="relative w-20 h-20 rounded-full overflow-hidden">
+              {empresa?.logo || empresa?.imagem ? (
+                <Image 
+                  src={empresa.logo || empresa.imagem} 
+                  alt={empresa?.nome || 'Empresa'}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
+              ) : (
+                <div className="w-full h-full bg-gray-300"></div>
+              )}
+            </div>
             <div className="self-stretch flex flex-col justify-start items-start">
-              <div className="self-stretch justify-start text-stone-900 text-3xl font-semibold font-['Inter'] leading-10">
+              <div className="self-stretch justify-start text-stone-900 text-3xl font-semibold font-sans leading-10">
                 Bem-Vinda, {empresa?.nome || 'Empresa'}
               </div>
-              <div className="self-stretch justify-start text-zinc-600 text-lg font-normal font-['Inter'] leading-8">
+              <div className="self-stretch justify-start text-zinc-600 text-lg font-normal font-sans leading-8">
                 Acompanhe o resumo do impacto das tuas atividades recentes.
               </div>
             </div>
           </div>
           
           {/* UNIVA Impact Score Card */}
-          <div className="w-80 h-44 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-center items-center gap-4">
+          <div className="w-80 h-44 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-center items-center gap-4">
             <div className="inline-flex justify-start items-center gap-2">
-              <div className="justify-start text-gray-600 text-lg font-bold font-['Inter'] leading-8">UNIVA Impact Score</div>
+              <div className="justify-start text-gray-600 text-lg font-bold font-sans leading-8">UNIVA Impact Score</div>
               <div className="w-6 h-6 relative">
                 <Info className="w-6 h-6 text-gray-400" />
               </div>
             </div>
             <div className="flex flex-col justify-start items-start gap-7">
               <div 
-                className="justify-start text-sky-500 text-6xl font-bold font-['Inter'] leading-[76.80px]"
+                className="justify-start text-sky-500 text-6xl font-bold font-sans leading-tight"
                 style={{
                   background: 'linear-gradient(177.14deg, rgba(14, 165, 233, 1) 16.451%, rgba(6, 182, 212, 1) 54.473%, rgba(20, 184, 166, 1) 97.15%)',
                   WebkitBackgroundClip: 'text',
@@ -216,12 +224,12 @@ export default function EmpresaDashboardPage() {
         {/* Seletores de Data e Botão Exportar */}
         <div className="self-stretch flex flex-col justify-start items-start gap-8">
           <div className="self-stretch inline-flex justify-between items-center">
-            <div className="w-[656px] flex justify-start items-center gap-4">
+            <div className="max-w-2xl flex justify-start items-center gap-4">
               <div className="flex justify-start items-center">
                 <select
                   value={ano}
                   onChange={(e) => setAno(e.target.value)}
-                  className="justify-start text-stone-900 text-4xl font-semibold font-['Inter'] leading-[48px] bg-transparent border-none outline-none cursor-pointer"
+                  className="justify-start text-stone-900 text-4xl font-semibold font-sans leading-tight bg-transparent border-none outline-none cursor-pointer"
                 >
                   <option value="2025">2025</option>
                   <option value="2024">2024</option>
@@ -229,14 +237,14 @@ export default function EmpresaDashboardPage() {
                 </select>
                 <div className="w-8 h-8 relative ml-2">
                   <div className="w-8 h-8 left-0 top-0 absolute bg-zinc-300 rounded"></div>
-                  <div className="w-4 h-2.5 left-[8px] top-[10.67px] absolute bg-gray-700"></div>
+                  <div className="w-4 h-2.5 left-2 top-2.5 absolute bg-gray-700"></div>
                 </div>
               </div>
               <div className="flex justify-start items-center">
                 <select
                   value={mes}
                   onChange={(e) => setMes(e.target.value)}
-                  className="justify-start text-stone-900 text-4xl font-semibold font-['Inter'] leading-[48px] bg-transparent border-none outline-none cursor-pointer capitalize"
+                  className="justify-start text-stone-900 text-4xl font-semibold font-sans leading-tight bg-transparent border-none outline-none cursor-pointer capitalize"
                 >
                   {meses.map(m => (
                     <option key={m} value={m} className="capitalize">{m}</option>
@@ -244,12 +252,12 @@ export default function EmpresaDashboardPage() {
                 </select>
                 <div className="w-8 h-8 relative ml-2">
                   <div className="w-8 h-8 left-0 top-0 absolute bg-zinc-300 rounded"></div>
-                  <div className="w-4 h-2.5 left-[8px] top-[10.67px] absolute bg-gray-700"></div>
+                  <div className="w-4 h-2.5 left-2 top-2.5 absolute bg-gray-700"></div>
                 </div>
               </div>
             </div>
-            <button className="w-80 px-6 py-2 bg-black rounded-[100px] flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
-              <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Exportar Relatório</div>
+            <button className="w-80 px-6 py-2 bg-black rounded-full flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+              <div className="justify-start text-white text-lg font-bold font-sans leading-8">Exportar Relatório</div>
               <Download className="w-6 h-6 text-white" />
             </button>
           </div>
@@ -259,31 +267,31 @@ export default function EmpresaDashboardPage() {
             {/* Primeira linha - 2 cards */}
             <div className="self-stretch inline-flex justify-start items-start gap-6">
               {/* Card 1: Horas de voluntariado */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
-                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Horas de voluntariado</div>
-                  <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Horas de voluntariado</div>
+                  <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {Math.round(kpis.horasVoluntariado).toLocaleString('pt-PT')}
                   </div>
-                  <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Total acumulado</div>
+                  <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-sans leading-5">Total acumulado</div>
                   <div className="self-stretch inline-flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
-                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+12% este mês</div>
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+12% este mês</div>
                   </div>
                 </div>
               </div>
 
               {/* Card 2: Número de pessoas impactadas */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
-                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Número de pessoas impactadas</div>
-                  <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Número de pessoas impactadas</div>
+                  <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.pessoasImpactadas.toLocaleString('pt-PT')}
                   </div>
-                  <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Pessoas beneficiadas</div>
+                  <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-sans leading-5">Pessoas beneficiadas</div>
                   <div className="self-stretch inline-flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
-                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+8% este mês</div>
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+8% este mês</div>
                   </div>
                 </div>
               </div>
@@ -292,180 +300,179 @@ export default function EmpresaDashboardPage() {
             {/* Segunda linha - 4 cards */}
             <div className="self-stretch inline-flex justify-start items-start gap-6">
               {/* Card 3: Eventos */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
-                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Eventos</div>
-                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Eventos</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.eventos}
                   </div>
-                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Eventos participados</div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Eventos participados</div>
                   <div className="self-stretch inline-flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
-                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+3 este mês</div>
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+3 este mês</div>
                   </div>
                 </div>
               </div>
 
               {/* Card 4: Voluntários */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
-                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Voluntarios</div>
-                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Voluntarios</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.voluntarios}
                   </div>
-                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Colaboradores ativos</div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Colaboradores ativos</div>
                   <div className="self-stretch inline-flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
-                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+5 este mês</div>
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+5 este mês</div>
                   </div>
                 </div>
               </div>
 
               {/* Card 5: Hora / Voluntário */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
-                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">Hora / Voluntário</div>
-                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Hora / Voluntário</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {Math.round(kpis.horaPorVoluntario).toLocaleString('pt-PT')}
                   </div>
-                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Média por colaborador</div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Média por colaborador</div>
                   <div className="self-stretch inline-flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
-                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+2h este mês</div>
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+2h este mês</div>
                   </div>
                 </div>
               </div>
 
               {/* Card 6: ONGs Apoiadas */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-4">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
-                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-['Inter'] leading-8">ONGs Apoiadas</div>
-                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-['Inter'] leading-10">
+                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">ONGs Apoiadas</div>
+                  <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.ongsApoiadas}
                   </div>
-                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-['Inter'] leading-5">Parceiros ativos</div>
+                  <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Parceiros ativos</div>
                   <div className="self-stretch inline-flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
-                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-['Inter'] leading-5">+1 este mês</div>
+                    <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+1 este mês</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
           {/* Metas 2025 e Minhas Causas - 2 Colunas */}
           <div className="self-stretch inline-flex justify-start items-start gap-6">
             {/* Card Metas 2025 */}
-            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
+            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
               <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 <div className="self-stretch flex flex-col justify-start items-start gap-1">
-                  <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">Metas 2025</div>
+                  <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">Metas 2025</div>
                 </div>
               </div>
               <div className="self-stretch flex flex-col justify-start items-start gap-2">
                 <div className="self-stretch flex flex-col justify-start items-start gap-4">
                   <div className="self-stretch inline-flex justify-between items-end">
-                    <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Horas</div>
-                    <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">100€ doados</div>
+                    <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Horas</div>
+                    <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">100€ doados</div>
                   </div>
                   <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                    <div className="flex-1 h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '40%' }}></div>
+                    <div className="flex-1 h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '40%' }}></div>
                   </div>
                 </div>
               </div>
               <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Eventos</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">1000 Horas</div>
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Eventos</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">1000 Horas</div>
                 </div>
                 <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '75%' }}></div>
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '75%' }}></div>
                 </div>
               </div>
               <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Nº voluntários</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">50 participações</div>
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Nº voluntários</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">50 participações</div>
                 </div>
                 <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '30%' }}></div>
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '30%' }}></div>
                 </div>
               </div>
               <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Pessoas impactadas</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">5 Mentorandos</div>
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Pessoas impactadas</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">5 Mentorandos</div>
                 </div>
                 <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '25%' }}></div>
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '25%' }}></div>
                 </div>
               </div>
               <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">ONGs de apoiadas</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-['Inter'] leading-4">15 Colaborações</div>
+                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">ONGs de apoiadas</div>
+                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">15 Colaborações</div>
                 </div>
                 <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-[100px]" style={{ width: '60%' }}></div>
+                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '60%' }}></div>
                 </div>
               </div>
               <div className="inline-flex justify-start items-start gap-2">
-                <button className="px-6 py-2 bg-black rounded-[100px] flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
-                  <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Adicionar Metas</div>
+                <button className="px-6 py-2 bg-black rounded-full flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+                  <div className="justify-start text-white text-lg font-bold font-sans leading-8">Adicionar Metas</div>
                 </button>
               </div>
             </div>
 
             {/* Card Minhas Causas */}
-            <div className="w-[644px] self-stretch p-6 relative rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-start items-start gap-8 overflow-hidden">
+            <div className="w-full self-stretch p-6 relative rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-8 overflow-hidden">
               <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-8">
                 <div className="self-stretch flex flex-col justify-start items-start gap-4">
                   <div className="self-stretch flex flex-col justify-start items-start gap-1">
-                    <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">Minhas Causas</div>
+                    <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">Minhas Causas</div>
                   </div>
                 </div>
                 <div className="self-stretch flex-1 inline-flex justify-start items-start gap-8">
                   <div className="flex-1 self-stretch flex justify-start items-start gap-2">
                     <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-4 overflow-y-auto max-h-[400px] pr-2">
                       <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Ambiente e Ação Climática</div>
+                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Ambiente e Ação Climática</div>
                         <div className="self-stretch flex flex-col justify-start items-start gap-2">
                           <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Mitigação das Alterações Climáticas</div>
-                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">24 iniciativas</span></div>
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Mitigação das Alterações Climáticas</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">24 iniciativas</span></div>
                           </div>
                           <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Emissões de Gases com Efeito de Estufa</div>
-                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">12 iniciativas</span></div>
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Emissões de Gases com Efeito de Estufa</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">12 iniciativas</span></div>
                           </div>
                           <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Transição para Energias Renováveis</div>
-                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">02 iniciativas</span></div>
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Transição para Energias Renováveis</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">02 iniciativas</span></div>
                           </div>
                           <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Economia Circular</div>
-                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">07 iniciativas</span></div>
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Economia Circular</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">07 iniciativas</span></div>
                           </div>
                         </div>
                       </div>
                       <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-['Inter'] leading-6">Direitos humanos e Proteção</div>
+                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Direitos humanos e Proteção</div>
                         <div className="self-stretch flex flex-col justify-start items-start gap-2">
                           <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Proteção da criança</div>
-                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">02 iniciativas</span></div>
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Proteção da criança</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">02 iniciativas</span></div>
                           </div>
                           <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-['Inter'] leading-5">Suporte à vítimas</div>
-                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-['Inter'] leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-['Inter'] leading-4">12 iniciativas</span></div>
+                            <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Suporte à vítimas</div>
+                            <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">12 iniciativas</span></div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="w-[644px] h-32 left-0 top-[439px] absolute bg-gradient-to-b from-slate-50/0 to-slate-50 pointer-events-none"></div>
+                <div className="w-full h-32 left-0 top-96 absolute bg-gradient-to-b from-transparent to-slate-50 pointer-events-none"></div>
               </div>
             </div>
           </div>
@@ -473,12 +480,12 @@ export default function EmpresaDashboardPage() {
           {/* Iniciativas recentes e ONGs Favoritas - 2 Colunas */}
           <div className="self-stretch inline-flex justify-start items-start gap-6">
             {/* Card Iniciativas recentes */}
-            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
-              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">Iniciativas recentes</div>
+            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
+              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">Iniciativas recentes</div>
               <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 {iniciativasRecentes.length > 0 ? (
                   iniciativasRecentes.map((iniciativa) => (
-                    <div key={iniciativa.id} className="self-stretch h-28 bg-white rounded-2xl shadow-[0px_0px_50px_0px_rgba(225,225,225,1.00)] outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-start items-start overflow-hidden">
+                    <div key={iniciativa.id} className="self-stretch h-28 bg-white rounded-2xl shadow-lg outline outline-1 -outline-offset-px outline-gray-200 inline-flex justify-start items-start overflow-hidden">
                       <div className="w-48 self-stretch flex justify-start items-center gap-2 relative">
                         {iniciativa.imagem ? (
                           <Image src={iniciativa.imagem} alt={iniciativa.titulo || 'Iniciativa'} fill className="flex-1 self-stretch object-cover" sizes="192px" />
@@ -490,19 +497,19 @@ export default function EmpresaDashboardPage() {
                         <div className="flex-1 self-stretch flex justify-start items-start gap-2">
                           <div className="flex-1 self-stretch inline-flex flex-col justify-between items-start">
                             <div className="self-stretch flex-1 flex flex-col justify-start items-start">
-                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-['Inter'] leading-6">{iniciativa.titulo || 'Nome da Iniciativa'}</div>
+                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-sans leading-6">{iniciativa.titulo || 'Nome da Iniciativa'}</div>
                               <div className="self-stretch inline-flex justify-start items-center gap-2">
-                                <div className="justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5">{iniciativa.localizacao || 'Location'}</div>
+                                <div className="justify-start text-gray-500 text-sm font-semibold font-sans leading-5">{iniciativa.localizacao || 'Location'}</div>
                                 {iniciativa.dataInicio && (
                                   <div className="inline-flex flex-col justify-center items-start gap-1">
                                     <div className="self-stretch inline-flex justify-start items-start gap-3">
                                       <div className="flex justify-start items-center gap-2">
                                         <Calendar className="w-4 h-4 text-gray-400" />
-                                        <div className="opacity-70 justify-start text-zinc-600 text-sm font-normal font-['Inter'] leading-5">{formatDateShort(iniciativa.dataInicio)}</div>
+                                        <div className="opacity-70 justify-start text-zinc-600 text-sm font-normal font-sans leading-5">{formatDateShort(iniciativa.dataInicio)}</div>
                                       </div>
                                       <div className="flex justify-start items-center gap-2">
                                         <Clock className="w-3.5 h-3.5 text-gray-400" />
-                                        <div className="opacity-70 justify-start text-zinc-600 text-sm font-normal font-['Inter'] leading-5">
+                                        <div className="opacity-70 justify-start text-zinc-600 text-sm font-normal font-sans leading-5">
                                           {formatTime(iniciativa.dataInicio)}
                                           {iniciativa.dataFim && ` - ${formatTime(iniciativa.dataFim)}`}
                                         </div>
@@ -512,7 +519,7 @@ export default function EmpresaDashboardPage() {
                                 )}
                               </div>
                             </div>
-                            <div className="self-stretch justify-start text-zinc-600 text-sm font-medium font-['Inter'] leading-4">{getTimeAgo(iniciativa.createdAt || iniciativa.dataInicio)}</div>
+                            <div className="self-stretch justify-start text-zinc-600 text-sm font-medium font-sans leading-4">{getTimeAgo(iniciativa.createdAt || iniciativa.dataInicio)}</div>
                           </div>
                         </div>
                       </div>
@@ -522,18 +529,18 @@ export default function EmpresaDashboardPage() {
                   <p className="text-sm text-gray-500 text-center py-8">Nenhuma iniciativa recente</p>
                 )}
               </div>
-              <button className="px-6 py-2 bg-black rounded-[100px] inline-flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
-                <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Ver mais</div>
+              <button className="px-6 py-2 bg-black rounded-full inline-flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+                <div className="justify-start text-white text-lg font-bold font-sans leading-8">Ver mais</div>
               </button>
             </div>
 
             {/* Card ONGs Favoritas */}
-            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
-              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-['Inter'] leading-7">ONGs Favoritas</div>
+            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
+              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">ONGs Favoritas</div>
               <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 {ongsFavoritas.length > 0 ? (
                   ongsFavoritas.map((ong) => (
-                    <div key={ong.id} className="self-stretch h-28 bg-white rounded-2xl shadow-[0px_0px_50px_0px_rgba(225,225,225,1.00)] outline outline-1 outline-offset-[-1px] outline-gray-200 inline-flex justify-start items-center overflow-hidden">
+                    <div key={ong.id} className="self-stretch h-28 bg-white rounded-2xl shadow-lg outline outline-1 -outline-offset-px outline-gray-200 inline-flex justify-start items-center overflow-hidden">
                       <div className="w-48 self-stretch flex justify-start items-center gap-2 relative">
                         {ong.logo || ong.imagem ? (
                           <Image src={ong.logo || ong.imagem} alt={ong.nome} fill className="flex-1 self-stretch object-cover" sizes="192px" />
@@ -545,21 +552,21 @@ export default function EmpresaDashboardPage() {
                         <div className="flex-1 self-stretch flex justify-end items-center gap-2">
                           <div className="flex-1 self-stretch inline-flex flex-col justify-between items-start">
                             <div className="self-stretch flex flex-col justify-center items-start">
-                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-['Inter'] leading-6">{ong.nome}</div>
-                              <div className="self-stretch justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5">{ong.localizacao || 'Location'}</div>
+                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-sans leading-6">{ong.nome}</div>
+                              <div className="self-stretch justify-start text-gray-500 text-sm font-semibold font-sans leading-5">{ong.localizacao || 'Location'}</div>
                             </div>
                             <div className="self-stretch inline-flex justify-start items-center gap-2">
                               {ong.areas && ong.areas.slice(0, 2).map((area, idx) => (
-                                <div key={idx} className="px-2 py-1 rounded-lg outline outline-1 outline-offset-[-1px] outline-gray-200 flex justify-center items-center overflow-hidden">
-                                  <div className="justify-start text-gray-500 text-sm font-semibold font-['Inter'] leading-5">
+                                <div key={idx} className="px-2 py-1 rounded-lg outline outline-1 -outline-offset-px outline-gray-200 flex justify-center items-center overflow-hidden">
+                                  <div className="justify-start text-gray-500 text-sm font-semibold font-sans leading-5">
                                     {typeof area === 'object' ? area.tipo?.nome || area.nome : area}
                                   </div>
                                 </div>
                               ))}
                             </div>
                           </div>
-                          <div className="w-7 h-7 relative shadow-[0px_0px_8.88888931274414px_0px_rgba(0,0,0,0.75)]">
-                            <Heart className="w-5 h-5 left-[2.20px] top-[2.91px] absolute text-red-500 fill-red-500" />
+                          <div className="w-7 h-7 relative shadow-md">
+                            <Heart className="w-5 h-5 left-0.5 top-0.5 absolute text-red-500 fill-red-500" />
                           </div>
                         </div>
                       </div>
@@ -569,8 +576,8 @@ export default function EmpresaDashboardPage() {
                   <p className="text-sm text-gray-500 text-center py-8">Nenhuma ONG favorita</p>
                 )}
               </div>
-              <button className="px-6 py-2 bg-black rounded-[100px] inline-flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
-                <div className="justify-start text-white text-lg font-bold font-['Inter'] leading-8">Ver mais</div>
+              <button className="px-6 py-2 bg-black rounded-full inline-flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+                <div className="justify-start text-white text-lg font-bold font-sans leading-8">Ver mais</div>
               </button>
             </div>
           </div>
