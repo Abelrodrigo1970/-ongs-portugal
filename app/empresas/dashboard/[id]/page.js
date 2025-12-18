@@ -170,32 +170,33 @@ export default function EmpresaDashboardPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="self-stretch pt-24 inline-flex flex-col justify-center items-start gap-16 px-6">
+      <div className="w-full pt-24 flex flex-col items-center gap-16" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
+        <div className="w-full max-w-[1312px] flex flex-col gap-16">
         {/* Header com Avatar e Impact Score */}
-        <div className="self-stretch pt-10 inline-flex justify-start items-center gap-6">
-          <div className="flex-1 inline-flex flex-col justify-center items-start gap-6">
-            <div className="relative w-20 h-20 rounded-full overflow-hidden">
-              {empresa?.logo || empresa?.imagem ? (
-                <Image 
-                  src={empresa.logo || empresa.imagem} 
-                  alt={empresa?.nome || 'Empresa'}
-                  fill
-                  className="object-cover"
-                  sizes="80px"
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-300"></div>
-              )}
-            </div>
-            <div className="self-stretch flex flex-col justify-start items-start">
-              <div className="self-stretch justify-start text-stone-900 text-3xl font-semibold font-sans leading-10">
-                Bem-Vinda, {empresa?.nome || 'Empresa'}
+          <div className="w-full pt-10 flex justify-start items-center gap-6">
+            <div className="flex-1 flex flex-col justify-center items-start gap-6">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                {empresa?.logo || empresa?.imagem ? (
+                  <Image 
+                    src={empresa.logo || empresa.imagem} 
+                    alt={empresa?.nome || 'Empresa'}
+                    fill
+                    className="object-cover"
+                    sizes="80px"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-300"></div>
+                )}
               </div>
-              <div className="self-stretch justify-start text-zinc-600 text-lg font-normal font-sans leading-8">
-                Acompanhe o resumo do impacto das tuas atividades recentes.
+              <div className="w-full flex flex-col justify-start items-start">
+                <div className="w-full text-stone-900 text-3xl font-semibold font-sans leading-10">
+                  Bem-Vinda, {empresa?.nome || 'Empresa'}
+                </div>
+                <div className="w-full text-zinc-600 text-lg font-normal font-sans leading-8">
+                  Acompanhe o resumo do impacto das tuas atividades recentes.
+                </div>
               </div>
             </div>
-          </div>
           
           {/* UNIVA Impact Score Card */}
           <div className="w-80 h-44 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-center items-center gap-4">
@@ -221,9 +222,9 @@ export default function EmpresaDashboardPage() {
           </div>
         </div>
 
-        {/* Seletores de Data e Botão Exportar */}
-        <div className="self-stretch flex flex-col justify-start items-start gap-8">
-          <div className="self-stretch inline-flex justify-between items-center">
+          {/* Seletores de Data e Botão Exportar */}
+          <div className="w-full flex flex-col justify-start items-start gap-8">
+            <div className="w-full flex justify-between items-center">
             <div className="max-w-2xl flex justify-start items-center gap-4">
               <div className="flex justify-start items-center">
                 <select
@@ -262,19 +263,19 @@ export default function EmpresaDashboardPage() {
             </button>
           </div>
 
-          {/* 6 Cards de Estatísticas */}
-          <div className="self-stretch flex flex-col justify-start items-start gap-6">
-            {/* Primeira linha - 2 cards */}
-            <div className="self-stretch inline-flex justify-start items-start gap-6">
+            {/* 6 Cards de Estatísticas */}
+            <div className="w-full flex flex-col justify-start items-start gap-6">
+              {/* Primeira linha - 2 cards */}
+              <div className="w-full flex justify-start items-start gap-6">
               {/* Card 1: Horas de voluntariado */}
               <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
-                  <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Horas de voluntariado</div>
+                  <div className="w-full text-gray-900 text-lg font-bold font-sans leading-8">Horas de voluntariado</div>
                   <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {Math.round(kpis.horasVoluntariado).toLocaleString('pt-PT')}
                   </div>
                   <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-sans leading-5">Total acumulado</div>
-                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                  <div className="w-full flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
                     <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+12% este mês</div>
                   </div>
@@ -289,7 +290,7 @@ export default function EmpresaDashboardPage() {
                     {kpis.pessoasImpactadas.toLocaleString('pt-PT')}
                   </div>
                   <div className="w-[596px] justify-start text-gray-500 text-sm font-normal font-sans leading-5">Pessoas beneficiadas</div>
-                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                  <div className="w-full flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
                     <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+8% este mês</div>
                   </div>
@@ -298,7 +299,7 @@ export default function EmpresaDashboardPage() {
             </div>
 
             {/* Segunda linha - 4 cards */}
-            <div className="self-stretch inline-flex justify-start items-start gap-6">
+            <div className="w-full flex justify-start items-start gap-6">
               {/* Card 3: Eventos */}
               <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
                 <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
@@ -307,7 +308,7 @@ export default function EmpresaDashboardPage() {
                     {kpis.eventos}
                   </div>
                   <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Eventos participados</div>
-                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                  <div className="w-full flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
                     <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+3 este mês</div>
                   </div>
@@ -322,7 +323,7 @@ export default function EmpresaDashboardPage() {
                     {kpis.voluntarios}
                   </div>
                   <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Colaboradores ativos</div>
-                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                  <div className="w-full flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
                     <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+5 este mês</div>
                   </div>
@@ -337,7 +338,7 @@ export default function EmpresaDashboardPage() {
                     {Math.round(kpis.horaPorVoluntario).toLocaleString('pt-PT')}
                   </div>
                   <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Média por colaborador</div>
-                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                  <div className="w-full flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
                     <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+2h este mês</div>
                   </div>
@@ -352,71 +353,71 @@ export default function EmpresaDashboardPage() {
                     {kpis.ongsApoiadas}
                   </div>
                   <div className="w-64 justify-start text-gray-500 text-sm font-normal font-sans leading-5">Parceiros ativos</div>
-                  <div className="self-stretch inline-flex justify-start items-center gap-1">
+                  <div className="w-full flex justify-start items-center gap-1">
                     <TrendingUp className="w-5 h-5 text-green-600" />
                     <div className="flex-1 justify-start text-green-600 text-sm font-normal font-sans leading-5">+1 este mês</div>
                   </div>
                 </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Metas 2025 e Minhas Causas - 2 Colunas */}
-          <div className="self-stretch inline-flex justify-start items-start gap-6">
-            {/* Card Metas 2025 */}
-            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
-              <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                <div className="self-stretch flex flex-col justify-start items-start gap-1">
-                  <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">Metas 2025</div>
+            {/* Metas 2025 e Minhas Causas - 2 Colunas */}
+            <div className="w-full flex justify-start items-start gap-6">
+              {/* Card Metas 2025 */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start gap-8">
+                <div className="w-full flex flex-col justify-start items-start gap-4">
+                  <div className="w-full flex flex-col justify-start items-start gap-1">
+                    <div className="w-full text-stone-900 text-2xl font-bold font-sans leading-7">Metas 2025</div>
                 </div>
               </div>
-              <div className="self-stretch flex flex-col justify-start items-start gap-2">
-                <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                  <div className="self-stretch inline-flex justify-between items-end">
-                    <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Horas</div>
-                    <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">100€ doados</div>
+                <div className="w-full flex flex-col justify-start items-start gap-2">
+                  <div className="w-full flex flex-col justify-start items-start gap-4">
+                    <div className="w-full flex justify-between items-end">
+                      <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Horas</div>
+                      <div className="text-zinc-600 text-xs font-bold font-sans leading-4">100€ doados</div>
+                    </div>
+                    <div className="w-full h-2 bg-gray-100 rounded-lg flex justify-start items-center overflow-hidden">
+                      <div className="flex-1 h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '40%' }}></div>
+                    </div>
                   </div>
-                  <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                    <div className="flex-1 h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '40%' }}></div>
+                </div>
+                <div className="w-full flex flex-col justify-start items-start gap-4">
+                  <div className="w-full flex justify-between items-end">
+                    <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Eventos</div>
+                    <div className="text-zinc-600 text-xs font-bold font-sans leading-4">1000 Horas</div>
+                  </div>
+                  <div className="w-full h-2 bg-gray-100 rounded-lg flex justify-start items-center overflow-hidden">
+                    <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '75%' }}></div>
                   </div>
                 </div>
-              </div>
-              <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Eventos</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">1000 Horas</div>
+                <div className="w-full flex flex-col justify-start items-start gap-4">
+                  <div className="w-full flex justify-between items-end">
+                    <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Nº voluntários</div>
+                    <div className="text-zinc-600 text-xs font-bold font-sans leading-4">50 participações</div>
+                  </div>
+                  <div className="w-full h-2 bg-gray-100 rounded-lg flex justify-start items-center overflow-hidden">
+                    <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '30%' }}></div>
+                  </div>
                 </div>
-                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '75%' }}></div>
+                <div className="w-full flex flex-col justify-start items-start gap-4">
+                  <div className="w-full flex justify-between items-end">
+                    <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Pessoas impactadas</div>
+                    <div className="text-zinc-600 text-xs font-bold font-sans leading-4">5 Mentorandos</div>
+                  </div>
+                  <div className="w-full h-2 bg-gray-100 rounded-lg flex justify-start items-center overflow-hidden">
+                    <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '25%' }}></div>
+                  </div>
                 </div>
-              </div>
-              <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Nº voluntários</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">50 participações</div>
+                <div className="w-full flex flex-col justify-start items-start gap-4">
+                  <div className="w-full flex justify-between items-end">
+                    <div className="text-zinc-600 text-lg font-bold font-sans leading-6">ONGs de apoiadas</div>
+                    <div className="text-zinc-600 text-xs font-bold font-sans leading-4">15 Colaborações</div>
+                  </div>
+                  <div className="w-full h-2 bg-gray-100 rounded-lg flex justify-start items-center overflow-hidden">
+                    <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '60%' }}></div>
+                  </div>
                 </div>
-                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '30%' }}></div>
-                </div>
-              </div>
-              <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Pessoas impactadas</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">5 Mentorandos</div>
-                </div>
-                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '25%' }}></div>
-                </div>
-              </div>
-              <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                <div className="self-stretch inline-flex justify-between items-end">
-                  <div className="justify-start text-zinc-600 text-lg font-bold font-sans leading-6">ONGs de apoiadas</div>
-                  <div className="justify-start text-zinc-600 text-xs font-bold font-sans leading-4">15 Colaborações</div>
-                </div>
-                <div className="self-stretch h-2 bg-gray-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
-                  <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '60%' }}></div>
-                </div>
-              </div>
               <div className="inline-flex justify-start items-start gap-2">
                 <button className="px-6 py-2 bg-black rounded-full flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
                   <div className="justify-start text-white text-lg font-bold font-sans leading-8">Adicionar Metas</div>
@@ -424,46 +425,46 @@ export default function EmpresaDashboardPage() {
               </div>
             </div>
 
-            {/* Card Minhas Causas */}
-            <div className="w-full self-stretch p-6 relative rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-8 overflow-hidden">
-              <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-8">
-                <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                  <div className="self-stretch flex flex-col justify-start items-start gap-1">
-                    <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">Minhas Causas</div>
+              {/* Card Minhas Causas */}
+              <div className="w-full p-6 relative rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-8 overflow-hidden">
+                <div className="flex-1 flex flex-col justify-start items-start gap-8">
+                <div className="w-full flex flex-col justify-start items-start gap-4">
+                  <div className="w-full flex flex-col justify-start items-start gap-1">
+                    <div className="w-full text-stone-900 text-2xl font-bold font-sans leading-7">Minhas Causas</div>
                   </div>
                 </div>
-                <div className="self-stretch flex-1 inline-flex justify-start items-start gap-8">
-                  <div className="flex-1 self-stretch flex justify-start items-start gap-2">
-                    <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-4 overflow-y-auto max-h-[400px] pr-2">
-                      <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Ambiente e Ação Climática</div>
-                        <div className="self-stretch flex flex-col justify-start items-start gap-2">
-                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                <div className="w-full flex-1 flex justify-start items-start gap-8">
+                  <div className="flex-1 flex justify-start items-start gap-2">
+                    <div className="flex-1 flex flex-col justify-start items-start gap-4 overflow-y-auto max-h-[400px] pr-2">
+                      <div className="w-full flex flex-col justify-start items-start gap-4">
+                        <div className="w-full text-zinc-600 text-lg font-bold font-sans leading-6">Ambiente e Ação Climática</div>
+                        <div className="w-full flex flex-col justify-start items-start gap-2">
+                          <div className="w-full px-4 py-2 bg-green-100 rounded-lg flex justify-start items-center overflow-hidden">
                             <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Mitigação das Alterações Climáticas</div>
                             <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">24 iniciativas</span></div>
                           </div>
-                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                          <div className="w-full px-4 py-2 bg-green-100 rounded-lg flex justify-start items-center overflow-hidden">
                             <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Emissões de Gases com Efeito de Estufa</div>
                             <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">12 iniciativas</span></div>
                           </div>
-                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                          <div className="w-full px-4 py-2 bg-green-100 rounded-lg flex justify-start items-center overflow-hidden">
                             <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Transição para Energias Renováveis</div>
                             <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">02 iniciativas</span></div>
                           </div>
-                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                          <div className="w-full px-4 py-2 bg-green-100 rounded-lg flex justify-start items-center overflow-hidden">
                             <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Economia Circular</div>
                             <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">07 iniciativas</span></div>
                           </div>
                         </div>
                       </div>
-                      <div className="self-stretch flex flex-col justify-start items-start gap-4">
-                        <div className="self-stretch justify-start text-zinc-600 text-lg font-bold font-sans leading-6">Direitos humanos e Proteção</div>
-                        <div className="self-stretch flex flex-col justify-start items-start gap-2">
-                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                      <div className="w-full flex flex-col justify-start items-start gap-4">
+                        <div className="w-full text-zinc-600 text-lg font-bold font-sans leading-6">Direitos humanos e Proteção</div>
+                        <div className="w-full flex flex-col justify-start items-start gap-2">
+                          <div className="w-full px-4 py-2 bg-green-100 rounded-lg flex justify-start items-center overflow-hidden">
                             <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Proteção da criança</div>
                             <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">02 iniciativas</span></div>
                           </div>
-                          <div className="self-stretch px-4 py-2 bg-green-100 rounded-lg inline-flex justify-start items-center overflow-hidden">
+                          <div className="w-full px-4 py-2 bg-green-100 rounded-lg flex justify-start items-center overflow-hidden">
                             <div className="flex-1 justify-start text-emerald-700 text-sm font-semibold font-sans leading-5">Suporte à vítimas</div>
                             <div className="justify-start"><span className="text-emerald-700 text-xs font-normal font-sans leading-4">Participaste de </span><span className="text-emerald-700 text-xs font-bold font-sans leading-4">12 iniciativas</span></div>
                           </div>
@@ -472,37 +473,37 @@ export default function EmpresaDashboardPage() {
                     </div>
                   </div>
                 </div>
-                <div className="w-full h-32 left-0 top-96 absolute bg-gradient-to-b from-transparent to-slate-50 pointer-events-none"></div>
+                  <div className="w-full h-32 left-0 top-96 absolute bg-gradient-to-b from-transparent to-slate-50 pointer-events-none"></div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Iniciativas recentes e ONGs Favoritas - 2 Colunas */}
-          <div className="self-stretch inline-flex justify-start items-start gap-6">
-            {/* Card Iniciativas recentes */}
-            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
-              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">Iniciativas recentes</div>
-              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+            {/* Iniciativas recentes e ONGs Favoritas - 2 Colunas */}
+            <div className="w-full flex justify-start items-start gap-6">
+              {/* Card Iniciativas recentes */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start gap-8">
+              <div className="w-full text-stone-900 text-2xl font-bold font-sans leading-7">Iniciativas recentes</div>
+              <div className="w-full flex flex-col justify-start items-start gap-4">
                 {iniciativasRecentes.length > 0 ? (
                   iniciativasRecentes.map((iniciativa) => (
-                    <div key={iniciativa.id} className="self-stretch h-28 bg-white rounded-2xl shadow-lg outline outline-1 -outline-offset-px outline-gray-200 inline-flex justify-start items-start overflow-hidden">
-                      <div className="w-48 self-stretch flex justify-start items-center gap-2 relative">
+                    <div key={iniciativa.id} className="w-full h-28 bg-white rounded-2xl shadow-lg outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start overflow-hidden">
+                      <div className="w-48 h-full flex justify-start items-center gap-2 relative">
                         {iniciativa.imagem ? (
                           <Image src={iniciativa.imagem} alt={iniciativa.titulo || 'Iniciativa'} fill className="flex-1 self-stretch object-cover" sizes="192px" />
                         ) : (
                           <div className="flex-1 self-stretch bg-gray-200"></div>
                         )}
                       </div>
-                      <div className="flex-1 self-stretch px-4 pt-2 pb-4 bg-white flex justify-start items-start">
-                        <div className="flex-1 self-stretch flex justify-start items-start gap-2">
-                          <div className="flex-1 self-stretch inline-flex flex-col justify-between items-start">
-                            <div className="self-stretch flex-1 flex flex-col justify-start items-start">
-                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-sans leading-6">{iniciativa.titulo || 'Nome da Iniciativa'}</div>
-                              <div className="self-stretch inline-flex justify-start items-center gap-2">
-                                <div className="justify-start text-gray-500 text-sm font-semibold font-sans leading-5">{iniciativa.localizacao || 'Location'}</div>
+                      <div className="flex-1 h-full px-4 pt-2 pb-4 bg-white flex justify-start items-start">
+                        <div className="flex-1 h-full flex justify-start items-start gap-2">
+                          <div className="flex-1 h-full flex flex-col justify-between items-start">
+                            <div className="w-full flex-1 flex flex-col justify-start items-start">
+                              <div className="w-full text-gray-900 text-base font-bold font-sans leading-6">{iniciativa.titulo || 'Nome da Iniciativa'}</div>
+                              <div className="w-full flex justify-start items-center gap-2">
+                                <div className="text-gray-500 text-sm font-semibold font-sans leading-5">{iniciativa.localizacao || 'Location'}</div>
                                 {iniciativa.dataInicio && (
                                   <div className="inline-flex flex-col justify-center items-start gap-1">
-                                    <div className="self-stretch inline-flex justify-start items-start gap-3">
+                                    <div className="flex justify-start items-start gap-3">
                                       <div className="flex justify-start items-center gap-2">
                                         <Calendar className="w-4 h-4 text-gray-400" />
                                         <div className="opacity-70 justify-start text-zinc-600 text-sm font-normal font-sans leading-5">{formatDateShort(iniciativa.dataInicio)}</div>
@@ -519,7 +520,7 @@ export default function EmpresaDashboardPage() {
                                 )}
                               </div>
                             </div>
-                            <div className="self-stretch justify-start text-zinc-600 text-sm font-medium font-sans leading-4">{getTimeAgo(iniciativa.createdAt || iniciativa.dataInicio)}</div>
+                            <div className="w-full text-zinc-600 text-sm font-medium font-sans leading-4">{getTimeAgo(iniciativa.createdAt || iniciativa.dataInicio)}</div>
                           </div>
                         </div>
                       </div>
@@ -534,28 +535,28 @@ export default function EmpresaDashboardPage() {
               </button>
             </div>
 
-            {/* Card ONGs Favoritas */}
-            <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 inline-flex flex-col justify-start items-start gap-8">
-              <div className="self-stretch justify-start text-stone-900 text-2xl font-bold font-sans leading-7">ONGs Favoritas</div>
-              <div className="self-stretch flex flex-col justify-start items-start gap-4">
+              {/* Card ONGs Favoritas */}
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start gap-8">
+              <div className="w-full text-stone-900 text-2xl font-bold font-sans leading-7">ONGs Favoritas</div>
+              <div className="w-full flex flex-col justify-start items-start gap-4">
                 {ongsFavoritas.length > 0 ? (
                   ongsFavoritas.map((ong) => (
-                    <div key={ong.id} className="self-stretch h-28 bg-white rounded-2xl shadow-lg outline outline-1 -outline-offset-px outline-gray-200 inline-flex justify-start items-center overflow-hidden">
-                      <div className="w-48 self-stretch flex justify-start items-center gap-2 relative">
+                    <div key={ong.id} className="w-full h-28 bg-white rounded-2xl shadow-lg outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-center overflow-hidden">
+                      <div className="w-48 h-full flex justify-start items-center gap-2 relative">
                         {ong.logo || ong.imagem ? (
                           <Image src={ong.logo || ong.imagem} alt={ong.nome} fill className="flex-1 self-stretch object-cover" sizes="192px" />
                         ) : (
                           <div className="flex-1 self-stretch bg-gray-200"></div>
                         )}
                       </div>
-                      <div className="flex-1 self-stretch px-4 pt-2 pb-4 bg-white flex justify-start items-center">
-                        <div className="flex-1 self-stretch flex justify-end items-center gap-2">
-                          <div className="flex-1 self-stretch inline-flex flex-col justify-between items-start">
-                            <div className="self-stretch flex flex-col justify-center items-start">
-                              <div className="self-stretch justify-start text-gray-900 text-base font-bold font-sans leading-6">{ong.nome}</div>
-                              <div className="self-stretch justify-start text-gray-500 text-sm font-semibold font-sans leading-5">{ong.localizacao || 'Location'}</div>
+                      <div className="flex-1 h-full px-4 pt-2 pb-4 bg-white flex justify-start items-center">
+                        <div className="flex-1 h-full flex justify-end items-center gap-2">
+                          <div className="flex-1 h-full flex flex-col justify-between items-start">
+                            <div className="w-full flex flex-col justify-center items-start">
+                              <div className="w-full text-gray-900 text-base font-bold font-sans leading-6">{ong.nome}</div>
+                              <div className="w-full text-gray-500 text-sm font-semibold font-sans leading-5">{ong.localizacao || 'Location'}</div>
                             </div>
-                            <div className="self-stretch inline-flex justify-start items-center gap-2">
+                            <div className="w-full flex justify-start items-center gap-2">
                               {ong.areas && ong.areas.slice(0, 2).map((area, idx) => (
                                 <div key={idx} className="px-2 py-1 rounded-lg outline outline-1 -outline-offset-px outline-gray-200 flex justify-center items-center overflow-hidden">
                                   <div className="justify-start text-gray-500 text-sm font-semibold font-sans leading-5">
@@ -582,6 +583,7 @@ export default function EmpresaDashboardPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
