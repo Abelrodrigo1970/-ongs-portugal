@@ -10,15 +10,7 @@ export default function EventParticipantsModal({ eventId, eventName, isOpen, onC
   const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(false);
   const [removing, setRemoving] = useState(new Set());
-  const [updating, setUpdating] = useState(new Set());
   const [selectedParticipants, setSelectedParticipants] = useState(new Set());
-
-  const statusOptions = [
-    { label: 'Pendente', value: 'PENDENTE' },
-    { label: 'Aprovada', value: 'APROVADA' },
-    { label: 'Rejeitada', value: 'REJEITADA' },
-    { label: 'Cancelada', value: 'CANCELADA' }
-  ];
 
   useEffect(() => {
     if (isOpen && eventId) {
@@ -149,42 +141,6 @@ export default function EventParticipantsModal({ eventId, eventName, isOpen, onC
     }
   };
 
-  const handleStatusChange = async (inscricaoId, newStatus) => {
-    setUpdating(prev => new Set(prev).add(inscricaoId));
-    try {
-      const headers = getAuthHeaders();
-      const response = await fetch(`/api/admin/inscricoes/${inscricaoId}`, {
-        method: 'PATCH',
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ status: newStatus })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Atualizar o status na lista local
-        setParticipants(prev =>
-          prev.map(p =>
-            p.id === inscricaoId ? { ...p, status: newStatus } : p
-          )
-        );
-      } else {
-        alert('Erro ao atualizar status: ' + (data.error || 'Erro desconhecido'));
-      }
-    } catch (error) {
-      console.error('Erro ao atualizar status:', error);
-      alert('Erro ao atualizar status da inscrição');
-    } finally {
-      setUpdating(prev => {
-        const next = new Set(prev);
-        next.delete(inscricaoId);
-        return next;
-      });
-    }
-  };
 
   if (!isOpen) return null;
 
@@ -263,12 +219,6 @@ export default function EventParticipantsModal({ eventId, eventName, isOpen, onC
                         Email
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Telefone
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Status
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Data de Inscrição
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -292,31 +242,6 @@ export default function EventParticipantsModal({ eventId, eventName, isOpen, onC
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700">
                           {participant.emailColaborador || '—'}
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-700">
-                          {participant.telefone || '—'}
-                        </td>
-                        <td className="px-4 py-3 text-sm">
-                          <div className="min-w-[140px]">
-                            {updating.has(participant.id) ? (
-                              <div className="flex items-center gap-2">
-                                <Loader className="w-4 h-4 animate-spin text-gray-400" />
-                                <span className="text-xs text-gray-500">Atualizando...</span>
-                              </div>
-                            ) : (
-                              <select
-                                value={participant.status || 'PENDENTE'}
-                                onChange={(e) => handleStatusChange(participant.id, e.target.value)}
-                                className="w-full px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white hover:border-gray-400 transition-colors"
-                              >
-                                {statusOptions.map((option) => (
-                                  <option key={option.value} value={option.value}>
-                                    {option.label}
-                                  </option>
-                                ))}
-                              </select>
-                            )}
-                          </div>
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-700">
                           {participant.createdAt
