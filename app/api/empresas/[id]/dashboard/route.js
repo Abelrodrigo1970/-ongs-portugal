@@ -46,6 +46,7 @@ export async function GET(request, { params }) {
     let voluntariosUnicos = new Set();
     let pessoasImpactadas = 0;
     let eventosParticipados = new Set();
+    let ongsApoiadasSet = new Set(); // ONGs únicas através dos eventos
     
     if (emailsColaboradores.length > 0) {
       try {
@@ -61,19 +62,24 @@ export async function GET(request, { params }) {
                 id: true,
                 nome: true,
                 dataInicio: true,
-                dataFim: true
+                dataFim: true,
+                ngoId: true // Incluir ngoId para contar ONGs únicas
               }
             }
           }
         });
         
-        // Contar voluntários únicos e eventos
+        // Contar voluntários únicos, eventos e ONGs
         inscricoesEventos.forEach(insc => {
           if (insc.emailColaborador) {
             voluntariosUnicos.add(insc.emailColaborador.toLowerCase());
           }
           if (insc.evento) {
             eventosParticipados.add(insc.evento.id);
+            // Adicionar ONG do evento ao set de ONGs apoiadas
+            if (insc.evento.ngoId) {
+              ongsApoiadasSet.add(insc.evento.ngoId);
+            }
           }
         });
         
@@ -117,38 +123,35 @@ export async function GET(request, { params }) {
       }
     }
 
-    // Buscar ONGs favoritas (ONGs que marcaram esta empresa como favorita)
+    // Buscar ONGs favoritas baseadas nos eventos onde os colaboradores participaram
     let ongsFavoritas = [];
-    let ongsApoiadasCount = 0;
-    try {
-      const favoritos = await prisma.favorito.findMany({
-        where: { empresaId: id },
-        include: {
-          ong: {
-            include: {
-              areaAtuacao: {
-                include: {
-                  tipo: true
-                }
+    const ongsApoiadasCount = ongsApoiadasSet.size;
+    
+    // Buscar detalhes das ONGs apoiadas através dos eventos
+    if (ongsApoiadasSet.size > 0) {
+      try {
+        const ongs = await prisma.nGO.findMany({
+          where: {
+            id: { in: Array.from(ongsApoiadasSet) }
+          },
+          include: {
+            areaAtuacao: {
+              include: {
+                tipo: true
               }
             }
-          }
-        },
-        take: 5
-      });
+          },
+          take: 5
+        });
 
-      ongsApoiadasCount = await prisma.favorito.count({
-        where: { empresaId: id }
-      });
-
-      ongsFavoritas = favoritos.map(fav => ({
-        ...fav.ong,
-        areas: fav.ong.areaAtuacao?.map(area => area.tipo).filter(Boolean) || []
-      }));
-    } catch (error) {
-      console.error('Erro ao buscar favoritos:', error);
-      ongsFavoritas = [];
-      ongsApoiadasCount = 0;
+        ongsFavoritas = ongs.map(ong => ({
+          ...ong,
+          areas: ong.areaAtuacao?.map(area => area.tipo).filter(Boolean) || []
+        }));
+      } catch (error) {
+        console.error('Erro ao buscar ONGs apoiadas:', error);
+        ongsFavoritas = [];
+      }
     }
 
     // Buscar eventos recentes onde os colaboradores participaram
@@ -217,6 +220,7 @@ export async function GET(request, { params }) {
       totalEventos,
       pessoasImpactadas,
       horaPorVoluntario: Math.round(horaPorVoluntario * 10) / 10,
+      ongsApoiadas: ongsApoiadasCount,
       eventosRecentes: eventosRecentes.length
     });
 
