@@ -170,8 +170,8 @@ export default function EmpresaDashboardPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="w-full pt-24 flex flex-col items-center gap-16" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
-        <div className="w-full max-w-[1312px] flex flex-col gap-16">
+      <div className="w-full pt-24 flex flex-col items-center gap-8" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
+        <div className="w-full max-w-[1312px] flex flex-col gap-8">
         {/* Header com Avatar e Impact Score */}
           <div className="w-full pt-10 flex justify-start items-center gap-6">
             <div className="flex-1 flex flex-col justify-center items-start gap-6">
