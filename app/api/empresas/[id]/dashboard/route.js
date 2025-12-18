@@ -1,7 +1,4 @@
 import { getEmpresaById } from '@/lib/repositories/empresas';
-import { getIniciativas } from '@/lib/repositories/iniciativas';
-import { getColaboradores } from '@/lib/repositories/colaboradores';
-import { getInscricoes } from '@/lib/repositories/inscricoes';
 import { prisma } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
@@ -26,62 +23,99 @@ export async function GET(request, { params }) {
       );
     }
 
-    // Buscar colaboradores ativos diretamente via Prisma para evitar problemas com filtros
-    let totalVoluntarios = 0;
+    // Buscar colaboradores da empresa (emails únicos)
+    let emailsColaboradores = [];
     try {
-      const colaboradoresCount = await prisma.colaboradorEmpresa.count({
+      const colaboradores = await prisma.colaboradorEmpresa.findMany({
         where: {
           empresaId: id,
           ativo: true
+        },
+        select: {
+          email: true
         }
       });
-      totalVoluntarios = colaboradoresCount;
+      emailsColaboradores = colaboradores.map(col => col.email.toLowerCase().trim()).filter(Boolean);
     } catch (error) {
-      console.error('Erro ao contar colaboradores:', error);
-      totalVoluntarios = 0;
+      console.error('Erro ao buscar colaboradores:', error);
+      emailsColaboradores = [];
     }
 
-    // Buscar todas as iniciativas da empresa
-    let iniciativasResult = { iniciativas: [] };
-    try {
-      iniciativasResult = await getIniciativas({
-        empresaId: id,
-        limit: 100
-      });
-    } catch (error) {
-      console.error('Erro ao buscar iniciativas:', error);
-      iniciativasResult = { iniciativas: [] };
-    }
-
-    // Buscar pessoas impactadas (inscrições aprovadas nas iniciativas)
+    // Buscar inscrições dos colaboradores da empresa em eventos (não iniciativas)
+    let totalHoras = 0;
+    let voluntariosUnicos = new Set();
     let pessoasImpactadas = 0;
-    try {
-      if (iniciativasResult?.iniciativas && iniciativasResult.iniciativas.length > 0) {
-        const iniciativaIds = iniciativasResult.iniciativas.map(init => init.id);
-        const emailsUnicos = new Set();
-        
-        // Buscar todas as inscrições aprovadas de uma vez
-        const todasInscricoes = await prisma.inscricao.findMany({
+    let eventosParticipados = new Set();
+    
+    if (emailsColaboradores.length > 0) {
+      try {
+        // Buscar todas as inscrições aprovadas dos colaboradores da empresa em eventos
+        const inscricoesEventos = await prisma.inscricao.findMany({
           where: {
-            iniciativaId: { in: iniciativaIds },
+            emailColaborador: { in: emailsColaboradores },
+            eventoId: { not: null }, // Apenas eventos, não iniciativas
             status: 'APROVADA'
           },
-          select: {
-            emailColaborador: true
+          include: {
+            evento: {
+              select: {
+                id: true,
+                nome: true,
+                dataInicio: true,
+                dataFim: true
+              }
+            }
           }
         });
         
-        todasInscricoes.forEach(insc => {
+        // Contar voluntários únicos e eventos
+        inscricoesEventos.forEach(insc => {
           if (insc.emailColaborador) {
-            emailsUnicos.add(insc.emailColaborador.toLowerCase());
+            voluntariosUnicos.add(insc.emailColaborador.toLowerCase());
+          }
+          if (insc.evento) {
+            eventosParticipados.add(insc.evento.id);
           }
         });
         
-        pessoasImpactadas = emailsUnicos.size;
+        pessoasImpactadas = voluntariosUnicos.size;
+        
+        // Agrupar inscrições por evento para calcular horas corretamente
+        const eventosUnicos = new Map();
+        inscricoesEventos.forEach(insc => {
+          if (insc.evento && insc.eventoId) {
+            const eventoId = insc.eventoId;
+            if (!eventosUnicos.has(eventoId)) {
+              eventosUnicos.set(eventoId, {
+                evento: insc.evento,
+                inscricoes: []
+              });
+            }
+            eventosUnicos.get(eventoId).inscricoes.push(insc);
+          }
+        });
+        
+        // Calcular horas totais: para cada evento, duração × número de participantes
+        eventosUnicos.forEach((eventoData, eventoId) => {
+          const evento = eventoData.evento;
+          const numParticipantes = eventoData.inscricoes.length;
+          
+          if (evento.dataInicio && numParticipantes > 0) {
+            const dataInicio = new Date(evento.dataInicio);
+            const dataFim = evento.dataFim 
+              ? new Date(evento.dataFim) 
+              : new Date(dataInicio.getTime() + 4 * 60 * 60 * 1000); // Default 4 horas se não houver data fim
+            
+            const diffMs = dataFim - dataInicio;
+            const duracaoHoras = Math.max(1, Math.round(diffMs / (1000 * 60 * 60))); // Mínimo 1 hora
+            
+            // Total de horas = duração do evento x número de participantes aprovados
+            totalHoras += duracaoHoras * numParticipantes;
+          }
+        });
+      } catch (error) {
+        console.error('Erro ao buscar inscrições de eventos:', error);
       }
-    } catch (error) {
-      console.error('Erro ao buscar pessoas impactadas:', error);
-      pessoasImpactadas = 0;
     }
 
     // Buscar ONGs favoritas (ONGs que marcaram esta empresa como favorita)
@@ -118,80 +152,75 @@ export async function GET(request, { params }) {
       ongsApoiadasCount = 0;
     }
 
-    // Calcular KPIs baseado nas iniciativas e inscrições reais
-    let totalHoras = 0;
-    let voluntariosUnicos = new Set();
-    
-    if (iniciativasResult?.iniciativas && iniciativasResult.iniciativas.length > 0) {
-      const iniciativaIds = iniciativasResult.iniciativas.map(init => init.id);
-      
-      // Buscar todas as inscrições aprovadas das iniciativas
-      const todasInscricoes = await prisma.inscricao.findMany({
-        where: {
-          iniciativaId: { in: iniciativaIds },
-          status: 'APROVADA'
-        },
-        select: {
-          emailColaborador: true,
-          iniciativaId: true
-        }
-      });
-      
-      // Contar voluntários únicos
-      todasInscricoes.forEach(insc => {
-        if (insc.emailColaborador) {
-          voluntariosUnicos.add(insc.emailColaborador.toLowerCase());
-        }
-      });
-      
-      // Calcular horas: para cada iniciativa, calcular duração e multiplicar por número de inscrições aprovadas
-      for (const iniciativa of iniciativasResult.iniciativas) {
-        const inscricoesAprovadas = todasInscricoes.filter(
-          insc => insc.iniciativaId === iniciativa.id
-        ).length;
+    // Buscar eventos recentes onde os colaboradores participaram
+    let eventosRecentes = [];
+    if (emailsColaboradores.length > 0) {
+      try {
+        const inscricoesRecentes = await prisma.inscricao.findMany({
+          where: {
+            emailColaborador: { in: emailsColaboradores },
+            eventoId: { not: null },
+            status: 'APROVADA'
+          },
+          include: {
+            evento: {
+              select: {
+                id: true,
+                nome: true,
+                descricao: true,
+                dataInicio: true,
+                imagem: true,
+                ngo: {
+                  select: {
+                    nome: true
+                  }
+                }
+              }
+            }
+          },
+          orderBy: {
+            createdAt: 'desc'
+          },
+          take: 10
+        });
         
-        if (inscricoesAprovadas > 0 && iniciativa.dataInicio) {
-          // Calcular duração da iniciativa em horas
-          const dataInicio = new Date(iniciativa.dataInicio);
-          const dataFim = iniciativa.dataFim 
-            ? new Date(iniciativa.dataFim) 
-            : new Date(dataInicio.getTime() + 4 * 60 * 60 * 1000); // Default 4 horas se não houver data fim
-          
-          const diffMs = dataFim - dataInicio;
-          const duracaoHoras = Math.max(1, Math.round(diffMs / (1000 * 60 * 60))); // Mínimo 1 hora
-          
-          // Total de horas = duração da iniciativa x número de participantes aprovados
-          totalHoras += duracaoHoras * inscricoesAprovadas;
-        }
+        // Pegar eventos únicos e ordenar por data
+        const eventosMap = new Map();
+        inscricoesRecentes.forEach(insc => {
+          if (insc.evento && !eventosMap.has(insc.evento.id)) {
+            eventosMap.set(insc.evento.id, insc.evento);
+          }
+        });
+        
+        eventosRecentes = Array.from(eventosMap.values())
+          .sort((a, b) => {
+            const dateA = new Date(a.dataInicio || 0);
+            const dateB = new Date(b.dataInicio || 0);
+            return dateB - dateA;
+          })
+          .slice(0, 5);
+      } catch (error) {
+        console.error('Erro ao buscar eventos recentes:', error);
+        eventosRecentes = [];
       }
     }
-    
+
     const totalVoluntariosUnicos = voluntariosUnicos.size;
     const horaPorVoluntario = totalVoluntariosUnicos > 0 ? totalHoras / totalVoluntariosUnicos : 0;
-    const totalEventos = iniciativasResult?.iniciativas?.length || 0;
+    const totalEventos = eventosParticipados.size;
 
     console.log('Dashboard Data:', {
       empresaId: id,
       empresaNome: empresa.nome,
       empresaLogo: empresa.logo,
+      emailsColaboradores: emailsColaboradores.length,
       totalHoras: Math.round(totalHoras),
       totalVoluntariosUnicos: totalVoluntariosUnicos,
       totalEventos,
       pessoasImpactadas,
       horaPorVoluntario: Math.round(horaPorVoluntario * 10) / 10,
-      iniciativasCount: iniciativasResult?.iniciativas?.length || 0
+      eventosRecentes: eventosRecentes.length
     });
-
-    // Iniciativas recentes (ordenadas por data)
-    const iniciativasRecentes = iniciativasResult.iniciativas
-      ? [...iniciativasResult.iniciativas]
-          .sort((a, b) => {
-            const dateA = new Date(a.createdAt || a.dataInicio || 0);
-            const dateB = new Date(b.createdAt || b.dataInicio || 0);
-            return dateB - dateA;
-          })
-          .slice(0, 5)
-      : [];
 
     // Mapear causas para o formato esperado
     const causasMapeadas = empresa.causas?.map(empCausa => ({
@@ -224,7 +253,7 @@ export async function GET(request, { params }) {
         horaPorVoluntario: Math.round(horaPorVoluntario * 10) / 10 || 0, // Arredondar para 1 casa decimal
         ongsApoiadas: ongsApoiadasCount || 0
       },
-      iniciativasRecentes: iniciativasRecentes || [],
+      iniciativasRecentes: eventosRecentes || [],
       ongsFavoritas: ongsFavoritas || []
     };
 
