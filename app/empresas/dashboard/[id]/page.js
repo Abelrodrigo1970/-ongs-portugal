@@ -59,17 +59,27 @@ export default function EmpresaDashboardPage() {
 
       const dashboardData = await dashboardRes.json();
       
+      console.log('Dashboard API Response:', dashboardData);
+      
       if (!dashboardData.success || !dashboardData.empresa) {
-        console.error('Empresa não encontrada');
+        console.error('Empresa não encontrada', dashboardData);
         return;
       }
 
       // Definir dados da empresa
+      console.log('Setting empresa:', {
+        nome: dashboardData.empresa.nome,
+        logo: dashboardData.empresa.logo,
+        imagem: dashboardData.empresa.imagem
+      });
       setEmpresa(dashboardData.empresa);
       
       // Definir KPIs
       if (dashboardData.kpis) {
+        console.log('Setting KPIs:', dashboardData.kpis);
         setKpis(dashboardData.kpis);
+      } else {
+        console.warn('KPIs não encontrados na resposta');
       }
 
       // Definir iniciativas recentes
@@ -143,8 +153,8 @@ export default function EmpresaDashboardPage() {
         <div className="w-full max-w-[1312px] flex flex-col" style={{ gap: '24px' }}>
         {/* Header com Avatar e Impact Score */}
           <div className="w-full pt-10 flex justify-start items-center gap-6">
-            <div className="flex-1 flex flex-col justify-center items-start gap-6">
-              <div className="relative w-20 h-20 rounded-full overflow-hidden">
+            <div className="flex-1 flex flex-row justify-start items-center gap-6">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
                 {empresa?.logo || empresa?.imagem ? (
                   <Image 
                     src={empresa.logo || empresa.imagem} 
@@ -154,10 +164,12 @@ export default function EmpresaDashboardPage() {
                     sizes="80px"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gray-300"></div>
+                  <div className="w-full h-full bg-gray-300 flex items-center justify-center">
+                    <span className="text-gray-500 text-xs">Logo</span>
+                  </div>
                 )}
               </div>
-              <div className="w-full flex flex-col justify-start items-start">
+              <div className="flex-1 flex flex-col justify-start items-start">
                 <div className="w-full text-stone-900 text-3xl font-semibold font-sans leading-10">
                   Bem-Vinda, {empresa?.nome || 'Empresa'}
                 </div>

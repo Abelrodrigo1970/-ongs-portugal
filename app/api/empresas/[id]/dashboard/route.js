@@ -93,10 +93,23 @@ export async function GET(request, { params }) {
     }
 
     // Calcular KPIs
+    // Somar horas de voluntariado das estatísticas
     const totalHoras = empresa.estatisticas?.reduce((sum, est) => sum + (Number(est.horasVoluntariado) || 0), 0) || 0;
     const totalVoluntarios = colaboradoresResult.colaboradores?.length || 0;
     const horaPorVoluntario = totalVoluntarios > 0 ? totalHoras / totalVoluntarios : 0;
     const totalEventos = iniciativasResult.iniciativas?.length || 0;
+
+    console.log('Dashboard Data:', {
+      empresaId: id,
+      empresaNome: empresa.nome,
+      empresaLogo: empresa.logo,
+      totalHoras,
+      totalVoluntarios,
+      totalEventos,
+      pessoasImpactadas,
+      estatisticasCount: empresa.estatisticas?.length || 0,
+      colaboradoresCount: colaboradoresResult.colaboradores?.length || 0
+    });
 
     // Iniciativas recentes (ordenadas por data)
     const iniciativasRecentes = iniciativasResult.iniciativas
@@ -115,23 +128,42 @@ export async function GET(request, { params }) {
       empresaCausaId: empCausa.id
     })) || [];
 
-    return NextResponse.json({
+    const response = {
       success: true,
       empresa: {
-        ...empresa,
-        causas: causasMapeadas
+        id: empresa.id,
+        nome: empresa.nome,
+        logo: empresa.logo,
+        imagem: empresa.imagem,
+        descricao: empresa.descricao,
+        missao: empresa.missao,
+        email: empresa.email,
+        telefone: empresa.telefone,
+        localizacao: empresa.localizacao,
+        website: empresa.website,
+        causas: causasMapeadas,
+        ods: empresa.ods,
+        tiposApoio: empresa.tiposApoio
       },
       kpis: {
-        horasVoluntariado: totalHoras,
-        pessoasImpactadas: pessoasImpactadas,
-        voluntarios: totalVoluntarios,
-        eventos: totalEventos,
-        horaPorVoluntario: horaPorVoluntario,
-        ongsApoiadas: ongsApoiadasCount
+        horasVoluntariado: totalHoras || 0,
+        pessoasImpactadas: pessoasImpactadas || 0,
+        voluntarios: totalVoluntarios || 0,
+        eventos: totalEventos || 0,
+        horaPorVoluntario: horaPorVoluntario || 0,
+        ongsApoiadas: ongsApoiadasCount || 0
       },
-      iniciativasRecentes,
-      ongsFavoritas
+      iniciativasRecentes: iniciativasRecentes || [],
+      ongsFavoritas: ongsFavoritas || []
+    };
+
+    console.log('Response sendo enviada:', {
+      empresaNome: response.empresa.nome,
+      empresaLogo: response.empresa.logo,
+      kpis: response.kpis
     });
+
+    return NextResponse.json(response);
 
   } catch (error) {
     console.error('Error in /api/empresas/[id]/dashboard:', error);
