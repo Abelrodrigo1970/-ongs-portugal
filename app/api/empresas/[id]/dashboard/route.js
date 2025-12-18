@@ -118,22 +118,68 @@ export async function GET(request, { params }) {
       ongsApoiadasCount = 0;
     }
 
-    // Calcular KPIs
-    // Somar horas de voluntariado das estatísticas
-    const totalHoras = empresa.estatisticas?.reduce((sum, est) => sum + (Number(est.horasVoluntariado) || 0), 0) || 0;
-    const horaPorVoluntario = totalVoluntarios > 0 ? totalHoras / totalVoluntarios : 0;
+    // Calcular KPIs baseado nas iniciativas e inscrições reais
+    let totalHoras = 0;
+    let voluntariosUnicos = new Set();
+    
+    if (iniciativasResult?.iniciativas && iniciativasResult.iniciativas.length > 0) {
+      const iniciativaIds = iniciativasResult.iniciativas.map(init => init.id);
+      
+      // Buscar todas as inscrições aprovadas das iniciativas
+      const todasInscricoes = await prisma.inscricao.findMany({
+        where: {
+          iniciativaId: { in: iniciativaIds },
+          status: 'APROVADA'
+        },
+        select: {
+          emailColaborador: true,
+          iniciativaId: true
+        }
+      });
+      
+      // Contar voluntários únicos
+      todasInscricoes.forEach(insc => {
+        if (insc.emailColaborador) {
+          voluntariosUnicos.add(insc.emailColaborador.toLowerCase());
+        }
+      });
+      
+      // Calcular horas: para cada iniciativa, calcular duração e multiplicar por número de inscrições aprovadas
+      for (const iniciativa of iniciativasResult.iniciativas) {
+        const inscricoesAprovadas = todasInscricoes.filter(
+          insc => insc.iniciativaId === iniciativa.id
+        ).length;
+        
+        if (inscricoesAprovadas > 0 && iniciativa.dataInicio) {
+          // Calcular duração da iniciativa em horas
+          const dataInicio = new Date(iniciativa.dataInicio);
+          const dataFim = iniciativa.dataFim 
+            ? new Date(iniciativa.dataFim) 
+            : new Date(dataInicio.getTime() + 4 * 60 * 60 * 1000); // Default 4 horas se não houver data fim
+          
+          const diffMs = dataFim - dataInicio;
+          const duracaoHoras = Math.max(1, Math.round(diffMs / (1000 * 60 * 60))); // Mínimo 1 hora
+          
+          // Total de horas = duração da iniciativa x número de participantes aprovados
+          totalHoras += duracaoHoras * inscricoesAprovadas;
+        }
+      }
+    }
+    
+    const totalVoluntariosUnicos = voluntariosUnicos.size;
+    const horaPorVoluntario = totalVoluntariosUnicos > 0 ? totalHoras / totalVoluntariosUnicos : 0;
     const totalEventos = iniciativasResult?.iniciativas?.length || 0;
 
     console.log('Dashboard Data:', {
       empresaId: id,
       empresaNome: empresa.nome,
       empresaLogo: empresa.logo,
-      totalHoras,
-      totalVoluntarios,
+      totalHoras: Math.round(totalHoras),
+      totalVoluntariosUnicos: totalVoluntariosUnicos,
       totalEventos,
       pessoasImpactadas,
-      estatisticasCount: empresa.estatisticas?.length || 0,
-      colaboradoresCount: totalVoluntarios
+      horaPorVoluntario: Math.round(horaPorVoluntario * 10) / 10,
+      iniciativasCount: iniciativasResult?.iniciativas?.length || 0
     });
 
     // Iniciativas recentes (ordenadas por data)
@@ -171,11 +217,11 @@ export async function GET(request, { params }) {
         tiposApoio: empresa.tiposApoio
       },
       kpis: {
-        horasVoluntariado: totalHoras || 0,
+        horasVoluntariado: Math.round(totalHoras) || 0,
         pessoasImpactadas: pessoasImpactadas || 0,
-        voluntarios: totalVoluntarios || 0,
+        voluntarios: totalVoluntariosUnicos || 0,
         eventos: totalEventos || 0,
-        horaPorVoluntario: horaPorVoluntario || 0,
+        horaPorVoluntario: Math.round(horaPorVoluntario * 10) / 10 || 0, // Arredondar para 1 casa decimal
         ongsApoiadas: ongsApoiadasCount || 0
       },
       iniciativasRecentes: iniciativasRecentes || [],
