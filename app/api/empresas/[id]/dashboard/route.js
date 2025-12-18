@@ -9,6 +9,13 @@ export async function GET(request, { params }) {
   try {
     const { id } = params;
     
+    if (!id) {
+      return NextResponse.json(
+        { error: 'ID da empresa é obrigatório' },
+        { status: 400 }
+      );
+    }
+    
     // Buscar empresa com todos os dados relacionados
     const empresa = await getEmpresaById(id);
     
@@ -19,43 +26,62 @@ export async function GET(request, { params }) {
       );
     }
 
-    // Buscar colaboradores ativos
-    const colaboradoresResult = await getColaboradores({
-      empresaId: id,
-      ativo: true,
-      limit: 1000
-    });
+    // Buscar colaboradores ativos diretamente via Prisma para evitar problemas com filtros
+    let totalVoluntarios = 0;
+    try {
+      const colaboradoresCount = await prisma.colaboradorEmpresa.count({
+        where: {
+          empresaId: id,
+          ativo: true
+        }
+      });
+      totalVoluntarios = colaboradoresCount;
+    } catch (error) {
+      console.error('Erro ao contar colaboradores:', error);
+      totalVoluntarios = 0;
+    }
 
     // Buscar todas as iniciativas da empresa
-    const iniciativasResult = await getIniciativas({
-      empresaId: id,
-      limit: 100
-    });
+    let iniciativasResult = { iniciativas: [] };
+    try {
+      iniciativasResult = await getIniciativas({
+        empresaId: id,
+        limit: 100
+      });
+    } catch (error) {
+      console.error('Erro ao buscar iniciativas:', error);
+      iniciativasResult = { iniciativas: [] };
+    }
 
     // Buscar pessoas impactadas (inscrições aprovadas nas iniciativas)
     let pessoasImpactadas = 0;
-    if (iniciativasResult.iniciativas && iniciativasResult.iniciativas.length > 0) {
-      const iniciativaIds = iniciativasResult.iniciativas.map(init => init.id);
-      const emailsUnicos = new Set();
-      
-      // Buscar todas as inscrições aprovadas de uma vez
-      const todasInscricoes = await prisma.inscricao.findMany({
-        where: {
-          iniciativaId: { in: iniciativaIds },
-          status: 'APROVADA'
-        },
-        select: {
-          emailColaborador: true
-        }
-      });
-      
-      todasInscricoes.forEach(insc => {
-        if (insc.emailColaborador) {
-          emailsUnicos.add(insc.emailColaborador.toLowerCase());
-        }
-      });
-      
-      pessoasImpactadas = emailsUnicos.size;
+    try {
+      if (iniciativasResult?.iniciativas && iniciativasResult.iniciativas.length > 0) {
+        const iniciativaIds = iniciativasResult.iniciativas.map(init => init.id);
+        const emailsUnicos = new Set();
+        
+        // Buscar todas as inscrições aprovadas de uma vez
+        const todasInscricoes = await prisma.inscricao.findMany({
+          where: {
+            iniciativaId: { in: iniciativaIds },
+            status: 'APROVADA'
+          },
+          select: {
+            emailColaborador: true
+          }
+        });
+        
+        todasInscricoes.forEach(insc => {
+          if (insc.emailColaborador) {
+            emailsUnicos.add(insc.emailColaborador.toLowerCase());
+          }
+        });
+        
+        pessoasImpactadas = emailsUnicos.size;
+      }
+    } catch (error) {
+      console.error('Erro ao buscar pessoas impactadas:', error);
+      pessoasImpactadas = 0;
     }
 
     // Buscar ONGs favoritas (ONGs que marcaram esta empresa como favorita)
@@ -95,9 +121,8 @@ export async function GET(request, { params }) {
     // Calcular KPIs
     // Somar horas de voluntariado das estatísticas
     const totalHoras = empresa.estatisticas?.reduce((sum, est) => sum + (Number(est.horasVoluntariado) || 0), 0) || 0;
-    const totalVoluntarios = colaboradoresResult.colaboradores?.length || 0;
     const horaPorVoluntario = totalVoluntarios > 0 ? totalHoras / totalVoluntarios : 0;
-    const totalEventos = iniciativasResult.iniciativas?.length || 0;
+    const totalEventos = iniciativasResult?.iniciativas?.length || 0;
 
     console.log('Dashboard Data:', {
       empresaId: id,
@@ -108,7 +133,7 @@ export async function GET(request, { params }) {
       totalEventos,
       pessoasImpactadas,
       estatisticasCount: empresa.estatisticas?.length || 0,
-      colaboradoresCount: colaboradoresResult.colaboradores?.length || 0
+      colaboradoresCount: totalVoluntarios
     });
 
     // Iniciativas recentes (ordenadas por data)
