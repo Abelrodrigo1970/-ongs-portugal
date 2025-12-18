@@ -349,14 +349,14 @@ export default function EmpresaDashboardPage() {
               <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start" style={{ gap: '32px' }}>
                 <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex flex-col justify-start items-start" style={{ gap: '4px' }}>
-                    <div className="w-full" style={{ color: '#1E1E1E', fontSize: '24px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '28.80px', wordWrap: 'break-word' }}>Metas 2025</div>
+                    <div className="w-full" style={{ color: '#1E1E1E', fontSize: '24px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '28.80px', wordWrap: 'break-word' }}>Metas 2025</div>
                   </div>
                 </div>
                 <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                   <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                     <div className="w-full flex justify-between items-end">
-                      <div style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Horas</div>
-                      <div style={{ color: '#595959', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>100€ doados</div>
+                      <div style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Horas</div>
+                      <div style={{ color: '#595959', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>100€ doados</div>
                     </div>
                     <div className="w-full" style={{ height: '8px', background: '#F3F4F6', overflow: 'hidden', borderRadius: '8px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                       <div className="flex-1" style={{ height: '24px', background: 'linear-gradient(135deg, #0086FF 30%, #00B5D3 63%, #00EAA2 100%)', borderRadius: '100px' }}></div>
@@ -365,8 +365,8 @@ export default function EmpresaDashboardPage() {
                 </div>
                 <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
-                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Eventos</div>
-                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>1000 Horas</div>
+                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Eventos</div>
+                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>1000 Horas</div>
                   </div>
                   <div className="w-full" style={{ height: '8px', background: '#F3F4F6', overflow: 'hidden', borderRadius: '8px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                     <div style={{ width: '500px', height: '24px', background: 'linear-gradient(135deg, #0086FF 30%, #00B5D3 63%, #00EAA2 100%)', borderRadius: '100px' }}></div>
@@ -374,8 +374,8 @@ export default function EmpresaDashboardPage() {
                 </div>
                 <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
-                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Nº voluntários</div>
-                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>50 participações</div>
+                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Nº voluntários</div>
+                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>50 participações</div>
                   </div>
                   <div className="w-full" style={{ height: '8px', background: '#F3F4F6', overflow: 'hidden', borderRadius: '8px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                     <div style={{ width: '200px', height: '24px', background: 'linear-gradient(135deg, #0086FF 30%, #00B5D3 63%, #00EAA2 100%)', borderRadius: '100px' }}></div>
@@ -383,8 +383,8 @@ export default function EmpresaDashboardPage() {
                 </div>
                 <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
-                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Pessoas impactadas</div>
-                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>5 Mentorandos</div>
+                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Pessoas impactadas</div>
+                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>5 Mentorandos</div>
                   </div>
                   <div className="w-full" style={{ height: '8px', background: '#F3F4F6', overflow: 'hidden', borderRadius: '8px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                     <div style={{ width: '168px', height: '24px', background: 'linear-gradient(135deg, #0086FF 30%, #00B5D3 63%, #00EAA2 100%)', borderRadius: '100px' }}></div>
@@ -392,8 +392,8 @@ export default function EmpresaDashboardPage() {
                 </div>
                 <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
-                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>ONGs de apoiadas</div>
-                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>15 Colaborações</div>
+                    <div style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>ONGs de apoiadas</div>
+                    <div style={{ color: '#595959', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '16.80px', wordWrap: 'break-word' }}>15 Colaborações</div>
                   </div>
                   <div className="w-full" style={{ height: '8px', background: '#F3F4F6', overflow: 'hidden', borderRadius: '8px', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                     <div style={{ width: '200px', height: '24px', background: 'linear-gradient(135deg, #0086FF 30%, #00B5D3 63%, #00EAA2 100%)', borderRadius: '100px' }}></div>
@@ -401,7 +401,7 @@ export default function EmpresaDashboardPage() {
                 </div>
                 <div className="flex justify-start items-start" style={{ gap: '8px' }}>
                   <button className="px-6 py-2 bg-black rounded-full flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
-                    <div style={{ color: '#F1F5F9', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '31.50px', wordWrap: 'break-word' }}>Adicionar Metas</div>
+                    <div style={{ color: '#F1F5F9', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '31.50px', wordWrap: 'break-word' }}>Adicionar Metas</div>
                   </button>
                 </div>
               </div>
@@ -411,86 +411,86 @@ export default function EmpresaDashboardPage() {
                 <div className="flex-1 self-stretch flex flex-col justify-start items-start" style={{ gap: '32px' }}>
                   <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                     <div className="w-full flex flex-col justify-start items-start" style={{ gap: '4px' }}>
-                      <div className="w-full" style={{ color: '#1E1E1E', fontSize: '24px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '28.80px', wordWrap: 'break-word' }}>Minhas Causas</div>
+                      <div className="w-full" style={{ color: '#1E1E1E', fontSize: '24px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '28.80px', wordWrap: 'break-word' }}>Minhas Causas</div>
                     </div>
                   </div>
                   <div className="w-full flex-1 flex justify-start items-start" style={{ gap: '32px' }}>
                     <div className="flex-1 self-stretch flex justify-start items-start" style={{ gap: '8px' }}>
                       <div className="flex-1 self-stretch overflow-y-auto max-h-[400px] flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                         <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
-                          <div className="w-full" style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Ambiente e Ação Climática</div>
+                          <div className="w-full" style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Ambiente e Ação Climática</div>
                           <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                             <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Mitigação das Alterações Climáticas</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>24 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Mitigação das Alterações Climáticas</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>24 iniciativas</span></div>
                                 </div>
                               </div>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Emissões de Gases com Efeito de Estufa</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Emissões de Gases com Efeito de Estufa</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
                                 </div>
                               </div>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Transição para Energias Renováveis</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>02 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Transição para Energias Renováveis</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>02 iniciativas</span></div>
                                 </div>
                               </div>
                               <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Economia Circular</div>
-                                <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>07 iniciativas</span></div>
+                                <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Economia Circular</div>
+                                <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>07 iniciativas</span></div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
-                          <div className="w-full" style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Direitos humanos e Proteção</div>
+                          <div className="w-full" style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Direitos humanos e Proteção</div>
                           <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                             <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Proteção da criança</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>02 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Proteção da criança</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>02 iniciativas</span></div>
                                 </div>
                               </div>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
                                 </div>
                               </div>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
-                          <div className="w-full" style={{ color: '#595959', fontSize: '18px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Saúde e Bem-Estar</div>
+                          <div className="w-full" style={{ color: '#595959', fontSize: '18px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '25.20px', wordWrap: 'break-word' }}>Saúde e Bem-Estar</div>
                           <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                             <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Proteção da criança</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>02 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Proteção da criança</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>02 iniciativas</span></div>
                                 </div>
                               </div>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
                                 </div>
                               </div>
                               <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
                                 <div className="w-full px-4 py-2 rounded-lg flex justify-start items-center overflow-hidden" style={{ background: '#DCFCE7' }}>
-                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: 'Inter', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
-                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: 'Inter', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
+                                  <div className="flex-1" style={{ color: '#007A55', fontSize: '14px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '600', lineHeight: '19.60px', wordWrap: 'break-word' }}>Suporte à vítimas</div>
+                                  <div><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '400', lineHeight: '18px', wordWrap: 'break-word' }}>Participaste de </span><span style={{ color: '#007A55', fontSize: '12px', fontFamily: '"Inter-Regular", Helvetica', fontWeight: '700', lineHeight: '18px', wordWrap: 'break-word' }}>12 iniciativas</span></div>
                                 </div>
                               </div>
                             </div>
