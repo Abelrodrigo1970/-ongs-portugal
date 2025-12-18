@@ -7,6 +7,14 @@ export async function GET(request, { params }) {
   return withAdminAuth(async () => {
     try {
       const { id } = params;
+      
+      if (!id) {
+        return Response.json(
+          { error: 'ID do evento é obrigatório' },
+          { status: 400 }
+        );
+      }
+
       const event = await getEventById(id);
 
       if (!event) {
@@ -22,8 +30,9 @@ export async function GET(request, { params }) {
       });
     } catch (error) {
       console.error('Erro ao buscar evento:', error);
+      console.error('Stack:', error.stack);
       return Response.json(
-        { error: 'Erro ao buscar evento' },
+        { error: 'Erro ao buscar evento', details: error.message },
         { status: 500 }
       );
     }
