@@ -49,12 +49,11 @@ export async function GET(request, { params }) {
     
     if (emailsColaboradores.length > 0) {
       try {
-        // Buscar todas as inscrições aprovadas dos colaboradores da empresa em eventos
+        // Buscar todas as inscrições dos colaboradores da empresa em eventos (ignorar status)
         const inscricoesEventos = await prisma.inscricao.findMany({
           where: {
             emailColaborador: { in: emailsColaboradores },
-            eventoId: { not: null }, // Apenas eventos, não iniciativas
-            status: 'APROVADA'
+            eventoId: { not: null } // Apenas eventos, não iniciativas
           },
           include: {
             evento: {
@@ -159,8 +158,7 @@ export async function GET(request, { params }) {
         const inscricoesRecentes = await prisma.inscricao.findMany({
           where: {
             emailColaborador: { in: emailsColaboradores },
-            eventoId: { not: null },
-            status: 'APROVADA'
+            eventoId: { not: null }
           },
           include: {
             evento: {
