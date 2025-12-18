@@ -34,15 +34,25 @@ export async function PATCH(request, { params }) {
   return withAdminAuth(async () => {
     try {
       const { id } = params;
-      const body = await request.json();
-      const { status } = body;
-
+      
       if (!id) {
         return NextResponse.json(
           { error: 'ID da inscrição é obrigatório' },
           { status: 400 }
         );
       }
+
+      let body;
+      try {
+        body = await request.json();
+      } catch (e) {
+        return NextResponse.json(
+          { error: 'Body JSON inválido' },
+          { status: 400 }
+        );
+      }
+
+      const { status } = body;
 
       if (!status) {
         return NextResponse.json(
@@ -60,6 +70,8 @@ export async function PATCH(request, { params }) {
         );
       }
 
+      console.log('Atualizando status da inscrição:', { id, status });
+
       const inscricao = await updateInscricaoStatus(id, status);
 
       return NextResponse.json({
@@ -69,6 +81,7 @@ export async function PATCH(request, { params }) {
       });
     } catch (error) {
       console.error('Erro ao atualizar status da inscrição:', error);
+      console.error('Stack:', error.stack);
       return NextResponse.json(
         { error: 'Erro ao atualizar status da inscrição', details: error.message },
         { status: 500 }
