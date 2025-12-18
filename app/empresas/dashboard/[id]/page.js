@@ -170,8 +170,8 @@ export default function EmpresaDashboardPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="w-full pt-24 flex flex-col items-center gap-8" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
-        <div className="w-full max-w-[1312px] flex flex-col gap-8">
+      <div className="w-full pt-24 flex flex-col items-center" style={{ paddingLeft: '64px', paddingRight: '64px', gap: '24px' }}>
+        <div className="w-full max-w-[1312px] flex flex-col" style={{ gap: '24px' }}>
         {/* Header com Avatar e Impact Score */}
           <div className="w-full pt-10 flex justify-start items-center gap-6">
             <div className="flex-1 flex flex-col justify-center items-start gap-6">
@@ -264,12 +264,12 @@ export default function EmpresaDashboardPage() {
           </div>
 
             {/* 6 Cards de Estatísticas */}
-            <div className="w-full flex flex-col justify-start items-start gap-6">
+            <div className="w-full flex flex-col justify-start items-start" style={{ gap: '24px' }}>
               {/* Primeira linha - 2 cards */}
-              <div className="w-full flex justify-start items-start gap-6">
+              <div className="w-full flex justify-start items-start" style={{ gap: '24px' }}>
               {/* Card 1: Horas de voluntariado */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
-                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start" style={{ gap: '16px' }}>
+                <div className="flex-1 flex flex-col justify-start items-start" style={{ gap: '27px' }}>
                   <div className="w-full text-gray-900 text-lg font-bold font-sans leading-8">Horas de voluntariado</div>
                   <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {Math.round(kpis.horasVoluntariado).toLocaleString('pt-PT')}
@@ -283,8 +283,8 @@ export default function EmpresaDashboardPage() {
               </div>
 
               {/* Card 2: Número de pessoas impactadas */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
-                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start" style={{ gap: '16px' }}>
+                <div className="flex-1 flex flex-col justify-start items-start" style={{ gap: '27px' }}>
                   <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Número de pessoas impactadas</div>
                   <div className="w-[596px] justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.pessoasImpactadas.toLocaleString('pt-PT')}
@@ -299,10 +299,10 @@ export default function EmpresaDashboardPage() {
             </div>
 
             {/* Segunda linha - 4 cards */}
-            <div className="w-full flex justify-start items-start gap-6">
+            <div className="w-full flex justify-start items-start" style={{ gap: '24px' }}>
               {/* Card 3: Eventos */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
-                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start" style={{ gap: '16px' }}>
+                <div className="flex-1 flex flex-col justify-start items-start" style={{ gap: '27px' }}>
                   <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Eventos</div>
                   <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.eventos}
@@ -316,8 +316,8 @@ export default function EmpresaDashboardPage() {
               </div>
 
               {/* Card 4: Voluntários */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
-                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start" style={{ gap: '16px' }}>
+                <div className="flex-1 flex flex-col justify-start items-start" style={{ gap: '27px' }}>
                   <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Voluntarios</div>
                   <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.voluntarios}
@@ -331,8 +331,8 @@ export default function EmpresaDashboardPage() {
               </div>
 
               {/* Card 5: Hora / Voluntário */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
-                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start" style={{ gap: '16px' }}>
+                <div className="flex-1 flex flex-col justify-start items-start" style={{ gap: '27px' }}>
                   <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">Hora / Voluntário</div>
                   <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {Math.round(kpis.horaPorVoluntario).toLocaleString('pt-PT')}
@@ -346,8 +346,8 @@ export default function EmpresaDashboardPage() {
               </div>
 
               {/* Card 6: ONGs Apoiadas */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-4">
-                <div className="flex-1 inline-flex flex-col justify-start items-start gap-7">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start" style={{ gap: '16px' }}>
+                <div className="flex-1 flex flex-col justify-start items-start" style={{ gap: '27px' }}>
                   <div className="self-stretch justify-start text-gray-900 text-lg font-bold font-sans leading-8">ONGs Apoiadas</div>
                   <div className="w-64 justify-start text-gray-900 text-3xl font-semibold font-sans leading-10">
                     {kpis.ongsApoiadas}
@@ -363,16 +363,16 @@ export default function EmpresaDashboardPage() {
             </div>
 
             {/* Metas 2025 e Minhas Causas - 2 Colunas */}
-            <div className="w-full flex justify-start items-start gap-6">
+            <div className="w-full flex justify-start items-start" style={{ gap: '24px' }}>
               {/* Card Metas 2025 */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start gap-8">
-                <div className="w-full flex flex-col justify-start items-start gap-4">
-                  <div className="w-full flex flex-col justify-start items-start gap-1">
+              <div className="flex-1 self-stretch p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start" style={{ gap: '32px' }}>
+                <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
+                  <div className="w-full flex flex-col justify-start items-start" style={{ gap: '4px' }}>
                     <div className="w-full text-stone-900 text-2xl font-bold font-sans leading-7">Metas 2025</div>
+                  </div>
                 </div>
-              </div>
-                <div className="w-full flex flex-col justify-start items-start gap-2">
-                  <div className="w-full flex flex-col justify-start items-start gap-4">
+                <div className="w-full flex flex-col justify-start items-start" style={{ gap: '8px' }}>
+                  <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                     <div className="w-full flex justify-between items-end">
                       <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Horas</div>
                       <div className="text-zinc-600 text-xs font-bold font-sans leading-4">100€ doados</div>
@@ -382,7 +382,7 @@ export default function EmpresaDashboardPage() {
                     </div>
                   </div>
                 </div>
-                <div className="w-full flex flex-col justify-start items-start gap-4">
+                <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
                     <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Eventos</div>
                     <div className="text-zinc-600 text-xs font-bold font-sans leading-4">1000 Horas</div>
@@ -391,7 +391,7 @@ export default function EmpresaDashboardPage() {
                     <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '75%' }}></div>
                   </div>
                 </div>
-                <div className="w-full flex flex-col justify-start items-start gap-4">
+                <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
                     <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Nº voluntários</div>
                     <div className="text-zinc-600 text-xs font-bold font-sans leading-4">50 participações</div>
@@ -400,7 +400,7 @@ export default function EmpresaDashboardPage() {
                     <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '30%' }}></div>
                   </div>
                 </div>
-                <div className="w-full flex flex-col justify-start items-start gap-4">
+                <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
                     <div className="text-zinc-600 text-lg font-bold font-sans leading-6">Pessoas impactadas</div>
                     <div className="text-zinc-600 text-xs font-bold font-sans leading-4">5 Mentorandos</div>
@@ -409,7 +409,7 @@ export default function EmpresaDashboardPage() {
                     <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '25%' }}></div>
                   </div>
                 </div>
-                <div className="w-full flex flex-col justify-start items-start gap-4">
+                <div className="w-full flex flex-col justify-start items-start" style={{ gap: '16px' }}>
                   <div className="w-full flex justify-between items-end">
                     <div className="text-zinc-600 text-lg font-bold font-sans leading-6">ONGs de apoiadas</div>
                     <div className="text-zinc-600 text-xs font-bold font-sans leading-4">15 Colaborações</div>
@@ -418,12 +418,12 @@ export default function EmpresaDashboardPage() {
                     <div className="h-6 bg-gradient-to-br from-sky-500 via-cyan-500 to-teal-500 rounded-full" style={{ width: '60%' }}></div>
                   </div>
                 </div>
-              <div className="inline-flex justify-start items-start gap-2">
-                <button className="px-6 py-2 bg-black rounded-full flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
-                  <div className="justify-start text-white text-lg font-bold font-sans leading-8">Adicionar Metas</div>
-                </button>
+                <div className="inline-flex justify-start items-start" style={{ gap: '8px' }}>
+                  <button className="px-6 py-2 bg-black rounded-full flex justify-center items-center gap-2 hover:bg-gray-800 transition-colors">
+                    <div className="text-white text-lg font-bold font-sans leading-8">Adicionar Metas</div>
+                  </button>
+                </div>
               </div>
-            </div>
 
               {/* Card Minhas Causas */}
               <div className="w-full p-6 relative rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex justify-start items-start gap-8 overflow-hidden">
@@ -479,9 +479,9 @@ export default function EmpresaDashboardPage() {
             </div>
 
             {/* Iniciativas recentes e ONGs Favoritas - 2 Colunas */}
-            <div className="w-full flex justify-start items-start gap-6">
+            <div className="w-full flex justify-start items-start" style={{ gap: '24px' }}>
               {/* Card Iniciativas recentes */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start gap-8">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start" style={{ gap: '32px' }}>
               <div className="w-full text-stone-900 text-2xl font-bold font-sans leading-7">Iniciativas recentes</div>
               <div className="w-full flex flex-col justify-start items-start gap-4">
                 {iniciativasRecentes.length > 0 ? (
@@ -536,7 +536,7 @@ export default function EmpresaDashboardPage() {
             </div>
 
               {/* Card ONGs Favoritas */}
-              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start gap-8">
+              <div className="flex-1 p-6 rounded-2xl outline outline-1 -outline-offset-px outline-gray-200 flex flex-col justify-start items-start" style={{ gap: '32px' }}>
               <div className="w-full text-stone-900 text-2xl font-bold font-sans leading-7">ONGs Favoritas</div>
               <div className="w-full flex flex-col justify-start items-start gap-4">
                 {ongsFavoritas.length > 0 ? (
