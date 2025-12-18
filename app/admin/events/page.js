@@ -8,6 +8,7 @@ import Input from '@/components/ui/Input';
 import EventTable from '@/components/admin/EventTable';
 import AdminModal from '@/components/admin/AdminModal';
 import EventForm from '@/components/admin/EventForm';
+import EventParticipantsModal from '@/components/admin/EventParticipantsModal';
 
 export default function AdminEventsPage() {
   const { getAuthHeaders } = useAdmin();
@@ -22,6 +23,8 @@ export default function AdminEventsPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
+  const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
+  const [selectedEventForParticipants, setSelectedEventForParticipants] = useState(null);
 
   useEffect(() => {
     loadEvents();
@@ -173,6 +176,16 @@ export default function AdminEventsPage() {
     setSelectedEvent(null);
   };
 
+  const handleViewParticipants = (eventId, eventName) => {
+    setSelectedEventForParticipants({ id: eventId, nome: eventName });
+    setIsParticipantsModalOpen(true);
+  };
+
+  const closeParticipantsModal = () => {
+    setIsParticipantsModalOpen(false);
+    setSelectedEventForParticipants(null);
+  };
+
   const handleSubmit = async (formData) => {
     try {
       setFormLoading(true);
@@ -288,6 +301,7 @@ export default function AdminEventsPage() {
           onSubmit={handleSubmit}
           onCancel={closeModal}
           loading={formLoading}
+          onViewParticipants={handleViewParticipants}
         />
         {ngos.length === 0 && (
           <p className="mt-4 text-sm text-amber-600">
@@ -295,6 +309,13 @@ export default function AdminEventsPage() {
           </p>
         )}
       </AdminModal>
+
+      <EventParticipantsModal
+        eventId={selectedEventForParticipants?.id}
+        eventName={selectedEventForParticipants?.nome}
+        isOpen={isParticipantsModalOpen}
+        onClose={closeParticipantsModal}
+      />
     </div>
   );
 }

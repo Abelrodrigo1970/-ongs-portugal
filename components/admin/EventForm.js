@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { Users } from 'lucide-react';
 import Input from '@/components/ui/Input';
 import Checkbox from '@/components/ui/Checkbox';
 import Select from '@/components/ui/Select';
@@ -44,7 +45,7 @@ const eventTypeOptions = [
   { label: 'Híbrido', value: 'HIBRIDO' }
 ];
 
-export default function EventForm({ initialData, ngos, odsOptions = [], areasOptions = [], onSubmit, onCancel, loading }) {
+export default function EventForm({ initialData, ngos, odsOptions = [], areasOptions = [], onSubmit, onCancel, loading, onViewParticipants }) {
   const [formValues, setFormValues] = useState(defaultValues);
 
   useEffect(() => {
@@ -249,13 +250,26 @@ export default function EventForm({ initialData, ngos, odsOptions = [], areasOpt
         />
       </div>
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
-        <Button variant="outline" onClick={onCancel} type="button">
-          Cancelar
-        </Button>
-        <Button type="submit" variant="primary" loading={loading}>
-          {initialData ? 'Atualizar Evento' : 'Criar Evento'}
-        </Button>
+      <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+        {initialData && onViewParticipants && (
+          <Button 
+            variant="outline" 
+            onClick={() => onViewParticipants(initialData.id, initialData.nome)}
+            type="button"
+            icon={Users}
+          >
+            Ver Participantes
+          </Button>
+        )}
+        {!initialData && <div></div>}
+        <div className="flex gap-3 ml-auto">
+          <Button variant="outline" onClick={onCancel} type="button">
+            Cancelar
+          </Button>
+          <Button type="submit" variant="primary" loading={loading}>
+            {initialData ? 'Atualizar Evento' : 'Criar Evento'}
+          </Button>
+        </div>
       </div>
     </form>
   );
