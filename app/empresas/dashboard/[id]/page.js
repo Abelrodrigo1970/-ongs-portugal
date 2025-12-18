@@ -49,74 +49,43 @@ export default function EmpresaDashboardPage() {
     try {
       setLoading(true);
       
-      // Buscar dados da empresa
-      const empresaRes = await fetch(`/api/empresas?id=${params.id}`);
-      const empresaData = await empresaRes.json();
+      // Buscar todos os dados do dashboard através da API específica
+      const dashboardRes = await fetch(`/api/empresas/${params.id}/dashboard`);
       
-      if (empresaData.data && empresaData.data.length > 0) {
-        const empresaCompleta = empresaData.data[0];
-        setEmpresa(empresaCompleta);
-        
-        // Calcular KPIs baseado nas estatísticas
-        const totalHoras = empresaCompleta.estatisticas?.reduce((sum, est) => sum + (Number(est.horasVoluntariado) || 0), 0) || 0;
-        
-        // Buscar colaboradores ativos
-        const colaboradoresRes = await fetch(`/api/colaboradores/search?empresaId=${params.id}&ativo=true`);
-        let totalVoluntarios = 0;
-        if (colaboradoresRes.ok) {
-          const colaboradoresData = await colaboradoresRes.json();
-          totalVoluntarios = colaboradoresData.colaboradores?.length || 0;
-        }
-        
-        const horaPorVoluntario = totalVoluntarios > 0 ? totalHoras / totalVoluntarios : 0;
-        const totalEventos = empresaCompleta.iniciativas?.length || 0;
-        
-        setKpis({
-          horasVoluntariado: totalHoras,
-          pessoasImpactadas: 0, // TODO: Calcular baseado em inscrições
-          voluntarios: totalVoluntarios,
-          eventos: totalEventos,
-          horaPorVoluntario: horaPorVoluntario,
-          ongsApoiadas: 0 // TODO: Buscar da tabela favoritos
-        });
-
-        // Iniciativas recentes (ordenadas por data de criação)
-        if (empresaCompleta.iniciativas && empresaCompleta.iniciativas.length > 0) {
-          const recentes = [...empresaCompleta.iniciativas]
-            .sort((a, b) => {
-              const dateA = new Date(a.createdAt || a.dataInicio || 0);
-              const dateB = new Date(b.createdAt || b.dataInicio || 0);
-              return dateB - dateA;
-            })
-            .slice(0, 5);
-          setIniciativasRecentes(recentes);
-        } else {
-          // Se não vier no objeto empresa, buscar separadamente
-          const iniciativasRes = await fetch(`/api/iniciativas?empresaId=${params.id}&limit=5`);
-          if (iniciativasRes.ok) {
-            const iniciativasData = await iniciativasRes.json();
-            if (iniciativasData.iniciativas) {
-              const recentes = [...iniciativasData.iniciativas]
-                .sort((a, b) => {
-                  const dateA = new Date(a.createdAt || a.dataInicio || 0);
-                  const dateB = new Date(b.createdAt || b.dataInicio || 0);
-                  return dateB - dateA;
-                })
-                .slice(0, 5);
-              setIniciativasRecentes(recentes);
-            }
-          }
-        }
-
-        // Causas da empresa
-        if (empresaCompleta.causas) {
-          setCausas(empresaCompleta.causas);
-        }
+      if (!dashboardRes.ok) {
+        console.error('Erro ao buscar dados do dashboard');
+        return;
       }
 
-      // Buscar ONGs favoritas (favoritos onde empresaId = params.id)
-      // Por enquanto deixar vazio - pode ser implementado depois
-      setOngsFavoritas([]);
+      const dashboardData = await dashboardRes.json();
+      
+      if (!dashboardData.success || !dashboardData.empresa) {
+        console.error('Empresa não encontrada');
+        return;
+      }
+
+      // Definir dados da empresa
+      setEmpresa(dashboardData.empresa);
+      
+      // Definir KPIs
+      if (dashboardData.kpis) {
+        setKpis(dashboardData.kpis);
+      }
+
+      // Definir iniciativas recentes
+      if (dashboardData.iniciativasRecentes) {
+        setIniciativasRecentes(dashboardData.iniciativasRecentes);
+      }
+
+      // Definir causas da empresa
+      if (dashboardData.empresa.causas) {
+        setCausas(dashboardData.empresa.causas);
+      }
+
+      // Definir ONGs favoritas
+      if (dashboardData.ongsFavoritas) {
+        setOngsFavoritas(dashboardData.ongsFavoritas);
+      }
 
     } catch (error) {
       console.error('Error loading dashboard:', error);
