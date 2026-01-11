@@ -82,10 +82,12 @@
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  height: 463px;
+  flex: 1;
+  flex-grow: 1;
   justify-content: space-between;
   position: relative;
   width: 100%;
+  min-height: 0;
 }
 
 .dialog-team .div-3 {
