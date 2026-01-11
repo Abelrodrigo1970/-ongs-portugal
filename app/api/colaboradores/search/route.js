@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getColaboradores } from '@/lib/repositories/colaboradores';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * API pública para buscar colaboradores (para adicionar a eventos)
  * Não requer autenticação admin
