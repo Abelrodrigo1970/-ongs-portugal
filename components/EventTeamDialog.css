@@ -16,7 +16,7 @@
   overflow: hidden;
 }
 
-.dialog-team .dialog-box-heading {
+.dialog-box-heading {
   align-items: center;
   display: flex;
   flex: 0 0 auto;
@@ -26,7 +26,7 @@
   margin-bottom: var(--sizes-spacing-md);
 }
 
-.dialog-team .icon-button {
+.icon-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -36,7 +36,7 @@
   justify-content: center;
 }
 
-.dialog-team .icon-instance-node {
+.icon-instance-node {
   aspect-ratio: 1 !important;
   height: 24px !important;
   position: relative !important;
@@ -44,7 +44,7 @@
   color: var(--content-content-fill-primary);
 }
 
-.dialog-team .close-wrapper {
+.close-wrapper {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;
