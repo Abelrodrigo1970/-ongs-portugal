@@ -355,8 +355,26 @@
   top: unset !important;
 }
 
+.dialog-team .content .frame-4 .frame-4 .frame-12 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  width: 100%;
+}
 
-.dialog-team .text-wrapper-6 {
+.dialog-team .content .frame-4 .frame-4 .frame-12 .frame-13 {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: var(--sizes-spacing-xxs);
+  position: relative;
+}
+
+.dialog-team .content .frame-4 .frame-4 .frame-12 .frame-13 .text-wrapper-6 {
   color: var(--content-content-text-tertiary);
   font-family: var(--label-s-medium-font-family);
   font-size: var(--label-s-medium-font-size);
