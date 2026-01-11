@@ -125,14 +125,14 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
           </div>
         </div>
 
-        <div className="dialog-box-content-2">
+        <div className="div-2">
           {/* Left Content */}
           <div className="content">
             <div className="frame-2">
-              <div className="div-2">
+              <div className="div-3">
                 <div className="frame-3">
                   <div className="frame-wrapper">
-                    <div className="div-2">
+                    <div className="div-3">
                       <p className="p">{event.nome}</p>
 
                       <div className="event-and-NPO-name-wrapper">
@@ -174,8 +174,8 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                   </div>
                 </div>
 
-                <div className="div-2">
-                  <div className="div-2">
+                <div className="div-3">
+                  <div className="div-3">
                     <div className="frame-9">
                       <div className="frame-10">
                         <div className="group">
@@ -196,7 +196,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               </div>
 
               <div className="button">
-                <div className="div-2" />
+                <div className="div-3" />
                 <div className="buttons">
                   <div className="button-box">
                     <button className="button-primary-instance">
