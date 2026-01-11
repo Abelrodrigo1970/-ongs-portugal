@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { X, Calendar, Clock, Users, Loader2, User } from 'lucide-react';
 import GuestBar from './GuestBar';
 import './EventDialog.css';
@@ -422,12 +423,6 @@ const EventDialog = ({ isOpen, onClose, event }) => {
               </p>
             </div>
 
-            <GuestBar 
-              className="guest-bar-instance" 
-              event={event}
-              selectedGuests={selectedGuests}
-              onSelectedGuestsChange={setSelectedGuests}
-            />
             
             <div className="frame-4">
               <div className="frame-4">
@@ -535,28 +530,19 @@ const EventDialog = ({ isOpen, onClose, event }) => {
 
           <div className="buttons">
             <div className="frame-14">
-              <button
+              <Link
+                href={`/eventos/${event.id}/inscrever`}
                 className="button-primary"
-                onClick={handleParticipar}
-                disabled={isParticipating}
                 style={{
-                  opacity: isParticipating ? 0.7 : 1,
-                  cursor: isParticipating ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '8px'
+                  gap: '8px',
+                  textDecoration: 'none'
                 }}
               >
-                {isParticipating ? (
-                  <>
-                    <Loader2 className="animate-spin" size={16} />
-                    <div className="button-text">A participar...</div>
-                  </>
-                ) : (
-                  <div className="button-text">Participar</div>
-                )}
-              </button>
+                <div className="button-text">Participar</div>
+              </Link>
 
               {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis > 0 && (
                 <p className="faltam-vagas-n-o">
