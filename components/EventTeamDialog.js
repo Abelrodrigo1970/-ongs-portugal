@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, ArrowLeft, Search, Check, Calendar, Clock, Users } from 'lucide-react';
+import { X, ArrowLeft, Search, Check, Calendar, Clock, Users, User } from 'lucide-react';
+import GuestBar from './GuestBar';
 import './EventTeamDialog.css';
 
 const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
@@ -13,6 +14,14 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   const [loading, setLoading] = useState(false);
   const [empresaId, setEmpresaId] = useState(null);
   const [teamName, setTeamName] = useState('UNIVA team');
+  const [selectedGuests, setSelectedGuests] = useState([]);
+  const [participantes, setParticipantes] = useState([]);
+  const [vagasInfo, setVagasInfo] = useState({
+    total: 0,
+    ocupadas: 0,
+    disponiveis: 0,
+    hasLimit: false
+  });
 
   // Buscar empresaId do localStorage
   useEffect(() => {
@@ -54,6 +63,93 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
 
     fetchTeamMembers();
   }, [isOpen, empresaId]);
+
+  // Buscar vagas do evento
+  useEffect(() => {
+    const fetchVagas = async () => {
+      if (!isOpen || !event?.id) return;
+      
+      try {
+        const response = await fetch(`/api/events/${event.id}/vagas`);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+          setVagasInfo(data.data);
+        } else {
+          const total = event.maxParticipantes || 0;
+          const ocupadas = event.inscricoes?.length || 0;
+          setVagasInfo({
+            total,
+            ocupadas,
+            disponiveis: total > 0 ? Math.max(0, total - ocupadas) : null,
+            hasLimit: total > 0
+          });
+        }
+      } catch (error) {
+        console.error('Erro ao buscar vagas:', error);
+        const total = event.maxParticipantes || 0;
+        setVagasInfo({
+          total,
+          ocupadas: 0,
+          disponiveis: total,
+          hasLimit: total > 0
+        });
+      }
+    };
+
+    if (isOpen && event?.id) {
+      fetchVagas();
+    }
+  }, [isOpen, event?.id]);
+
+  // Buscar participantes registrados
+  useEffect(() => {
+    const fetchParticipantes = async () => {
+      if (!isOpen || !event?.id) return;
+      
+      try {
+        const response = await fetch(`/api/inscricoes?eventoId=${event.id}`);
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+          const participantesComAvatares = await Promise.all(
+            data.data.slice(0, 3).map(async (inscricao) => {
+              try {
+                const colaboradorResponse = await fetch(
+                  `/api/colaboradores/search?query=${encodeURIComponent(inscricao.emailColaborador)}`
+                );
+                const colaboradorData = await colaboradorResponse.json();
+                
+                const colaborador = colaboradorData.colaboradores?.find(
+                  (c) => c.email?.toLowerCase() === inscricao.emailColaborador?.toLowerCase()
+                ) || colaboradorData.colaboradores?.[0];
+                
+                return {
+                  nome: inscricao.nomeColaborador,
+                  email: inscricao.emailColaborador,
+                  avatar: colaborador?.avatar || null
+                };
+              } catch (error) {
+                console.error('Erro ao buscar colaborador:', error);
+                return {
+                  nome: inscricao.nomeColaborador,
+                  email: inscricao.emailColaborador,
+                  avatar: null
+                };
+              }
+            })
+          );
+          setParticipantes(participantesComAvatares);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar participantes:', error);
+      }
+    };
+
+    if (isOpen && event?.id) {
+      fetchParticipantes();
+    }
+  }, [isOpen, event?.id]);
 
   // Filtrar membros pela pesquisa
   const filteredMembers = teamMembers.filter(member => 
@@ -104,8 +200,8 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     return endTime ? `${startTime} - ${endTime}` : startTime;
   };
 
-  const vagasOcupadas = event.inscricoes?.length || 0;
-  const vagasTotal = event.maxParticipantes || 0;
+  const vagasOcupadas = vagasInfo.ocupadas;
+  const vagasTotal = vagasInfo.total;
   const localizacao = event.morada || event.localizacao || event.ngo?.localizacao || 'Localização não especificada';
 
   if (!isOpen) return null;
@@ -175,20 +271,90 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                 </div>
 
                 <div className="div-3">
-                  <div className="div-3">
-                    <div className="frame-9">
-                      <div className="frame-10">
-                        <div className="group">
-                          {/* Avatares placeholder */}
-                          <div className="ellipse-2" />
-                          <div className="ellipse-3" />
-                          <div className="ellipse-4" />
+                  <GuestBar 
+                    className="guest-bar-instance" 
+                    event={event}
+                    selectedGuests={selectedGuests}
+                    onSelectedGuestsChange={setSelectedGuests}
+                  />
+                  
+                  <div className="frame-4">
+                    <div className="frame-4">
+                      <div className="frame-12">
+                        <div className="frame-13">
+                          {/* Avatares sobrepostos */}
+                          <div 
+                            className="group"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              position: 'relative',
+                              height: '30px',
+                              width: participantes.length > 0 ? `${32 + (participantes.length - 1) * 24}px` : '60px'
+                            }}
+                          >
+                            {participantes.length > 0 ? (
+                              participantes.map((participante, index) => (
+                                <div
+                                  key={index}
+                                  style={{
+                                    width: '30px',
+                                    height: '30px',
+                                    borderRadius: '50%',
+                                    border: '2px solid white',
+                                    backgroundColor: '#E2E8F0',
+                                    left: `${index * 24}px`,
+                                    position: 'absolute',
+                                    top: 0,
+                                    zIndex: participantes.length - index,
+                                    overflow: 'hidden',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                  }}
+                                >
+                                  {participante.avatar ? (
+                                    <Image
+                                      src={participante.avatar}
+                                      alt={participante.nome}
+                                      fill
+                                      style={{ objectFit: 'cover' }}
+                                    />
+                                  ) : (
+                                    <User size={16} color="#64748B" />
+                                  )}
+                                </div>
+                              ))
+                            ) : (
+                              <>
+                                <div className="ellipse-2" />
+                                <div className="ellipse-3" />
+                                <div className="ellipse-4" />
+                              </>
+                            )}
+                          </div>
+
+                          {/* Texto com nomes e contagem */}
+                          <p className="text-wrapper-6">
+                            {vagasOcupadas > 0 ? (
+                              participantes.length > 0 ? (
+                                (() => {
+                                  const primeirosNomes = participantes.map(p => p.nome).slice(0, 2);
+                                  const restantes = vagasOcupadas - 2;
+                                  if (restantes > 0) {
+                                    return `${primeirosNomes.join(', ')} e ${restantes} ${restantes === 1 ? 'pessoa' : 'pessoas'} já se registraram.`;
+                                  } else {
+                                    return `${primeirosNomes.join(', ')} ${primeirosNomes.length === 1 ? 'já se registrou' : 'já se registraram'}.`;
+                                  }
+                                })()
+                              ) : (
+                                `${vagasOcupadas} ${vagasOcupadas === 1 ? 'pessoa já se registrou' : 'pessoas já se registraram'}.`
+                              )
+                            ) : (
+                              'Ainda não há inscrições neste evento.'
+                            )}
+                          </p>
                         </div>
-                        <p className="text-wrapper-5">
-                          {selectedMembers.size > 0 
-                            ? `${selectedMembers.size} ${selectedMembers.size === 1 ? 'pessoa selecionada' : 'pessoas selecionadas'}`
-                            : 'Nenhuma pessoa selecionada'}
-                        </p>
                       </div>
                     </div>
                   </div>
