@@ -267,6 +267,9 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                           <span>{member.nome?.[0]?.toUpperCase() || '?'}</span>
                         </div>
                       )}
+                      <div className="member-name">
+                        {member.nome}
+                      </div>
                       {selectedMembers.has(member.id) && (
                         <div className="check-icon">
                           <Check size={16} color="#fff" />

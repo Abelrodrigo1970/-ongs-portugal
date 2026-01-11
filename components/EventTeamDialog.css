@@ -650,6 +650,7 @@
   display: flex;
   align-items: center;
   gap: var(--sizes-spacing-xs);
+  min-height: 56px;
 }
 
 .dialog-team .frame-449:hover {
@@ -658,6 +659,26 @@
 
 .dialog-team .frame-449.selected {
   background-color: rgba(0, 0, 0, 0.08);
+}
+
+.dialog-team .member-name {
+  flex: 1;
+  color: var(--content-content-fill-primary);
+  font-family: var(--body-s-regular-font-family);
+  font-size: var(--body-s-regular-font-size);
+  font-style: var(--body-s-regular-font-style);
+  font-weight: var(--body-s-regular-font-weight);
+  letter-spacing: var(--body-s-regular-letter-spacing);
+  line-height: var(--body-s-regular-line-height);
+  position: relative;
+}
+
+.dialog-team .frame-449.selected .member-name {
+  color: var(--content-content-fill-primary);
+}
+
+.dialog-team .frame-449:not(.selected) .member-name {
+  color: var(--content-content-text-tertiary);
 }
 
 .dialog-team .ellipse-member {
@@ -679,8 +700,7 @@
 }
 
 .dialog-team .check-icon {
-  position: absolute;
-  right: var(--sizes-spacing-xs);
+  position: relative;
   width: 24px;
   height: 24px;
   background-color: var(--content-content-fill-primary);
@@ -688,6 +708,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .dialog-team .rectangle {
