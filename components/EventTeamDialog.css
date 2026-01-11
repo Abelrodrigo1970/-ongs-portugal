@@ -6,9 +6,10 @@
   border: 1px solid;
   border-color: var(--border-default);
   border-radius: var(--sizes-border-radius-xxxl);
-  display: inline-flex;
+  display: flex;
+  height: 650px;
   justify-content: center;
-  padding: var(--sizes-spacing-lg);
+  padding: var(--sizes-spacing-lg) var(--sizes-spacing-lg) var(--sizes-spacing-lg) 0px;
   position: relative;
   width: 914px;
   max-width: 95vw;
