@@ -14,42 +14,43 @@
   /* Button Colors - Centralized Management */
   --color-button-primary: #155DFC;
 
-  /* Figma Design System Variables - Dialog Volunteer */
+  /* Figma Design System Variables - Aligned with Vercel */
   --body-l-bold-font-family: "Inter", Helvetica;
   --body-l-bold-font-size: 18px;
   --body-l-bold-font-style: normal;
   --body-l-bold-font-weight: 700;
   --body-l-bold-letter-spacing: 0px;
   --body-l-bold-line-height: 175%;
-  --body-m-regular-font-family: "Inter", Helvetica;
-  --body-m-regular-font-size: 16px;
-  --body-m-regular-font-style: normal;
-  --body-m-regular-font-weight: 400;
-  --body-m-regular-letter-spacing: 0px;
-  --body-m-regular-line-height: 150%;
   --body-s-regular-font-family: "Inter", Helvetica;
   --body-s-regular-font-size: 14px;
   --body-s-regular-font-style: normal;
   --body-s-regular-font-weight: 400;
   --body-s-regular-letter-spacing: 0px;
   --body-s-regular-line-height: 150%;
-  --border-default: #CBD5E1;
-  --content-content-fill-primary: #020617;
-  --content-content-fill-white: #F1F5F9;
-  --content-content-text-tertiary: #64748B;
-  --content-content-text-white: #F1F5F9;
-  --label-s-medium-font-family: "Inter", Helvetica;
-  --label-s-medium-font-size: 12px;
-  --label-s-medium-font-style: normal;
-  --label-s-medium-font-weight: 500;
-  --label-s-medium-letter-spacing: 0px;
-  --label-s-medium-line-height: 139.9999976158142%;
+  --border-default: var(--primitives-base-neutral-200);
+  --border-divider: var(--content-content-fill-disabled);
+  --border-tertiary: var(--primitives-base-neutral-400);
   --caption-s-regular-font-family: "Inter", Helvetica;
   --caption-s-regular-font-size: 12px;
   --caption-s-regular-font-style: normal;
   --caption-s-regular-font-weight: 400;
   --caption-s-regular-letter-spacing: 0px;
   --caption-s-regular-line-height: 150%;
+  --content-content-fill-disabled: var(--primitives-base-neutral-100);
+  --content-content-fill-primary: var(--primitives-base-neutral-900);
+  --content-content-fill-secondary: var(--primitives-base-neutral-700);
+  --content-content-fill-tertiary: var(--primitives-base-neutral-400);
+  --content-content-fill-white: var(--primitives-base-neutral-50);
+  --content-content-text-on-disabled: var(--primitives-base-neutral-200);
+  --content-content-text-primary: var(--primitives-base-neutral-900);
+  --content-content-text-tertiary: var(--primitives-base-neutral-400);
+  --content-content-text-white: var(--primitives-base-neutral-50);
+  --label-s-medium-font-family: "Inter", Helvetica;
+  --label-s-medium-font-size: 12px;
+  --label-s-medium-font-style: normal;
+  --label-s-medium-font-weight: 500;
+  --label-s-medium-letter-spacing: 0px;
+  --label-s-medium-line-height: 139.9999976158142%;
   --primitives-base-neutral-0: rgba(248, 250, 252, 1);
   --primitives-base-neutral-100: rgba(226, 232, 240, 1);
   --primitives-base-neutral-200: rgba(203, 213, 225, 1);
@@ -57,32 +58,33 @@
   --primitives-base-neutral-50: rgba(241, 245, 249, 1);
   --primitives-base-neutral-700: rgba(30, 41, 59, 1);
   --primitives-base-neutral-900: rgba(2, 6, 23, 1);
-  --border-default: #CBD5E1;
-  --border-divider: rgba(226, 232, 240, 1);
-  --border-tertiary: rgba(100, 116, 139, 1);
-  --content-content-fill-disabled: rgba(226, 232, 240, 1);
-  --content-content-fill-secondary: rgba(30, 41, 59, 1);
-  --content-content-fill-tertiary: rgba(100, 116, 139, 1);
-  --content-content-text-primary: rgba(2, 6, 23, 1);
   --size-space-200: 8px;
   --size-space-300: 12px;
-  --sizes-border-radius-md: 8px;
   --sizes-border-radius-pill: 200px;
   --sizes-border-radius-xl: 16px;
   --sizes-border-radius-xxxl: 32px;
   --sizes-spacing-lg: 24px;
   --sizes-spacing-md: 16px;
+  --sizes-spacing-nano: 2px;
   --sizes-spacing-sm: 12px;
   --sizes-spacing-xs: 8px;
   --sizes-spacing-xxs: 4px;
-  --sizes-spacing-nano: 2px;
-  --surface-page: #F8FAFC;
+  --surface-page: var(--primitives-base-neutral-0);
   --title-s-semibold-font-family: "Inter", Helvetica;
   --title-s-semibold-font-size: 24px;
   --title-s-semibold-font-style: normal;
   --title-s-semibold-font-weight: 600;
   --title-s-semibold-letter-spacing: 0px;
   --title-s-semibold-line-height: 139.9999976158142%;
+  
+  /* Additional variables for backward compatibility */
+  --body-m-regular-font-family: "Inter", Helvetica;
+  --body-m-regular-font-size: 16px;
+  --body-m-regular-font-style: normal;
+  --body-m-regular-font-weight: 400;
+  --body-m-regular-letter-spacing: 0px;
+  --body-m-regular-line-height: 150%;
+  --sizes-border-radius-md: 8px;
 }
 
 /* Custom global styles */
@@ -171,80 +173,3 @@ body {
     opacity: 1;
   }
 }
-
-@keyframes slideUp {
-  from {
-    transform: translateY(10px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Utility classes */
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.animate-slide-up {
-  animation: slideUp 0.3s ease-out;
-}
-
-/* Loading spinner */
-.spinner {
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid #22c55e;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Responsive video container */
-.video-container {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* Container custom */
-.container-custom {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-@media (min-width: 640px) {
-  .container-custom {
-    padding: 0 1rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-custom {
-    padding: 0 1rem;
-  }
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-}
-
-
