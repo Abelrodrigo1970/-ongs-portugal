@@ -18,6 +18,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
   const [isParticipating, setIsParticipating] = useState(false);
   const [participantes, setParticipantes] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
+  const [showTeamDialog, setShowTeamDialog] = useState(false);
 
   useEffect(() => {
     const fetchVagas = async () => {
@@ -327,8 +328,6 @@ const EventDialog = ({ isOpen, onClose, event }) => {
       setIsParticipating(false);
     }
   };
-
-  const [showTeamDialog, setShowTeamDialog] = useState(false);
 
   const handleQueroParticipar = () => {
     setShowTeamDialog(true);
