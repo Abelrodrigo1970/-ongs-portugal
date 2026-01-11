@@ -407,7 +407,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
                           <Users size={16} color="#F1F5F9" style={{ width: '16px', height: '16px' }} />
                           <p className="element">
                             <span className="span">{vagasOcupadas} </span>
-                            <span className="text-wrapper-4">/ </span>
+                            <span className="text-wrapper-3">/ </span>
                             <span className="span">{vagasTotal}</span>
                           </p>
                         </div>
