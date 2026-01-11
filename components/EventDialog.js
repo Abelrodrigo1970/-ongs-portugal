@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { X, Calendar, Clock, Users, Loader2, User } from 'lucide-react';
 import GuestBar from './GuestBar';
+import EventTeamDialog from './EventTeamDialog';
 import './EventDialog.css';
 
 const EventDialog = ({ isOpen, onClose, event }) => {
@@ -327,11 +328,17 @@ const EventDialog = ({ isOpen, onClose, event }) => {
     }
   };
 
+  const [showTeamDialog, setShowTeamDialog] = useState(false);
+
+  const handleQueroParticipar = () => {
+    setShowTeamDialog(true);
+  };
+
   return (
+    <>
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-      onClick={onClose}
     >
       <div className="dialog-volunteer" onClick={(e) => e.stopPropagation()}>
         {/* Close Button */}
@@ -539,7 +546,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
               <div className="button-box">
                 <button
                   className="button-primary"
-                  onClick={handleParticipar}
+                  onClick={handleQueroParticipar}
                   disabled={isParticipating}
                   style={{
                     opacity: isParticipating ? 0.7 : 1,
@@ -612,6 +619,16 @@ const EventDialog = ({ isOpen, onClose, event }) => {
         </div>
       </div>
     </div>
+    <EventTeamDialog
+      isOpen={showTeamDialog}
+      onClose={() => {
+        setShowTeamDialog(false);
+        onClose();
+      }}
+      onBack={() => setShowTeamDialog(false)}
+      event={event}
+    />
+    </>
   );
 };
 
