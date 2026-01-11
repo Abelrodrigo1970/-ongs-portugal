@@ -73,7 +73,8 @@
   flex-grow: 1;
   gap: 8px;
   position: relative;
-  min-width: 0;
+  min-width: 401px;
+  max-width: 401px;
 }
 
 .dialog-team .frame-2 {
