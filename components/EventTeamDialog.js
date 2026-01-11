@@ -206,7 +206,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '914px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '914px' }}>
         <div className="dialog-box-heading">
           <button onClick={onBack} className="icon-button">
             <ArrowLeft className="icon-instance-node" />
