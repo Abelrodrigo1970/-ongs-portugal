@@ -417,7 +417,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
                 </div>
               </div>
 
-              <p className="text-wrapper-5">
+              <p className="text-wrapper-4">
                 {event.descricao}
               </p>
             </div>
@@ -533,42 +533,44 @@ const EventDialog = ({ isOpen, onClose, event }) => {
             </div>
           </div>
 
-          <div className="buttons">
-            <div className="frame-14">
-              <button
-                className="button-primary"
-                onClick={handleParticipar}
-                disabled={isParticipating}
-                style={{
-                  opacity: isParticipating ? 0.7 : 1,
-                  cursor: isParticipating ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px'
-                }}
-              >
-                {isParticipating ? (
-                  <>
-                    <Loader2 className="animate-spin" size={16} />
-                    <div className="button-text">A participar...</div>
-                  </>
-                ) : (
-                  <div className="button-text">Participar</div>
+          <div className="button">
+            <div className="div-2" />
+            <div className="buttons">
+              <div className="button-box">
+                <button
+                  className="button-primary"
+                  onClick={handleParticipar}
+                  disabled={isParticipating}
+                  style={{
+                    opacity: isParticipating ? 0.7 : 1,
+                    cursor: isParticipating ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}
+                >
+                  {isParticipating ? (
+                    <>
+                      <Loader2 className="animate-spin" size={16} />
+                      <div className="button-text">A participar...</div>
+                    </>
+                  ) : (
+                    <div className="button-text">Quero participar</div>
+                  )}
+                </button>
+                {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis > 0 && (
+                  <p className="faltam-vagas-n-o">
+                    <span className="text-wrapper-5">Faltam {vagasDisponiveis} {vagasDisponiveis === 1 ? 'vaga' : 'vagas'}.</span>
+                    <span className="text-wrapper-6">{"  "}Não fiques de fora!</span>
+                  </p>
                 )}
-              </button>
-
-              {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis > 0 && (
-                <p className="faltam-vagas-n-o">
-                  <span className="text-wrapper-7">Faltam {vagasDisponiveis} {vagasDisponiveis === 1 ? 'vaga' : 'vagas'}.</span>
-                  <span className="text-wrapper-8"> Não fiques de fora!</span>
-                </p>
-              )}
-              {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis === 0 && (
-                <p className="faltam-vagas-n-o">
-                  <span className="text-wrapper-7">Evento lotado.</span>
-                </p>
-              )}
+                {vagasInfo.hasLimit && vagasDisponiveis !== null && vagasDisponiveis === 0 && (
+                  <p className="faltam-vagas-n-o">
+                    <span className="text-wrapper-5">Evento lotado.</span>
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>

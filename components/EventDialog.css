@@ -214,16 +214,6 @@
 }
 
 .dialog-volunteer .text-wrapper-4 {
-  color: #cbd5e1;
-  font-family: var(--body-s-regular-font-family);
-  font-size: var(--body-s-regular-font-size);
-  font-style: var(--body-s-regular-font-style);
-  font-weight: var(--body-s-regular-font-weight);
-  letter-spacing: var(--body-s-regular-letter-spacing);
-  line-height: var(--body-s-regular-line-height);
-}
-
-.dialog-volunteer .text-wrapper-5 {
   align-self: stretch;
   color: #595959;
   font-family: var(--body-m-regular-font-family);
@@ -318,6 +308,28 @@
   width: fit-content;
 }
 
+.dialog-volunteer .button {
+  align-items: center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--sizes-spacing-xs);
+  position: relative;
+  width: 100%;
+}
+
+.dialog-volunteer .div-2 {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--sizes-spacing-xs);
+  position: relative;
+  width: 100%;
+}
+
 .dialog-volunteer .buttons {
   align-items: flex-start;
   align-self: stretch;
@@ -326,12 +338,11 @@
   flex-direction: column;
   gap: var(--sizes-spacing-lg);
   justify-content: center;
-  padding: 0px var(--sizes-spacing-lg) 0px var(--sizes-spacing-lg);
   position: relative;
   width: 100%;
 }
 
-.dialog-volunteer .frame-14 {
+.dialog-volunteer .button-box {
   align-items: center;
   align-self: stretch;
   background-color: #f2f2f2;
@@ -388,11 +399,11 @@
   width: fit-content;
 }
 
-.dialog-volunteer .text-wrapper-7 {
+.dialog-volunteer .text-wrapper-5 {
   font-weight: 700;
 }
 
-.dialog-volunteer .text-wrapper-8 {
+.dialog-volunteer .text-wrapper-6 {
   font-family: "Inter-Regular", Helvetica;
 }
 
