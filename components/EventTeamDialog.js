@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, ArrowLeft, Search, Check, Calendar, Clock, Users, User } from 'lucide-react';
-import GuestBar from './GuestBar';
+import { X, ArrowLeft, Search, Check, Calendar, Clock, Users } from 'lucide-react';
 import './EventTeamDialog.css';
 
 const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
@@ -14,7 +13,6 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   const [loading, setLoading] = useState(false);
   const [empresaId, setEmpresaId] = useState(null);
   const [teamName, setTeamName] = useState('UNIVA team');
-  const [selectedGuests, setSelectedGuests] = useState([]);
   const [participantes, setParticipantes] = useState([]);
   const [vagasInfo, setVagasInfo] = useState({
     total: 0,
@@ -102,7 +100,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     }
   }, [isOpen, event?.id]);
 
-  // Buscar participantes registrados
+  // Buscar participantes registrados (apenas para mostrar no texto)
   useEffect(() => {
     const fetchParticipantes = async () => {
       if (!isOpen || !event?.id) return;
@@ -113,7 +111,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
         
         if (data.success && data.data) {
           const participantesComAvatares = await Promise.all(
-            data.data.slice(0, 3).map(async (inscricao) => {
+            data.data.slice(0, 2).map(async (inscricao) => {
               try {
                 const colaboradorResponse = await fetch(
                   `/api/colaboradores/search?query=${encodeURIComponent(inscricao.emailColaborador)}`
@@ -271,90 +269,36 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                 </div>
 
                 <div className="div-3">
-                  <GuestBar 
-                    className="guest-bar-instance" 
-                    event={event}
-                    selectedGuests={selectedGuests}
-                    onSelectedGuestsChange={setSelectedGuests}
-                  />
-                  
-                  <div className="frame-4">
-                    <div className="frame-4">
-                      <div className="frame-12">
-                        <div className="frame-13">
-                          {/* Avatares sobrepostos */}
-                          <div 
-                            className="group"
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              position: 'relative',
-                              height: '30px',
-                              width: participantes.length > 0 ? `${32 + (participantes.length - 1) * 24}px` : '60px'
-                            }}
-                          >
-                            {participantes.length > 0 ? (
-                              participantes.map((participante, index) => (
-                                <div
-                                  key={index}
-                                  style={{
-                                    width: '30px',
-                                    height: '30px',
-                                    borderRadius: '50%',
-                                    border: '2px solid white',
-                                    backgroundColor: '#E2E8F0',
-                                    left: `${index * 24}px`,
-                                    position: 'absolute',
-                                    top: 0,
-                                    zIndex: participantes.length - index,
-                                    overflow: 'hidden',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                  }}
-                                >
-                                  {participante.avatar ? (
-                                    <Image
-                                      src={participante.avatar}
-                                      alt={participante.nome}
-                                      fill
-                                      style={{ objectFit: 'cover' }}
-                                    />
-                                  ) : (
-                                    <User size={16} color="#64748B" />
-                                  )}
-                                </div>
-                              ))
-                            ) : (
-                              <>
-                                <div className="ellipse-2" />
-                                <div className="ellipse-3" />
-                                <div className="ellipse-4" />
-                              </>
-                            )}
-                          </div>
-
-                          {/* Texto com nomes e contagem */}
-                          <p className="text-wrapper-6">
-                            {vagasOcupadas > 0 ? (
-                              participantes.length > 0 ? (
-                                (() => {
-                                  const primeirosNomes = participantes.map(p => p.nome).slice(0, 2);
-                                  const restantes = vagasOcupadas - 2;
-                                  if (restantes > 0) {
-                                    return `${primeirosNomes.join(', ')} e ${restantes} ${restantes === 1 ? 'pessoa' : 'pessoas'} já se registraram.`;
-                                  } else {
-                                    return `${primeirosNomes.join(', ')} ${primeirosNomes.length === 1 ? 'já se registrou' : 'já se registraram'}.`;
-                                  }
-                                })()
-                              ) : (
-                                `${vagasOcupadas} ${vagasOcupadas === 1 ? 'pessoa já se registrou' : 'pessoas já se registraram'}.`
-                              )
-                            ) : (
-                              'Ainda não há inscrições neste evento.'
-                            )}
-                          </p>
+                  <div className="div-3">
+                    <div className="frame-9">
+                      <div className="frame-10">
+                        <div className="group">
+                          {/* Avatares placeholder - sempre mostrar os 3 placeholders conforme Figma */}
+                          <div className="ellipse-2" />
+                          <div className="ellipse-3" />
+                          <div className="ellipse-4" />
                         </div>
+
+                        {/* Texto com nomes e contagem */}
+                        <p className="text-wrapper-5">
+                          {vagasOcupadas > 0 ? (
+                            participantes.length > 0 ? (
+                              (() => {
+                                const primeirosNomes = participantes.map(p => p.nome).slice(0, 2);
+                                const restantes = vagasOcupadas - 2;
+                                if (restantes > 0) {
+                                  return `${primeirosNomes.join(', ')} e ${restantes} ${restantes === 1 ? 'pessoa' : 'pessoas'} já se registraram.`;
+                                } else {
+                                  return `${primeirosNomes.join(', ')} ${primeirosNomes.length === 1 ? 'já se registrou' : 'já se registraram'}.`;
+                                }
+                              })()
+                            ) : (
+                              `${vagasOcupadas} ${vagasOcupadas === 1 ? 'pessoa já se registrou' : 'pessoas já se registraram'}.`
+                            )
+                          ) : (
+                            'Ainda não há inscrições neste evento.'
+                          )}
+                        </p>
                       </div>
                     </div>
                   </div>
