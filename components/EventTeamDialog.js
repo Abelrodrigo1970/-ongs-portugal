@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, ArrowLeft, Search, Check, Calendar, Clock, Users } from 'lucide-react';
+import { X, ArrowLeft, ArrowRight, Search, Check, Calendar, Clock, Users } from 'lucide-react';
 import './EventTeamDialog.css';
 
 const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
@@ -311,6 +311,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                   <div className="button-box">
                     <button className="button-primary-instance">
                       <div className="button-text">Inscrever {selectedMembers.size} {selectedMembers.size === 1 ? 'pessoa' : 'pessoas'}</div>
+                      <ArrowRight className="icon-instance-node" size={20} />
                     </button>
                     {vagasTotal > 0 && (
                       <p className="faltam-vagas-n-o">

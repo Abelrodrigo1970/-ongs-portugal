@@ -434,16 +434,7 @@
 }
 
 .dialog-team .text-wrapper-6 {
-  color: var(--content-content-text-tertiary);
-  font-family: var(--label-s-medium-font-family);
-  font-size: var(--label-s-medium-font-size);
-  font-style: var(--label-s-medium-font-style);
-  font-weight: var(--label-s-medium-font-weight);
-  letter-spacing: var(--label-s-medium-letter-spacing);
-  line-height: var(--label-s-medium-line-height);
-  position: relative;
-  white-space: nowrap;
-  width: fit-content;
+  font-weight: 700;
 }
 
 .dialog-team .text-wrapper-7 {
