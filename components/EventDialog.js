@@ -157,6 +157,39 @@ const EventDialog = ({ isOpen, onClose, event }) => {
   // Obter localização completa
   const localizacao = event.morada || event.localizacao || event.ngo?.localizacao || '';
 
+  // Calcular horas dedicadas à causa
+  const calcularHoras = () => {
+    if (!event?.dataInicio) return 0;
+    
+    const inicio = new Date(event.dataInicio);
+    const fim = event.dataFim ? new Date(event.dataFim) : new Date(inicio.getTime() + 4 * 60 * 60 * 1000); // Default 4 horas se não houver data fim
+    
+    const diffMs = fim.getTime() - inicio.getTime();
+    const diffHoras = Math.round(diffMs / (1000 * 60 * 60));
+    
+    return Math.max(1, diffHoras); // Mínimo 1 hora
+  };
+
+  const horasDedicadas = calcularHoras();
+
+  // Obter nome da causa/área
+  const obterNomeCausa = () => {
+    if (!event?.areas || event.areas.length === 0) {
+      return 'esta causa';
+    }
+    
+    const areasList = event.areas.map(item => {
+      const tipo = item.tipo || item;
+      return tipo.nome || null;
+    }).filter(Boolean);
+    
+    if (areasList.length === 0) return 'esta causa';
+    if (areasList.length === 1) return areasList[0];
+    return areasList.join(', ');
+  };
+
+  const nomeCausa = obterNomeCausa();
+
   // Função para participar no evento (inserir na tabela)
   const handleParticipar = async () => {
     if (!event?.id) {
@@ -431,7 +464,11 @@ const EventDialog = ({ isOpen, onClose, event }) => {
           </div>
 
           <div className="button">
-            <div className="div-2" />
+            <div className="metric">
+              <p className="text-wrapper-4">
+                {String(horasDedicadas).padStart(2, '0')} horas dedicadas a causa de <span style={{ color: 'var(--content-content-fill-primary)', fontWeight: 600 }}>{nomeCausa}</span>.
+              </p>
+            </div>
             <div className="buttons">
               <div className="button-box">
                 <button

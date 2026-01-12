@@ -330,6 +330,30 @@
   width: 100%;
 }
 
+.dialog-volunteer .metric {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--sizes-spacing-xs);
+  position: relative;
+  width: 100%;
+}
+
+.dialog-volunteer .metric .text-wrapper-4 {
+  align-self: stretch;
+  color: #595959;
+  font-family: var(--body-m-regular-font-family);
+  font-size: var(--body-m-regular-font-size);
+  font-style: var(--body-m-regular-font-style);
+  font-weight: var(--body-m-regular-font-weight);
+  letter-spacing: var(--body-m-regular-letter-spacing);
+  line-height: var(--body-m-regular-line-height);
+  position: relative;
+  margin: 0;
+}
+
 .dialog-volunteer .buttons {
   align-items: flex-start;
   align-self: stretch;
