@@ -315,7 +315,8 @@
   flex: 0 0 auto;
   flex-direction: column;
   height: 200px;
-  gap: var(--sizes-spacing-md);
+  gap: var(--sizes-spacing-lg);
+  justify-content: space-between;
   position: relative;
   width: 100%;
 }
@@ -337,9 +338,10 @@
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  gap: var(--sizes-spacing-xs);
+  gap: var(--sizes-spacing-lg);
   position: relative;
   width: 100%;
+  margin-top: -20px;
 }
 
 .dialog-volunteer .metric .text-wrapper-4 {
