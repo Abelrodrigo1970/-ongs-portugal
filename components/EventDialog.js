@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, Calendar, Clock, Users, Loader2, User } from 'lucide-react';
+import { X, Calendar, Clock, Users, Loader2, User, ArrowLeft } from 'lucide-react';
 import GuestBar from './GuestBar';
 import EventTeamDialog from './EventTeamDialog';
 import './EventDialog.css';
@@ -373,25 +373,16 @@ const EventDialog = ({ isOpen, onClose, event }) => {
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     >
       <div className="dialog-volunteer" onClick={(e) => e.stopPropagation()}>
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-10"
-          style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            border: '1px solid #E2E8F0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.2s'
-          }}
-        >
-          <X size={20} color="#64748B" />
-        </button>
+        <div className="dialog-box-heading">
+          <button className="icon-button" style={{ opacity: 0, pointerEvents: 'none' }}>
+            <ArrowLeft className="icon-instance-node" />
+          </button>
+          <div className="close-wrapper">
+            <button onClick={onClose} className="icon-button">
+              <X className="icon-instance-node" />
+            </button>
+          </div>
+        </div>
 
         <div className="div">
           <div className="frame-2">
