@@ -373,18 +373,19 @@ const EventDialog = ({ isOpen, onClose, event }) => {
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
     >
       <div className="dialog-volunteer" onClick={(e) => e.stopPropagation()}>
-        <div className="dialog-box-heading">
-          <button className="icon-button" style={{ opacity: 0, pointerEvents: 'none' }}>
-            <ArrowLeft className="icon-instance-node" />
-          </button>
-          <div className="close-wrapper">
-            <button onClick={onClose} className="icon-button">
-              <X className="icon-instance-node" />
+        <div className="dialog-box-content">
+          <div className="dialog-box-heading">
+            <button className="icon-button" style={{ opacity: 0, pointerEvents: 'none' }}>
+              <ArrowLeft className="icon-instance-node" />
             </button>
+            <div className="close-wrapper">
+              <button onClick={onClose} className="icon-button">
+                <X className="icon-instance-node" />
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div className="div-2">
+          <div className="div-2">
           <div className="div">
           <div className="frame-2">
             <div className="frame-3">
@@ -548,6 +549,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
               </div>
             )}
           </div>
+        </div>
         </div>
       </div>
     </div>

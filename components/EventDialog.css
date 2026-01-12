@@ -5,6 +5,7 @@
   border-color: var(--border-default);
   border-radius: var(--sizes-border-radius-xxxl);
   display: flex;
+  flex-direction: row;
   height: 551px;
   justify-content: center;
   padding: 24px;
@@ -12,6 +13,18 @@
   width: 914px;
   max-width: 95vw;
   max-height: 90vh;
+}
+
+.dialog-volunteer .dialog-box-content {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  gap: 16px;
+  height: 503px;
+  order: 0;
+  padding: 0px;
+  width: 866px;
 }
 
 .dialog-volunteer .dialog-box-heading {
@@ -53,11 +66,15 @@
   align-items: center;
   align-self: stretch;
   display: flex;
-  flex: 1;
-  flex-grow: 1;
+  flex: 0 0 auto;
+  flex-direction: row;
+  flex-grow: 0;
   gap: 24px;
+  height: 463px;
+  order: 1;
+  padding: 0px;
   position: relative;
-  width: 100%;
+  width: 866px;
 }
 
 .dialog-volunteer .div {
@@ -466,11 +483,14 @@
 
 .dialog-volunteer .placeholder-image {
   align-self: stretch;
+  border-radius: 16px;
+  flex: 0 0 auto;
+  flex-grow: 1;
+  height: 463px;
   object-fit: cover;
+  order: 1;
   position: relative;
   width: 421px;
-  height: 602px;
-  border-radius: 0 var(--sizes-border-radius-xxxl) var(--sizes-border-radius-xxxl) 0;
   overflow: hidden;
 }
 
