@@ -32,6 +32,8 @@
   flex-direction: column;
   flex-grow: 1;
   gap: var(--sizes-spacing-md);
+  padding-left: var(--sizes-spacing-lg);
+  padding-right: var(--sizes-spacing-lg);
   position: relative;
   width: 421px;
 }
