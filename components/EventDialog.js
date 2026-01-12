@@ -470,7 +470,7 @@ const EventDialog = ({ isOpen, onClose, event }) => {
                 fontSize: '14px',
                 fontWeight: 400,
                 lineHeight: 1.5,
-                margin: 0,
+                margin: '20px',
                 width: '100%',
                 whiteSpace: 'pre-wrap',
                 textAlign: 'left'
