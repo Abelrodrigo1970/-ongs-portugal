@@ -5,9 +5,9 @@
   border-color: var(--border-default);
   border-radius: var(--sizes-border-radius-xxxl);
   display: flex;
-  height: 650px;
+  height: 551px;
   justify-content: center;
-  padding: var(--sizes-spacing-lg) var(--sizes-spacing-lg) var(--sizes-spacing-lg) 0px;
+  padding: 24px;
   position: relative;
   width: 914px;
   max-width: 95vw;
@@ -312,8 +312,8 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  /* height: 200px; */
-  gap: var(--sizes-spacing-lg);
+  height: 93px;
+  gap: 8px;
   justify-content: space-between;
 }
 
@@ -334,10 +334,10 @@
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  gap: var(--sizes-spacing-lg);
+  gap: 8px;
+  height: 21px;
   position: relative;
   width: 100%;
-  margin-top: -20px;
 }
 
 .dialog-volunteer .metric .text-wrapper-4 {
@@ -373,7 +373,7 @@
   display: flex;
   gap: 8px;
   height: 64px;
-  padding: var(--size-space-200) var(--sizes-spacing-lg) var(--size-space-200) var(--size-space-300);
+  padding: 8px 24px 8px 12px;
   position: relative;
   width: 100%;
 }

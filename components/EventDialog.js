@@ -468,34 +468,17 @@ const EventDialog = ({ isOpen, onClose, event }) => {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '14px',
-                fontWeight: 400,
-                lineHeight: 1.5,
-                margin: '20px',
+                fontWeight: 700,
+                lineHeight: '150%',
+                margin: 0,
                 width: '100%',
-                whiteSpace: 'pre-wrap',
-                textAlign: 'left'
+                height: '21px',
+                background: 'linear-gradient(135deg, #0086FF 16.45%, #00B5D3 54.47%, #00EAA2 97.15%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
               }}>
-                <span style={{
-                  fontWeight: 700,
-                  background: 'linear-gradient(177.14deg, rgb(0, 134, 255) 16.451%, rgb(0, 181, 211) 54.473%, rgb(0, 234, 162) 97.15%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}>
-                  {String(horasDedicadas).padStart(2, '0')} horas
-                </span>
-                {' '}
-                <span style={{ color: 'rgb(100, 116, 139)' }}>dedicadas a causa de</span>
-                {' '}
-                <span style={{
-                  fontWeight: 700,
-                  background: 'linear-gradient(177.14deg, rgb(0, 134, 255) 16.451%, rgb(0, 181, 211) 54.473%, rgb(0, 234, 162) 97.15%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}>
-                  {nomeCausa}.
-                </span>
+                {String(horasDedicadas).padStart(2, '0')} horas dedicadas a causa de {nomeCausa}.
               </p>
             </div>
             <div className="buttons">
