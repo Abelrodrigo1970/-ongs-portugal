@@ -7,44 +7,25 @@
   border-color: var(--border-default);
   border-radius: var(--sizes-border-radius-xxxl);
   display: flex;
-  flex-direction: row;
-  flex-grow: 0;
-  height: 551px;
-  justify-content: center;
-  order: 1;
-  padding: 24px;
+  flex-direction: column;
+  height: 650px;
+  justify-content: flex-start;
+  padding: var(--sizes-spacing-lg);
   position: relative;
   width: 914px;
   max-width: 95vw;
   max-height: 90vh;
-}
-
-.dialog-team .dialog-box-content {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  flex: none;
-  flex-grow: 0;
-  gap: 16px;
-  height: 503px;
-  order: 0;
-  padding: 0px;
-  width: 866px;
+  overflow: hidden;
 }
 
 .dialog-team .dialog-box-heading {
   align-items: center;
   display: flex;
   flex: 0 0 auto;
-  flex-direction: row;
-  flex-grow: 0;
-  gap: 8px;
-  height: 24px;
   justify-content: space-between;
-  order: 0;
-  padding: 0px;
   position: relative;
-  width: 866px;
+  width: 100%;
+  margin-bottom: var(--sizes-spacing-md);
 }
 
 .dialog-team .icon-button {
@@ -77,14 +58,9 @@
   align-self: stretch;
   display: flex;
   flex: 0 0 auto;
-  flex-direction: row;
-  flex-grow: 0;
   gap: 24px;
-  height: 463px;
-  order: 1;
-  padding: 0px;
   position: relative;
-  width: 866px;
+  width: 100%;
 }
 
 .dialog-team .content {

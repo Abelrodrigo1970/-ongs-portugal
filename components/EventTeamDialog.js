@@ -207,18 +207,17 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
       <div className="dialog-team" onClick={(e) => e.stopPropagation()}>
-        <div className="dialog-box-content">
-          <div className="dialog-box-heading">
-            <button onClick={onBack} className="icon-button">
-              <ArrowLeft className="icon-instance-node" />
+        <div className="dialog-box-heading">
+          <button onClick={onBack} className="icon-button">
+            <ArrowLeft className="icon-instance-node" />
+          </button>
+          <div className="close-wrapper">
+            <button onClick={onClose} className="icon-button">
+              <X className="icon-instance-node" />
             </button>
-            <div className="close-wrapper">
-              <button onClick={onClose} className="icon-button">
-                <X className="icon-instance-node" />
-              </button>
-            </div>
           </div>
-          <div className="div-2">
+        </div>
+        <div className="div-2">
           {/* Left Content */}
           <div className="content">
             <div className="frame-2">
@@ -402,7 +401,6 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
