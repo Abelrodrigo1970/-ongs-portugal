@@ -384,7 +384,8 @@ const EventDialog = ({ isOpen, onClose, event }) => {
           </div>
         </div>
 
-        <div className="div">
+        <div className="div-2">
+          <div className="div">
           <div className="frame-2">
             <div className="frame-3">
               <div className="frame-4">
@@ -512,40 +513,41 @@ const EventDialog = ({ isOpen, onClose, event }) => {
           </div>
         </div>
 
-        <div className="placeholder-image">
-          {event.imagem ? (
-            <Image
-              src={event.imagem}
-              alt={event.nome}
-              fill
-              style={{ objectFit: 'cover' }}
-            />
-          ) : (
-            <div 
-              style={{
-                width: '100%',
-                height: '100%',
-                backgroundColor: '#E2E8F0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
+          <div className="placeholder-image">
+            {event.imagem ? (
+              <Image
+                src={event.imagem}
+                alt={event.nome}
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            ) : (
               <div 
                 style={{
-                  width: '80px',
-                  height: '80px',
-                  backgroundColor: '#CBD5E1',
-                  borderRadius: '12px',
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: '#E2E8F0',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}
               >
-                <Calendar size={40} color="#64748B" />
+                <div 
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    backgroundColor: '#CBD5E1',
+                    borderRadius: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Calendar size={40} color="#64748B" />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
