@@ -1,21 +1,18 @@
 .dialog-team {
-  -webkit-backdrop-filter: blur(100px) brightness(100%);
   align-items: flex-start;
-  backdrop-filter: blur(100px) brightness(100%);
   background-color: var(--surface-page);
   border: 1px solid;
   border-color: var(--border-default);
   border-radius: var(--sizes-border-radius-xxxl);
   display: flex;
-  flex-direction: column;
-  height: 650px;
-  justify-content: flex-start;
-  padding: var(--sizes-spacing-lg);
+  flex-direction: row;
+  height: 551px;
+  justify-content: center;
+  padding: 24px;
   position: relative;
   width: 914px;
   max-width: 95vw;
   max-height: 90vh;
-  overflow: hidden;
 }
 
 .dialog-team .dialog-box-heading {
