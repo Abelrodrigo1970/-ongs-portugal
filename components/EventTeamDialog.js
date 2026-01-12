@@ -304,7 +304,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               </div>
 
               <div className="button">
-                <div className="div-3" />
+                <div className="div-2" />
                 <div className="buttons">
                   <div className="button-box">
                     <button className="button-primary-instance">

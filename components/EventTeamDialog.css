@@ -57,12 +57,10 @@
   align-items: center;
   align-self: stretch;
   display: flex;
-  flex: 1;
-  flex-grow: 1;
+  flex: 0 0 auto;
   gap: 24px;
   position: relative;
   width: 100%;
-  min-height: 0;
 }
 
 .dialog-team .content {
@@ -73,8 +71,6 @@
   flex-grow: 1;
   gap: 8px;
   position: relative;
-  min-width: 401px;
-  max-width: 401px;
 }
 
 .dialog-team .frame-2 {
@@ -82,12 +78,10 @@
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  flex-grow: 1;
+  height: 463px;
   justify-content: space-between;
   position: relative;
   width: 100%;
-  min-height: 0;
 }
 
 .dialog-team .div-3 {
@@ -457,15 +451,12 @@
   flex-grow: 1;
   justify-content: center;
   position: relative;
-  min-width: 401px;
-  max-width: 401px;
 }
 
 .dialog-team .frame-12 {
   align-items: center;
   align-self: stretch;
   border-color: var(--border-divider);
-  border-bottom: 1px solid var(--border-divider);
   display: flex;
   flex: 0 0 auto;
   gap: 8px;
@@ -638,7 +629,6 @@
   gap: 8px;
   padding: var(--sizes-spacing-xxs) 0px 0px 0px;
   position: relative;
-  overflow-y: auto;
 }
 
 .dialog-team .frame-16 {
