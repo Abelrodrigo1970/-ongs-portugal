@@ -14,6 +14,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   const [empresaId, setEmpresaId] = useState(null);
   const [teamName, setTeamName] = useState('UNIVA team');
   const [participantes, setParticipantes] = useState([]);
+  const [membrosRegistados, setMembrosRegistados] = useState([]);
   const [vagasInfo, setVagasInfo] = useState({
     total: 0,
     ocupadas: 0,
@@ -128,21 +129,22 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     }
   }, [isOpen, event?.id]);
 
-  // Buscar participantes registrados (apenas para mostrar no texto)
+  // Buscar participantes registrados (para frame-10 e frame-14)
   useEffect(() => {
     const fetchParticipantes = async () => {
-      if (!isOpen || !event?.id) return;
+      if (!isOpen || !event?.id || !empresaId) return;
       
       try {
         const response = await fetch(`/api/inscricoes?eventoId=${event.id}`);
         const data = await response.json();
         
         if (data.success && data.data) {
-          const participantesComAvatares = await Promise.all(
-            data.data.slice(0, 2).map(async (inscricao) => {
+          // Buscar todos os colaboradores registados (com IDs completos)
+          const membrosCompletos = await Promise.all(
+            data.data.map(async (inscricao) => {
               try {
                 const colaboradorResponse = await fetch(
-                  `/api/colaboradores/search?query=${encodeURIComponent(inscricao.emailColaborador)}`
+                  `/api/colaboradores/search?query=${encodeURIComponent(inscricao.emailColaborador)}&empresaId=${empresaId}`
                 );
                 const colaboradorData = await colaboradorResponse.json();
                 
@@ -151,6 +153,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                 ) || colaboradorData.colaboradores?.[0];
                 
                 return {
+                  id: colaborador?.id || inscricao.id,
                   nome: inscricao.nomeColaborador,
                   email: inscricao.emailColaborador,
                   avatar: colaborador?.avatar || null
@@ -158,6 +161,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               } catch (error) {
                 console.error('Erro ao buscar colaborador:', error);
                 return {
+                  id: inscricao.id,
                   nome: inscricao.nomeColaborador,
                   email: inscricao.emailColaborador,
                   avatar: null
@@ -165,20 +169,28 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               }
             })
           );
-          setParticipantes(participantesComAvatares);
+          
+          // Primeiros 2 para frame-10 (texto)
+          setParticipantes(membrosCompletos.slice(0, 2));
+          // Todos para frame-14 (lista com checkboxes)
+          setMembrosRegistados(membrosCompletos);
+          
+          // Marcar todos como selecionados
+          const idsRegistados = new Set(membrosCompletos.map(m => m.id).filter(Boolean));
+          setSelectedMembers(idsRegistados);
         }
       } catch (error) {
         console.error('Erro ao buscar participantes:', error);
       }
     };
 
-    if (isOpen && event?.id) {
+    if (isOpen && event?.id && empresaId) {
       fetchParticipantes();
     }
-  }, [isOpen, event?.id]);
+  }, [isOpen, event?.id, empresaId]);
 
-  // Filtrar membros pela pesquisa
-  const filteredMembers = teamMembers.filter(member => 
+  // Filtrar membros registados pela pesquisa (para frame-14)
+  const filteredMembers = membrosRegistados.filter(member => 
     member.nome?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     member.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -385,10 +397,10 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
             <div className="frame-14">
               <div className="frame-15">
                 <div className="frame-16">
-                  {filteredMembers.slice(0, 10).map((member) => (
+                  {filteredMembers.map((member) => (
                     <div
                       key={member.id}
-                      className={`frame-449 ${selectedMembers.has(member.id) ? 'selected' : ''}`}
+                      className="frame-449 selected"
                       onClick={() => toggleMember(member.id)}
                     >
                       {member.avatar ? (
@@ -407,14 +419,12 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                       <div className="member-name">
                         {member.nome}
                       </div>
-                      {selectedMembers.has(member.id) && (
-                        <div className="check-icon">
-                          <Check size={16} color="#fff" />
-                        </div>
-                      )}
+                      <div className="check-icon">
+                        <Check size={16} color="#fff" />
+                      </div>
                     </div>
                   ))}
-                  {filteredMembers.length > 10 && (
+                  {filteredMembers.length > 8 && (
                     <div className="rectangle" />
                   )}
                 </div>
