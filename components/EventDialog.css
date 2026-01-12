@@ -34,7 +34,6 @@
   justify-content: space-between;
   position: relative;
   width: 100%;
-  margin-bottom: var(--sizes-spacing-md);
 }
 
 .dialog-volunteer .icon-button {

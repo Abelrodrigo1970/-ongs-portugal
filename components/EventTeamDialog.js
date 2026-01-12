@@ -39,18 +39,46 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     }
   }, []);
 
-  // Buscar membros da equipa
+  // Buscar membros da equipa e inicializar selecionados com os já inscritos
   useEffect(() => {
-    const fetchTeamMembers = async () => {
-      if (!isOpen || !empresaId) return;
+    const fetchTeamMembersAndInscricoes = async () => {
+      if (!isOpen || !empresaId || !event?.id) return;
       
       setLoading(true);
       try {
+        // Buscar membros da equipa
         const response = await fetch(`/api/colaboradores/search?empresaId=${empresaId}&ativo=true&limit=100`);
         const data = await response.json();
         
         if (data.success && data.colaboradores) {
           setTeamMembers(data.colaboradores);
+          
+          // Buscar inscrições do evento para marcar colaboradores já inscritos
+          try {
+            const inscricoesResponse = await fetch(`/api/inscricoes?eventoId=${event.id}`);
+            const inscricoesData = await inscricoesResponse.json();
+            
+            if (inscricoesData.success && inscricoesData.data) {
+              // Criar Set com emails dos colaboradores já inscritos
+              const emailsInscritos = new Set(
+                inscricoesData.data.map(insc => insc.emailColaborador?.toLowerCase().trim()).filter(Boolean)
+              );
+              
+              // Encontrar IDs dos colaboradores já inscritos (comparando emails)
+              const idsInscritos = new Set();
+              data.colaboradores.forEach(colab => {
+                if (colab.email && emailsInscritos.has(colab.email.toLowerCase().trim())) {
+                  idsInscritos.add(colab.id);
+                }
+              });
+              
+              // Inicializar selectedMembers com os já inscritos
+              setSelectedMembers(idsInscritos);
+              setSelectAll(idsInscritos.size === data.colaboradores.length && data.colaboradores.length > 0);
+            }
+          } catch (error) {
+            console.error('Erro ao buscar inscrições:', error);
+          }
         }
       } catch (error) {
         console.error('Erro ao buscar membros da equipa:', error);
@@ -59,8 +87,8 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
       }
     };
 
-    fetchTeamMembers();
-  }, [isOpen, empresaId]);
+    fetchTeamMembersAndInscricoes();
+  }, [isOpen, empresaId, event?.id]);
 
   // Buscar vagas do evento
   useEffect(() => {
@@ -367,8 +395,8 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                         <Image
                           src={member.avatar}
                           alt={member.nome}
-                          width={40}
-                          height={40}
+                          width={30}
+                          height={30}
                           className="ellipse-member"
                         />
                       ) : (
