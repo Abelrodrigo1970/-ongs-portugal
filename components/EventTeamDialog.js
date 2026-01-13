@@ -102,9 +102,29 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
         }
       }
 
+      // Se ainda não houver empresaId, tentar buscar a empresa "TechForGood Portugal" como fallback
       if (!currentEmpresaId) {
-        console.log('⏸️ empresaId não disponível - colaborador precisa pertencer a uma empresa');
-        return;
+        console.log('🔍 Tentando buscar empresa TechForGood Portugal como fallback...');
+        try {
+          const empresasResponse = await fetch(`/api/empresas?query=TechForGood Portugal&limit=1`);
+          const empresasData = await empresasResponse.json();
+          
+          if (empresasData.empresas && empresasData.empresas.length > 0) {
+            const empresa = empresasData.empresas[0];
+            currentEmpresaId = empresa.id;
+            currentEmpresaNome = empresa.nome;
+            console.log('✅ Empresa encontrada (fallback):', currentEmpresaId, currentEmpresaNome);
+            setEmpresaId(currentEmpresaId);
+            setTeamName(currentEmpresaNome);
+          } else {
+            console.log('⏸️ empresaId não disponível - colaborador precisa pertencer a uma empresa');
+            return;
+          }
+        } catch (e) {
+          console.error('❌ Erro ao buscar empresa (fallback):', e);
+          console.log('⏸️ empresaId não disponível - colaborador precisa pertencer a uma empresa');
+          return;
+        }
       }
 
       console.log('🔄 fetchTeamMembersAndInscricoes:', { isOpen, empresaId: currentEmpresaId, eventId: event?.id });
