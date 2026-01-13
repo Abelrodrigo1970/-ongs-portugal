@@ -15,6 +15,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   const [teamName, setTeamName] = useState('UNIVA team');
   const [participantes, setParticipantes] = useState([]);
   const [membrosRegistados, setMembrosRegistados] = useState([]);
+  const [idsRegistados, setIdsRegistados] = useState(new Set());
   const [vagasInfo, setVagasInfo] = useState({
     total: 0,
     ocupadas: 0,
@@ -66,16 +67,18 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               );
               
               // Encontrar IDs dos colaboradores já inscritos (comparando emails)
-              const idsInscritos = new Set();
+              const idsInscritosSet = new Set();
               data.colaboradores.forEach(colab => {
                 if (colab.email && emailsInscritos.has(colab.email.toLowerCase().trim())) {
-                  idsInscritos.add(colab.id);
+                  idsInscritosSet.add(colab.id);
                 }
               });
               
-              // Inicializar selectedMembers com os já inscritos
-              setSelectedMembers(idsInscritos);
-              setSelectAll(idsInscritos.size === data.colaboradores.length && data.colaboradores.length > 0);
+              // Guardar IDs dos registados para sempre mostrar checkmark
+              setIdsRegistados(idsInscritosSet);
+              // Inicializar selectedMembers apenas com os já inscritos (para não aparecer como selecionados adicionalmente)
+              setSelectedMembers(new Set());
+              setSelectAll(false);
             }
           } catch (error) {
             console.error('Erro ao buscar inscrições:', error);
@@ -129,7 +132,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     }
   }, [isOpen, event?.id]);
 
-  // Buscar participantes registrados (para frame-10 e frame-14)
+  // Buscar participantes registrados (apenas para frame-10 - texto com nomes)
   useEffect(() => {
     const fetchParticipantes = async () => {
       if (!isOpen || !event?.id || !empresaId) return;
@@ -139,9 +142,9 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
         const data = await response.json();
         
         if (data.success && data.data) {
-          // Buscar todos os colaboradores registados (com IDs completos)
-          const membrosCompletos = await Promise.all(
-            data.data.map(async (inscricao) => {
+          // Buscar primeiros 2 colaboradores registados para mostrar no texto (frame-10)
+          const participantesComAvatares = await Promise.all(
+            data.data.slice(0, 2).map(async (inscricao) => {
               try {
                 const colaboradorResponse = await fetch(
                   `/api/colaboradores/search?query=${encodeURIComponent(inscricao.emailColaborador)}&empresaId=${empresaId}`
@@ -153,7 +156,6 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                 ) || colaboradorData.colaboradores?.[0];
                 
                 return {
-                  id: colaborador?.id || inscricao.id,
                   nome: inscricao.nomeColaborador,
                   email: inscricao.emailColaborador,
                   avatar: colaborador?.avatar || null
@@ -161,7 +163,6 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               } catch (error) {
                 console.error('Erro ao buscar colaborador:', error);
                 return {
-                  id: inscricao.id,
                   nome: inscricao.nomeColaborador,
                   email: inscricao.emailColaborador,
                   avatar: null
@@ -170,14 +171,8 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
             })
           );
           
-          // Primeiros 2 para frame-10 (texto)
-          setParticipantes(membrosCompletos.slice(0, 2));
-          // Todos para frame-14 (lista com checkboxes)
-          setMembrosRegistados(membrosCompletos);
-          
-          // Marcar todos como selecionados
-          const idsRegistados = new Set(membrosCompletos.map(m => m.id).filter(Boolean));
-          setSelectedMembers(idsRegistados);
+          // Apenas para frame-10 (texto)
+          setParticipantes(participantesComAvatares);
         }
       } catch (error) {
         console.error('Erro ao buscar participantes:', error);
@@ -195,8 +190,21 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     member.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Toggle seleção individual
+  // Atualizar selectAll quando filteredMembers ou selectedMembers mudarem
+  useEffect(() => {
+    const naoRegistados = filteredMembers.filter(m => !idsRegistados.has(m.id));
+    const todosNaoRegistadosSelecionados = naoRegistados.length > 0 && 
+      naoRegistados.every(m => selectedMembers.has(m.id));
+    setSelectAll(todosNaoRegistadosSelecionados);
+  }, [filteredMembers, selectedMembers, idsRegistados]);
+
+  // Toggle seleção individual (só permite desmarcar/marcar colaboradores não registados)
   const toggleMember = (memberId) => {
+    // Se for registado, não permite desmarcar (sempre mostra checkmark)
+    if (idsRegistados.has(memberId)) {
+      return;
+    }
+    
     const newSelected = new Set(selectedMembers);
     if (newSelected.has(memberId)) {
       newSelected.delete(memberId);
@@ -204,16 +212,24 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
       newSelected.add(memberId);
     }
     setSelectedMembers(newSelected);
-    setSelectAll(newSelected.size === filteredMembers.length);
+    
+    // Verificar se todos os não-registados estão selecionados
+    const naoRegistados = filteredMembers.filter(m => !idsRegistados.has(m.id));
+    setSelectAll(naoRegistados.length > 0 && naoRegistados.every(m => newSelected.has(m.id)));
   };
 
-  // Toggle selecionar todos
+  // Toggle selecionar todos os colaboradores (apenas os não registados)
   const handleSelectAll = () => {
+    // Filtrar apenas colaboradores não registados
+    const naoRegistados = filteredMembers.filter(m => !idsRegistados.has(m.id));
+    
     if (selectAll) {
+      // Desmarcar todos os não registados
       setSelectedMembers(new Set());
       setSelectAll(false);
     } else {
-      const allIds = new Set(filteredMembers.map(m => m.id));
+      // Selecionar todos os colaboradores não registados
+      const allIds = new Set(naoRegistados.map(m => m.id).filter(Boolean));
       setSelectedMembers(allIds);
       setSelectAll(true);
     }
@@ -348,7 +364,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                 <div className="buttons">
                   <div className="button-box">
                     <button className="button-primary-instance">
-                      <div className="button-text">Inscrever {selectedMembers.size} {selectedMembers.size === 1 ? 'pessoa' : 'pessoas'}</div>
+                      <div className="button-text">Inscrever {selectedMembers.size + idsRegistados.size} {(selectedMembers.size + idsRegistados.size) === 1 ? 'pessoa' : 'pessoas'}</div>
                       <ArrowRight className="icon-instance-node" size={20} />
                     </button>
                     {vagasTotal > 0 && (
@@ -398,11 +414,13 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               <div className="frame-15">
                 <div className="frame-16">
                   {filteredMembers.map((member) => {
+                    const isRegistado = idsRegistados.has(member.id);
                     const isSelected = selectedMembers.has(member.id);
+                    const showCheckmark = isRegistado || isSelected;
                     return (
                       <div
                         key={member.id}
-                        className={`frame-449 ${isSelected ? 'selected' : ''}`}
+                        className={`frame-449 ${showCheckmark ? 'selected' : ''}`}
                         onClick={() => toggleMember(member.id)}
                       >
                         {member.avatar ? (
@@ -421,7 +439,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                         <div className="member-name">
                           {member.nome}
                         </div>
-                        {isSelected && (
+                        {showCheckmark && (
                           <div className="check-icon">
                             <Check size={16} color="#fff" />
                           </div>
