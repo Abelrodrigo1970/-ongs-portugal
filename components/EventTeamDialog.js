@@ -56,27 +56,54 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
 
       // Se empresaId ainda não foi carregado, tentar carregar do localStorage diretamente
       let currentEmpresaId = empresaId;
+      let currentEmpresaNome = null;
+      
       if (!currentEmpresaId && typeof window !== 'undefined') {
         try {
           const colaboradorData = localStorage.getItem('colaborador');
           if (colaboradorData) {
             const data = JSON.parse(colaboradorData);
             currentEmpresaId = data.empresaId;
+            currentEmpresaNome = data.empresaNome;
+            
             if (currentEmpresaId) {
-              console.log('✅ empresaId carregado diretamente do localStorage:', currentEmpresaId);
+              console.log('✅ empresaId carregado do localStorage:', currentEmpresaId);
               setEmpresaId(currentEmpresaId);
-              if (data.empresaNome) {
-                setTeamName(data.empresaNome);
+              if (currentEmpresaNome) {
+                setTeamName(currentEmpresaNome);
+              }
+            } else if (data.email) {
+              // Se não houver empresaId, tentar buscar o colaborador pelo email para obter o empresaId
+              console.log('🔍 Buscando colaborador pelo email para obter empresaId:', data.email);
+              try {
+                const colaboradorResponse = await fetch(`/api/colaboradores/search?query=${encodeURIComponent(data.email)}&limit=1`);
+                const colaboradorData = await colaboradorResponse.json();
+                
+                if (colaboradorData.success && colaboradorData.colaboradores && colaboradorData.colaboradores.length > 0) {
+                  const colaboradorEncontrado = colaboradorData.colaboradores[0];
+                  currentEmpresaId = colaboradorEncontrado.empresaId;
+                  currentEmpresaNome = colaboradorEncontrado.empresa?.nome;
+                  
+                  if (currentEmpresaId) {
+                    console.log('✅ empresaId obtido da API:', currentEmpresaId);
+                    setEmpresaId(currentEmpresaId);
+                    if (currentEmpresaNome) {
+                      setTeamName(currentEmpresaNome);
+                    }
+                  }
+                }
+              } catch (e) {
+                console.error('❌ Erro ao buscar colaborador:', e);
               }
             }
           }
         } catch (e) {
-          console.error('❌ Erro ao carregar empresaId do localStorage:', e);
+          console.error('❌ Erro ao carregar dados do localStorage:', e);
         }
       }
 
       if (!currentEmpresaId) {
-        console.log('⏸️ empresaId ainda não disponível, aguardando...');
+        console.log('⏸️ empresaId não disponível - colaborador precisa pertencer a uma empresa');
         return;
       }
 
@@ -449,7 +476,11 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
             <div className="frame-14">
               <div className="frame-15">
                 <div className="frame-16">
-                  {loading ? (
+                  {!empresaId ? (
+                    <div style={{ padding: '16px', textAlign: 'center', color: '#64748B' }}>
+                      É necessário estar autenticado como colaborador de uma empresa para ver os colaboradores.
+                    </div>
+                  ) : loading ? (
                     <div style={{ padding: '16px', textAlign: 'center', color: '#64748B' }}>
                       A carregar colaboradores...
                     </div>
