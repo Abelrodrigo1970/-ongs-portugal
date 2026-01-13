@@ -410,10 +410,36 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                     <div className="frame-9">
                       <div className="frame-10">
                         <div className="group">
-                          {/* Avatares placeholder - sempre mostrar os 3 placeholders conforme Figma */}
-                          <div className="ellipse-2" />
-                          <div className="ellipse-3" />
-                          <div className="ellipse-4" />
+                          {/* Avatares dos primeiros participantes */}
+                          {participantes.length > 0 && participantes[0]?.avatar ? (
+                            <Image
+                              src={participantes[0].avatar}
+                              alt={participantes[0].nome}
+                              width={30}
+                              height={30}
+                              className="ellipse-2"
+                              style={{ borderRadius: '50%', objectFit: 'cover', border: '2px solid white' }}
+                            />
+                          ) : (
+                            <div className="ellipse-2" />
+                          )}
+                          {participantes.length > 1 && participantes[1]?.avatar ? (
+                            <Image
+                              src={participantes[1].avatar}
+                              alt={participantes[1].nome}
+                              width={30}
+                              height={30}
+                              className="ellipse-3"
+                              style={{ borderRadius: '50%', objectFit: 'cover', border: '2px solid white' }}
+                            />
+                          ) : (
+                            <div className="ellipse-3" />
+                          )}
+                          {participantes.length > 2 ? (
+                            <div className="ellipse-4" />
+                          ) : (
+                            <div className="ellipse-4" />
+                          )}
                         </div>
 
                         {/* Texto com nomes e contagem */}

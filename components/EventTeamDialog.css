@@ -322,20 +322,24 @@
   border-radius: 50%;
   background-color: #E2E8F0;
   border: 2px solid white;
+  object-fit: cover;
 }
 
 .dialog-team .ellipse-2 {
   left: 0;
+  z-index: 3;
 }
 
 .dialog-team .ellipse-3 {
   left: 15px;
   background-color: #CBD5E1;
+  z-index: 2;
 }
 
 .dialog-team .ellipse-4 {
   left: 30px;
   background-color: #94A3B8;
+  z-index: 1;
 }
 
 .dialog-team .text-wrapper-5 {
@@ -357,7 +361,6 @@
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  height: 200px;
   gap: var(--sizes-spacing-lg);
   position: relative;
   width: 100%;
@@ -783,7 +786,8 @@
   gap: var(--sizes-spacing-xxs);
   justify-content: center;
   padding: var(--sizes-spacing-xs) 2px var(--sizes-spacing-xs) 2px;
-  position: relative;
+  position: absolute;
+  right: 0;
   min-width: 16px;
 }
 
@@ -818,7 +822,7 @@
 }
 
 .dialog-team .rectangle-2 {
-  background-color: var(--content-content-fill-secondary);
+  background-color: transparent;
   border-radius: 533.33px;
   height: 36px;
   position: relative;
