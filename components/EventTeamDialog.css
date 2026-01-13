@@ -715,6 +715,14 @@
   flex-grow: 0;
 }
 
+.dialog-team .frame-449:not(.selected) .ellipse-member {
+  opacity: 0.5;
+}
+
+.dialog-team .frame-449.selected .ellipse-member {
+  opacity: 1;
+}
+
 .dialog-team .ellipse-placeholder {
   box-sizing: border-box;
   background-color: #E2E8F0;
@@ -730,6 +738,15 @@
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+
+.dialog-team .frame-449:not(.selected) .ellipse-placeholder {
+  opacity: 0.5;
+  background-color: #CBD5E1;
+}
+
+.dialog-team .frame-449.selected .ellipse-placeholder {
+  opacity: 1;
 }
 
 .dialog-team .check-icon {
