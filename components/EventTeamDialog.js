@@ -189,8 +189,8 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     }
   }, [isOpen, event?.id, empresaId]);
 
-  // Filtrar membros registados pela pesquisa (para frame-14)
-  const filteredMembers = membrosRegistados.filter(member => 
+  // Filtrar todos os membros pela pesquisa (para frame-14)
+  const filteredMembers = teamMembers.filter(member => 
     member.nome?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     member.email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -397,33 +397,38 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
             <div className="frame-14">
               <div className="frame-15">
                 <div className="frame-16">
-                  {filteredMembers.map((member) => (
-                    <div
-                      key={member.id}
-                      className="frame-449 selected"
-                      onClick={() => toggleMember(member.id)}
-                    >
-                      {member.avatar ? (
-                        <Image
-                          src={member.avatar}
-                          alt={member.nome}
-                          width={30}
-                          height={30}
-                          className="ellipse-member"
-                        />
-                      ) : (
-                        <div className="ellipse-member ellipse-placeholder">
-                          <span>{member.nome?.[0]?.toUpperCase() || '?'}</span>
+                  {filteredMembers.map((member) => {
+                    const isSelected = selectedMembers.has(member.id);
+                    return (
+                      <div
+                        key={member.id}
+                        className={`frame-449 ${isSelected ? 'selected' : ''}`}
+                        onClick={() => toggleMember(member.id)}
+                      >
+                        {member.avatar ? (
+                          <Image
+                            src={member.avatar}
+                            alt={member.nome}
+                            width={30}
+                            height={30}
+                            className="ellipse-member"
+                          />
+                        ) : (
+                          <div className="ellipse-member ellipse-placeholder">
+                            <span>{member.nome?.[0]?.toUpperCase() || '?'}</span>
+                          </div>
+                        )}
+                        <div className="member-name">
+                          {member.nome}
                         </div>
-                      )}
-                      <div className="member-name">
-                        {member.nome}
+                        {isSelected && (
+                          <div className="check-icon">
+                            <Check size={16} color="#fff" />
+                          </div>
+                        )}
                       </div>
-                      <div className="check-icon">
-                        <Check size={16} color="#fff" />
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                   {filteredMembers.length > 8 && (
                     <div className="rectangle" />
                   )}
