@@ -27,16 +27,20 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const colaboradorData = localStorage.getItem('colaborador');
+      console.log('🔍 localStorage colaborador:', colaboradorData);
       if (colaboradorData) {
         try {
           const data = JSON.parse(colaboradorData);
+          console.log('✅ Dados do colaborador:', data);
           setEmpresaId(data.empresaId);
           if (data.empresaNome) {
             setTeamName(data.empresaNome);
           }
         } catch (e) {
-          console.error('Erro ao parsear dados do colaborador:', e);
+          console.error('❌ Erro ao parsear dados do colaborador:', e);
         }
+      } else {
+        console.warn('⚠️ Nenhum dado de colaborador no localStorage');
       }
     }
   }, []);
@@ -44,7 +48,11 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   // Buscar membros da equipa e inicializar selecionados com os já inscritos
   useEffect(() => {
     const fetchTeamMembersAndInscricoes = async () => {
-      if (!isOpen || !empresaId || !event?.id) return;
+      console.log('🔄 fetchTeamMembersAndInscricoes:', { isOpen, empresaId, eventId: event?.id });
+      if (!isOpen || !empresaId || !event?.id) {
+        console.log('⏸️ Condições não atendidas, abortando...');
+        return;
+      }
       
       setLoading(true);
       try {
@@ -85,7 +93,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
           }
         }
       } catch (error) {
-        console.error('Erro ao buscar membros da equipa:', error);
+        console.error('❌ Erro ao buscar membros da equipa:', error);
       } finally {
         setLoading(false);
       }
@@ -413,40 +421,52 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
             <div className="frame-14">
               <div className="frame-15">
                 <div className="frame-16">
-                  {filteredMembers.map((member) => {
-                    const isRegistado = idsRegistados.has(member.id);
-                    const isSelected = selectedMembers.has(member.id);
-                    const showCheckmark = isRegistado || isSelected;
-                    return (
-                      <div
-                        key={member.id}
-                        className={`frame-449 ${showCheckmark ? 'selected' : ''}`}
-                        onClick={() => toggleMember(member.id)}
-                      >
-                        {member.avatar ? (
-                          <Image
-                            src={member.avatar}
-                            alt={member.nome}
-                            width={30}
-                            height={30}
-                            className="ellipse-member"
-                          />
-                        ) : (
-                          <div className="ellipse-member ellipse-placeholder">
-                            <span>{member.nome?.[0]?.toUpperCase() || '?'}</span>
+                  {loading ? (
+                    <div style={{ padding: '16px', textAlign: 'center', color: '#64748B' }}>
+                      A carregar colaboradores...
+                    </div>
+                  ) : filteredMembers.length === 0 ? (
+                    <div style={{ padding: '16px', textAlign: 'center', color: '#64748B' }}>
+                      {teamMembers.length === 0 
+                        ? 'Não há colaboradores disponíveis.' 
+                        : 'Nenhum colaborador encontrado para a pesquisa.'}
+                    </div>
+                  ) : (
+                    filteredMembers.map((member) => {
+                      const isRegistado = idsRegistados.has(member.id);
+                      const isSelected = selectedMembers.has(member.id);
+                      const showCheckmark = isRegistado || isSelected;
+                      return (
+                        <div
+                          key={member.id}
+                          className={`frame-449 ${showCheckmark ? 'selected' : ''}`}
+                          onClick={() => toggleMember(member.id)}
+                        >
+                          {member.avatar ? (
+                            <Image
+                              src={member.avatar}
+                              alt={member.nome}
+                              width={30}
+                              height={30}
+                              className="ellipse-member"
+                            />
+                          ) : (
+                            <div className="ellipse-member ellipse-placeholder">
+                              <span>{member.nome?.[0]?.toUpperCase() || '?'}</span>
+                            </div>
+                          )}
+                          <div className="member-name">
+                            {member.nome}
                           </div>
-                        )}
-                        <div className="member-name">
-                          {member.nome}
+                          {showCheckmark && (
+                            <div className="check-icon">
+                              <Check size={16} color="#fff" />
+                            </div>
+                          )}
                         </div>
-                        {showCheckmark && (
-                          <div className="check-icon">
-                            <Check size={16} color="#fff" />
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  )}
                   {filteredMembers.length > 8 && (
                     <div className="rectangle" />
                   )}
