@@ -23,15 +23,16 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     hasLimit: false
   });
 
-  // Buscar empresaId do localStorage
+  // Buscar empresaId do localStorage (executa quando o dialog abre ou na montagem)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && isOpen) {
       const colaboradorData = localStorage.getItem('colaborador');
       console.log('🔍 localStorage colaborador:', colaboradorData);
       if (colaboradorData) {
         try {
           const data = JSON.parse(colaboradorData);
           console.log('✅ Dados do colaborador:', data);
+          console.log('✅ empresaId encontrado:', data.empresaId);
           setEmpresaId(data.empresaId);
           if (data.empresaNome) {
             setTeamName(data.empresaNome);
@@ -43,21 +44,48 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
         console.warn('⚠️ Nenhum dado de colaborador no localStorage');
       }
     }
-  }, []);
+  }, [isOpen]);
 
   // Buscar membros da equipa e inicializar selecionados com os já inscritos
   useEffect(() => {
     const fetchTeamMembersAndInscricoes = async () => {
-      console.log('🔄 fetchTeamMembersAndInscricoes:', { isOpen, empresaId, eventId: event?.id });
-      if (!isOpen || !empresaId || !event?.id) {
-        console.log('⏸️ Condições não atendidas, abortando...');
+      if (!isOpen || !event?.id) {
+        console.log('⏸️ Dialog não aberto ou evento não disponível');
         return;
       }
+
+      // Se empresaId ainda não foi carregado, tentar carregar do localStorage diretamente
+      let currentEmpresaId = empresaId;
+      if (!currentEmpresaId && typeof window !== 'undefined') {
+        try {
+          const colaboradorData = localStorage.getItem('colaborador');
+          if (colaboradorData) {
+            const data = JSON.parse(colaboradorData);
+            currentEmpresaId = data.empresaId;
+            if (currentEmpresaId) {
+              console.log('✅ empresaId carregado diretamente do localStorage:', currentEmpresaId);
+              setEmpresaId(currentEmpresaId);
+              if (data.empresaNome) {
+                setTeamName(data.empresaNome);
+              }
+            }
+          }
+        } catch (e) {
+          console.error('❌ Erro ao carregar empresaId do localStorage:', e);
+        }
+      }
+
+      if (!currentEmpresaId) {
+        console.log('⏸️ empresaId ainda não disponível, aguardando...');
+        return;
+      }
+
+      console.log('🔄 fetchTeamMembersAndInscricoes:', { isOpen, empresaId: currentEmpresaId, eventId: event?.id });
       
       setLoading(true);
       try {
         // Buscar membros da equipa
-        const response = await fetch(`/api/colaboradores/search?empresaId=${empresaId}&ativo=true&limit=100`);
+        const response = await fetch(`/api/colaboradores/search?empresaId=${currentEmpresaId}&ativo=true&limit=100`);
         const data = await response.json();
         
         if (data.success && data.colaboradores) {
