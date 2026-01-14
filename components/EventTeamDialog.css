@@ -796,7 +796,7 @@
   height: 8px;
   position: relative;
   width: 8.93px;
-  background-color: transparent;
+  background-color: var(--content-content-fill-secondary);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
@@ -805,7 +805,7 @@
   height: 7.67px;
   position: relative;
   width: 8.44px;
-  background-color: transparent;
+  background-color: var(--content-content-fill-secondary);
   clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
 }
 
