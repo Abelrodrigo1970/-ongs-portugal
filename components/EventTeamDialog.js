@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { X, ArrowLeft, ArrowRight, Search, Check, Calendar, Clock, Users, ChevronUp, ChevronDown } from 'lucide-react';
+import EventConfirmationDialog from './EventConfirmationDialog';
 import './EventTeamDialog.css';
 
 const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
@@ -17,6 +18,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
   const [participantes, setParticipantes] = useState([]);
   const [membrosRegistados, setMembrosRegistados] = useState([]);
   const [idsRegistados, setIdsRegistados] = useState(new Set());
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
   const [vagasInfo, setVagasInfo] = useState({
     total: 0,
     ocupadas: 0,
@@ -363,6 +365,57 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     }
   };
 
+  // Handle inscrição
+  const handleInscricao = async () => {
+    if (selectedMembers.size === 0) return;
+
+    try {
+      const colaboradorData = localStorage.getItem('colaborador');
+      if (!colaboradorData) {
+        alert('É necessário estar autenticado como colaborador.');
+        return;
+      }
+
+      const colaborador = JSON.parse(colaboradorData);
+      const membrosParaInscricao = Array.from(selectedMembers);
+
+      // Fazer inscrição para cada membro selecionado
+      const inscricoes = await Promise.all(
+        membrosParaInscricao.map(async (memberId) => {
+          const member = teamMembers.find(m => m.id === memberId);
+          if (!member) return null;
+
+          const response = await fetch('/api/inscricoes', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              eventoId: event.id,
+              emailColaborador: member.email,
+              nomeColaborador: member.nome,
+              status: 'PENDENTE'
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Erro ao criar inscrição');
+          }
+
+          return await response.json();
+        })
+      );
+
+      // Se todas as inscrições foram bem-sucedidas, mostrar modal de confirmação
+      if (inscricoes.every(i => i !== null)) {
+        setShowConfirmationDialog(true);
+      }
+    } catch (error) {
+      console.error('Erro ao fazer inscrição:', error);
+      alert('Erro ao fazer inscrição. Tente novamente.');
+    }
+  };
+
   const vagasOcupadas = vagasInfo.ocupadas;
   const vagasTotal = vagasInfo.total;
   const localizacao = event.morada || event.localizacao || event.ngo?.localizacao || 'Localização não especificada';
@@ -498,7 +551,11 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                 <div className="div-2" />
                 <div className="buttons">
                   <div className="button-box">
-                    <button className="button-primary-instance">
+                    <button 
+                      className="button-primary-instance" 
+                      onClick={handleInscricao}
+                      disabled={selectedMembers.size === 0}
+                    >
                       <div className="button-text">Inscrever {selectedMembers.size + idsRegistados.size} {(selectedMembers.size + idsRegistados.size) === 1 ? 'pessoa' : 'pessoas'}</div>
                       <ArrowRight className="icon-instance-node" size={20} />
                     </button>
@@ -619,6 +676,18 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Dialog */}
+      <EventConfirmationDialog
+        isOpen={showConfirmationDialog}
+        onClose={() => {
+          setShowConfirmationDialog(false);
+          onClose();
+        }}
+        onBack={() => setShowConfirmationDialog(false)}
+        event={event}
+        inscritos={selectedMembers.size + idsRegistados.size}
+      />
     </div>
   );
 };
