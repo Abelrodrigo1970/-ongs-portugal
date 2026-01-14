@@ -579,11 +579,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               </div>
 
               <div className="frame-17">
-                <div className="polygon" />
-                <div className="rectangle-wrapper">
-                  <div className="rectangle-2" />
-                </div>
-                <div className="polygon-2" />
+                <div className="rectangle-wrapper" />
               </div>
             </div>
           </div>

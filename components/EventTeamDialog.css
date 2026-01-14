@@ -693,7 +693,6 @@
   font-size: 12px;
   line-height: 16.80px;
   position: relative;
-  color: #000000;
 }
 
 .dialog-team .frame-449.selected .member-name {
@@ -775,56 +774,21 @@
 }
 
 .dialog-team .frame-17 {
-  align-items: center;
+  width: 16px;
   align-self: stretch;
-  background-color: #f2f2f2;
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  gap: var(--sizes-spacing-xxs);
+  padding-left: 2px;
+  padding-right: 2px;
   justify-content: center;
-  padding: var(--sizes-spacing-xs) 2px var(--sizes-spacing-xs) 2px;
-  position: absolute;
-  right: 0;
-  min-width: 16px;
-}
-
-.dialog-team .polygon {
-  aspect-ratio: 1;
-  height: 8px;
-  position: relative;
-  width: 8.93px;
-  background-color: var(--content-content-fill-secondary);
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.dialog-team .polygon-2 {
-  aspect-ratio: 1;
-  height: 7.67px;
-  position: relative;
-  width: 8.44px;
-  background-color: var(--content-content-fill-secondary);
-  clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+  align-items: flex-start;
+  gap: 10.67px;
+  display: inline-flex;
 }
 
 .dialog-team .rectangle-wrapper {
-  align-items: flex-start;
-  display: flex;
-  flex: 1;
-  flex-grow: 1;
-  gap: 10.67px;
-  justify-content: center;
-  padding: 0px var(--sizes-spacing-nano) 0px var(--sizes-spacing-nano);
-  position: relative;
-  width: 16px;
-}
-
-.dialog-team .rectangle-2 {
-  background-color: var(--content-content-fill-secondary);
-  border-radius: 533.33px;
-  height: 36px;
-  position: relative;
   width: 8px;
+  height: 36px;
+  background: var(--content-fill-secondary, #1E293B);
+  border-radius: 533.33px;
 }
 
 @media (max-width: 1024px) {
