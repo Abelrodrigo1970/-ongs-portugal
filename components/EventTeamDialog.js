@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { X, ArrowLeft, ArrowRight, Search, Check, Calendar, Clock, Users, ChevronUp, ChevronDown } from 'lucide-react';
 import './EventTeamDialog.css';
 
 const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
+  const scrollContainerRef = useRef(null);
   const [selectedMembers, setSelectedMembers] = useState(new Set());
   const [selectAll, setSelectAll] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -337,6 +338,25 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     return endTime ? `${startTime} - ${endTime}` : startTime;
   };
 
+  // Funções de scroll
+  const handleScrollUp = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        top: -100,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleScrollDown = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({
+        top: 100,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const vagasOcupadas = vagasInfo.ocupadas;
   const vagasTotal = vagasInfo.total;
   const localizacao = event.morada || event.localizacao || event.ngo?.localizacao || 'Localização não especificada';
@@ -521,7 +541,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
 
             <div className="frame-14">
               <div className="frame-15">
-                <div className="frame-16">
+                <div className="frame-16" ref={scrollContainerRef}>
                   {!empresaId ? (
                     <div style={{ padding: '16px', textAlign: 'center', color: '#64748B' }}>
                       É necessário estar autenticado como colaborador de uma empresa para ver os colaboradores.
@@ -579,13 +599,13 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
               </div>
 
               <div className="custom-scrollbar">
-                <button type="button" className="scrollbar-button">
+                <button type="button" className="scrollbar-button" onClick={handleScrollUp}>
                   <ChevronUp size={16} style={{ color: 'rgb(30, 41, 59)' }} />
                 </button>
                 <div className="scrollbar-track">
                   <div className="scrollbar-thumb" />
                 </div>
-                <button type="button" className="scrollbar-button">
+                <button type="button" className="scrollbar-button" onClick={handleScrollDown}>
                   <ChevronDown size={16} style={{ color: 'rgb(30, 41, 59)' }} />
                 </button>
               </div>
