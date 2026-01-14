@@ -509,7 +509,7 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
             </div>
 
             <div className="frame-13">
-              <Search className="icon-instance-node" size={16} />
+              <Search className="icon-instance-node" size={24} style={{ color: 'rgb(100, 116, 139)', flexShrink: 0 }} />
               <input
                 type="text"
                 className="text-wrapper-10"
