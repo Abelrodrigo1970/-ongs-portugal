@@ -89,14 +89,16 @@
 }
 
 .dialog-confirmation-card {
-  background-color: #F2F2F2;
+  border: 1px solid var(--border-default, #CBD5E1);
   border-radius: var(--sizes-border-radius-xl, 16px);
   padding: var(--sizes-spacing-lg, 24px);
   width: 100%;
-  max-width: 600px;
+  max-width: 389px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: center;
+  text-align: center;
 }
 
 .dialog-confirmation-event-title {
@@ -106,6 +108,8 @@
   font-weight: var(--title-s-semibold-font-weight, 600);
   line-height: var(--title-s-semibold-line-height, 140%);
   margin: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .dialog-confirmation-location {
@@ -115,6 +119,8 @@
   font-weight: var(--body-s-regular-font-weight, 400);
   line-height: var(--body-s-regular-line-height, 150%);
   margin: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .dialog-confirmation-details {
@@ -122,6 +128,8 @@
   flex-direction: row;
   gap: 16px;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .dialog-confirmation-detail-item {
