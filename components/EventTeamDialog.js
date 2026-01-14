@@ -367,7 +367,11 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
 
   // Handle inscrição
   const handleInscricao = async () => {
-    if (selectedMembers.size === 0) return;
+    // Se não há membros selecionados (apenas já registados), não fazer nada
+    if (selectedMembers.size === 0) {
+      console.log('Nenhum membro selecionado para inscrever');
+      return;
+    }
 
     try {
       const colaboradorData = localStorage.getItem('colaborador');
@@ -379,11 +383,18 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
       const colaborador = JSON.parse(colaboradorData);
       const membrosParaInscricao = Array.from(selectedMembers);
 
+      console.log('🔄 Iniciando inscrições para:', membrosParaInscricao);
+
       // Fazer inscrição para cada membro selecionado
       const inscricoes = await Promise.all(
         membrosParaInscricao.map(async (memberId) => {
           const member = teamMembers.find(m => m.id === memberId);
-          if (!member) return null;
+          if (!member) {
+            console.error('Membro não encontrado:', memberId);
+            return null;
+          }
+
+          console.log('📝 Inscrendo:', member.nome, member.email);
 
           const response = await fetch('/api/inscricoes', {
             method: 'POST',
@@ -399,20 +410,32 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
           });
 
           if (!response.ok) {
-            throw new Error('Erro ao criar inscrição');
+            const errorData = await response.json().catch(() => ({}));
+            console.error('Erro na resposta:', response.status, errorData);
+            throw new Error(`Erro ao criar inscrição: ${response.status}`);
           }
 
-          return await response.json();
+          const result = await response.json();
+          console.log('✅ Inscrição criada:', result);
+          return result;
         })
       );
 
       // Se todas as inscrições foram bem-sucedidas, mostrar modal de confirmação
-      if (inscricoes.every(i => i !== null)) {
+      const inscricoesSucesso = inscricoes.filter(i => i !== null);
+      if (inscricoesSucesso.length > 0) {
+        console.log('🎉 Inscrições concluídas com sucesso:', inscricoesSucesso.length);
+        // Atualizar os idsRegistados para incluir os novos
+        const novosIds = new Set([...idsRegistados, ...membrosParaInscricao]);
+        setIdsRegistados(novosIds);
+        // Limpar seleção
+        setSelectedMembers(new Set());
+        // Mostrar modal de confirmação
         setShowConfirmationDialog(true);
       }
     } catch (error) {
-      console.error('Erro ao fazer inscrição:', error);
-      alert('Erro ao fazer inscrição. Tente novamente.');
+      console.error('❌ Erro ao fazer inscrição:', error);
+      alert(`Erro ao fazer inscrição: ${error.message}. Tente novamente.`);
     }
   };
 
@@ -553,8 +576,13 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                   <div className="button-box">
                     <button 
                       className="button-primary-instance" 
-                      onClick={handleInscricao}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleInscricao();
+                      }}
                       disabled={selectedMembers.size === 0}
+                      style={{ cursor: selectedMembers.size === 0 ? 'not-allowed' : 'pointer' }}
                     >
                       <div className="button-text">Inscrever {selectedMembers.size + idsRegistados.size} {(selectedMembers.size + idsRegistados.size) === 1 ? 'pessoa' : 'pessoas'}</div>
                       <ArrowRight className="icon-instance-node" size={20} />
