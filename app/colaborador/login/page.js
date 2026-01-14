@@ -40,14 +40,41 @@ export default function LoginPage() {
         adminLogout({ redirect: false });
       }
 
-      const colaboradorData = {
-        nome: voluntarioData.nome,
-        email: voluntarioData.email,
-        loginAt: new Date().toISOString()
-      };
+      // Buscar dados completos do colaborador (incluindo empresaId)
+      try {
+        const colaboradorResponse = await fetch(`/api/colaboradores/search?query=${encodeURIComponent(voluntarioData.email)}&limit=1`);
+        const colaboradorApiData = await colaboradorResponse.json();
+        
+        let colaboradorData = {
+          nome: voluntarioData.nome,
+          email: voluntarioData.email,
+          loginAt: new Date().toISOString()
+        };
 
-      localStorage.setItem('colaborador', JSON.stringify(colaboradorData));
-      router.push('/voluntariado');
+        // Se encontrar o colaborador na API, adicionar empresaId e empresaNome
+        if (colaboradorApiData.success && colaboradorApiData.colaboradores && colaboradorApiData.colaboradores.length > 0) {
+          const colaboradorEncontrado = colaboradorApiData.colaboradores[0];
+          colaboradorData = {
+            ...colaboradorData,
+            empresaId: colaboradorEncontrado.empresaId,
+            empresaNome: colaboradorEncontrado.empresa?.nome,
+            id: colaboradorEncontrado.id
+          };
+        }
+
+        localStorage.setItem('colaborador', JSON.stringify(colaboradorData));
+        router.push('/voluntariado');
+      } catch (apiError) {
+        // Se der erro na API, ainda salva os dados básicos
+        console.warn('Não foi possível buscar dados completos do colaborador:', apiError);
+        const colaboradorData = {
+          nome: voluntarioData.nome,
+          email: voluntarioData.email,
+          loginAt: new Date().toISOString()
+        };
+        localStorage.setItem('colaborador', JSON.stringify(colaboradorData));
+        router.push('/voluntariado');
+      }
     } catch (error) {
       console.error('Erro no login:', error);
       setError('Erro ao fazer login. Tente novamente.');

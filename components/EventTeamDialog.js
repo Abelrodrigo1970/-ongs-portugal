@@ -376,11 +376,17 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     try {
       const colaboradorData = localStorage.getItem('colaborador');
       if (!colaboradorData) {
-        alert('É necessário estar autenticado como colaborador.');
+        alert('É necessário estar autenticado como colaborador. Por favor, faça login em /colaborador/login');
         return;
       }
 
       const colaborador = JSON.parse(colaboradorData);
+      
+      // Verificar se tem nome e email (mínimo necessário)
+      if (!colaborador.nome || !colaborador.email) {
+        alert('Dados de colaborador incompletos. Por favor, faça login novamente em /colaborador/login');
+        return;
+      }
       const membrosParaInscricao = Array.from(selectedMembers);
 
       console.log('🔄 Iniciando inscrições para:', membrosParaInscricao);
