@@ -774,21 +774,56 @@
 }
 
 .dialog-team .frame-17 {
-  width: 16px;
+  align-items: center;
   align-self: stretch;
-  padding-left: 2px;
-  padding-right: 2px;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 10.67px;
+  background-color: #f2f2f2;
   display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: var(--sizes-spacing-xxs);
+  justify-content: center;
+  padding: var(--sizes-spacing-xs) 2px var(--sizes-spacing-xs) 2px;
+  position: absolute;
+  right: 0;
+  min-width: 16px;
+}
+
+.dialog-team .polygon {
+  aspect-ratio: 1;
+  height: 8px;
+  position: relative;
+  width: 8.93px;
+  background-color: var(--content-content-fill-secondary);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.dialog-team .polygon-2 {
+  aspect-ratio: 1;
+  height: 7.67px;
+  position: relative;
+  width: 8.44px;
+  background-color: var(--content-content-fill-secondary);
+  clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
 }
 
 .dialog-team .rectangle-wrapper {
-  width: 8px;
-  height: 36px;
-  background: var(--content-fill-secondary, #1E293B);
+  align-items: flex-start;
+  display: flex;
+  flex: 1;
+  flex-grow: 1;
+  gap: 10.67px;
+  justify-content: center;
+  padding: 0px var(--sizes-spacing-nano) 0px var(--sizes-spacing-nano);
+  position: relative;
+  width: 16px;
+}
+
+.dialog-team .rectangle-2 {
+  background-color: var(--content-content-fill-secondary);
   border-radius: 533.33px;
+  height: 36px;
+  position: relative;
+  width: 8px;
 }
 
 @media (max-width: 1024px) {
