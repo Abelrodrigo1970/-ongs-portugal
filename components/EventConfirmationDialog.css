@@ -70,9 +70,10 @@
 .dialog-confirmation-title {
   color: var(--content-content-fill-primary);
   font-family: var(--title-l-bold-font-family, 'Inter', sans-serif);
-  font-size: var(--title-l-bold-font-size, 32px);
+  font-size: var(--title-l-bold-font-size, 34px);
   font-weight: var(--title-l-bold-font-weight, 700);
-  line-height: var(--title-l-bold-line-height, 140%);
+  line-height: 48px;
+  height: 48px;
   text-align: center;
   margin: 0;
 }
@@ -186,7 +187,8 @@
 }
 
 .dialog-confirmation-button {
-  flex: 1;
+  width: 288px;
+  height: 48px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -203,7 +205,7 @@
   font-size: var(--body-l-bold-font-size, 18px);
   font-weight: var(--body-l-bold-font-weight, 700);
   line-height: var(--body-l-bold-line-height, 175%);
-  min-height: 48px;
+  flex-shrink: 0;
 }
 
 .dialog-confirmation-button:hover {
