@@ -268,11 +268,17 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
     }
   }, [isOpen, event?.id, empresaId]);
 
-  // Filtrar todos os membros pela pesquisa (para frame-14)
-  const filteredMembers = teamMembers.filter(member => 
-    member.nome?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    member.email?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Filtrar todos os membros pela pesquisa (para frame-14) e ordenar por nome
+  const filteredMembers = teamMembers
+    .filter(member => 
+      member.nome?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      member.email?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      const nomeA = (a.nome || '').toLowerCase();
+      const nomeB = (b.nome || '').toLowerCase();
+      return nomeA.localeCompare(nomeB, 'pt');
+    });
 
   // Atualizar selectAll quando filteredMembers ou selectedMembers mudarem
   useEffect(() => {
