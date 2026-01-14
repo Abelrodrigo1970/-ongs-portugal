@@ -778,57 +778,51 @@
   pointer-events: none;
 }
 
-.dialog-team .frame-17 {
-  align-items: center;
-  align-self: stretch;
-  background-color: #f2f2f2;
-  display: inline-flex;
-  flex: 0 0 auto;
+.dialog-team .custom-scrollbar {
+  display: flex;
   flex-direction: column;
-  gap: var(--sizes-spacing-xxs);
-  justify-content: center;
-  padding: var(--sizes-spacing-xs) 2px var(--sizes-spacing-xs) 2px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+  height: 100%;
+  width: 16px;
+  flex-shrink: 0;
+  padding: 0px;
   position: absolute;
   right: 0;
-  min-width: 16px;
 }
 
-.dialog-team .polygon {
-  aspect-ratio: 1;
-  height: 8px;
-  position: relative;
-  width: 8.93px;
-  background-color: var(--content-content-fill-secondary);
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.dialog-team .polygon-2 {
-  aspect-ratio: 1;
-  height: 7.67px;
-  position: relative;
-  width: 8.44px;
-  background-color: var(--content-content-fill-secondary);
-  clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
-}
-
-.dialog-team .rectangle-wrapper {
-  align-items: flex-start;
-  display: flex;
-  flex: 1;
-  flex-grow: 1;
-  gap: 10.67px;
-  justify-content: center;
-  padding: 0px var(--sizes-spacing-nano) 0px var(--sizes-spacing-nano);
-  position: relative;
+.dialog-team .scrollbar-button {
   width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
 }
 
-.dialog-team .rectangle-2 {
-  background-color: var(--content-content-fill-secondary);
-  border-radius: 533.33px;
-  height: 36px;
+.dialog-team .scrollbar-track {
+  flex: 1 0 0px;
+  width: 16px;
   position: relative;
-  width: 8px;
+  min-height: 36px;
+}
+
+.dialog-team .scrollbar-thumb {
+  position: absolute;
+  left: 2px;
+  top: 16px;
+  width: 12px;
+  height: 62.8954px;
+  background: rgb(30, 41, 59);
+  border-radius: 533.33px;
+  transition: top 0.1s ease-out;
+  cursor: pointer;
+  display: block;
 }
 
 @media (max-width: 1024px) {

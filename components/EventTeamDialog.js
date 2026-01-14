@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, ArrowLeft, ArrowRight, Search, Check, Calendar, Clock, Users } from 'lucide-react';
+import { X, ArrowLeft, ArrowRight, Search, Check, Calendar, Clock, Users, ChevronUp, ChevronDown } from 'lucide-react';
 import './EventTeamDialog.css';
 
 const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
@@ -578,12 +578,16 @@ const EventTeamDialog = ({ isOpen, onClose, event, onBack }) => {
                 </div>
               </div>
 
-              <div className="frame-17">
-                <div className="polygon" />
-                <div className="rectangle-wrapper">
-                  <div className="rectangle-2" />
+              <div className="custom-scrollbar">
+                <button type="button" className="scrollbar-button">
+                  <ChevronUp size={16} style={{ color: 'rgb(30, 41, 59)' }} />
+                </button>
+                <div className="scrollbar-track">
+                  <div className="scrollbar-thumb" />
                 </div>
-                <div className="polygon-2" />
+                <button type="button" className="scrollbar-button">
+                  <ChevronDown size={16} style={{ color: 'rgb(30, 41, 59)' }} />
+                </button>
               </div>
             </div>
           </div>
