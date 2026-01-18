@@ -108,8 +108,8 @@ const FilterBar = ({
       
       console.log('🔧 FilterBar updating URL:', newUrl, 'with filters:', updatedFilters);
       
-      // Usar push para garantir que a navegação acontece
-      router.push(newUrl);
+      // Usar push sem scroll para evitar saltos de página
+      router.push(newUrl, { scroll: false });
     }
   };
 
@@ -128,7 +128,7 @@ const FilterBar = ({
       sort: showEventFilters ? 'dataInicio-asc' : 'nome-asc'
     });
     const path = basePath || (showEventFilters ? '/eventos' : '/ongs');
-    router.push(path);
+    router.push(path, { scroll: false });
   };
 
   const hasActiveFilters = 

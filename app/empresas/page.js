@@ -229,7 +229,7 @@ async function EmpresasContent({ searchParams }) {
 
                     {/* Pagination */}
                     {pagination.pages > 1 && (
-                      <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
+                      <div className="w-full flex justify-center" style={{ marginTop: '40px', marginBottom: '40px' }}>
                         <div className="flex gap-3">
                           {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
                             const params = new URLSearchParams(searchParams);
