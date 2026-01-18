@@ -87,14 +87,19 @@ const Header = () => {
             >
               <Bell style={{ width: '20px', height: '20px', color: '#020617' }} />
             </button>
-            <div className="flex items-center justify-center" style={{ width: '48px', height: '48px' }}>
+            <Link
+              href="/colaborador/login"
+              className="flex items-center justify-center"
+              style={{ width: '48px', height: '48px' }}
+              aria-label="Entrar"
+            >
               <div
                 className="rounded-full flex items-center justify-center"
                 style={{ width: '48px', height: '48px', backgroundColor: '#e2e8f0' }}
               >
                 <User style={{ width: '20px', height: '20px', color: '#020617' }} />
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
