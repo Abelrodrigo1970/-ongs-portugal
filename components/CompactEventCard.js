@@ -106,7 +106,7 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
       <div className="block" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <div className="flex flex-col" style={{ flex: 1 }}>
           {/* Event Image with Badge - sem padding */}
-          <div className="relative w-full overflow-hidden" style={{ height: '144px' }}> {/* h-36 = 144px como no código fornecido */}
+          <div className="relative w-full overflow-hidden" style={{ height: '150px' }}>
             {event.imagem ? (
               <Image
                 src={event.imagem}
@@ -143,10 +143,10 @@ const CompactEventCard = ({ event, className = '', onCardClick }) => {
               <div 
                 className="absolute flex flex-col backdrop-blur-[100px]"
                 style={{
-                  top: '16px', // Como no código fornecido
-                  left: '202px', // Como no código fornecido
-                  width: '96px', // w-24 = 96px como no código fornecido
-                  height: '24px', // h-6 = 24px como no código fornecido
+                  top: '15px',
+                  right: '15.45px',
+                  width: '92px',
+                  height: '25px',
                   backgroundColor: 'rgba(26, 26, 26, 0.75)',
                   backdropFilter: 'blur(100px)',
                   borderRadius: '200px',

@@ -1,34 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { Menu, X, User, Shield } from 'lucide-react';
-import Button from '@/components/ui/Button';
+import { useState } from 'react';
+import { Menu, X, User, Shield, Bell } from 'lucide-react';
 import { useAdmin } from '@/lib/context/AdminContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [colaborador, setColaborador] = useState(null);
   const { isAuthenticated: isAdminAuthenticated } = useAdmin();
 
-  useEffect(() => {
-    // Check for colaborador authentication
-    const savedColaborador = localStorage.getItem('colaborador');
-    if (savedColaborador) {
-      try {
-        setColaborador(JSON.parse(savedColaborador));
-      } catch (error) {
-        console.error('Error loading colaborador:', error);
-      }
-    }
-  }, []);
-
   const navigation = [
-    { name: 'Início', href: '/' },
-    { name: 'ONGs', href: '/ongs' },
     { name: 'Eventos', href: '/eventos' },
-    { name: 'Empresas', href: '/empresas' },
-    { name: 'ODS', href: '/ods' },
+    { name: 'ONGs', href: '/ongs' },
+    { name: 'Dashboard', href: '/empresas/dashboard' },
+    { name: 'Sobre', href: '/sobre' },
   ];
 
   // Show admin link if authenticated as admin
@@ -37,44 +22,80 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-white shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
+    <header className="w-full">
+      <div className="w-full flex justify-center" style={{ paddingTop: '32px', paddingLeft: '60px', paddingRight: '60px' }}>
+        <div
+          className="w-full flex items-center justify-between"
+          style={{
+            height: '72px',
+            backgroundColor: '#f8fafc',
+            borderRadius: '200px',
+            padding: '12px',
+            boxShadow: '0px 0px 50px #c9d6f8',
+            position: 'sticky',
+            top: 0,
+            zIndex: 100
+          }}
+        >
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">O</span>
+          <Link href="/" className="flex items-center" style={{ gap: '8px' }}>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1c1b1f' }}>
+              <span className="text-white font-bold text-lg">U</span>
             </div>
-            <span className="text-2xl font-bold text-gray-900">ONGs Portugal</span>
+            <span
+              style={{
+                fontFamily: 'Nunito, sans-serif',
+                fontSize: '28.75px',
+                fontWeight: '900',
+                color: '#1c1b1f',
+                textTransform: 'uppercase',
+                letterSpacing: '2.3px'
+              }}
+            >
+              UNIVA
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center" style={{ gap: '40px' }}>
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-gray-600 hover:text-gray-900 text-sm font-medium tracking-wide transition-colors duration-200"
+                className="hover:text-gray-900 transition-colors duration-200"
+                style={{
+                  color: '#1e293b',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '14px',
+                  fontWeight: '400',
+                  lineHeight: '1.5',
+                  textTransform: 'uppercase'
+                }}
               >
                 {item.name}
               </Link>
             ))}
-            
-            {/* Colaborador Button/Profile */}
-            {colaborador ? (
-              <Link href="/voluntariado">
-                <Button variant="primary" size="sm" icon={User}>
-                  {colaborador.nome.split(' ')[0]}
-                </Button>
-              </Link>
-            ) : (
-              <Link href="/colaborador/login">
-                <Button variant="primary" size="sm" icon={User}>
-                  Voluntário
-                </Button>
-              </Link>
-            )}
           </nav>
+
+          {/* Right actions */}
+          <div className="hidden md:flex items-center justify-end" style={{ gap: '16px', width: '176.8px' }}>
+            <button
+              type="button"
+              className="flex items-center justify-center"
+              style={{ width: '24px', height: '24px' }}
+              aria-label="Notificações"
+            >
+              <Bell style={{ width: '20px', height: '20px', color: '#020617' }} />
+            </button>
+            <div className="flex items-center justify-center" style={{ width: '48px', height: '48px' }}>
+              <div
+                className="rounded-full flex items-center justify-center"
+                style={{ width: '48px', height: '48px', backgroundColor: '#e2e8f0' }}
+              >
+                <User style={{ width: '20px', height: '20px', color: '#020617' }} />
+              </div>
+            </div>
+          </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
@@ -90,6 +111,7 @@ const Header = () => {
             </button>
           </div>
         </div>
+      </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
@@ -106,26 +128,9 @@ const Header = () => {
                 </Link>
               ))}
               
-              {/* Mobile Colaborador Button */}
-              <div className="px-3 py-2">
-                {colaborador ? (
-                  <Link href="/voluntariado" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="primary" size="sm" icon={User} className="w-full">
-                      {colaborador.nome.split(' ')[0]}
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link href="/colaborador/login" onClick={() => setIsMenuOpen(false)}>
-                    <Button variant="primary" size="sm" icon={User} className="w-full">
-                      Entrar como Voluntário
-                    </Button>
-                  </Link>
-                )}
-              </div>
             </div>
           </div>
         )}
-      </div>
     </header>
   );
 };

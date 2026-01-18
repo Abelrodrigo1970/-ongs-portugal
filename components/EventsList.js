@@ -50,7 +50,7 @@ const EventsList = ({ events, pagination, searchParams }) => {
                 }}
               >
                 <div style={{ 
-                  width: 'calc(310px * 3 + 24px * 2)', // Largura total dos 3 cards + gaps
+                  width: 'calc(310px * 4 + 24px * 3)', // Largura total dos 4 cards + gaps
                   display: 'flex',
                   justifyContent: 'flex-start'
                 }}>
@@ -64,12 +64,12 @@ const EventsList = ({ events, pagination, searchParams }) => {
                       margin: 0
                     }}
                   >
-                    Iniciativas para si
+                    Eventos para si
                   </h2>
                 </div>
               </div>
 
-              {/* First 3 cards in horizontal row */}
+              {/* First 4 cards in horizontal row */}
               <div 
                 className="w-full flex justify-center items-start"
                 style={{ 
@@ -78,7 +78,7 @@ const EventsList = ({ events, pagination, searchParams }) => {
                   overflow: 'clip' // Como no Figma
                 }}
               >
-                {events.slice(0, 3).map((event) => (
+                {events.slice(0, 4).map((event) => (
                   <div key={event.id} style={{ flexShrink: 0 }}>
                     <CompactEventCard event={event} onCardClick={() => handleCardClick(event)} />
                   </div>
@@ -116,7 +116,7 @@ const EventsList = ({ events, pagination, searchParams }) => {
               }}
             >
               <div style={{ 
-                width: 'calc(310px * 3 + 24px * 2)', // Largura total dos 3 cards + gaps
+                width: 'calc(310px * 4 + 24px * 3)', // Largura total dos 4 cards + gaps
                 display: 'flex',
                 justifyContent: 'flex-start'
               }}>
@@ -139,7 +139,7 @@ const EventsList = ({ events, pagination, searchParams }) => {
           {/* Events Grid */}
           {events.length > 0 ? (
             <>
-              {/* First Row of 3 cards */}
+              {/* First Row of 4 cards */}
               <div 
                 className="w-full flex justify-center items-start"
                 style={{ 
@@ -148,15 +148,15 @@ const EventsList = ({ events, pagination, searchParams }) => {
                   overflow: 'clip' // Como no Figma
                 }}
               >
-                {events.slice(events.length > 3 ? 3 : 0, events.length > 3 ? 6 : 3).map((event) => (
+                {events.slice(events.length > 4 ? 4 : 0, events.length > 4 ? 8 : 4).map((event) => (
                   <div key={event.id} style={{ flexShrink: 0 }}>
                     <CompactEventCard event={event} onCardClick={() => handleCardClick(event)} />
                   </div>
                 ))}
               </div>
               
-              {/* Second Row of 3 cards */}
-              {events.length > 6 && (
+              {/* Second Row of 4 cards */}
+              {events.length > 8 && (
                 <div 
                   className="w-full flex justify-center items-start"
                   style={{ 
@@ -165,25 +165,7 @@ const EventsList = ({ events, pagination, searchParams }) => {
                     overflow: 'clip' // Como no Figma
                   }}
                 >
-                  {events.slice(6, 9).map((event) => (
-                    <div key={event.id} style={{ flexShrink: 0 }}>
-                      <CompactEventCard event={event} onCardClick={() => handleCardClick(event)} />
-                    </div>
-                  ))}
-                </div>
-              )}
-              
-              {/* Third Row of 3 cards */}
-              {events.length > 9 && (
-                <div 
-                  className="w-full flex justify-center items-start"
-                  style={{ 
-                    gap: '24px',
-                    width: '100%',
-                    overflow: 'clip' // Como no Figma
-                  }}
-                >
-                  {events.slice(9, 12).map((event) => (
+                  {events.slice(8, 12).map((event) => (
                     <div key={event.id} style={{ flexShrink: 0 }}>
                       <CompactEventCard event={event} onCardClick={() => handleCardClick(event)} />
                     </div>
@@ -193,7 +175,7 @@ const EventsList = ({ events, pagination, searchParams }) => {
 
               {/* Pagination */}
               {pagination.pages > 1 && (
-                <div className="w-full flex justify-center" style={{ marginTop: '40px' }}>
+                <div className="w-full flex justify-center" style={{ marginTop: '40px', marginBottom: '40px' }}>
                   <div className="flex gap-3">
                     {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((page) => {
                       const params = new URLSearchParams(searchParams);

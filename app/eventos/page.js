@@ -23,7 +23,7 @@ async function EventsContent({ searchParams }) {
     visivel: searchParams.visivel !== 'false',
     sort: searchParams.sort || 'dataInicio-asc',
     page: parseInt(searchParams.page) || 1,
-    limit: 9 // 3 linhas de 3 cards = 9 cards por página
+    limit: 12 // 3 linhas de 4 cards = 12 cards por página
   };
 
   const [eventsResult, odsOptions, areasOptions, tipoOptions] = await Promise.all([
@@ -46,7 +46,7 @@ async function EventsContent({ searchParams }) {
   }));
 
   return (
-    <div className="w-full min-h-screen relative" style={{ backgroundColor: '#F2F2F7' }}>
+    <div className="w-full min-h-screen relative" style={{ backgroundColor: '#F8FAFC' }}>
       {/* Hero gradient overlay - baseado no .hero do Figma */}
       <div
         style={{
@@ -58,7 +58,7 @@ async function EventsContent({ searchParams }) {
           margin: 0,
           borderRadius: '0 0 200px 200px',
           background:
-            'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.25) 50%, rgba(21, 93, 252, 0.5))',
+            'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.13) 50%, rgba(21, 93, 252, 0.25))',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
@@ -68,18 +68,23 @@ async function EventsContent({ searchParams }) {
       />
 
       {/* About Section - Baseado no Figma */}
-      <div 
-        className="w-full flex flex-col items-center relative" 
-        style={{ 
-          paddingTop: '100px',
-          paddingBottom: '0',
-          paddingLeft: '64px',
-          paddingRight: '64px',
-          gap: '40px',
-          width: '100%',
-          zIndex: 1
-        }}
-      >
+      <div className="w-full flex flex-col items-center relative" style={{ zIndex: 1 }}>
+        {/* Page content */}
+        <div 
+          className="w-full flex flex-col items-center"
+          style={{ 
+            padding: '8px 64px',
+            maxWidth: '100%'
+          }}
+        >
+          {/* About Section */}
+          <div 
+            className="w-full flex flex-col items-center"
+            style={{ 
+              paddingTop: '100px',
+              gap: '40px'
+            }}
+          >
             {/* Frame 2 - Search and Filters (Frame 445) */}
             <div 
               className="w-full flex flex-col items-center"
@@ -98,10 +103,7 @@ async function EventsContent({ searchParams }) {
                 style={{ 
                   width: '866px',
                   maxWidth: '100%',
-                  gap: '24px',
-                  position: 'sticky',
-                  top: '0',
-                  zIndex: 10
+                  gap: '24px'
                 }}
               >
                 {/* Search Input - div inside frame-wrapper */}
@@ -177,6 +179,8 @@ async function EventsContent({ searchParams }) {
               searchParams={searchParams}
             />
           </div>
+        </div>
+      </div>
     </div>
   );
 }
