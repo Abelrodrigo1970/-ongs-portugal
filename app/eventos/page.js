@@ -103,7 +103,10 @@ async function EventsContent({ searchParams }) {
                 style={{ 
                   width: '866px',
                   maxWidth: '100%',
-                  gap: '24px'
+                  gap: '24px',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 10
                 }}
               >
                 {/* Search Input - div inside frame-wrapper */}

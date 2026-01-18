@@ -40,50 +40,35 @@ const EventsList = ({ events, pagination, searchParams }) => {
               maxWidth: '1312px' // Largura fixa como no Figma
             }}
           >
-            {/* Container com título e cards alinhados */}
-            <div className="relative w-full">
-              {/* Section Header - alinhado com o primeiro card centralizado */}
-              <div 
-                className="w-full flex justify-center"
+            {/* Section Header */}
+            <div className="w-full flex items-center" style={{ marginBottom: '24px' }}>
+              <h2 
                 style={{ 
-                  marginBottom: '24px'
+                  color: '#020617',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '32px',
+                  fontWeight: '600',
+                  lineHeight: 1.2,
+                  margin: 0
                 }}
               >
-                <div style={{ 
-                  width: 'calc(310px * 4 + 24px * 3)', // Largura total dos 4 cards + gaps
-                  display: 'flex',
-                  justifyContent: 'flex-start'
-                }}>
-                  <h2 
-                    style={{ 
-                      color: '#020617',
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '32px',
-                      fontWeight: '600',
-                      lineHeight: 1.2,
-                      margin: 0
-                    }}
-                  >
-                    Eventos para si
-                  </h2>
-                </div>
-              </div>
+                Eventos para si
+              </h2>
+            </div>
 
-              {/* First 4 cards in horizontal row */}
-              <div 
-                className="w-full flex justify-center items-start"
-                style={{ 
-                  gap: '24px',
-                  width: '100%',
-                  overflow: 'clip' // Como no Figma
-                }}
-              >
-                {events.slice(0, 4).map((event) => (
-                  <div key={event.id} style={{ flexShrink: 0 }}>
-                    <CompactEventCard event={event} onCardClick={() => handleCardClick(event)} />
-                  </div>
-                ))}
-              </div>
+            {/* First 4 cards in horizontal row */}
+            <div 
+              className="w-full flex items-start"
+              style={{ 
+                gap: '24px',
+                overflow: 'clip' // Como no Figma
+              }}
+            >
+              {events.slice(0, 4).map((event) => (
+                <div key={event.id} style={{ flexShrink: 0 }}>
+                  <CompactEventCard event={event} onCardClick={() => handleCardClick(event)} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -106,34 +91,20 @@ const EventsList = ({ events, pagination, searchParams }) => {
             maxWidth: '1312px' // Largura fixa como no Figma
           }}
         >
-          {/* Container com título e cards alinhados */}
-          <div className="relative w-full">
-            {/* Section Header - alinhado com o primeiro card centralizado */}
-            <div 
-              className="w-full flex justify-center"
+          {/* Section Header */}
+          <div className="w-full flex items-center" style={{ marginBottom: '24px' }}>
+            <h2 
               style={{ 
-                marginBottom: '24px'
+                color: '#020617',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '32px',
+                fontWeight: '600',
+                lineHeight: 1.2,
+                margin: 0
               }}
             >
-              <div style={{ 
-                width: 'calc(310px * 4 + 24px * 3)', // Largura total dos 4 cards + gaps
-                display: 'flex',
-                justifyContent: 'flex-start'
-              }}>
-                <h2 
-                  style={{ 
-                    color: '#020617',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '32px',
-                    fontWeight: '600',
-                    lineHeight: 1.2,
-                    margin: 0
-                  }}
-                >
-                  Todas as iniciativas
-                </h2>
-              </div>
-            </div>
+              Todas as iniciativas
+            </h2>
           </div>
 
           {/* Events Grid */}
@@ -141,10 +112,9 @@ const EventsList = ({ events, pagination, searchParams }) => {
             <>
               {/* First Row of 4 cards */}
               <div 
-                className="w-full flex justify-center items-start"
+                className="w-full flex items-start"
                 style={{ 
                   gap: '24px',
-                  width: '100%',
                   overflow: 'clip' // Como no Figma
                 }}
               >
@@ -158,10 +128,9 @@ const EventsList = ({ events, pagination, searchParams }) => {
               {/* Second Row of 4 cards */}
               {events.length > 8 && (
                 <div 
-                  className="w-full flex justify-center items-start"
+                  className="w-full flex items-start"
                   style={{ 
                     gap: '24px',
-                    width: '100%',
                     overflow: 'clip' // Como no Figma
                   }}
                 >
