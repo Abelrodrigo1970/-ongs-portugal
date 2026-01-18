@@ -145,7 +145,7 @@ export default async function NGODetailPage({ params }) {
                 <div className="flex-1 flex gap-2 items-center justify-start sm:justify-center min-w-0 w-full sm:w-auto">
                   {ngo.logo && (
                     <div 
-                      className="relative rounded-full overflow-hidden flex-shrink-0"
+                      className="relative rounded-full overflow-hidden flex items-center justify-center flex-shrink-0"
                       style={{ width: '48px', height: '48px' }}
                     >
                       <Image
@@ -153,7 +153,7 @@ export default async function NGODetailPage({ params }) {
                         alt={`${ngo.nome} logo`}
                         width={48}
                         height={48}
-                        className="object-cover"
+                        className="object-contain w-full h-full"
                       />
                     </div>
                   )}
