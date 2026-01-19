@@ -20,6 +20,7 @@ const MultiSelect = ({
   const [searchTerm, setSearchTerm] = useState('');
   const dropdownRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const scrollTopRef = useRef(0);
   const scrollbarThumbRef = useRef(null);
 
   const filteredOptions = options.filter(option =>
@@ -27,6 +28,9 @@ const MultiSelect = ({
   );
 
   const handleToggleOption = (optionValue) => {
+    if (scrollContainerRef.current) {
+      scrollTopRef.current = scrollContainerRef.current.scrollTop;
+    }
     const newValue = value.includes(optionValue)
       ? value.filter(v => v !== optionValue)
       : [...value, optionValue];
@@ -62,6 +66,17 @@ const MultiSelect = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Restaurar scroll ao alterar a seleção
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
+    const savedScrollTop = scrollTopRef.current;
+    requestAnimationFrame(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop = savedScrollTop;
+      }
+    });
+  }, [value]);
 
   // Atualizar scrollbar quando o scroll mudar
   useEffect(() => {
@@ -309,6 +324,7 @@ const MultiSelect = ({
                       <button
                         key={option.value}
                         type="button"
+                        onMouseDown={(event) => event.preventDefault()}
                         style={{
                           alignSelf: 'stretch',
                           paddingTop: '12px',
