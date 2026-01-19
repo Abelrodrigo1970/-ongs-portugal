@@ -470,29 +470,23 @@ const FilterBar = ({
             {/* Dropdown para Vagas */}
             {openDropdown === 'vagas' && (
               <div 
-                className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
+                className="absolute top-full left-0 mt-2"
                 style={{
-                  backgroundColor: '#FFFFFF',
-                  borderColor: 'rgba(64, 64, 64, 0.15)',
-                  padding: '16px',
-                  minWidth: '280px',
-                  maxWidth: '320px',
                   zIndex: 9999
                 }}
               >
-                <Select
-                  label="Vagas Disponíveis"
-                  placeholder="Selecionar..."
+                <MultiSelect
+                  placeholder="Selecionar vagas..."
                   options={[
-                    { value: '', label: 'Todas' },
                     { value: 'available', label: 'Com vagas disponíveis' },
                     { value: 'full', label: 'Sem vagas' }
                   ]}
-                  value={filters.vagas || ''}
-                  onChange={(e) => {
-                    updateFilters({ vagas: e.target.value });
-                    setOpenDropdown(null);
+                  value={filters.vagas ? [filters.vagas] : []}
+                  onChange={(value) => {
+                    const nextValue = Array.isArray(value) ? (value[0] || '') : '';
+                    updateFilters({ vagas: nextValue });
                   }}
+                  hideTriggerButton={true}
                 />
               </div>
             )}
@@ -539,30 +533,24 @@ const FilterBar = ({
             {/* Dropdown para Duração */}
             {openDropdown === 'duracao' && (
               <div 
-                className="absolute top-full left-0 mt-2 rounded-lg shadow-lg border"
+                className="absolute top-full left-0 mt-2"
                 style={{
-                  backgroundColor: '#FFFFFF',
-                  borderColor: 'rgba(64, 64, 64, 0.15)',
-                  padding: '16px',
-                  minWidth: '280px',
-                  maxWidth: '320px',
                   zIndex: 9999
                 }}
               >
-                <Select
-                  label="Duração"
-                  placeholder="Selecionar..."
+                <MultiSelect
+                  placeholder="Selecionar duração..."
                   options={[
-                    { value: '', label: 'Todas' },
                     { value: 'short', label: 'Curta (até 4 horas)' },
                     { value: 'medium', label: 'Média (4-8 horas)' },
                     { value: 'long', label: 'Longa (mais de 8 horas)' }
                   ]}
-                  value={filters.duracao || ''}
-                  onChange={(e) => {
-                    updateFilters({ duracao: e.target.value });
-                    setOpenDropdown(null);
+                  value={filters.duracao ? [filters.duracao] : []}
+                  onChange={(value) => {
+                    const nextValue = Array.isArray(value) ? (value[0] || '') : '';
+                    updateFilters({ duracao: nextValue });
                   }}
+                  hideTriggerButton={true}
                 />
               </div>
             )}
@@ -669,7 +657,6 @@ const FilterBar = ({
                       paddingBottom: '12px',
                       paddingLeft: '12px',
                       paddingRight: '8px',
-                      background: 'var(--base-neutral-50, #F1F5F9)',
                       overflow: 'hidden',
                       borderRadius: '200px',
                       justifyContent: 'center',
@@ -896,7 +883,6 @@ const FilterBar = ({
                   paddingRight: '24px',
                   paddingTop: '12px',
                   paddingBottom: '12px',
-                  background: 'var(--base-neutral-50, #F1F5F9)',
                   overflow: 'hidden',
                   borderRadius: '200px',
                   justifyContent: 'center',
@@ -1201,7 +1187,6 @@ const FilterBar = ({
               style={{ 
                 gap: '4px',
                 padding: '6px 12px',
-                backgroundColor: 'rgba(21, 93, 252, 0.1)',
                 color: 'var(--color-button-primary)',
                 fontSize: '14px',
                 fontWeight: '500'
