@@ -727,7 +727,6 @@ const FilterBar = ({
                       paddingBottom: '12px',
                       paddingLeft: '12px',
                       paddingRight: '8px',
-                      background: 'var(--base-neutral-50, #F1F5F9)',
                       overflow: 'hidden',
                       borderRadius: '200px',
                       justifyContent: 'center',
