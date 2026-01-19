@@ -1,14 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X, User, Shield, Bell } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useAdmin } from '@/lib/context/AdminContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [colaborador, setColaborador] = useState(null);
+  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
+  const [empresas, setEmpresas] = useState([]);
+  const [empresasLoading, setEmpresasLoading] = useState(false);
+  const [empresasError, setEmpresasError] = useState('');
   const { isAuthenticated: isAdminAuthenticated } = useAdmin();
+  const router = useRouter();
+  const dashboardRef = useRef(null);
 
   useEffect(() => {
     const savedColaborador = localStorage.getItem('colaborador');
@@ -20,6 +27,36 @@ const Header = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (!isDashboardOpen || empresas.length > 0 || empresasLoading) return;
+    const loadEmpresas = async () => {
+      setEmpresasLoading(true);
+      setEmpresasError('');
+      try {
+        const response = await fetch('/api/empresas?limit=50');
+        const data = await response.json();
+        setEmpresas(Array.isArray(data?.empresas) ? data.empresas : []);
+      } catch (error) {
+        console.error('Error loading empresas:', error);
+        setEmpresasError('Não foi possível carregar empresas');
+      } finally {
+        setEmpresasLoading(false);
+      }
+    };
+    loadEmpresas();
+  }, [isDashboardOpen, empresas.length, empresasLoading]);
+
+  useEffect(() => {
+    if (!isDashboardOpen) return;
+    const handleClickOutside = (event) => {
+      if (dashboardRef.current && !dashboardRef.current.contains(event.target)) {
+        setIsDashboardOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isDashboardOpen]);
 
   const dashboardHref = colaborador?.empresaId
     ? `/empresas/dashboard/${colaborador.empresaId}`
@@ -82,23 +119,106 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center" style={{ gap: '40px' }}>
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="hover:text-gray-900 transition-colors duration-200"
-                style={{
-                  color: '#1e293b',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '14px',
-                  fontWeight: '400',
-                  lineHeight: '1.5',
-                  textTransform: 'uppercase'
-                }}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              if (item.name === 'Dashboard') {
+                return (
+                  <div key={item.name} className="relative" ref={dashboardRef}>
+                    <button
+                      type="button"
+                      onClick={() => setIsDashboardOpen((open) => !open)}
+                      className="hover:text-gray-900 transition-colors duration-200"
+                      style={{
+                        color: '#1e293b',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '14px',
+                        fontWeight: '400',
+                        lineHeight: '1.5',
+                        textTransform: 'uppercase'
+                      }}
+                    >
+                      {item.name}
+                    </button>
+                    {isDashboardOpen && (
+                      <div
+                        className="absolute top-full left-0 mt-2"
+                        style={{
+                          backgroundColor: '#ffffff',
+                          border: '1px solid rgba(64, 64, 64, 0.15)',
+                          borderRadius: '16px',
+                          padding: '8px',
+                          minWidth: '240px',
+                          maxHeight: '280px',
+                          overflowY: 'auto',
+                          boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.08)',
+                          zIndex: 1000
+                        }}
+                      >
+                        {empresasLoading && (
+                          <div style={{ padding: '8px 12px', color: '#64748b', fontSize: '14px' }}>
+                            A carregar...
+                          </div>
+                        )}
+                        {!empresasLoading && empresasError && (
+                          <div style={{ padding: '8px 12px', color: '#ef4444', fontSize: '14px' }}>
+                            {empresasError}
+                          </div>
+                        )}
+                        {!empresasLoading && !empresasError && empresas.length === 0 && (
+                          <div style={{ padding: '8px 12px', color: '#64748b', fontSize: '14px' }}>
+                            Sem empresas disponíveis
+                          </div>
+                        )}
+                        {!empresasLoading && !empresasError && empresas.length > 0 && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                            {empresas.map((empresa) => (
+                              <button
+                                key={empresa.id}
+                                type="button"
+                                onClick={() => {
+                                  setIsDashboardOpen(false);
+                                  router.push(`/empresas/dashboard/${empresa.id}`);
+                                }}
+                                style={{
+                                  padding: '8px 12px',
+                                  textAlign: 'left',
+                                  borderRadius: '8px',
+                                  fontSize: '14px',
+                                  fontFamily: 'Inter, sans-serif',
+                                  color: '#1e293b',
+                                  background: empresa.id === colaborador?.empresaId ? 'rgba(21, 93, 252, 0.08)' : 'transparent',
+                                  cursor: 'pointer',
+                                  border: 'none'
+                                }}
+                              >
+                                {empresa.nome}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="hover:text-gray-900 transition-colors duration-200"
+                  style={{
+                    color: '#1e293b',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    fontWeight: '400',
+                    lineHeight: '1.5',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right actions */}
