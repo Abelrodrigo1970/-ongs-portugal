@@ -51,18 +51,21 @@ export default function LoginPage() {
           loginAt: new Date().toISOString()
         };
 
-        // Se encontrar o colaborador na API, adicionar empresaId e empresaNome
+        // Se encontrar o colaborador na API, adicionar empresaId, empresaNome e avatar
         if (colaboradorApiData.success && colaboradorApiData.colaboradores && colaboradorApiData.colaboradores.length > 0) {
           const colaboradorEncontrado = colaboradorApiData.colaboradores[0];
           colaboradorData = {
             ...colaboradorData,
             empresaId: colaboradorEncontrado.empresaId,
             empresaNome: colaboradorEncontrado.empresa?.nome,
-            id: colaboradorEncontrado.id
+            id: colaboradorEncontrado.id,
+            avatar: colaboradorEncontrado.avatar || null
           };
         }
 
         localStorage.setItem('colaborador', JSON.stringify(colaboradorData));
+        // Disparar evento para atualizar header na mesma aba
+        window.dispatchEvent(new Event('colaboradorUpdated'));
         router.push('/voluntariado');
       } catch (apiError) {
         // Se der erro na API, ainda salva os dados básicos
@@ -73,6 +76,8 @@ export default function LoginPage() {
           loginAt: new Date().toISOString()
         };
         localStorage.setItem('colaborador', JSON.stringify(colaboradorData));
+        // Disparar evento para atualizar header na mesma aba
+        window.dispatchEvent(new Event('colaboradorUpdated'));
         router.push('/voluntariado');
       }
     } catch (error) {

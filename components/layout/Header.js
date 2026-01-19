@@ -18,14 +18,42 @@ const Header = () => {
   const dashboardRef = useRef(null);
 
   useEffect(() => {
-    const savedColaborador = localStorage.getItem('colaborador');
-    if (savedColaborador) {
-      try {
-        setColaborador(JSON.parse(savedColaborador));
-      } catch (error) {
-        console.error('Error loading colaborador:', error);
+    const loadColaborador = () => {
+      const savedColaborador = localStorage.getItem('colaborador');
+      if (savedColaborador) {
+        try {
+          setColaborador(JSON.parse(savedColaborador));
+        } catch (error) {
+          console.error('Error loading colaborador:', error);
+        }
+      } else {
+        setColaborador(null);
       }
-    }
+    };
+
+    // Carregar inicialmente
+    loadColaborador();
+
+    // Listener para mudanças no localStorage (ex: login em outra aba)
+    const handleStorageChange = (e) => {
+      if (e.key === 'colaborador') {
+        loadColaborador();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Também escutar mudanças na mesma aba (custom event)
+    const handleCustomStorageChange = () => {
+      loadColaborador();
+    };
+    
+    window.addEventListener('colaboradorUpdated', handleCustomStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('colaboradorUpdated', handleCustomStorageChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -231,19 +259,43 @@ const Header = () => {
             >
               <Bell style={{ width: '20px', height: '20px', color: '#020617' }} />
             </button>
-            <Link
-              href="/colaborador/login"
-              className="flex items-center justify-center"
-              style={{ width: '48px', height: '48px' }}
-              aria-label="Entrar"
-            >
-              <div
-                className="rounded-full flex items-center justify-center"
-                style={{ width: '48px', height: '48px', backgroundColor: '#e2e8f0' }}
+            {colaborador ? (
+              <Link
+                href="/colaborador/login"
+                className="flex items-center justify-center"
+                style={{ width: '48px', height: '48px' }}
+                aria-label="Perfil"
               >
-                <User style={{ width: '20px', height: '20px', color: '#020617' }} />
-              </div>
-            </Link>
+                <div
+                  className="rounded-full flex items-center justify-center overflow-hidden"
+                  style={{ width: '48px', height: '48px', backgroundColor: '#e2e8f0' }}
+                >
+                  {colaborador.avatar ? (
+                    <img
+                      src={colaborador.avatar}
+                      alt={colaborador.nome || 'Avatar'}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <User style={{ width: '20px', height: '20px', color: '#020617' }} />
+                  )}
+                </div>
+              </Link>
+            ) : (
+              <Link
+                href="/colaborador/login"
+                className="flex items-center justify-center"
+                style={{ width: '48px', height: '48px' }}
+                aria-label="Entrar"
+              >
+                <div
+                  className="rounded-full flex items-center justify-center"
+                  style={{ width: '48px', height: '48px', backgroundColor: '#e2e8f0' }}
+                >
+                  <User style={{ width: '20px', height: '20px', color: '#020617' }} />
+                </div>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
