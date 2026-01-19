@@ -1,18 +1,34 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, User, Shield, Bell } from 'lucide-react';
 import { useAdmin } from '@/lib/context/AdminContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [colaborador, setColaborador] = useState(null);
   const { isAuthenticated: isAdminAuthenticated } = useAdmin();
+
+  useEffect(() => {
+    const savedColaborador = localStorage.getItem('colaborador');
+    if (savedColaborador) {
+      try {
+        setColaborador(JSON.parse(savedColaborador));
+      } catch (error) {
+        console.error('Error loading colaborador:', error);
+      }
+    }
+  }, []);
+
+  const dashboardHref = colaborador?.empresaId
+    ? `/empresas/dashboard/${colaborador.empresaId}`
+    : '/empresas/dashboard';
 
   const navigation = [
     { name: 'Eventos', href: '/eventos' },
     { name: 'ONGs', href: '/ongs' },
-    { name: 'Dashboard', href: '/empresas/dashboard' },
+    { name: 'Dashboard', href: dashboardHref },
     { name: 'Sobre', href: '/sobre' },
   ];
 
@@ -23,7 +39,15 @@ const Header = () => {
 
   return (
     <header className="w-full">
-      <div className="w-full flex justify-center" style={{ paddingTop: '32px', paddingLeft: '60px', paddingRight: '60px' }}>
+      <div
+        className="w-full flex justify-center"
+        style={{
+          paddingTop: '32px',
+          paddingLeft: '60px',
+          paddingRight: '60px',
+          background: 'linear-gradient(90deg, rgba(219, 234, 254, 1), rgba(191, 219, 254, 1))'
+        }}
+      >
         <div
           className="w-full flex items-center justify-between"
           style={{
