@@ -28,7 +28,7 @@ const Header = () => {
           className="w-full flex items-center justify-between"
           style={{
             height: '72px',
-            background: 'linear-gradient(90deg, rgba(219, 234, 254, 0.95), rgba(191, 219, 254, 0.95))',
+            backgroundColor: '#f8fafc',
             borderRadius: '200px',
             padding: '12px',
             boxShadow: '0px 0px 50px #c9d6f8',
