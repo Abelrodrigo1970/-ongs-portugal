@@ -578,8 +578,8 @@ const FilterBar = ({
               className="self-stretch"
               style={{ 
                 height: '1px', 
-                background: '#D9D9D9',
-                marginTop: '16px',
+                background: 'transparent',
+                marginTop: '-90px',
                 width: '100%'
               }} 
             />
