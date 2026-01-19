@@ -82,7 +82,7 @@ const Header = () => {
           paddingTop: '32px',
           paddingLeft: '60px',
           paddingRight: '60px',
-          background: 'linear-gradient(90deg, rgba(219, 234, 254, 1), rgba(191, 219, 254, 1))'
+          background: 'linear-gradient(90deg, rgb(192, 216, 247), rgb(188, 215, 249))'
         }}
       >
         <div
