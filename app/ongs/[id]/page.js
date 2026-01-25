@@ -374,7 +374,8 @@ export default async function NGODetailPage({ params }) {
                 </div>
                 <div className="w-full flex flex-col gap-6 items-start" style={{ gap: '16px' }}>
                   <div 
-                    className="w-full flex flex-wrap gap-4 sm:gap-6 items-center justify-center overflow-clip"
+                    className="w-full flex flex-wrap items-center justify-center overflow-clip"
+                    style={{ gap: '5px' }}
                   >
                     {areasList.map((area, index) => (
                       <AreaBanner 

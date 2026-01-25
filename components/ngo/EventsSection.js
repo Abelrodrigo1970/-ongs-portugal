@@ -53,15 +53,16 @@ export default function EventsSection({ events }) {
       <div className="w-full flex flex-col items-start">
         <div className="w-full flex flex-col items-start justify-center">
           <div 
-            className="w-full flex items-center justify-between gap-4"
+            className="w-full flex items-center gap-4"
             style={{ padding: '8px 0' }}
           >
             <h3 
-              className="font-semibold text-2xl sm:text-3xl md:text-[40px] flex-1"
               style={{ 
                 fontFamily: 'Inter, sans-serif',
+                fontWeight: 600,
+                fontSize: '32px',
                 lineHeight: '1.2',
-                color: '#1e1e1e'
+                color: '#020617'
               }}
             >
               Próximos eventos
@@ -69,8 +70,8 @@ export default function EventsSection({ events }) {
             
             {/* Navigation Buttons */}
             <div 
-              className="flex gap-[18.8px] items-center flex-shrink-0"
-              style={{ height: '47px' }}
+              className="flex items-center flex-1 justify-end"
+              style={{ gap: '18.8px', height: '47px' }}
             >
               {/* Left Arrow Button */}
               <button
@@ -78,9 +79,9 @@ export default function EventsSection({ events }) {
                 disabled={!canScrollLeft}
                 className="flex items-center justify-center rounded-[200px] disabled:opacity-50 disabled:cursor-not-allowed transition-opacity hover:opacity-80"
                 style={{
-                  backgroundColor: '#f2f2f7',
-                  width: '55.225px',
-                  height: '55.225px',
+                  backgroundColor: '#ffffff',
+                  width: '47px',
+                  height: '47px',
                   padding: '2.35px 7.05px',
                   cursor: canScrollLeft ? 'pointer' : 'not-allowed',
                   border: 'none',
@@ -103,9 +104,9 @@ export default function EventsSection({ events }) {
                 disabled={!canScrollRight}
                 className="flex items-center justify-center rounded-[200px] disabled:opacity-50 disabled:cursor-not-allowed transition-opacity hover:opacity-80"
                 style={{
-                  backgroundColor: '#e8e8e8',
-                  width: '55.225px',
-                  height: '55.225px',
+                  backgroundColor: '#ffffff',
+                  width: '47px',
+                  height: '47px',
                   padding: '2.35px 7.05px',
                   cursor: canScrollRight ? 'pointer' : 'not-allowed',
                   border: 'none',
@@ -131,21 +132,20 @@ export default function EventsSection({ events }) {
         ref={scrollContainerRef}
         className="w-full flex items-start overflow-x-auto scrollbar-hide"
         style={{ 
+          gap: '24px',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
           WebkitOverflowScrolling: 'touch',
           paddingBottom: '8px'
         }}
       >
-        {events.map((event, index) => (
+        {events.map((event) => (
           <div 
             key={event.id} 
             className="event-card flex-shrink-0"
             style={{ 
-              minWidth: '280px',
-              width: 'calc((100% - 48px) / 3)',
-              maxWidth: 'calc((100% - 48px) / 3)',
-              marginRight: index < events.length - 1 ? '24px' : '0'
+              minWidth: '310px',
+              width: '310px'
             }}
           >
             <CompactEventCard event={event} />
@@ -155,4 +155,3 @@ export default function EventsSection({ events }) {
     </div>
   );
 }
-
