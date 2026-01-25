@@ -6,7 +6,6 @@ import { getNGOById, getRelatedNGOs } from '@/lib/repositories/ngos';
 import { getEventsByNGO } from '@/lib/repositories/events';
 import MetricBanner from '@/components/ngo/MetricBanner';
 import AreaBanner from '@/components/ngo/AreaBanner';
-import { getAreaIcon } from '@/lib/utils/areaIcons';
 import ResponsiveVideo from '@/components/ResponsiveVideo';
 import EventsSection from '@/components/ngo/EventsSection';
 import { 
@@ -274,7 +273,7 @@ export default async function NGODetailPage({ params }) {
                       color: '#f1f5f9'
                     }}
                   >
-                    Quero colaborar
+                    Próximos Eventos
                   </span>
                   <ArrowRight className="hidden sm:block" style={{ width: '20px', height: '20px', color: '#f1f5f9' }} />
                 </button>
@@ -368,7 +367,7 @@ export default async function NGODetailPage({ params }) {
                           color: '#1e1e1e'
                         }}
                       >
-                        Áreas de Atuação
+                        Causas Principais
                       </h3>
                     </div>
                   </div>
@@ -377,22 +376,12 @@ export default async function NGODetailPage({ params }) {
                   <div 
                     className="w-full flex flex-wrap gap-4 sm:gap-6 items-center justify-center overflow-clip"
                   >
-                    {areasList.map((area, index) => {
-                      const iconPath = getAreaIcon(area);
-                      return (
-                        <AreaBanner 
-                          key={index}
-                          icon={iconPath ? (
-                            <img 
-                              src={iconPath}
-                              alt={area}
-                              style={{ width: '100%', height: '100%' }}
-                            />
-                          ) : null}
-                          name={area}
-                        />
-                      );
-                    })}
+                    {areasList.map((area, index) => (
+                      <AreaBanner 
+                        key={index}
+                        name={area}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>
