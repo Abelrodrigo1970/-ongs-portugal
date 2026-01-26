@@ -604,7 +604,7 @@ export default async function NGODetailPage({ params }) {
                   >
                     ODS:
                   </span>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                  <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4">
                     {odsList.length > 0 ? (
                       odsList.map((ods, index) => (
                         <React.Fragment key={index}>
