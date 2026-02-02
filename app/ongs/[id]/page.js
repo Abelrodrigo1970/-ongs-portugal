@@ -94,7 +94,7 @@ export default async function NGODetailPage({ params }) {
     <div className="w-full min-h-screen" style={{ backgroundColor: '#F2F2F7' }}>
       {/* Hero Section with background image */}
       {ngo.imagem && (
-        <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] overflow-hidden rounded-b-[200px]">
+        <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <Image
               src={ngo.imagem}
@@ -106,12 +106,11 @@ export default async function NGODetailPage({ params }) {
               priority
             />
           </div>
-          {/* Gradient Overlay - match Figma .hero */}
-          <div 
-            className="absolute inset-0 flex flex-col items-start"
+          {/* Gradient overlay at bottom - match Figma hero */}
+          <div
+            className="absolute inset-0 pointer-events-none"
             style={{
-              borderRadius: '0 0 200px 200px',
-              background: 'linear-gradient(0deg, rgba(248, 250, 252, 0), rgba(134, 252, 219, 0.25) 50%, rgba(21, 93, 252, 0.5))'
+              background: 'linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 30%, transparent 100%)'
             }}
           />
         </div>
@@ -126,7 +125,7 @@ export default async function NGODetailPage({ params }) {
               paddingTop: ngo.imagem ? '0px' : '40px',
               paddingBottom: '0px',
               marginTop: ngo.imagem ? '-60px' : '0px',
-              gap: '24px'
+              gap: '60px'
             }}
           >
             {/* Frame 403 - Header Card */}
@@ -375,7 +374,7 @@ export default async function NGODetailPage({ params }) {
                 <div className="w-full flex flex-col gap-6 items-start" style={{ gap: '16px' }}>
                   <div 
                     className="w-full flex flex-wrap items-center justify-center overflow-clip"
-                    style={{ gap: '5px' }}
+                    style={{ gap: '12px' }}
                   >
                     {areasList.map((area, index) => (
                       <AreaBanner 
