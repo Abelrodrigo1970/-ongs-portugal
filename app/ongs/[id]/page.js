@@ -106,11 +106,11 @@ export default async function NGODetailPage({ params }) {
               priority
             />
           </div>
-          {/* Gradient overlay at bottom - match Figma hero */}
+          {/* Gradient overlay - match Figma: #F8FAFC00 → #F8FAFC (bottom to top) */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: 'linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 30%, transparent 100%)'
+              background: 'linear-gradient(to top, #F8FAFC 0%, #F8FAFC00 100%)'
             }}
           />
         </div>
@@ -300,7 +300,7 @@ export default async function NGODetailPage({ params }) {
 
             {/* Frame 428 - About Text */}
             <div className="w-full flex flex-col items-start max-w-[920px] px-4 sm:px-6 md:px-0">
-              <div className="w-full flex flex-col gap-4 items-start" style={{ padding: '16px 0 24px 0' }}>
+              <div className="w-full flex flex-col gap-4 items-start" style={{ padding: '16px 0px 4px' }}>
                 <h2 
                   className="font-semibold w-full whitespace-pre-wrap text-2xl sm:text-3xl md:text-[40px]"
                   style={{ 
