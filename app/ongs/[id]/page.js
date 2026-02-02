@@ -539,179 +539,320 @@ export default async function NGODetailPage({ params }) {
               </div>
             )}
 
-            {/* Frame 403 - Informações Adicionais Section (Figma 485-6448) */}
+            {/* Frame 403 - Informações Adicionais Section */}
             <div 
-              className="w-full max-w-[918px] flex flex-col items-center rounded-[32px] border border-solid backdrop-blur-[100px]"
+              className="w-full max-w-[918px] flex flex-col items-center rounded-[24px] md:rounded-[32px] border border-solid backdrop-blur-[100px] px-4 sm:px-6 md:px-8"
               style={{ 
                 background: 'rgba(242, 242, 247, 0.05)',
-                borderColor: '#CBD5E1',
-                padding: '24px',
-                gap: '8px'
+                borderColor: 'rgba(64, 64, 64, 0.15)',
+                paddingTop: '20px',
+                paddingBottom: '20px',
+                gap: '24px'
               }}
             >
               {/* 1. Tipos de Colaboração */}
               {colaboracaoList.length > 0 && (
-                <>
-                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ padding: '16px 0', gap: '16px' }}>
-                    <span 
-                      className="flex-1 min-w-0"
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, lineHeight: 21, color: '#64748B', wordWrap: 'break-word' }}
-                    >
-                      Tipos de Colaboração:
-                    </span>
-                    <div className="flex flex-wrap items-center gap-3">
-                      {colaboracaoList.map((colab, index) => (
-                        <React.Fragment key={index}>
-                          <span 
-                            style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word' }}
-                          >
-                            {colab.emoji ? `${colab.emoji} ${colab.nome}` : colab.nome}
-                          </span>
-                          {index < colaboracaoList.length - 1 && (
-                            <div className="hidden sm:block flex-shrink-0" style={{ width: 1, alignSelf: 'stretch', minHeight: 20, background: 'rgba(203, 213, 225, 0.70)' }} />
-                          )}
-                        </React.Fragment>
-                      ))}
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
+                      <span 
+                        className="font-bold text-base sm:text-lg md:text-xl"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          lineHeight: '1.2',
+                          color: '#1e1e1e'
+                        }}
+                      >
+                        Tipos de Colaboração:
+                      </span>
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                        {colaboracaoList.map((colab, index) => (
+                          <React.Fragment key={index}>
+                            <span 
+                              className="font-normal text-sm sm:text-base md:text-xl"
+                              style={{ 
+                                fontFamily: 'Inter, sans-serif',
+                                lineHeight: '1.2',
+                                color: '#1e293b'
+                              }}
+                            >
+                              {colab.emoji ? `${colab.emoji} ${colab.nome}` : colab.nome}
+                            </span>
+                            {index < colaboracaoList.length - 1 && (
+                              <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <div className="w-full flex-shrink-0" style={{ height: 1, background: '#CBD5E1' }} />
-                </>
+                  <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
+                </div>
               )}
 
               {/* 2. ODS */}
-              <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ padding: '16px 0', gap: '16px' }}>
-                <span 
-                  className="flex-1 min-w-0"
-                  style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, lineHeight: 21, color: '#64748B', wordWrap: 'break-word' }}
-                >
-                  ODS:
-                </span>
-                <div className="flex flex-wrap items-center gap-3">
-                  {odsList.length > 0 ? (
-                    odsList.map((ods, index) => (
-                      <React.Fragment key={index}>
-                        <span 
-                          style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word' }}
-                        >
-                          {ods.numero}. {ods.nome}
-                        </span>
-                        {index < odsList.length - 1 && (
-                          <div className="hidden sm:block flex-shrink-0" style={{ width: 1, alignSelf: 'stretch', minHeight: 20, background: 'rgba(203, 213, 225, 0.70)' }} />
-                        )}
-                      </React.Fragment>
-                    ))
-                  ) : (
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617' }}>-</span>
-                  )}
+              <div className="w-full flex flex-col items-start">
+                <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ minHeight: '40px' }}>
+                  <span 
+                    className="font-bold text-base sm:text-lg md:text-xl"
+                    style={{ 
+                      fontFamily: 'Inter, sans-serif',
+                      lineHeight: '1.2',
+                      color: '#1e1e1e'
+                    }}
+                  >
+                    ODS:
+                  </span>
+                  <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-4">
+                    {odsList.length > 0 ? (
+                      odsList.map((ods, index) => (
+                        <React.Fragment key={index}>
+                          <span 
+                            className="font-normal text-sm sm:text-base md:text-xl"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              lineHeight: '1.2',
+                              color: '#1e293b'
+                            }}
+                          >
+                            {ods.numero}. {ods.nome}
+                          </span>
+                          {index < odsList.length - 1 && (
+                            <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                          )}
+                        </React.Fragment>
+                      ))
+                    ) : (
+                      <span 
+                        className="font-normal text-sm sm:text-base md:text-xl"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          lineHeight: '1.2',
+                          color: '#1e293b'
+                        }}
+                      >
+                        -
+                      </span>
+                    )}
+                  </div>
                 </div>
+                <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
               </div>
-              <div className="w-full flex-shrink-0" style={{ height: 1, background: '#CBD5E1' }} />
 
               {/* 3. Site */}
               {ngo.websiteUrl && (
-                <>
-                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ padding: '16px 0', gap: '16px' }}>
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ minHeight: '40px' }}>
                     <span 
-                      className="flex-1 min-w-0"
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, lineHeight: 21, color: '#64748B', wordWrap: 'break-word' }}
+                      className="font-bold text-base sm:text-lg md:text-xl"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        lineHeight: '1.2',
+                        color: '#1e1e1e'
+                      }}
                     >
                       Site:
                     </span>
                     <Link 
                       href={ngo.websiteUrl}
                       target="_blank"
-                      className="underline hover:no-underline break-all sm:break-normal"
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word', textUnderlinePosition: 'from-font' }}
+                      className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl break-all sm:break-normal"
+                      style={{ 
+                        fontFamily: 'Inter, sans-serif',
+                        lineHeight: '1.2',
+                        color: '#1e293b',
+                        textUnderlinePosition: 'from-font',
+                        textDecorationLine: 'underline',
+                        textDecorationStyle: 'solid'
+                      }}
                     >
                       {ngo.websiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')}
                     </Link>
                   </div>
-                  <div className="w-full flex-shrink-0" style={{ height: 1, background: '#CBD5E1' }} />
-                </>
+                  <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
+                </div>
               )}
 
               {/* 4. Redes Sociais */}
               {(ngo.instagramUrl || ngo.facebookUrl || ngo.linkedinUrl || ngo.tiktokUrl) && (
-                <>
-                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ padding: '16px 0', gap: '16px' }}>
-                    <span 
-                      className="flex-1 min-w-0"
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, lineHeight: 21, color: '#64748B', wordWrap: 'break-word' }}
-                    >
-                      Redes Sociais:
-                    </span>
-                    <div className="flex flex-wrap items-center gap-3">
-                      {ngo.facebookUrl && (
-                        <>
-                          <Link href={ngo.facebookUrl} target="_blank" className="underline hover:no-underline" style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word', textUnderlinePosition: 'from-font' }}>Facebook</Link>
-                          {(ngo.tiktokUrl || ngo.linkedinUrl || ngo.instagramUrl) && <div className="hidden sm:block flex-shrink-0" style={{ width: 1, alignSelf: 'stretch', minHeight: 20, background: 'rgba(203, 213, 225, 0.70)' }} />}
-                        </>
-                      )}
-                      {ngo.tiktokUrl && (
-                        <>
-                          <Link href={ngo.tiktokUrl} target="_blank" className="underline hover:no-underline" style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word', textUnderlinePosition: 'from-font' }}>Tiktok</Link>
-                          {(ngo.linkedinUrl || ngo.instagramUrl) && <div className="hidden sm:block flex-shrink-0" style={{ width: 1, alignSelf: 'stretch', minHeight: 20, background: 'rgba(203, 213, 225, 0.70)' }} />}
-                        </>
-                      )}
-                      {ngo.linkedinUrl && (
-                        <>
-                          <Link href={ngo.linkedinUrl} target="_blank" className="underline hover:no-underline" style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word', textUnderlinePosition: 'from-font' }}>Linkedin</Link>
-                          {ngo.instagramUrl && <div className="hidden sm:block flex-shrink-0" style={{ width: 1, alignSelf: 'stretch', minHeight: 20, background: 'rgba(203, 213, 225, 0.70)' }} />}
-                        </>
-                      )}
-                      {ngo.instagramUrl && (
-                        <Link href={ngo.instagramUrl} target="_blank" className="underline hover:no-underline" style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word', textUnderlinePosition: 'from-font' }}>Instagram</Link>
-                      )}
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
+                      <span 
+                        className="font-bold text-base sm:text-lg md:text-xl"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          lineHeight: '1.2',
+                          color: '#1e1e1e'
+                        }}
+                      >
+                        Redes Sociais:
+                      </span>
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                        {ngo.facebookUrl && (
+                          <Link 
+                            href={ngo.facebookUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              lineHeight: '1.2',
+                              color: '#1e293b',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Facebook
+                          </Link>
+                        )}
+                        {ngo.facebookUrl && (ngo.tiktokUrl || ngo.linkedinUrl || ngo.instagramUrl) && (
+                          <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                        )}
+                        {ngo.tiktokUrl && (
+                          <Link 
+                            href={ngo.tiktokUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              lineHeight: '1.2',
+                              color: '#1e293b',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Tiktok
+                          </Link>
+                        )}
+                        {ngo.tiktokUrl && (ngo.linkedinUrl || ngo.instagramUrl) && (
+                          <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                        )}
+                        {ngo.linkedinUrl && (
+                          <Link 
+                            href={ngo.linkedinUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              lineHeight: '1.2',
+                              color: '#1e293b',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Linkedin
+                          </Link>
+                        )}
+                        {ngo.linkedinUrl && ngo.instagramUrl && (
+                          <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                        )}
+                        {ngo.instagramUrl && (
+                          <Link 
+                            href={ngo.instagramUrl}
+                            target="_blank"
+                            className="font-normal underline hover:no-underline text-sm sm:text-base md:text-xl"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              lineHeight: '1.2',
+                              color: '#1e293b',
+                              textUnderlinePosition: 'from-font',
+                              textDecorationLine: 'underline',
+                              textDecorationStyle: 'solid'
+                            }}
+                          >
+                            Instagram
+                          </Link>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className="w-full flex-shrink-0" style={{ height: 1, background: '#CBD5E1' }} />
-                </>
+                  <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
+                </div>
               )}
 
               {/* 5. Contacto */}
               {(ngo.email || ngo.telefone) && (
-                <>
-                  <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ padding: '16px 0', gap: '16px' }}>
-                    <span 
-                      className="flex-1 min-w-0"
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, lineHeight: 21, color: '#64748B', wordWrap: 'break-word' }}
-                    >
-                      Contacto:
-                    </span>
-                    <div className="flex flex-wrap items-center gap-3">
-                      {ngo.email && (
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word' }} className="break-all sm:break-normal">{ngo.email}</span>
-                      )}
-                      {ngo.email && ngo.telefone && (
-                        <div className="hidden sm:block flex-shrink-0" style={{ width: 1, alignSelf: 'stretch', minHeight: 20, background: 'rgba(203, 213, 225, 0.70)' }} />
-                      )}
-                      {ngo.telefone && (
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word' }}>{ngo.telefone}</span>
-                      )}
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
+                      <span 
+                        className="font-bold text-base sm:text-lg md:text-xl"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          lineHeight: '1.2',
+                          color: '#1e1e1e'
+                        }}
+                      >
+                        Contacto:
+                      </span>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                        {ngo.email && (
+                          <span 
+                            className="font-normal text-sm sm:text-base md:text-xl break-all sm:break-normal"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              lineHeight: '1.2',
+                              color: '#1e293b'
+                            }}
+                          >
+                            {ngo.email}
+                          </span>
+                        )}
+                        {ngo.email && ngo.telefone && (
+                          <div className="hidden sm:block" style={{ background: 'rgba(64, 64, 64, 0.15)', width: '1px', height: '24px' }} />
+                        )}
+                        {ngo.telefone && (
+                          <span 
+                            className="font-normal text-sm sm:text-base md:text-xl"
+                            style={{ 
+                              fontFamily: 'Inter, sans-serif',
+                              lineHeight: '1.2',
+                              color: '#1e293b'
+                            }}
+                          >
+                            {ngo.telefone}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className="w-full flex-shrink-0" style={{ height: 1, background: '#CBD5E1' }} />
-                </>
+                  <div className="w-full" style={{ background: 'rgba(64, 64, 64, 0.15)', height: '1px', marginTop: '24px' }} />
+                </div>
               )}
 
               {/* 6. Morada */}
               {(ngo.morada || ngo.localizacao) && (
-                <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4" style={{ padding: '16px 0', gap: '16px' }}>
-                  <span 
-                    className="flex-1 min-w-0"
-                    style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, lineHeight: 21, color: '#64748B', wordWrap: 'break-word' }}
-                  >
-                    Morada:
-                  </span>
-                  <div className="flex items-center gap-4">
-                    <span 
-                      className="break-all sm:break-normal"
-                      style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 400, lineHeight: 21, color: '#020617', wordWrap: 'break-word' }}
-                    >
-                      {ngo.morada
-                        ? `${ngo.morada}${ngo.localizacao ? ', ' + ngo.localizacao : ''}`
-                        : ngo.localizacao}
-                    </span>
+                <div className="w-full flex flex-col items-start">
+                  <div className="w-full flex flex-col items-start justify-center">
+                    <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0" style={{ padding: '8px 0' }}>
+                      <span 
+                        className="font-bold text-base sm:text-lg md:text-xl"
+                        style={{ 
+                          fontFamily: 'Inter, sans-serif',
+                          lineHeight: '1.2',
+                          color: '#1e1e1e'
+                        }}
+                      >
+                        Morada:
+                      </span>
+                      <div className="flex items-center">
+                        <span 
+                          className="font-normal text-sm sm:text-base md:text-xl break-all sm:break-normal"
+                          style={{ 
+                            fontFamily: 'Inter, sans-serif',
+                            lineHeight: '1.2',
+                            color: '#1e293b'
+                          }}
+                        >
+                          {ngo.morada
+                            ? `${ngo.morada}${ngo.localizacao ? ', ' + ngo.localizacao : ''}`
+                            : ngo.localizacao}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
